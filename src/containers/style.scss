@@ -1,0 +1,31 @@
+html {font-size: 62.5%;}
+body {font-size: 1.4rem;}      // 1.4 × 10px = 14px  
+body,p,li,ul,table,a{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+}
+.ant-layout-sider-children .logo {
+    height: 32px;
+    background: #001529;
+    margin: 16px;
+    color: #ffffff;
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .ant-layout-header{
+      text-align: right;
+      background-color: #002140;
+      padding: 0;
+      .userBox{
+        margin: 0 15px;
+      }
+  }
+
+  .show-wrap{
+    .item{
+      margin-bottom: 3.2rem;
+    }
+  }

@@ -1,0 +1,42 @@
+#login-wrap {
+    text-align: center;
+    padding-top: 200px;
+    width: 100%;
+    background: #c0c0c0;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    &:before{
+        display: inline-block;
+        content: "";
+        width: 200%;
+        height: 100%;
+        position: absolute;
+        top: 79%;
+        left: -65%;
+        transform: rotateZ(45deg);
+        background: #002140;
+    }
+    .wrap{
+        width: 600px;
+        height: 500px;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        box-shadow: 15px 15px 30px rgba(0,0,0,.6);
+    }
+    .login-form {
+        width: 300px;
+        text-align: left;
+        margin: 0 auto;
+        .login-form-forgot {
+            float: right;
+        }
+        .login-form-button {
+            width: 100%;
+        }
+    }
+}
