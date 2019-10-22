@@ -1,17 +1,28 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import {Link} from 'react-router-dom';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import { createHashHistory } from 'history';
 import './style.scss';
+
+
+import {login} from '../../actions/api';
 const history = createHashHistory();
+const mapStateToProps = state => ({
+  });
+const mapDispatchToProps = dispatch => bindActionCreators({
+login
+}, dispatch);
+
+@connect(mapStateToProps, mapDispatchToProps)
 class Login extends React.Component {
 handleSubmit = e => {
     e.preventDefault();
-    history.push('/main/client/table');
-    return;
+    // 
     this.props.form.validateFields((err, values) => {
         if (!err) {
-        console.log('Received values of form: ', values);
+            // this.props.login(values);
         }
     });
     };

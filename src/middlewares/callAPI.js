@@ -35,27 +35,13 @@ export default store => next => action => {
     if(options.loading) {
       NProgress.start();
     }
-    // console.log(endpoint);
+    console.log(endpoint);
     const apiUrl = endpoint;
     endpoint = fetch(endpoint, options).then(response => {
       if(response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
-        // message.info('please login again');
         localStorage.removeItem('sessions');
         location.href = '/login';
       }
-      // if(response.status === 500) {
-      //   // message.error('Lost connection.');
-      //   history.push('/500');
-      // }
-      // if(response.status === 401 && response.statusText === 'Unauthorized') {
-        // message.info('please login again');
-        // localStorage.removeItem('sessions');
-        // location.href = '/login';
-      // }
-      // if(response.status === 204 && response.statusText === 'No Content') {
-      //   message.error('Not Found.');
-      //   // return false;
-      // }
       return response.json().then(json => {
         NProgress.done();
         // 请求后自动滚动到顶端;

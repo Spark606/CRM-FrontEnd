@@ -36,7 +36,7 @@ export function login(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/api/v1/account/login/local',
+        endpoint: '/',
         method: 'POST',
         body: params,
         types: [cs.LOGIN_REQUEST, cs.LOGIN_SUCCESS, cs.LOGIN_FAIL],
@@ -49,11 +49,10 @@ export function login(params) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));
         const ref = sessionStorage.getItem('ref');
         if(ref) {
-          history.push(`/`);
+          history.push('/main/client/table');
         } else {
-          history.push('/main');
+          history.push('/login');
         }
-        // history.push('/main');
       }
     }
     return action;
