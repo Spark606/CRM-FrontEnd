@@ -22,7 +22,7 @@ handleSubmit = e => {
     // 
     this.props.form.validateFields((err, values) => {
         if (!err) {
-            // this.props.login(values);
+            this.props.login(values);
         }
     });
     };
