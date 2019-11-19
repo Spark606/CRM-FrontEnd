@@ -2,7 +2,60 @@
 import { createHashHistory } from 'history';
 import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
+import axios from 'axios';
 const history = createHashHistory();
+
+const Axios = axios.create({
+  baseURL: 'http://127.0.0.1:7001/',
+  timeout: 10000,
+  responseType: 'json',
+  headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      "Access-Control-Allow-Origin": "*",
+  }
+})
+
+export function getLogin (params){
+  var api = "api/v1/login";  //拼接api地址
+
+  Axios.get(api)
+      .then(res => {
+          console.log(res);
+          this.setState({
+              user: res.data  //获取的数据保存到list数组
+          })
+      })
+      .catch(err => {
+          console.error(err);
+      })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export function restoreSessionFromLocalStorage() {
   const sessionString = localStorage.getItem('sessions');
   if(sessionString) {
@@ -32,7 +85,7 @@ export function checkLogin() {
 }
 
 // Login
-export function login(params) {
+export function _login(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {

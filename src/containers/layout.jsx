@@ -37,7 +37,7 @@ export default class LayoutPagae extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
-          <Menu theme="dark" defaultSelectedKeys={['person']} defaultOpenKeys={['table']}  mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['person']} defaultOpenKeys={['clienttable']}  mode="inline">
             <SubMenu
               key="person"
               title={
@@ -47,8 +47,8 @@ export default class LayoutPagae extends Component {
                 </span>
               }
             >
-              <Menu.Item key="table"><Link to={'/main/client/table'}>个人客户表</Link></Menu.Item>
-              <Menu.Item key="new"><Link to={'/main/client/new'}>添加个人客户</Link></Menu.Item>
+              <Menu.Item key="clienttable"><Link to={'/main/client/table'}>个人客户表</Link></Menu.Item>
+              <Menu.Item key="clientnew"><Link to={'/main/client/new'}>添加个人客户</Link></Menu.Item>
             </SubMenu>
             <SubMenu
               key="firms"
@@ -59,8 +59,8 @@ export default class LayoutPagae extends Component {
                 </span>
               }
             >
-              <Menu.Item key="table"><Link to={'/main/firms/table'}>企业客户表</Link></Menu.Item>
-              <Menu.Item key="new"><Link to={'/main/firms/new'}>添加企业客户</Link></Menu.Item>
+              <Menu.Item key="firmstable"><Link to={'/main/firms/table'}>企业客户表</Link></Menu.Item>
+              <Menu.Item key="firmsnew"><Link to={'/main/firms/new'}>添加企业客户</Link></Menu.Item>
             </SubMenu>
             <SubMenu
               key="account"
@@ -71,8 +71,8 @@ export default class LayoutPagae extends Component {
                 </span>
               }
             >
-              <Menu.Item key="table"><Link to={'/main/account/table'}>绩效汇总表</Link></Menu.Item>
-              <Menu.Item key="new"><Link to={'/main/account/new'}>添加新成交</Link></Menu.Item>
+              <Menu.Item key="accounttable"><Link to={'/main/account/table'}>绩效汇总表</Link></Menu.Item>
+              <Menu.Item key="accountnew"><Link to={'/main/account/new'}>添加新成交</Link></Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>

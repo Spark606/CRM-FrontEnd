@@ -5,14 +5,12 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { createHashHistory } from 'history';
 import './style.scss';
-
-
-import {login} from '../../actions/api';
+import * as server from '../../actions/api' 
 const history = createHashHistory();
 const mapStateToProps = state => ({
   });
 const mapDispatchToProps = dispatch => bindActionCreators({
-login
+login: server.getLogin
 }, dispatch);
 
 @connect(mapStateToProps, mapDispatchToProps)
