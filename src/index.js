@@ -9,8 +9,6 @@ const Login = require('./containers/login').default;
 const RestPassWord = require('./containers/resetpassword').default;
 const NotFoundPage = require('./containers/noPage').default;
 
-import checkLogin from './actions/api';
-
 import configureStore from './store';
 import './style.scss'
 const store = configureStore();

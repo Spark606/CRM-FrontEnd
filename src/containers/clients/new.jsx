@@ -48,15 +48,6 @@ class ClientsNew extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>,
-    );
     const options = [
       {
         value: 'zhejiang',

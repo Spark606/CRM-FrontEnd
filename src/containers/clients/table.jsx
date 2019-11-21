@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Divider} from 'antd';
 import Highlighter from 'react-highlight-words';
+import EditClentModal from '../../component/editClientModal';
 const data = [
   {
     key: '1',
@@ -71,6 +72,8 @@ export default class ClientsTable extends Component {
   }
   state = {
     searchText: '',
+    visible: false,
+    optionsTemp: null
   };
 
   getColumnSearchProps = dataIndex => ({
@@ -132,55 +135,73 @@ export default class ClientsTable extends Component {
     clearFilters();
     this.setState({ searchText: '' });
   };
-
+  showModal = (e) => {
+    this.refs['EditClentModal'].showModal(e);
+  };
+  onSaving = (values) => {
+    this.props.addCategory(values).then(() => this.onInitCategory());
+  }
+  onModalClose = () => {
+    this.props.setUIElement('pcdm', 'isCategoryModalOpen', false);
+  }
+  editClient = (record) => {
+    this.setState({
+      optionsTemp: record
+    });
+    this.refs['EditClentModal'].showModal(record);
+  }
+  deleteClient = (record) => {
+    console.log(record);
+  }
   render() {
     const columns = [
       {
-        width: '10%',
+        width: '100',
         title: '客户名称',
         dataIndex: 'name',
         key: 'name',
+        fixed: 'left',
         ...this.getColumnSearchProps('name'),
       },
       {
-        width: '13%',
+        width: '300',
         title: '证书及专业',
         dataIndex: 'certificate',
         key: 'certificate',
         ...this.getColumnSearchProps('certificate'),
       },
       {
-        width: '20%',
+        width: '400',
         title: '备注',
         dataIndex: 'remarks',
         key: 'remarks',
         ...this.getColumnSearchProps('remarks'),
       },
       {
-        width: '5%',
+        width: '50',
         title: '省份',
         dataIndex: 'province',
         key: 'province',
         ...this.getColumnSearchProps('province'),
       },
       {
-        width: '5%',
+        width: '10',
         title: '性别',
         dataIndex: 'gender',
         filters: [{ text: '男', value: '男' }, { text: '女', value: '女' }],
       },
       {
-        width: '12%',
+        width: '250',
         title: '邮箱',
         dataIndex: 'email',
       },
       {
-        width: '10%',
+        width: '150',
         title: '电话',
         dataIndex: 'tel',
       },
       {
-        width: '10%',
+        width: '150',
         title: '到期时间',
         dataIndex: 'expireDate',
         filterMultiple: false,
@@ -188,15 +209,20 @@ export default class ClientsTable extends Component {
         sortDirections: ['descend', 'ascend'],
       },
       {
-        width: '5%',
+        width: '40',
         title: '经办人',
         dataIndex: 'agent',
       },
       {
-        width: '5%',
+        width: '50',
         title: '操作',
         key: 'operation',
-        render: () => <a>action</a>,
+        fixed: 'right',
+        render: (record) => <span>
+          <a onClick={() => this.editClient(record)}><Icon type="edit" /></a>
+          <Divider type="vertical" />
+          <a onClick={() => this.deleteClient(record)}><Icon type="delete" /></a>
+          </span>,
       },
     ];
     return (
@@ -205,9 +231,18 @@ export default class ClientsTable extends Component {
           <Breadcrumb.Item>个人客户</Breadcrumb.Item>
           <Breadcrumb.Item>个人客户表</Breadcrumb.Item>
         </Breadcrumb>
+        <Button type="primary" onClick={this.showModal} className="addBtn">
+          新建
+        </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={data} scroll={{ x: 1500}} />
         </div>
+        <EditClentModal
+          ref="EditClentModal"
+          options={this.state.optionsTemp}
+          onCancel={this.onModalClose}
+          onSaving={this.onSaving}
+          />
       </div>
     );
   }

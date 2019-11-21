@@ -1,3 +1,11 @@
+.container{
+    position: relative;
+    .addBtn{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
 .marker{
     display: flex;
     align-items: center;
