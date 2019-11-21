@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { Breadcrumb} from 'antd';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete} from 'antd';
+import './style.scss';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
+const { TextArea } = Input;
 const { Option } = Select;
 
 const AutoCompleteOption = AutoComplete.Option;
@@ -21,6 +23,7 @@ class ClientsNew extends Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
+    genders: 1
   };
 
   handleSubmit = e => {
@@ -37,6 +40,13 @@ class ClientsNew extends Component {
   handleReset = () => {
     this.props.form.resetFields();
   };
+  onChangeGenders = e => {
+    console.log('radio checked', e.target.value);
+    this.setState({
+      genders: e.target.value,
+    });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const prefixSelector = getFieldDecorator('prefix', {
@@ -47,6 +57,40 @@ class ClientsNew extends Component {
         <Option value="87">+87</Option>
       </Select>,
     );
+    const options = [
+      {
+        value: 'zhejiang',
+        label: 'Zhejiang',
+        children: [
+          {
+            value: 'hangzhou',
+            label: 'Hangzhou',
+            children: [
+              {
+                value: 'xihu',
+                label: 'West Lake',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        value: 'jiangsu',
+        label: 'Jiangsu',
+        children: [
+          {
+            value: 'nanjing',
+            label: 'Nanjing',
+            children: [
+              {
+                value: 'zhonghuamen',
+                label: 'Zhong Hua Men',
+              },
+            ],
+          },
+        ],
+      },
+    ];
     
     return (
       <div className="container">
@@ -55,37 +99,55 @@ class ClientsNew extends Component {
           <Breadcrumb.Item>添加个人客户</Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ padding: 24, background: '#fff', minHeight: 360}}>
-          <Form onSubmit={this.handleSubmit} style={{  maxWidth: 500}}>
-            <Form.Item  label="用户名">
-              {getFieldDecorator('username', {
-                  rules: [{ required: true, message: '用户名不能为空!' }],
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item  label="员工号">
-              {getFieldDecorator('employeeId', {
-                  rules: [{ required: true, message: '用户名不能为空!' }],
-              })(<Input placeholder="注意：此内容只能修改一次"/>)}
-            </Form.Item>
-            <Form.Item label="E-mail">
-              {getFieldDecorator('email', {
-                rules: [
-                  {
-                    type: 'email',
-                    message: '请输入正确的邮箱!',
-                  },
-                  {
-                    required: true,
-                    message: '邮箱不能为空!',
-                  },
-                ],
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="电话号码">
-              {getFieldDecorator('phone', {
-                rules: [{ required: true, message: '电话号码不能为空!' }],
-              })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-            </Form.Item>
+          <Form onSubmit={this.handleSubmit} style={{textAlign: 'left'}}>
             <Row>
+              <Col span={12}>
+                获得客户时间：<DatePicker/>
+              </Col>
+              <Col span={12}>
+                负责人： Liz           
+              </Col>
+            </Row>
+            <hr style={{marginTop: 20}}/>
+            <Row style={{marginTop: 20}}>
+              <Col span={12}>
+                客户名：<Input style={{maxWidth: 200}} />
+              </Col>
+              <Col span={12}>
+                手机号：<Input style={{maxWidth: 200}} />
+              </Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
+              <Col span={12}>
+                证书及专业：<Input style={{maxWidth: 200}} />
+              </Col>
+              <Col span={12}>
+                到期时间：<DatePicker/>
+              </Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
+              <Col span={12}>注册省份：<Cascader defaultValue={['zhejiang', 'hangzhou', 'xihu']} options={options} style={{maxWidth: 200}}/></Col>
+              <Col span={12}>QQ：<Input style={{maxWidth: 200}} /></Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
+              <Col span={12}>性别：
+              <Radio.Group onChange={this.onChangeGenders} value={this.state.genders}>
+                <Radio value={1}>女</Radio>
+                <Radio value={2}>男</Radio>
+              </Radio.Group>
+              </Col>
+              <Col span={12}>邮箱：<Input style={{maxWidth: 200}} /></Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
+                <Col span={24} className="marker">
+                  备注：<TextArea placeholder="textarea with clear icon" rows={4} style={{maxWidth: 400}}/>
+                </Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
+              <Col span={12}>客户状态：<Input style={{maxWidth: 200}} /></Col>
+              <Col span={12}>所在城市：<Cascader defaultValue={['zhejiang', 'hangzhou', 'xihu']} options={options} style={{maxWidth: 200}}/></Col>
+            </Row>
+            <Row style={{marginTop: 20}}>
               <Col span={24} style={{ textAlign: 'left' }}>
                 <Button type="primary" htmlType="submit">
                   提交
