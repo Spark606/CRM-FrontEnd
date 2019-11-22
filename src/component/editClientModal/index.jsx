@@ -11,11 +11,6 @@ class EditClientModal extends Component {
     autoCompleteResult: [],
     genders: 1,
   };
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      dataSource: newProps.dataSource
-    })
-  }
   handleSubmit = e => {
     e.preventDefault();
     const {dataSource} = this.props;
@@ -51,7 +46,8 @@ class EditClientModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { clientInfo, dataSource } = this.state;
+    const { dataSource } = this.props;
+    console.log(dataSource, 'wrapEditClientModal');
     return (
       <div>
         <Modal

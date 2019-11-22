@@ -5,16 +5,6 @@ class AddRecordModal extends Component {
     visible: false,
     dataSource: this.props.dataSource
   };
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      dataSource: newProps.dataSource
-    });
-    this.getClientRecords(this.state.dataSource);
-  }
-  getClientRecords = (item) => {
-    // 请求新的客户跟进记录
-    console.log(item, 'xxxxxxxx');
-  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -31,6 +21,8 @@ class AddRecordModal extends Component {
     });
   }
   render() {
+    const { dataSource } = this.props;
+    console.log(dataSource, 'AddRecordModal');
     return (
       <Modal
         title="跟进记录"

@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider} from 'antd';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Breadcrumb, Table, Input, Button, Icon, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import WrapEditClientModal from '../../component/editClientModal';
@@ -86,7 +86,7 @@ export default class ClientsTable extends Component {
     tempData: null,
     data: data,
   };
-// 表头查询
+  // 表头查询
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -147,9 +147,9 @@ export default class ClientsTable extends Component {
     this.setState({ searchText: '' });
   };
 
-// 表头查询end
+  // 表头查询end
 
-// 新建客户
+  // 新建客户
   addNewClient = (e) => {
     this.setState({
       tempData: null
@@ -157,7 +157,7 @@ export default class ClientsTable extends Component {
     this.formEditClientModal.showModal();
   };
   addNewFormData = (values) => {
-    values.key = this.state.data.length+1;
+    values.key = this.state.data.length + 1;
     console.log(values, 'xxxxxxxxxxxxxx');
     let arr = this.state.data;
     arr.unshift(values)
@@ -166,8 +166,8 @@ export default class ClientsTable extends Component {
       data: arr
     });
   }
-// 新建客户end
-// 修改客户
+  // 新建客户end
+  // 修改客户
   editClient = (record) => {
     this.setState({
       tempData: record
@@ -177,7 +177,7 @@ export default class ClientsTable extends Component {
   updateFormData = (values) => {
     // 更新数据后，也将原始state里的数据更新
     const newData = _.map(this.state.data, e => {
-      if(e.key === values.key){
+      if (e.key === values.key) {
         return values;
       } else {
         return e;
@@ -188,12 +188,12 @@ export default class ClientsTable extends Component {
       data: newData
     })
   }
-// 修改客户end
-// 删除客户
+  // 修改客户end
+  // 删除客户
   deleteClient = (record) => {
     // 提交删除请求，更新页面
     const newData = _.filter(this.state.data, e => {
-      if(e.key !== record.key){
+      if (e.key !== record.key) {
         return e;
       }
     });
@@ -201,8 +201,8 @@ export default class ClientsTable extends Component {
       data: newData
     })
   }
-// 删除客户end
-// 跟进记录
+  // 删除客户end
+  // 跟进记录
   addRecord = (record) => {
     this.refs["addRecordModal"].showModal();
     this.setState({
@@ -211,9 +211,9 @@ export default class ClientsTable extends Component {
     // 提交删除请求，更新页面
     // 打开跟进记录，并编辑
   }
-  
+
   render() {
-    const {data} = this.state;
+    const { data } = this.state;
     const columns = [
       {
         width: 120,
@@ -249,23 +249,23 @@ export default class ClientsTable extends Component {
         title: '性别',
         dataIndex: 'gender',
         filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
-        render : text => <span>{text === 1 ? '女' : '男'}</span>
+        render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       {
         width: 100,
         title: '状态',
         dataIndex: 'status',
         filters: [{ text: 1, value: '潜在' }, { text: 2, value: '意向' }, { text: 3, value: '成交' }, { text: 4, value: '失败' }, { text: 5, value: '已流失' }],
-        render : text => {
-          if(text === 1) {
+        render: text => {
+          if (text === 1) {
             return (<span>潜在</span>)
-          }else if(text === 2){
+          } else if (text === 2) {
             return (<span>意向</span>)
-          }else if(text === 3){
+          } else if (text === 3) {
             return (<span>成交</span>)
-          }else if(text === 4){
+          } else if (text === 4) {
             return (<span>失败</span>)
-          }else if(text === 5){
+          } else if (text === 5) {
             return (<span>已流失</span>)
           }
         }
@@ -312,7 +312,7 @@ export default class ClientsTable extends Component {
           <a onClick={() => this.deleteClient(record)}><Icon type="delete" /></a>
           <Divider type="vertical" />
           <a onClick={() => this.addRecord(record)}><Icon type="snippets" /></a>
-          </span>,
+        </span>,
       },
     ];
     return (
@@ -325,7 +325,7 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.key} columns={columns} dataSource={data} scroll={{ x: 1800}} />
+          <Table rowKey={record => record.key} columns={columns} dataSource={data} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditClientModal
@@ -333,12 +333,12 @@ export default class ClientsTable extends Component {
           dataSource={this.state.tempData}
           addNewFormData={this.addNewFormData}
           updateFormData={this.updateFormData}
-          />
-          {/* 新建跟进记录模态框 */}
+        />
+        {/* 新建跟进记录模态框 */}
         <AddRecordModal
           dataSource={this.state.tempData}
           ref="addRecordModal"
-          />
+        />
       </div>
     );
   }
