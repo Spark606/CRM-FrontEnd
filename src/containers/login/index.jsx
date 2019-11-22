@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './style.scss';
-import * as server from '../../actions/act'
+import * as server from '../../actions/api'
 const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -69,15 +69,15 @@ class Login extends React.Component {
                 <Radio value={2}>普通员工</Radio>
               </Radio.Group>
             </Form.Item>
-            {/* <Form.Item>
+            <Form.Item>
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true,
               })(<Checkbox>记住我</Checkbox>)}
-            </Form.Item>   */}
-            <Link className="login-form-forgot" to={"/reset"}>
+            </Form.Item>  
+            {/* <Link className="login-form-forgot" to={"/reset"}>
               忘记密码？
-            </Link>
+            </Link> */}
             <Button type="primary" htmlType="submit" className="login-form-button">
               登录
             </Button>

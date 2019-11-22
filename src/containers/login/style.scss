@@ -32,6 +32,9 @@
         width: 300px;
         text-align: left;
         margin: 0 auto;
+        .ant-form-item{
+            margin-bottom: 0;
+        }
         .login-form-forgot {
             float: right;
         }

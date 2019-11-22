@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import * as cs from '../constants';
+import login from './login';
 import layout from './layout';
-import sessions from './sessions';
 
 /**
  * a is state, b is action.
@@ -31,7 +31,8 @@ const combineReducersPlus = compose(combineReducers, injectCommonReducer);
 
 const rootReducer = combineReducersPlus({
   layout,
-  sessions
+  // sessions
+  login
 });
 
 export default rootReducer;
