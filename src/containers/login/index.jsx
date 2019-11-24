@@ -4,11 +4,16 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './style.scss';
-import * as server from '../../actions/api'
+
+import {login} from '../../actions/api';
+import setUIElement from '../../actions/base';
 const mapStateToProps = state => ({
+  isFetching: state.sessions.isFetching,
+  documentTitle: state.layout.documentTitle,
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
-  login: server.getLogin
+  login,
+  setUIElement
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 class Login extends React.Component {
@@ -37,7 +42,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator, isFetching} = this.props.form;
     return (
       <div id="login-wrap">
         <div className="wrap">
@@ -78,8 +83,8 @@ class Login extends React.Component {
             {/* <Link className="login-form-forgot" to={"/reset"}>
               忘记密码？
             </Link> */}
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              登录
+            <Button type="primary" htmlType="submit" loading={isFetching} className="login-form-button">
+              {isFetching ? '正在登录···' : '登录'}
             </Button>
             <a href="">马上注册</a>
           </Form>

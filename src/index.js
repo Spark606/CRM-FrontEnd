@@ -12,7 +12,6 @@ const NotFoundPage = require('./containers/noPage').default;
 import configureStore from './store';
 import './style.scss'
 const store = configureStore();
-
 render(
     <Provider store={store}>
       <Router>
