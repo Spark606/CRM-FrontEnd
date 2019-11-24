@@ -13,36 +13,24 @@ import * as cs from '../constants';
 // }
 const initialState = {
   isFetching: false,
-  version: 'v1.2',
   user_name: null,
-  user_panel: 'BUYER',
-  company_name: '',
-  viewer: false,
+  user_role: 'BUYER',
   token: null,
   error: false,
-  actionInfo: {},
-  company_logo_url: null,
-  companies: [],
-  isCompanyCreator: false,
   loginMsg: {},
   regMsg: {},
   status: 'IN_ACTIVE',
-  verifyStatus: null,
-  verifyMsg: {},
   id: null,
-  is_new: null,
-  is_use_psd: false,
-  regStatus: false,
-  refer: '',
-  feedbackStatus: false,
   errorMessage: 'Server Lost Connect!'
 };
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case cs.LOGIN_REQUEST:
+      console.log("正在登录");
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.LOGIN_SUCCESS:
+        console.log("登录成功", action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         ...action.payload.userMsg,

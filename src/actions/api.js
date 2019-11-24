@@ -5,6 +5,8 @@ import {CALL_API} from '../middlewares/callAPI';
 
 import setUIElement, {format} from './base';
 // if Refresh set Session to Store
+// const url = 'http://127.0.0.1:7001';
+const url = 'http://192.168.205.221:8000';
 export function restoreSessionFromLocalStorage() {
   const sessionString = localStorage.getItem('sessions');
   if(sessionString) {
@@ -20,11 +22,14 @@ export function restoreSessionFromLocalStorage() {
   return {type: 'DO_LOGIN'};
 }
 // Login
+
 export function login(params) {
+  console.log(params);
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/api/v1/login',
+        endpoint: url + '/crm/login',
+        // endpoint: url + '/api/v1/login',
         method: 'POST',
         body: params,
         types: [cs.LOGIN_REQUEST, cs.LOGIN_SUCCESS, cs.LOGIN_FAIL],

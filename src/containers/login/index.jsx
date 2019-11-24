@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './style.scss';
 
 import {login} from '../../actions/api';
+// import {testGet, testPost} from '../../actions/jqueryAPI';
 import setUIElement from '../../actions/base';
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
@@ -13,6 +14,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   login,
+  // testGet,
+  // testPost,
   setUIElement
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
@@ -28,7 +31,7 @@ class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      values = Object.assign({ employRole: this.state.employRole }, values);
+      // values = Object.assign({ employRole: this.state.employRole }, values);
       if (!err) {
         this.props.login(values);
       }
@@ -42,7 +45,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const {getFieldDecorator, isFetching} = this.props.form;
+    const {getFieldDecorator, isFetching} = this.props.form; //组件被Form包装过
     return (
       <div id="login-wrap">
         <div className="wrap">
@@ -84,7 +87,7 @@ class Login extends React.Component {
               忘记密码？
             </Link> */}
             <Button type="primary" htmlType="submit" loading={isFetching} className="login-form-button">
-              {isFetching ? '正在登录···' : '登录'}
+              登录
             </Button>
             <a href="">马上注册</a>
           </Form>
