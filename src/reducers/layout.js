@@ -5,7 +5,7 @@ const initialState = {
   openKeys: [''],
   menuselectedKeys: ['home'],
   minScreen: false,
-  userName: '',
+  userName: 'Liz',
   noticeList: [],
   tableRow: 10,
   currentPage: 1,

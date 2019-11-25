@@ -4,8 +4,8 @@ import { findErrorMessage } from '../actions/base';
 import * as cs from '../constants';
 
 // const sessionsLocal = localStorage.getItem('sessions');
-// let decodeSessions = {};
-// let userMsg = {};
+let decodeSessions = {};
+let userMsg = {};
 // if(sessionsLocal) {
 //   userMsg = JSON.parse(sessionsLocal).userMsg;
 //   decodeSessions = jwtDecode(sessionsLocal);
@@ -19,7 +19,6 @@ const initialState = {
   error: false,
   loginMsg: {},
   regMsg: {},
-  status: 'IN_ACTIVE',
   id: null,
   errorMessage: 'Server Lost Connect!'
 };
@@ -27,23 +26,18 @@ const initialState = {
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case cs.LOGIN_REQUEST:
-      console.log("正在登录");
+        console.log("正在登录");
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.LOGIN_SUCCESS:
         console.log("登录成功", action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         ...action.payload.userMsg,
-        ...decodeSessions,
-        companies: action.payload.userMsg.companies,
-        isCompanyCreator: action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].FK_admin_id === state.id,
-        ...userMsg,
-        company_logo_url: (action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].company_logo_url) || action.payload.userMsg.company_logo_url,
-        company_name: (action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].company_name) || action.payload.userMsg.company_name || '',
+        ...decodeSessions,...userMsg,
         token: action.payload.token,
-        status: action.payload.userMsg.status
       });
     case cs.LOGIN_FAIL:
+      console.log("登录失败", action);
       return Object.assign({}, state, {
         error: true,
         isFetching: false,
@@ -56,10 +50,6 @@ export default function sessionReducer(state = initialState, action) {
       // console.log(decodeSessions);
       return Object.assign({}, state, {
         isFetching: false,
-        companies: action.payload.userMsg.companies,
-        isCompanyCreator: action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].FK_admin_id === state.id,
-        company_logo_url: (action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].company_logo_url) || action.payload.userMsg.company_logo_url,
-        company_name: (action.payload.userMsg.companies && action.payload.userMsg.companies.length > 0 && action.payload.userMsg.companies[0].company_name) || action.payload.userMsg.company_name || '',
         token: action.payload.token
       });
     case cs.UPDATE_TOKEN_FAIL:

@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import { normalize } from 'normalizr';
 import NProgress from 'nprogress';
 
@@ -14,12 +15,11 @@ export default store => next => action => {
   if (!endpoint) {
     throw new Error('Endpoint is missing.');
   }
-  console.log('endpoint-1', endpoint);
   // const token = store.getState().sessions.token;
   const { types, schema, method = 'GET', body, headers = {
-    Authorization: `Bearer 我是token`.trim(),
-    // Authorization: `Bearer ${token}`.trim(),
-    // 'Content-Type': 'application/json;charset=utf-8', //默认就是这个
+    'Authorization': `Bearer token xxxxxxxxxxxxxxxxxx`.trim(),
+    // Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
+    'Content-Type': 'application/json;charset=utf-8', //默认就是这个
   }, loading = true} = callAPI;
   if (typeof endpoint === 'string') {
     const options = {
@@ -32,9 +32,10 @@ export default store => next => action => {
       NProgress.start();
     }
     const apiUrl = endpoint;
+    console.log('options', options);
     // 这里开始使用fetch请求数据
     endpoint = fetch(endpoint, options).then(response => {
-      console.log('请求结束');
+      console.log('请求结束', response);
       if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
         localStorage.removeItem('sessions');
         location.href = '/login';

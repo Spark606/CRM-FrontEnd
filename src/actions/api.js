@@ -24,7 +24,6 @@ export function restoreSessionFromLocalStorage() {
 // Login
 
 export function login(params) {
-  console.log(params);
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -32,6 +31,10 @@ export function login(params) {
         // endpoint: url + '/api/v1/login',
         method: 'POST',
         body: params,
+        mode: "cors",
+        header: {
+          'Content-Type': 'application/json',
+        },
         types: [cs.LOGIN_REQUEST, cs.LOGIN_SUCCESS, cs.LOGIN_FAIL],
       },
     });

@@ -7,10 +7,21 @@ import './style.scss';
 const history = createHashHistory();
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+  isFetching: state.sessions.isFetching,
+  documentTitle: state.layout.documentTitle,
+  userName: state.layout.userName
+});
+const mapDispatchToProps = dispatch => bindActionCreators({
+}, dispatch);
+@connect(mapStateToProps, mapDispatchToProps)
+
 export default class LayoutPagae extends Component {
   state = {
     collapsed: false,
-    user: 'Liz',
   };
 
   onCollapse = collapsed => {
@@ -23,6 +34,7 @@ export default class LayoutPagae extends Component {
     history.push('/login');
   };
   render() {
+    const {userName} = this.props;
     const menu = (
       <Menu>
         <Menu.Item>
@@ -80,7 +92,7 @@ export default class LayoutPagae extends Component {
           <Header>
             <Dropdown overlay={menu}>
               <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size="large">
-                {this.state.user}
+                {userName}
               </Avatar>
             </Dropdown>
           </Header>

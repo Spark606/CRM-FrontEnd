@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import './style.scss';
 
 import {login} from '../../actions/api';
-// import {testGet, testPost} from '../../actions/jqueryAPI';
 import setUIElement from '../../actions/base';
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
@@ -14,8 +13,6 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   login,
-  // testGet,
-  // testPost,
   setUIElement
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
@@ -77,12 +74,12 @@ class Login extends React.Component {
                 <Radio value={2}>普通员工</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item>
+            {/* <Form.Item>
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true,
               })(<Checkbox>记住我</Checkbox>)}
-            </Form.Item>  
+            </Form.Item>   */}
             {/* <Link className="login-form-forgot" to={"/reset"}>
               忘记密码？
             </Link> */}
