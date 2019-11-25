@@ -40,10 +40,10 @@ export function login(params) {
     });
 
     if(action.type === cs.LOGIN_SUCCESS && action.payload) {
-      const {token} = action.payload;
+      const {token} = action.payload.data;
       if(token) {
-        localStorage.setItem('sessions', JSON.stringify(action.payload));
-        history.push('/main');
+        localStorage.setItem('sessions', JSON.stringify(token));
+        history.push('/main/client/table');
       }
     }
     return action;
@@ -51,7 +51,7 @@ export function login(params) {
 }
 export function logout() {
   localStorage.removeItem('sessions');
-  history.push('/');
+  history.push('/login');
 }
 export function register(params) {
   return async (dispatch) => {
@@ -118,36 +118,39 @@ export function refreshToken(params) {
   };
 }
 
+// client page
+export function getClients(){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: url + '/crm/employee/getResourceList',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_CLIENTS_REQUEST, cs.GET_CLIENTS_SUCCESS, cs.GET_CLIENTS_FAIL],
+      },
+    });
+    return action;
+  };
+}
 
-// // import jwtDecode from 'jwt-decode';
-// import { createHashHistory } from 'history';
-// import $ from 'jquery';
-// const history = createHashHistory();
-
-// export function getLogin(params) {
-//   $.ajax({
-//     url: 'http://192.168.205.221:8000/' + 'crm/login',
-//     data: params,
-//     type: 'POST',
-//     crossDomain: true,
-//     success: (res) => {
-//       console.log(res);
-//       if(res.code === 0) {
-//         const ticket = res.data.ticket;
-//         localStorage.setItem('sessions', ticket);
-//         history.push('/main/client/table');
-//       }
-//     },
-//     error: (err) => {
-//       console.log(err)
-//     }
-//   });
-// }
-
-// /**
-//  * 退出.
-//  */
-// export function logout() {
-//   localStorage.removeItem('sessions');
-//   history.push('/');
-// }
+export function getRecordsList(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: url + '/crm/employee/test',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_RECORDS_REQUEST, cs.GET_RECORDS_SUCCESS, cs.GET_RECORDS_FAIL],
+      },
+    });
+    return action;
+  };
+}

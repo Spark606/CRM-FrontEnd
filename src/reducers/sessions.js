@@ -13,31 +13,32 @@ let userMsg = {};
 // }
 const initialState = {
   isFetching: false,
-  user_name: null,
-  user_role: 'BUYER',
+  user_name: 'Lizzy',
+  user_role: 1, 
+  user_Id: null,
   token: null,
   error: false,
   loginMsg: {},
   regMsg: {},
+  userMsg: {},
   id: null,
+
   errorMessage: 'Server Lost Connect!'
 };
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case cs.LOGIN_REQUEST:
-        console.log("正在登录");
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.LOGIN_SUCCESS:
-        console.log("登录成功", action.payload);
       return Object.assign({}, state, {
         isFetching: false,
-        ...action.payload.userMsg,
-        ...decodeSessions,...userMsg,
-        token: action.payload.token,
+        token: action.payload.data.token,
+        user_name: action.payload.data.user_name,
+        user_Id: action.payload.data.user_Id,
+        user_role: action.payload.data.user_role
       });
     case cs.LOGIN_FAIL:
-      console.log("登录失败", action);
       return Object.assign({}, state, {
         error: true,
         isFetching: false,

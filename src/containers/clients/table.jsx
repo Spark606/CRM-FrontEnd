@@ -6,86 +6,37 @@ import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddRecordModal from '../../component/addRecordModal';
-const data = [
-  {
-    key: 1,
-    clientName: 'John Brown',
-    certificate: '一级房建转加造价初',
-    remarks: 'New York No. 1 Lake Park',
-    getClientTime: '2012-12-11',
-    expireDate: '2010-12-24',
-    status: 1,
-    tel: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
-  },
-  {
-    key: 2,
-    clientName: 'Joe Black',
-    certificate: '一级房建转加造价初',
-    remarks: 'London No. 1 Lake Park',
-    getClientTime: '2012-12-11',
-    expireDate: '2020-12-24',
-    status: 1,
-    tel: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
-  },
-  {
-    key: 3,
-    clientName: 'Jim Green',
-    certificate: '一级房建转加造价初',
-    remarks: 'Sidney No. 1 Lake Park',
-    getClientTime: '2012-12-11',
-    expireDate: '2020-12-24',
-    status: 2,
-    tel: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
-  },
-  {
-    key: 4,
-    clientName: 'Jim Red',
-    certificate: '一级房建转加造价初',
-    remarks: 'London No. 2 Lake Park',
-    getClientTime: '2012-12-11',
-    expireDate: '2020-12-24',
-    status: 1,
-    tel: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
-  },
-];
+import { getClients, getRecordsList } from '../../actions/api';
+
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
+  clientsList: state.client.clientsList,
+  oneClientRecord: state.client.oneClientRecord
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {},
+  {
+    getClients,
+    getRecordsList
+  },
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps)
 
 export default class ClientsTable extends Component {
-  componentWillMount() {
-  }
   state = {
     searchText: '',
     visible: false,
     tempData: null,
-    data: data,
   };
+  componentWillMount() {
+    this.onInit();
+  }
+  onInit = () => {
+    this.props.getClients({
+      page: 1,
+      size: 10000,
+    });
+  }
   // 表头查询
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -202,18 +153,16 @@ export default class ClientsTable extends Component {
     })
   }
   // 删除客户end
+
   // 跟进记录
   addRecord = (record) => {
     this.refs["addRecordModal"].showModal();
-    this.setState({
-      tempData: record
-    });
-    // 提交删除请求，更新页面
+    this.props.getRecordsList(record.key);
     // 打开跟进记录，并编辑
   }
 
   render() {
-    const { data } = this.state;
+    const { clientsList, recordsList } = this.props;
     const columns = [
       {
         width: 120,
@@ -325,7 +274,7 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.key} columns={columns} dataSource={data} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.key} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditClientModal
@@ -336,7 +285,6 @@ export default class ClientsTable extends Component {
         />
         {/* 新建跟进记录模态框 */}
         <AddRecordModal
-          dataSource={this.state.tempData}
           ref="addRecordModal"
         />
       </div>

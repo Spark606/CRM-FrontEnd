@@ -15,10 +15,9 @@ export default store => next => action => {
   if (!endpoint) {
     throw new Error('Endpoint is missing.');
   }
-  // const token = store.getState().sessions.token;
+  const token = store.getState().sessions.token ? store.getState().sessions.token : localStorage.getItem('sessions');
   const { types, schema, method = 'GET', body, headers = {
-    'Authorization': `Bearer token xxxxxxxxxxxxxxxxxx`.trim(),
-    // Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
+    Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
     'Content-Type': 'application/json;charset=utf-8', //默认就是这个
   }, loading = true} = callAPI;
   if (typeof endpoint === 'string') {

@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { Modal, Button, Timeline} from 'antd';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+  oneClientRecord: state.client.oneClientRecord
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+  },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps)
+
 class AddRecordModal extends Component {
   state = {
     visible: false,
-    dataSource: this.props.dataSource
   };
   showModal = () => {
     this.setState({
@@ -21,8 +32,8 @@ class AddRecordModal extends Component {
     });
   }
   render() {
-    const { dataSource } = this.props;
-    console.log(dataSource, 'AddRecordModal');
+    const { oneClientRecord } = this.props;
+    console.log(oneClientRecord, 'AddRecordModal');
     return (
       <Modal
         title="跟进记录"

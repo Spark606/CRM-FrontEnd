@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Avatar, Icon , Dropdown} from 'antd';
-import {Link} from 'react-router-dom';
+import { Layout, Menu, Avatar, Icon, Dropdown } from 'antd';
+import { Link } from 'react-router-dom';
 import ContentMain from './contentMain';
 import { createHashHistory } from 'history';
 import './style.scss';
@@ -13,9 +13,10 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
   documentTitle: state.layout.documentTitle,
-  userName: state.layout.userName
+  userName: state.sessions.user_name
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
+  // loginOut
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 
@@ -31,10 +32,12 @@ export default class LayoutPagae extends Component {
 
   handleLoginOut = e => {
     e.preventDefault();
+    // this.props.loginOut();
+    localStorage.removeItem('sessions');
     history.push('/login');
   };
   render() {
-    const {userName} = this.props;
+    const { userName } = this.props;
     const menu = (
       <Menu>
         <Menu.Item>
@@ -49,7 +52,7 @@ export default class LayoutPagae extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
-          <Menu theme="dark" defaultSelectedKeys={['person']} defaultOpenKeys={['clienttable']}  mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['person']} defaultOpenKeys={['clienttable']} mode="inline">
             <SubMenu
               key="person"
               title={

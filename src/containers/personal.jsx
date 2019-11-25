@@ -8,7 +8,8 @@ import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Butto
 const { Option } = Select;
 
 const mapStateToProps = state => ({
-  documentTitle: state.layout.documentTitle,
+  userName: state.sessions.user_name,
+  userMsg: state.sessions.userMsg
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {},
@@ -40,7 +41,7 @@ class Personal extends Component {
     this.setState({edit: true});
   };
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, userMsg } = this.props.form;
     const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '86',
     })(
@@ -49,7 +50,7 @@ class Personal extends Component {
         <Option value="87">+87</Option>
       </Select>,
     );
-        
+    console.log('userMsg', userMsg);
     const residences = [
       {
         label: 'username', value: '李真',
