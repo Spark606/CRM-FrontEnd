@@ -78,14 +78,17 @@ export default class ClientsTable extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    render: text => (
-      <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[this.state.searchText]}
-        autoEscape
-        textToHighlight={text.toString()}
-      />
-    ),
+    render: text => {
+      if(text){
+        return(<Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />)
+      }else{
+        return null
+      }},
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -108,7 +111,7 @@ export default class ClientsTable extends Component {
     this.formEditClientModal.showModal();
   };
   addNewFormData = (values) => {
-    values.key = this.state.data.length + 1;
+    values.resourceId = this.state.data.length + 1;
     console.log(values, 'xxxxxxxxxxxxxx');
     let arr = this.state.data;
     arr.unshift(values)
@@ -128,7 +131,7 @@ export default class ClientsTable extends Component {
   updateFormData = (values) => {
     // 更新数据后，也将原始state里的数据更新
     const newData = _.map(this.state.data, e => {
-      if (e.key === values.key) {
+      if (e.resourceId === values.resourceId) {
         return values;
       } else {
         return e;
@@ -144,7 +147,7 @@ export default class ClientsTable extends Component {
   deleteClient = (record) => {
     // 提交删除请求，更新页面
     const newData = _.filter(this.state.data, e => {
-      if (e.key !== record.key) {
+      if (e.resourceId !== record.resourceId) {
         return e;
       }
     });
@@ -156,8 +159,9 @@ export default class ClientsTable extends Component {
 
   // 跟进记录
   addRecord = (record) => {
-    this.refs["addRecordModal"].showModal();
-    this.props.getRecordsList(record.key);
+    this.addRecordModal.showModal();
+    // this.refs["addRecordModal"].showModal();
+    this.props.getRecordsList(record.resourceId);
     // 打开跟进记录，并编辑
   }
 
@@ -167,31 +171,35 @@ export default class ClientsTable extends Component {
       {
         width: 120,
         title: '客户名称',
-        dataIndex: 'clientName',
-        key: 'clientName',
+        dataIndex: 'resourceName',
+        key: 'resourceName',
         fixed: 'left',
-        ...this.getColumnSearchProps('clientName'),
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('resourceName'),
       },
       {
         width: 200,
         title: '证书及专业',
         dataIndex: 'certificate',
         key: 'certificate',
-        ...this.getColumnSearchProps('certificate'),
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('certificate'),
       },
       {
         // width: 200,
         title: '备注',
-        dataIndex: 'remarks',
-        key: 'remarks',
-        ...this.getColumnSearchProps('remarks'),
+        dataIndex: 'info',
+        key: 'info',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('info'),
       },
       {
         width: 100,
         title: '省份',
         dataIndex: 'province',
         key: 'province',
-        ...this.getColumnSearchProps('province'),
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('province'),
       },
       {
         width: 100,
@@ -204,7 +212,17 @@ export default class ClientsTable extends Component {
         width: 100,
         title: '状态',
         dataIndex: 'status',
-        filters: [{ text: 1, value: '潜在' }, { text: 2, value: '意向' }, { text: 3, value: '成交' }, { text: 4, value: '失败' }, { text: 5, value: '已流失' }],
+        filters: [{
+          value: 1, text: '潜在'
+        }, {
+          value: 2, text: '意向'
+        }, {
+          value: 3, text: '成交'
+        }, {
+          value: 4, text: '失败'
+        }, {
+          value: 5, text: '已流失'
+        }],
         render: text => {
           if (text === 1) {
             return (<span>潜在</span>)
@@ -223,25 +241,29 @@ export default class ClientsTable extends Component {
         width: 200,
         title: '邮箱',
         dataIndex: 'email',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 150,
         title: '电话',
         dataIndex: 'tel',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 150,
         title: '获得客户时间',
-        dataIndex: 'getClientTime',
+        dataIndex: 'createTime',
         filterMultiple: false,
-        sorter: (a, b) => a.getClientTime - b.getClientTime,
+        sorter: (a, b) => a.createTime - b.createTime,
         sortDirections: ['descend', 'ascend'],
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 150,
         title: '到期时间',
-        dataIndex: 'expireDate',
+        dataIndex: 'endTime',
         filterMultiple: false,
+        render: text => <span>{text ? text : '--'}</span>,
         sorter: (a, b) => a.expireDate - b.expireDate,
         sortDirections: ['descend', 'ascend'],
       },
@@ -249,6 +271,7 @@ export default class ClientsTable extends Component {
         width: 100,
         title: '经办人',
         dataIndex: 'agent',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 150,
@@ -258,9 +281,9 @@ export default class ClientsTable extends Component {
         render: (record) => <span>
           <a onClick={() => this.editClient(record)}><Icon type="edit" /></a>
           <Divider type="vertical" />
-          <a onClick={() => this.deleteClient(record)}><Icon type="delete" /></a>
-          <Divider type="vertical" />
           <a onClick={() => this.addRecord(record)}><Icon type="snippets" /></a>
+          <Divider type="vertical" />
+          <a onClick={() => this.deleteClient(record)}><Icon type="delete" /></a>
         </span>,
       },
     ];
@@ -274,7 +297,7 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.key} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.resourceId} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditClientModal
@@ -285,7 +308,8 @@ export default class ClientsTable extends Component {
         />
         {/* 新建跟进记录模态框 */}
         <AddRecordModal
-          ref="addRecordModal"
+          ref={(e) => this.addRecordModal = e}
+          // ref="addRecordModal"
         />
       </div>
     );

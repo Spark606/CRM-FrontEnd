@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
-const FormItem = Form.Item;
 
 class EditClientModal extends Component {
   state = {

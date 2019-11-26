@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Button, Timeline} from 'antd';
+import { Modal, Button, Timeline, TimePicker, DatePicker, Select, Row, Col, Input,  } from 'antd';
+const { TextArea } = Input;
+import moment from 'moment';
+const format = 'HH:mm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
@@ -10,11 +13,12 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   },
   dispatch
 );
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 
 class AddRecordModal extends Component {
   state = {
     visible: false,
+    editBox: false,
   };
   showModal = () => {
     this.setState({
@@ -24,11 +28,17 @@ class AddRecordModal extends Component {
   handleCancel = e => {
     this.setState({
       visible: false,
+      editBox: false,
     });
   };
   handleOk = () => {
     this.setState({
       visible: false,
+    });
+  }
+  openEditBox = () => {
+    this.setState({
+      editBox: true,
     });
   }
   render() {
@@ -50,11 +60,34 @@ class AddRecordModal extends Component {
         ]}
       >
         <div className="container">
+          <Button type="primary" onClick={this.openEditBox}>{this.state.editBox ? '提交' : '写跟进'}</Button>
+          {this.state.editBox ?
+            <div>
+              <Row>
+                <Col>跟进时间：</Col>
+                <Col><DatePicker /><TimePicker defaultValue={moment('12:08', format)} format={format} /></Col>
+              </Row>
+              <Row>
+                <Col>跟进结果：</Col>
+                <Col> <TextArea rows={4} /></Col>
+              </Row>
+              <Row>
+                <Col>客户状态：</Col>
+                <Col>
+                  <Select style={{ width: 120 }} defaultValue={1}>
+                    <Select.Option value={1}>潜在客户</Select.Option>
+                    <Select.Option value={2}>意向客户</Select.Option>
+                    <Select.Option value={3}>成交客户</Select.Option>
+                    <Select.Option value={4}>失败客户</Select.Option>
+                    <Select.Option value={5}>已流失客户</Select.Option>
+                  </Select>
+                </Col>
+              </Row>
+            </div>
+            : null}
+            <hr />
           <Timeline>
-            <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-            <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-            <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-            <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
+            {oneClientRecord.map(item => <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>{item.content} {item.recorderTime} {item.recorderName}</Timeline.Item>)}
           </Timeline>
         </div>
       </Modal>
