@@ -79,7 +79,7 @@ class EditClientModal extends Component {
                   </Col>
                   <Col span={12}>
                     <Form.Item label="负责人：">
-                      {getFieldDecorator('agent', {
+                      {getFieldDecorator('employeeName', {
                         initialValue: 'Liz',
                       })(<Input />)}
                     </Form.Item>

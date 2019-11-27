@@ -171,7 +171,7 @@ export default class ClientsTable extends Component {
       tempData: record
     });
     this.addClientRecordModal.showModal();
-    this.props.getClientRecordsList(record.resourceId);
+    this.props.getClientRecordsList({resourceId: record.resourceId});
     // 打开跟进记录，并编辑
   }
 
@@ -281,7 +281,7 @@ export default class ClientsTable extends Component {
       {
         width: 100,
         title: '经办人',
-        dataIndex: 'agent',
+        dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
       },
       {

@@ -25,7 +25,7 @@ export function getClientRecordsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/test',
+        endpoint: url + '/crm/employee/getResourceFollows',
         method: 'POST',
         mode: "cors",
         body: params,

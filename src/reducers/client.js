@@ -144,6 +144,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENT_RECORDS_SUCCESS:
+      console.log('i am recordslist', action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         // ...action.payload,
