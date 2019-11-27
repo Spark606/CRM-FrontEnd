@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Table, Input, Button, Icon, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
+import moment from 'moment';
+import {hourFormat, yearFormat} from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
-import AddRecordModal from '../../component/addRecordModal';
-import { getClients, getRecordsList } from '../../actions/api';
+import AddClientRecordModal from '../../component/addClientRecordModal';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
 
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -16,7 +18,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     getClients,
-    getRecordsList
+    getClientRecordsList,
+    updateOneClient,
+    addNewClient,
+    deleteClient
   },
   dispatch
 );
@@ -104,25 +109,26 @@ export default class ClientsTable extends Component {
   // 表头查询end
 
   // 新建客户
-  addNewClient = (e) => {
+  openAddModal = (e) => {
     this.setState({
       tempData: null
     });
     this.formEditClientModal.showModal();
   };
   addNewFormData = (values) => {
-    values.resourceId = this.state.data.length + 1;
+    // values.resourceId = this.state.data.length + 1;
     console.log(values, 'xxxxxxxxxxxxxx');
-    let arr = this.state.data;
-    arr.unshift(values)
+    // let arr = this.state.data;
+    // arr.unshift(values)
+    this.props.addNewClient(values);
     // 提交新的数据，并获得新row，加到data数组前部
-    this.setState({
-      data: arr
-    });
+    // this.setState({
+    //   data: arr
+    // });
   }
   // 新建客户end
   // 修改客户
-  editClient = (record) => {
+  handleEditClient = (record) => {
     this.setState({
       tempData: record
     });
@@ -130,13 +136,14 @@ export default class ClientsTable extends Component {
   }
   updateFormData = (values) => {
     // 更新数据后，也将原始state里的数据更新
-    const newData = _.map(this.state.data, e => {
-      if (e.resourceId === values.resourceId) {
-        return values;
-      } else {
-        return e;
-      }
-    });
+    // const newData = _.map(this.state.data, e => {
+    //   if (e.resourceId === values.resourceId) {
+    //     return values;
+    //   } else {
+    //     return e;
+    //   }
+    // });
+    this.props.updateOneClient(values);
     console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
@@ -144,29 +151,33 @@ export default class ClientsTable extends Component {
   }
   // 修改客户end
   // 删除客户
-  deleteClient = (record) => {
+  handledeleteClient = (record) => {
     // 提交删除请求，更新页面
-    const newData = _.filter(this.state.data, e => {
-      if (e.resourceId !== record.resourceId) {
-        return e;
-      }
-    });
-    this.setState({
-      data: newData
-    })
+    this.props.deleteClient(record.resourceId);
+    // const newData = _.filter(this.state.data, e => {
+    //   if (e.resourceId !== record.resourceId) {
+    //     return e;
+    //   }
+    // });
+    // this.setState({
+    //   data: newData
+    // })
   }
   // 删除客户end
 
   // 跟进记录
-  addRecord = (record) => {
-    this.addRecordModal.showModal();
-    // this.refs["addRecordModal"].showModal();
-    this.props.getRecordsList(record.resourceId);
+  handleAddRecord = (record) => {
+    this.setState({
+      tempData: record
+    });
+    this.addClientRecordModal.showModal();
+    this.props.getClientRecordsList(record.resourceId);
     // 打开跟进记录，并编辑
   }
 
   render() {
-    const { clientsList, recordsList } = this.props;
+    const { clientsList } = this.props;
+    console.log('clientsList', clientsList);
     const columns = [
       {
         width: 120,
@@ -246,7 +257,7 @@ export default class ClientsTable extends Component {
       {
         width: 150,
         title: '电话',
-        dataIndex: 'tel',
+        dataIndex: 'phone',
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
@@ -256,14 +267,14 @@ export default class ClientsTable extends Component {
         filterMultiple: false,
         sorter: (a, b) => a.createTime - b.createTime,
         sortDirections: ['descend', 'ascend'],
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
         width: 150,
         title: '到期时间',
         dataIndex: 'endTime',
         filterMultiple: false,
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
         sorter: (a, b) => a.expireDate - b.expireDate,
         sortDirections: ['descend', 'ascend'],
       },
@@ -279,11 +290,11 @@ export default class ClientsTable extends Component {
         key: 'operation',
         fixed: 'right',
         render: (record) => <span>
-          <a onClick={() => this.editClient(record)}><Icon type="edit" /></a>
+          <a onClick={() => this.handleEditClient(record)}><Icon type="edit" /></a>
           <Divider type="vertical" />
-          <a onClick={() => this.addRecord(record)}><Icon type="snippets" /></a>
+          <a onClick={() => this.handleAddRecord(record)}><Icon type="snippets" /></a>
           <Divider type="vertical" />
-          <a onClick={() => this.deleteClient(record)}><Icon type="delete" /></a>
+          <a onClick={() => this.handledeleteClient(record)}><Icon type="delete" /></a>
         </span>,
       },
     ];
@@ -293,7 +304,7 @@ export default class ClientsTable extends Component {
           <Breadcrumb.Item>个人客户</Breadcrumb.Item>
           <Breadcrumb.Item>个人客户表</Breadcrumb.Item>
         </Breadcrumb>
-        <Button type="primary" onClick={this.addNewClient} className="addBtn">
+        <Button type="primary" onClick={this.openAddModal} className="addBtn">
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
@@ -307,9 +318,11 @@ export default class ClientsTable extends Component {
           updateFormData={this.updateFormData}
         />
         {/* 新建跟进记录模态框 */}
-        <AddRecordModal
-          ref={(e) => this.addRecordModal = e}
-          // ref="addRecordModal"
+        <AddClientRecordModal
+          // ref={(e) => this.addClientRecordModal = e}
+          wrappedComponentRef={(form) => this.addClientRecordModal = form}
+          // ref="addClientRecordModal"
+          dataSource={this.state.tempData}
         />
       </div>
     );

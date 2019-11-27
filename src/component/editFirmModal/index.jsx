@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';
-import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
+import { Modal, Form, Input, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
 
-class EditClientModal extends Component {
+class EditFirmModal extends Component {
   state = {
     visible: false,
     confirmDirty: false,
@@ -15,8 +15,8 @@ class EditClientModal extends Component {
     e.preventDefault();
     const {dataSource} = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.endDate = moment(values.endDate).format({yearFormat});
-      values.createTime = moment(values.createTime).format({yearFormat});
+      values.expireDate = moment(values.expireDate).format(yearFormat);
+      values.createTime = moment(values.createTime).format(yearFormat);
       if(dataSource){ // 如果datasource是null，说明是新建客户
         values.key = dataSource.key;
         this.props.updateFormData(values); // 提交新数据
@@ -48,11 +48,11 @@ class EditClientModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource } = this.props;
-    // console.log(dataSource, 'wrapEditClientModal');
+    // console.log(dataSource, 'wrapEditFirmModal');
     return (
       <div>
         <Modal
-          title="添加个人客户"
+          title="添加企业客户"
           width={820}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -200,6 +200,6 @@ class EditClientModal extends Component {
     );
   }
 }
-const wrapEditClientModal = Form.create()(EditClientModal);
+const wrapEditFirmModal = Form.create()(EditFirmModal);
 
-export default wrapEditClientModal;
+export default wrapEditFirmModal;

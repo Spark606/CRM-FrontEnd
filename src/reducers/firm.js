@@ -47,38 +47,6 @@ let data = [
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
-  },
-  {
-    resourceId: 4,
-    shareStatus: "private",
-    resourceName: 'Jim Red',
-    certificate: '一级房建转加造价初',
-    info: 'London No. 2 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
-    status: 1,
-    phone: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
-  },
-  {
-    resourceId: 5,
-    shareStatus: "private",
-    resourceName: 'Jim Red',
-    certificate: '一级房建转加造价初',
-    info: 'London No. 2 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
-    status: 1,
-    phone: '17844537359',
-    qq: '1105394023',
-    agent: 'Liz',
-    province: '四川',
-    gender: 1,
-    email: 'lizbaby606@163.com',
   }
 ];
 const records = [
@@ -113,7 +81,7 @@ const records = [
 
 ];
 const initialState = {
-  clientsList: data,
+  firmsList: data,
   tableRow: 10,
   currentPage: 1,
   oneClientRecord: records,
@@ -121,29 +89,29 @@ const initialState = {
 };
 
 // const layoutReducer = (state = initialState) => state;
-export default function clientReducer(state = initialState, action) {
+export default function firmReducer(state = initialState, action) {
   switch (action.type) {
-    case cs.GET_CLIENTS_REQUEST:
+    case cs.GET_FIRMS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.GET_CLIENTS_SUCCESS:
+    case cs.GET_FIRMS_SUCCESS:
       data = action.payload.data;
       return Object.assign({}, state, {
-        clientsList: action.payload.data,
+        firmsList: action.payload.data,
         isFetching: false,
       });
-    case cs.GET_CLIENTS_FAIL:
+    case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });
 
 
-    case cs.GET_CLIENT_RECORDS_REQUEST:
+    case cs.GET_FIRM_RECORDS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.GET_CLIENT_RECORDS_SUCCESS:
+    case cs.GET_FIRM_RECORDS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         // ...action.payload,
@@ -155,20 +123,20 @@ export default function clientReducer(state = initialState, action) {
           recorderTime: '2018-12-11 22:23:21'
         })
       });
-    case cs.GET_CLIENT_RECORDS_FAIL:
+    case cs.GET_FIRM_RECORDS_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });
 
 
-    case cs.ADD_NEW_CLIENT_REQUEST:
+    case cs.ADD_NEW_FIRM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.ADD_NEW_CLIENT_SUCCESS:
+    case cs.ADD_NEW_FIRM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: data.unshift({
+        firmsList: data.unshift({
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -185,10 +153,10 @@ export default function clientReducer(state = initialState, action) {
           email: 'lizbaby606@163.com',
         }) ? data : null,
       });
-    case cs.ADD_NEW_CLIENT_FAIL:
+    case cs.ADD_NEW_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: data.unshift({
+        firmsList: data.unshift({
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -206,14 +174,14 @@ export default function clientReducer(state = initialState, action) {
         }) ? data : null,
       });
 
-    case cs.UPDATE_ONE_CLIENT_REQUEST:
+    case cs.UPDATE_ONE_FIRM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.UPDATE_ONE_CLIENT_SUCCESS:
+    case cs.UPDATE_ONE_FIRM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.map(data, e => {
+        firmsList: _.map(data, e => {
           if (e.resourceId === 1) {
             return {
               resourceId: 1,
@@ -236,10 +204,10 @@ export default function clientReducer(state = initialState, action) {
           }
         })
       });
-    case cs.UPDATE_ONE_CLIENT_FAIL:
+    case cs.UPDATE_ONE_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.map(data, e => {
+        firmsList: _.map(data, e => {
           if (e.resourceId === 1) {
             return {
               resourceId: 1,
@@ -263,37 +231,37 @@ export default function clientReducer(state = initialState, action) {
         })
       });
 
-    case cs.DELETE_ONE_CLIENT_REQUEST:
+    case cs.DELETE_ONE_FIRM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.DELETE_ONE_CLIENT_SUCCESS:
+    case cs.DELETE_ONE_FIRM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.filter(data, e => {
+        firmsList: _.filter(data, e => {
           if (e.resourceName !== '李四') {
             return e;
           }
         })
       });
-    case cs.DELETE_ONE_CLIENT_FAIL:
+    case cs.DELETE_ONE_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.filter(data, e => {
+        firmsList: _.filter(data, e => {
           if (e.resourceName !== '李四') {
             return e;
           }
         })
       });
-    // case cs.GET_CLIENTS_REQUEST:
+    // case cs.GET_FIRMS_REQUEST:
     //     return Object.assign({}, state, {
     //         isFetching: true
     //     });
-    // case cs.GET_CLIENTS_SUCCESS:
+    // case cs.GET_FIRMS_SUCCESS:
     //     return Object.assign({}, state, {
     //         isFetching: false,
     //     });
-    // case cs.GET_CLIENTS_FAIL:
+    // case cs.GET_FIRMS_FAIL:
     //     return Object.assign({}, state, {
     //         isFetching: false,
     //     });
