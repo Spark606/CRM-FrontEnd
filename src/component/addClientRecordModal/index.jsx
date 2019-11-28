@@ -64,6 +64,32 @@ class AddClientRecordModal extends Component {
       });
     }
   }
+  getStatus(text){
+    if (text === 1) {
+      return "潜在";
+    } else if (text === 2) {
+      return "意向";
+    } else if (text === 3) {
+      return "成交";
+    } else if (text === 4) {
+      return "失败";
+    } else if (text === 5) {
+      return "已流失";
+    }
+  }
+  getStatusColor(text){
+    if (text === 1) {
+      return "orange";
+    } else if (text === 2) {
+      return "blue";
+    } else if (text === 3) {
+      return "green";
+    } else if (text === 4) {
+      return "red";
+    } else if (text === 5) {
+      return "gray";
+    }
+  }
   render() {
     const { editBox } = this.state;
     const { oneClientRecord, dataSource } = this.props;
@@ -128,7 +154,11 @@ class AddClientRecordModal extends Component {
             : null}
           <hr />
           <Timeline>
-            {oneClientRecord ? oneClientRecord.map(item => <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>{item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName}</Timeline.Item>) : "NO DATA"}
+            {oneClientRecord ? oneClientRecord.map(item =>
+              <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
+                {item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
+              </Timeline.Item>) :
+              "NO DATA"}
           </Timeline>
         </div>
       </Modal>

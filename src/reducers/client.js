@@ -126,11 +126,11 @@ const initialState = {
   oneClientStatus: 1,
 };
 
-function formatRecords(dataSource){
-  if(dataSource){
+function formatRecords(dataSource) {
+  if (dataSource) {
     const seriesData = [];
     dataSource.map(item => {
-      seriesData.push(Object.assign({},{
+      seriesData.push(Object.assign({}, {
         key: item.key,
         content: item.content,
         recordName: item.resourceName,
@@ -144,11 +144,11 @@ function formatRecords(dataSource){
   }
 };
 
-function formatClients(dataSource){
-  if(dataSource){
+function formatClients(dataSource) {
+  if (dataSource) {
     const seriesData = [];
     dataSource.map(item => {
-      seriesData.push(Object.assign({},{
+      seriesData.push(Object.assign({}, {
         clientId: item.resourceId,
         resourceStatus: item.shareStatus,
         clientName: item.resourceName,
@@ -179,15 +179,13 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
-      data =  formatClients(action.payload.data);
-      // console.log(data);
       return Object.assign({}, state, {
-        clientsList: action.payload ? data: [],
+        clientsList: action.payload ? formatClients(action.payload.data) : [],
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
       return Object.assign({}, state, {
-        clientsList: data ? formatClients(data): [],
+        clientsList: data ? formatClients(data) : [],
         isFetching: false,
       });
 
@@ -214,11 +212,19 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_RECORD_SUCCESS:
       console.log(action.payload.data)
       return Object.assign({}, state, {
-        oneClientRecord: action.payload ? _.concat([], formatRecords(action.payload.data), this.state.oneClientRecord) :  this.state.oneClientRecord,
+        oneClientRecord: action.payload ? [...formatRecords(action.payload.data), ...state.oneClientRecord] : state.oneClientRecord,
         isFetching: false,
       });
     case cs.ADD_NEW_RECORD_FAIL:
       return Object.assign({}, state, {
+        oneClientRecord: [...formatRecords([{
+          key: 6,
+          content: '我是新跟进',
+          recorderName: 'Liz',
+          status: 4,
+          recorderId: 3,
+          recorderTime: '2018-12-11 22:23:21'
+        }]), ...state.oneClientRecord],
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_REQUEST:
@@ -228,7 +234,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [{
+        clientsList: [...formatRecords([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -243,12 +249,12 @@ export default function clientReducer(state = initialState, action) {
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }]
+        }]), ...state.clientsList]
       });
     case cs.ADD_NEW_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [{
+        clientsList: [...formatRecords([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -263,7 +269,7 @@ export default function clientReducer(state = initialState, action) {
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }]
+        }]), ...state.clientsList]
       });
 
     case cs.UPDATE_ONE_CLIENT_REQUEST:
@@ -345,6 +351,7 @@ export default function clientReducer(state = initialState, action) {
           }
         })
       });
+
     // case cs.GET_CLIENTS_REQUEST:
     //     return Object.assign({}, state, {
     //         isFetching: true
