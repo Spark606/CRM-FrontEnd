@@ -19,7 +19,7 @@ export default store => next => action => {
   const { types, schema, method = 'GET', body, headers = {
     Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
     'Content-Type': 'application/json;charset=utf-8', //默认就是这个
-  }, loading = true} = callAPI;
+  }, loading = true } = callAPI;
   if (typeof endpoint === 'string') {
     const options = {
       method,
@@ -32,8 +32,9 @@ export default store => next => action => {
     }
     const apiUrl = endpoint;
     console.log('options', options);
+
     // 这里开始使用fetch请求数据
-    endpoint = fetch(endpoint, options).then(response => {
+    endpoint = _fetch(fetch(endpoint, options).then(response => {
       // console.log('请求结束', response);
       if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
         localStorage.removeItem('sessions');
@@ -46,7 +47,29 @@ export default store => next => action => {
         }
         return json;
       });
-    });
+    }), 1000);
+    
+    // 封装可timeout的fetch-------start
+    function _fetch(fetch_promise, timeout) {
+      var abort_fn = null;
+      //这是一个可以被reject的promise
+      var abort_promise = new Promise(function (resolve, reject) {
+        abort_fn = function () {
+          reject('abort promise');
+        };
+      });
+      //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
+      var abortable_promise = Promise.race([
+        fetch_promise,
+        abort_promise
+      ]);
+      setTimeout(function () {
+        abort_fn();
+      }, timeout);
+      return abortable_promise;
+    }
+    // 封装可timeout的fetch-------end
+
 
   }
 

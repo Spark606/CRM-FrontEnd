@@ -88,6 +88,7 @@ const records = [
     key: 1,
     content: 'Create a services site',
     recorderName: 'Liz',
+    status: 1,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -95,6 +96,7 @@ const records = [
     key: 2,
     content: 'Solve initial network problems',
     recorderName: 'Liz',
+    status: 1,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -102,6 +104,7 @@ const records = [
     key: 3,
     content: 'Technical testing',
     recorderName: 'Liz',
+    status: 1,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -109,6 +112,7 @@ const records = [
     key: 4,
     content: 'Network problems being solved',
     recorderName: 'Liz',
+    status: 1,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -120,6 +124,24 @@ const initialState = {
   currentPage: 1,
   oneClientRecord: records,
   oneClientStatus: 1,
+};
+
+function formatRecords(dataSource){
+  if(dataSource){
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({},{
+        key: item.key,
+        content: item.content,
+        recordName: item.resourceName,
+        recordId: item.recorderId,
+        status: item.status,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
 };
 
 function formatClients(dataSource){
@@ -158,13 +180,14 @@ export default function clientReducer(state = initialState, action) {
       });
     case cs.GET_CLIENTS_SUCCESS:
       data =  formatClients(action.payload.data);
-      console.log(data);
+      // console.log(data);
       return Object.assign({}, state, {
         clientsList: action.payload ? data: [],
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
       return Object.assign({}, state, {
+        clientsList: data ? formatClients(data): [],
         isFetching: false,
       });
 
@@ -176,10 +199,11 @@ export default function clientReducer(state = initialState, action) {
     case cs.GET_CLIENT_RECORDS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        oneClientRecord: action.payload.data
+        oneClientRecord: action.payload.data ? formatRecords(action.payload.data) : [],
       });
     case cs.GET_CLIENT_RECORDS_FAIL:
       return Object.assign({}, state, {
+        oneClientRecord: records ? formatRecords(records) : [],
         isFetching: false,
       });
 
@@ -190,7 +214,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_RECORD_SUCCESS:
       console.log(action.payload.data)
       return Object.assign({}, state, {
-        oneClientRecord: _.concat([], action.payload.data, this.state.oneClientRecord),
+        oneClientRecord: action.payload ? _.concat([], formatRecords(action.payload.data), this.state.oneClientRecord) :  this.state.oneClientRecord,
         isFetching: false,
       });
     case cs.ADD_NEW_RECORD_FAIL:
