@@ -96,7 +96,7 @@ const records = [
     key: 2,
     content: 'Solve initial network problems',
     recorderName: 'Liz',
-    status: 1,
+    status: 2,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -104,7 +104,7 @@ const records = [
     key: 3,
     content: 'Technical testing',
     recorderName: 'Liz',
-    status: 1,
+    status: 3,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -112,7 +112,7 @@ const records = [
     key: 4,
     content: 'Network problems being solved',
     recorderName: 'Liz',
-    status: 1,
+    status: 4,
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
   },
@@ -150,7 +150,7 @@ function formatClients(dataSource) {
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
         clientId: item.resourceId,
-        resourceStatus: item.shareStatus,
+        clientAvailable: item.shareStatus,
         clientName: item.resourceName,
         certificate: item.certificate,
         remark: item.info,
@@ -174,6 +174,7 @@ function formatClients(dataSource) {
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
+
     case cs.GET_CLIENTS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -227,6 +228,8 @@ export default function clientReducer(state = initialState, action) {
         }]), ...state.oneClientRecord],
         isFetching: false,
       });
+
+
     case cs.ADD_NEW_CLIENT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -234,7 +237,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [...formatRecords([{
+        clientsList: [...formatClients([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -254,7 +257,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [...formatRecords([{
+        clientsList: [...formatClients([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -272,6 +275,8 @@ export default function clientReducer(state = initialState, action) {
         }]), ...state.clientsList]
       });
 
+
+
     case cs.UPDATE_ONE_CLIENT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -279,54 +284,12 @@ export default function clientReducer(state = initialState, action) {
     case cs.UPDATE_ONE_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.map(data, e => {
-          if (e.resourceId === 1) {
-            return {
-              resourceId: 1,
-              shareStatus: "private",
-              resourceName: '傻bobo',
-              certificate: '一级房建转加造价初',
-              info: 'London No. 2 Lake Park',
-              createDate: '2012-12-11',
-              endDate: '2020-12-24',
-              status: 1,
-              phone: '17844537359',
-              qq: '1105394023',
-              employeeName: 'Liz',
-              province: '四川',
-              gender: 1,
-              email: 'lizbaby606@163.com',
-            };
-          } else {
-            return e;
-          }
-        })
+        clientsList: [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.map(data, e => {
-          if (e.resourceId === 1) {
-            return {
-              resourceId: 1,
-              shareStatus: "private",
-              resourceName: '傻bobo',
-              certificate: '一级房建转加造价初',
-              info: 'London No. 2 Lake Park',
-              createDate: '2012-12-11',
-              endDate: '2020-12-24',
-              status: 1,
-              phone: '17844537359',
-              qq: '1105394023',
-              employeeName: 'Liz',
-              province: '四川',
-              gender: 1,
-              email: 'lizbaby606@163.com',
-            };
-          } else {
-            return e;
-          }
-        })
+        clientsList: [...state.clientsList]
       });
 
     case cs.DELETE_ONE_CLIENT_REQUEST:

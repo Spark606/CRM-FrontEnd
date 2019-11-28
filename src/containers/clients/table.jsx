@@ -171,7 +171,7 @@ export default class ClientsTable extends Component {
       tempData: record
     });
     this.addClientRecordModal.showModal();
-    this.props.getClientRecordsList({resourceId: record.resourceId});
+    this.props.getClientRecordsList({resourceId: record.clientId});
     // 打开跟进记录，并编辑
   }
 

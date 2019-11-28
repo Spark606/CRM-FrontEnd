@@ -235,14 +235,14 @@ export default class FirmsTable extends Component {
       {
         width: 150,
         title: '到期时间',
-        dataIndex: 'endTime',
+        dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
         sorter: (a, b) => a.expireDate - b.expireDate,
         sortDirections: ['descend', 'ascend'],
       },
       {
-        width: 200,
+        width: 100,
         title: '联系人',
         dataIndex: 'contact',
         key: 'contact',

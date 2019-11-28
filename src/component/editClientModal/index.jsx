@@ -15,14 +15,28 @@ class EditClientModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.expireDate = moment(values.expireDate).format(yearFormat);
-      values.createDate = moment(values.createDate).format(yearFormat);
+      const seriesData =  Object.assign({}, {
+          resourceId: values.clientId,
+          shareStatus: values.clientAvailable,
+          resourceName: values.clientName,
+          certificate: values.certificate,
+          info: values.remark,
+          createDate: moment(values.createDate).format(yearFormat),
+          endDate: moment(values.expireDate).format(yearFormat),
+          status: values.status,
+          phone: values.tel,
+          qq: values.qq,
+          employeeName: values.employeeName,
+          province: values.province,
+          gender: values.gender,
+          email: values.email,
+        });
       if (dataSource) { // 如果datasource是null，说明是新建客户
-        values.key = dataSource.key;
-        this.props.updateFormData(values); // 提交新数据
+        seriesData.key = dataSource.key;
+        this.props.updateFormData(seriesData); // 提交新数据
       } else {
-        // console.log('我是新客户', values);
-        this.props.addNewFormData(values); // 提交新数据
+        // console.log('我是新客户', seriesData);
+        this.props.addNewFormData(seriesData); // 提交新数据
       }
     });
     this.props.form.resetFields();

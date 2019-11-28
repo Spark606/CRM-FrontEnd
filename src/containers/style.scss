@@ -29,3 +29,15 @@ body,p,li,ul,table,a{
       margin-bottom: 3.2rem;
     }
   }
+  .menu-box{
+    .ant-menu-item{
+      span>a{
+        color: #ffffff;;
+      }
+    }
+    .ant-menu-item-selected{
+      span>a{
+        color: #ffffff;;
+      }
+    }
+  }

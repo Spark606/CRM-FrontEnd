@@ -10,25 +10,6 @@ export default function setUIElement(domain, key, value) {
   };
 }
 
-// 切换效果
-export function toggle(domain, key) {
-  return (dispatch, getState) => {
-    const oldValue = getState()[domain][key];
-    return dispatch(setUIElement(domain, key, !oldValue));
-  };
-}
-
-// // 只展示一个父级菜单
-// export function openKey(domain, key, value) {
-//   // test
-//   return (dispatch) => {
-//     if(value.length > 1) {
-//       value.shift();
-//     }
-//     return dispatch(setUIElement(domain, key, value));
-//   };
-// }
-
 export function format(params) {
   const paramsArr = [];
   if(params) {

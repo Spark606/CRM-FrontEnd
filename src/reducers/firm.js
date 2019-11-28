@@ -6,7 +6,7 @@ let data = [
     firmName: '阿里巴巴',
     contact: 'bobo',
     resourceName: 'John Brown',
-    info: 'New York No. 1 Lake Park',
+    info: 'New York No. 1 Lake',
     createTime: '2012-12-11',
     endTime: '2010-12-24',
     status: 1,
@@ -24,7 +24,7 @@ let data = [
     firmName: '阿里巴巴',
     contact: 'bobo',
     resourceName: 'Joe Black',
-    info: 'London No. 1 Lake Park',
+    info: 'London No. 1 Lake',
     createTime: '2012-12-11',
     endTime: '2020-12-24',
     status: 1,
@@ -42,7 +42,7 @@ let data = [
     firmName: '阿里巴巴',
     contact: 'bobo',
     resourceName: 'Jim Green',
-    info: 'Sidney No. 1 Lake Park',
+    info: 'Sidney No. 1 Lake',
     createTime: '2012-12-11',
     endTime: '2020-12-24',
     status: 2,
@@ -65,7 +65,7 @@ const records = [
   },
   {
     key: 2,
-    content: 'Solve initial network problems',
+    content: 'Solve initial network',
     recorderName: 'Liz',
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
@@ -79,7 +79,7 @@ const records = [
   },
   {
     key: 4,
-    content: 'Network problems being solved',
+    content: 'Network problems being',
     recorderName: 'Liz',
     recorderId: 3,
     recorderTime: '2018-12-11 22:23:21'
@@ -90,9 +90,52 @@ const initialState = {
   firmsList: data,
   tableRow: 10,
   currentPage: 1,
+  oneFirmRecord: []
+};
+function formatRecords(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        key: item.key,
+        content: item.content,
+        recordName: item.resourceName,
+        recordId: item.recorderId,
+        status: item.status,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
 };
 
-// const layoutReducer = (state = initialState) => state;
+function formatFirms(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        firmId: item.resourceId,
+        firmAvailable: item.shareStatus,
+        firmName: item.resourceName,
+        contact: item.contact,
+        remark: item.info,
+        createDate: item.createDate,
+        expireDate: item.endDate,
+        status: item.status,
+        tel: item.phone,
+        qq: item.qq,
+        employeeName: item.employeeName,
+        province: item.province,
+        gender: item.gender,
+        email: item.email,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
     case cs.GET_FIRMS_REQUEST:
@@ -100,13 +143,13 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_FIRMS_SUCCESS:
-      // data = action.payload.data;
       return Object.assign({}, state, {
-        // firmsList: action.payload.data,
+        clientsList: action.payload ? formatFirms(action.payload.data) : [],
         isFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
+        clientsList: data ? formatFirms(data) : [],
         isFetching: false,
       });
 
@@ -118,14 +161,7 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_FIRM_RECORDS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        // ...action.payload,
-        records: records.unshift({
-          key: records.length,
-          content: 'Network problems being solved',
-          recorderName: 'Liz',
-          recorderId: 3,
-          recorderTime: '2018-12-11 22:23:21'
-        })
+        oneFirmRecord: action.payload.data ? formatRecords(action.payload.data) : [],
       });
     case cs.GET_FIRM_RECORDS_FAIL:
       return Object.assign({}, state, {

@@ -52,8 +52,20 @@ export default class LayoutPagae extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
-          <Menu theme="dark" defaultSelectedKeys={['person']} defaultOpenKeys={['clienttable']} mode="inline">
-            <SubMenu
+          <Menu className="menu-box" theme="dark" defaultSelectedKeys={['clienttable']} defaultOpenKeys={['clienttable']} mode="inline">
+            <Menu.Item key="clienttable">
+              <Icon type="user" />
+              <span><Link to={'/main/client/table'}>个人客户表</Link></span>
+            </Menu.Item>
+            <Menu.Item key="firmstable">
+              <Icon type="team" />
+              <span><Link to={'/main/firms/table'}>企业客户表</Link></span>
+            </Menu.Item>
+            <Menu.Item key="accounttable">
+              <Icon type="area-chart" />
+              <span><Link to={'/main/account/table'}>绩效汇总表</Link></span>
+            </Menu.Item>
+            {/* <SubMenu
               key="person"
               title={
                 <span>
@@ -88,7 +100,7 @@ export default class LayoutPagae extends Component {
             >
               <Menu.Item key="accounttable"><Link to={'/main/account/table'}>绩效汇总表</Link></Menu.Item>
               <Menu.Item key="accountnew"><Link to={'/main/account/new'}>添加新成交</Link></Menu.Item>
-            </SubMenu>
+            </SubMenu> */}
           </Menu>
         </Sider>
         <Layout>

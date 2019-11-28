@@ -48,15 +48,12 @@ class AddClientRecordModal extends Component {
       });
     } else {
       this.props.form.validateFieldsAndScroll((err, values) => {
-        values.createTime = `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`;
-        values.resourceId = this.props.dataSource.resourceId;
         const data = Object.assign({}, {
-          createTime: values.createTime,
-          resourceId: values.resourceId,
+          createDate: `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`,
+          resourceId: this.props.dataSource.clientId,
           status: values.status,
           content: values.recordContent
         });
-        console.log('i am record:', data);
         this.props.addNewClientRecord(data);
       });
       this.setState({
@@ -94,7 +91,7 @@ class AddClientRecordModal extends Component {
     const { editBox } = this.state;
     const { oneClientRecord, dataSource } = this.props;
     const { getFieldDecorator } = this.props.form;
-    console.log(oneClientRecord, 'AddClientRecordModal');
+    // console.log(oneClientRecord, dataSource, 'AddClientRecordModal');
     return (
       <Modal
         title="个人跟进记录"
@@ -156,7 +153,7 @@ class AddClientRecordModal extends Component {
           <Timeline>
             {oneClientRecord ? oneClientRecord.map(item =>
               <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
-                {item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
+                {item.content} {moment(item.createDate).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
               </Timeline.Item>) :
               "NO DATA"}
           </Timeline>
