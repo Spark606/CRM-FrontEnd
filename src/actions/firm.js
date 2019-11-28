@@ -8,7 +8,7 @@ export function getFirms(){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/firm/test',
+        endpoint: url + '/crm/employee/getCompanyList',
         method: 'GET',
         header: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export function addNewFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/firm/add',
+        endpoint: url + '/crm/employee/createCompany',
         method: 'POST',
         mode: "cors",
         body: params,

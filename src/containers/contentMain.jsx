@@ -7,12 +7,14 @@ import FirmsNew from './firms/new';
 import AccountTable from './account/table';
 import AccountNew from './account/new';
 import Personal from './personal';
+import TodoPage from './todo';
 class ContentMain extends React.Component {
 	render() {
 		return (
 			<div>
 				<Router>
 					<Switch>
+						<Route exact path='/main/todo' component={TodoPage}/>
 						<Route exact path='/main/client/table' component={ClientsTable}/>
 						<Route exact path='/main/client/new' component={ClientsNew}/>
 						<Route exact path='/main/firms/table' component={FirmsTable}/>

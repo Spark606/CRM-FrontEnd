@@ -176,7 +176,7 @@ export default class FirmsTable extends Component {
 
   render() {
     const { firmsList } = this.props;
-    // console.log('firmsList', firmsList);
+    console.log('firmsList', firmsList);
     const columns = [
       {
         width: 120,
@@ -198,10 +198,10 @@ export default class FirmsTable extends Component {
       {
         // width: 200,
         title: '备注',
-        dataIndex: 'info',
-        key: 'info',
+        dataIndex: 'remark',
+        key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('info'),
+        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -271,15 +271,15 @@ export default class FirmsTable extends Component {
       {
         width: 150,
         title: '电话',
-        dataIndex: 'phone',
+        dataIndex: 'tel',
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 150,
         title: '获得客户时间',
-        dataIndex: 'createTime',
+        dataIndex: 'createDate',
         filterMultiple: false,
-        sorter: (a, b) => a.createTime - b.createTime,
+        sorter: (a, b) => a.createDate - b.createDate,
         sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },

@@ -26,14 +26,24 @@ class EditFirmModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.expireDate = moment(values.expireDate).format(yearFormat);
-      values.createTime = moment(values.createTime).format(yearFormat);
+      const seriesData =  Object.assign({}, {
+        companyName: values.firmName,
+        startDate: moment(values.createDate).format(yearFormat),
+        expireDate: moment(values.expireDate).format(yearFormat),
+        status: values.status,
+        phoneNumber: values.tel,
+        qq: values.qq,
+        employeeName: values.employeeName,
+        province: values.province,
+        gender: values.gender,
+        email: values.email,
+      });
       if (dataSource) { // 如果datasource是null，说明是新建客户
-        values.key = dataSource.key;
-        this.props.updateFormData(values); // 提交新数据
+        seriesData.key = dataSource.key;
+        this.props.updateFormData(seriesData); // 提交新数据
       } else {
-        console.log('我是新客户', values);
-        this.props.addNewFormData(values); // 提交新数据
+        console.log('我是新企业', seriesData);
+        this.props.addNewFormData(seriesData); // 提交新数据
       }
     });
     this.props.form.resetFields();
@@ -82,15 +92,15 @@ class EditFirmModal extends Component {
                 <Row>
                   <Col span={12}>
                     <Form.Item label="获得客户时间：">
-                      {getFieldDecorator('createTime', {
-                        initialValue: dataSource ? moment(dataSource.createTime) : moment(),
+                      {getFieldDecorator('createDate', {
+                        initialValue: dataSource ? moment(dataSource.createDate) : moment(),
                         rules: [{ required: true, message: '请输入获得客户时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="负责人：">
-                      {getFieldDecorator('agent', {
+                      {getFieldDecorator('employeeName', {
                         initialValue: 'Liz',
                       })(<Input />)}
                     </Form.Item>
@@ -108,8 +118,8 @@ class EditFirmModal extends Component {
                   </Col>
                   <Col span={12}>
                     <Form.Item label="到期时间：">
-                      {getFieldDecorator('endTime', {
-                        initialValue: dataSource ? moment(dataSource.endTime) : moment(),
+                      {getFieldDecorator('expireDate', {
+                        initialValue: dataSource ? moment(dataSource.expireDate) : moment(),
                         rules: [{ required: true, message: '客户到期时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
@@ -133,7 +143,7 @@ class EditFirmModal extends Component {
                   </Col>
                   <Col span={12}>
                     <Form.Item label="所在城市：">
-                      {getFieldDecorator('city', {
+                      {getFieldDecorator('province', {
                         initialValue: dataSource ? dataSource.province : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
@@ -142,8 +152,8 @@ class EditFirmModal extends Component {
                 <Row>
                   {/* <Col span={24} className="marker"> */}
                     <Form.Item label="备注：">
-                      {getFieldDecorator('info', {
-                        initialValue: dataSource ? dataSource.info : null,
+                      {getFieldDecorator('remark', {
+                        initialValue: dataSource ? dataSource.remark : null,
                       })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
                     </Form.Item>
                   {/* </Col> */}
@@ -152,15 +162,15 @@ class EditFirmModal extends Component {
                 <Row>
                   <Col span={12}>
                     <Form.Item label="联系人：">
-                      {getFieldDecorator('resourceName', {
-                        initialValue: dataSource ? dataSource.resourceName : null,
+                      {getFieldDecorator('contact', {
+                        initialValue: dataSource ? dataSource.contact : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="手机号：">
-                      {getFieldDecorator('phone', {
-                        initialValue: dataSource ? dataSource.phone : null,
+                      {getFieldDecorator('tel', {
+                        initialValue: dataSource ? dataSource.tel : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

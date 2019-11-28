@@ -237,7 +237,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [...formatClients([{
+        clientsList:  action.payload ? [...formatClients([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -252,7 +252,7 @@ export default function clientReducer(state = initialState, action) {
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }]), ...state.clientsList]
+        }]), ...state.clientsList] : state.clientsList
       });
     case cs.ADD_NEW_CLIENT_FAIL:
       return Object.assign({}, state, {

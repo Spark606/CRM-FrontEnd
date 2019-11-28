@@ -1,60 +1,62 @@
 import * as cs from '../constants';
 let data = [
   {
-    resourceId: 1,
+    companyId: 1,
     shareStatus: "private",
-    firmName: '阿里巴巴',
-    contact: 'bobo',
-    resourceName: 'John Brown',
+    companyName: '阿里巴巴',
+    contactorName: 'bobo',
     info: 'New York No. 1 Lake',
-    createTime: '2012-12-11',
-    endTime: '2010-12-24',
+    startDate: '2012-12-11',
+    expireDate: '2010-12-24',
     status: 1,
-    phone: '17844537359',
+    phoneNumber: '17844537359',
     qq: '1105394023',
-    position: 'Hr',
+    occupation: 'Hr',
     employeeName: 'Liz',
+    employeeId: 1,
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
   },
   {
-    resourceId: 2,
+    companyId: 2,
     shareStatus: "private",
-    firmName: '阿里巴巴',
-    contact: 'bobo',
-    resourceName: 'Joe Black',
+    companyName: '阿里巴巴',
+    contactorName: 'bobo',
     info: 'London No. 1 Lake',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    startDate: '2012-12-11',
+    expireDate: '2020-12-24',
     status: 1,
-    phone: '17844537359',
+    phoneNumber: '17844537359',
     qq: '1105394023',
-    position: 'Hr',
+    occupation: 'Hr',
     employeeName: 'Liz',
+    employeeId: 1,
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
   },
   {
-    resourceId: 3,
+    companyId: 3,
     shareStatus: "private",
-    firmName: '阿里巴巴',
-    contact: 'bobo',
-    resourceName: 'Jim Green',
+    companyName: '阿里巴巴',
+    contactorName: 'bobo',
     info: 'Sidney No. 1 Lake',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    startDate: '2012-12-11',
+    expireDate: '2020-12-24',
     status: 2,
-    phone: '17844537359',
+    phoneNumber: '17844537359',
     qq: '1105394023',
-    position: 'Hr',
+    occupation: 'Hr',
     employeeName: 'Liz',
+    employeeId: 1,
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
   }
 ];
+
+
 const records = [
   {
     key: 1,
@@ -92,6 +94,35 @@ const initialState = {
   currentPage: 1,
   oneFirmRecord: []
 };
+function formatFirms(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        firmId: item.companyId,
+        firmAvailable: item.shareStatus,
+        firmName: item.companyName,
+        contact: item.contactorName,
+        remark: item.info,
+        createDate: item.startDate,
+        expireDate: item.expireDate,
+        status: item.status,
+        tel: item.phoneNumber,
+        position: item.occupation,
+        qq: item.qq,
+        employeeName: item.employeeName,
+        employeeId: item.employeeId,
+        province: item.province,
+        gender: item.gender,
+        email: item.email,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
+
 function formatRecords(dataSource) {
   if (dataSource) {
     const seriesData = [];
@@ -110,32 +141,6 @@ function formatRecords(dataSource) {
   }
 };
 
-function formatFirms(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        firmId: item.resourceId,
-        firmAvailable: item.shareStatus,
-        firmName: item.resourceName,
-        contact: item.contact,
-        remark: item.info,
-        createDate: item.createDate,
-        expireDate: item.endDate,
-        status: item.status,
-        tel: item.phone,
-        qq: item.qq,
-        employeeName: item.employeeName,
-        province: item.province,
-        gender: item.gender,
-        email: item.email,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
     case cs.GET_FIRMS_REQUEST:
@@ -144,12 +149,12 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_FIRMS_SUCCESS:
       return Object.assign({}, state, {
-        clientsList: action.payload ? formatFirms(action.payload.data) : [],
+        firmsList: action.payload ? formatFirms(action.payload.data) : [],
         isFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
-        clientsList: data ? formatFirms(data) : [],
+        firmsList: data ? formatFirms(data) : [],
         isFetching: false,
       });
 
@@ -176,15 +181,20 @@ export default function firmReducer(state = initialState, action) {
     case cs.ADD_NEW_FIRM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: data.unshift({
+        firmsList: action.payload ? [...formatFirms([action.payload.data]), ...state.firmsList] : state.firmsList,
+      });
+    case cs.ADD_NEW_FIRM_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+        firmsList: [...formatFirms([{
           resourceId: 20,
           shareStatus: "private",
-          firmName: '阿里巴巴',
+          companyName: '阿里巴巴',
           contact: 'bobo',
           resourceName: 'Jim Green',
           info: 'Sidney No. 1 Lake Park',
-          createTime: '2012-12-11',
-          endTime: '2020-12-24',
+          createDate: '2012-12-11',
+          endDate: '2020-12-24',
           status: 2,
           phone: '17844537359',
           qq: '1105394023',
@@ -193,29 +203,7 @@ export default function firmReducer(state = initialState, action) {
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }) ? data : null,
-      });
-    case cs.ADD_NEW_FIRM_FAIL:
-      return Object.assign({}, state, {
-        isFetching: false,
-        firmsList: data.unshift({
-          resourceId: 20,
-          shareStatus: "private",
-          firmName: '阿里巴巴',
-          contact: 'bobo',
-          resourceName: '傻bobo',
-          info: 'London No. 2 Lake Park',
-          createTime: '2012-12-11',
-          endTime: '2020-12-24',
-          status: 1,
-          phone: '17844537359',
-          qq: '1105394023',
-          position: 'Hr',
-          employeeName: 'Liz',
-          province: '四川',
-          gender: 1,
-          email: 'lizbaby606@163.com',
-        }) ? data : null,
+        }]), ...state.firmsList]
       });
 
     case cs.UPDATE_ONE_FIRM_REQUEST:
@@ -230,12 +218,12 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
-              firmName: '阿里巴巴',
+              companyName: '百度',
               contact: 'bobo',
               resourceName: 'Jim Green',
               info: 'Sidney No. 1 Lake Park',
-              createTime: '2012-12-11',
-              endTime: '2020-12-24',
+              createDate: '2012-12-11',
+              endDate: '2020-12-24',
               status: 2,
               phone: '17844537359',
               qq: '1105394023',
@@ -258,12 +246,12 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
-              firmName: '阿里巴巴',
+              companyName: '阿里巴巴',
               contact: 'bobo',
               resourceName: 'Jim Green',
               info: 'Sidney No. 1 Lake Park',
-              createTime: '2012-12-11',
-              endTime: '2020-12-24',
+              createDate: '2012-12-11',
+              endDate: '2020-12-24',
               status: 2,
               phone: '17844537359',
               qq: '1105394023',
