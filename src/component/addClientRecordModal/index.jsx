@@ -128,7 +128,7 @@ class AddClientRecordModal extends Component {
             : null}
           <hr />
           <Timeline>
-            {oneClientRecord ? oneClientRecord.map(item => <Timeline.Item key={`hd-${item.id ? item.id : Math.random()}`}>{item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName}</Timeline.Item>) : "NO DATA"}
+            {oneClientRecord ? oneClientRecord.map(item => <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>{item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName}</Timeline.Item>) : "NO DATA"}
           </Timeline>
         </div>
       </Modal>

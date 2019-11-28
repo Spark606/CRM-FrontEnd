@@ -5,7 +5,7 @@ import { Breadcrumb, Table, Input, Button, Icon, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
-import {hourFormat, yearFormat} from '../../constants';
+import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } from '../../actions/firm';
@@ -84,16 +84,17 @@ export default class FirmsTable extends Component {
       }
     },
     render: text => {
-      if(text){
-        return(<Highlighter
+      if (text) {
+        return (<Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[this.state.searchText]}
           autoEscape
           textToHighlight={text.toString()}
         />)
-      }else{
+      } else {
         return null
-      }},
+      }
+    },
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -312,7 +313,7 @@ export default class FirmsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.resourceId} columns={columns} dataSource={firmsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.firmId ? record.firmId : Math.random()} columns={columns} dataSource={firmsList} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditFirmModal
@@ -325,7 +326,7 @@ export default class FirmsTable extends Component {
         <AddFirmRecordModal
           // ref={(e) => this.addFirmRecordModal = e}
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
-          // ref="addFirmRecordModal"
+        // ref="addFirmRecordModal"
         />
       </div>
     );

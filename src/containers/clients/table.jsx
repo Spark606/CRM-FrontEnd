@@ -182,11 +182,11 @@ export default class ClientsTable extends Component {
       {
         width: 120,
         title: '客户名称',
-        dataIndex: 'resourceName',
-        key: 'resourceName',
+        dataIndex: 'clientName',
+        key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('resourceName'),
+        // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
@@ -199,10 +199,10 @@ export default class ClientsTable extends Component {
       {
         // width: 200,
         title: '备注',
-        dataIndex: 'info',
-        key: 'info',
+        dataIndex: 'remark',
+        key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('info'),
+        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -257,7 +257,7 @@ export default class ClientsTable extends Component {
       {
         width: 150,
         title: '电话',
-        dataIndex: 'phone',
+        dataIndex: 'tel',
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
@@ -272,10 +272,10 @@ export default class ClientsTable extends Component {
       {
         width: 150,
         title: '到期时间',
-        dataIndex: 'endDate',
+        dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.endDate - b.endDate,
+        sorter: (a, b) => a.expireDate - b.expireDate,
         sortDirections: ['descend', 'ascend'],
       },
       {
@@ -308,7 +308,7 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.resourceId} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.clientId} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditClientModal

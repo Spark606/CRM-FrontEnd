@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import {hourFormat, yearFormat} from '../../constants';
+import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
 
@@ -13,14 +13,14 @@ class EditClientModal extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const {dataSource} = this.props;
+    const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.endDate = moment(values.endDate).format(yearFormat);
-      values.createTime = moment(values.createTime).format(yearFormat);
-      if(dataSource){ // 如果datasource是null，说明是新建客户
+      values.expireDate = moment(values.expireDate).format(yearFormat);
+      values.createDate = moment(values.createDate).format(yearFormat);
+      if (dataSource) { // 如果datasource是null，说明是新建客户
         values.key = dataSource.key;
         this.props.updateFormData(values); // 提交新数据
-      }else{
+      } else {
         // console.log('我是新客户', values);
         this.props.addNewFormData(values); // 提交新数据
       }
@@ -48,7 +48,7 @@ class EditClientModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource } = this.props;
-    // console.log(dataSource, 'wrapEditClientModal');
+    console.log(dataSource, 'wrapEditClientModal');
     return (
       <div>
         <Modal
@@ -60,7 +60,7 @@ class EditClientModal extends Component {
             <Button key="back" onClick={this.handleCancel}>
               关闭
             </Button>,
-            <Button key="submit" htmlType="submit" type="primary" htmlFor="formBox"  onClick={(e) => this.handleSubmit(e)} >
+            <Button key="submit" htmlType="submit" type="primary" htmlFor="formBox" onClick={(e) => this.handleSubmit(e)} >
               提交
             </Button>,
           ]}
@@ -71,8 +71,8 @@ class EditClientModal extends Component {
                 <Row>
                   <Col span={12}>
                     <Form.Item label="获得客户时间：">
-                      {getFieldDecorator('createTime', {
-                        initialValue: dataSource ? moment(dataSource.createTime) : moment(),
+                      {getFieldDecorator('createDate', {
+                        initialValue: dataSource ? moment(dataSource.createDate) : moment(),
                         rules: [{ required: true, message: '请输入获得客户时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
@@ -89,16 +89,16 @@ class EditClientModal extends Component {
                 <Row style={{ marginTop: 20 }}>
                   <Col span={12}>
                     <Form.Item label="客户名：">
-                      {getFieldDecorator('resourceName', {
-                        initialValue: dataSource ? dataSource.resourceName : null,
+                      {getFieldDecorator('clientName', {
+                        initialValue: dataSource ? dataSource.clientName : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
 
                     <Form.Item label="手机号：">
-                      {getFieldDecorator('phone', {
-                        initialValue: dataSource ? dataSource.phone : null,
+                      {getFieldDecorator('tel', {
+                        initialValue: dataSource ? dataSource.tel : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
@@ -114,8 +114,8 @@ class EditClientModal extends Component {
                   <Col span={12}>
 
                     <Form.Item label="到期时间：">
-                      {getFieldDecorator('endDate', {
-                        initialValue: dataSource ? moment(dataSource.endDate) : moment(),
+                      {getFieldDecorator('expireDate', {
+                        initialValue: dataSource ? moment(dataSource.expireDate) : moment(),
                         rules: [{ required: true, message: '客户到期时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
@@ -159,14 +159,11 @@ class EditClientModal extends Component {
                   </Col>
                 </Row>
                 <Row style={{ marginTop: 20 }}>
-                  <Col span={24} className="marker">
-
-                    <Form.Item label="备注：">
-                      {getFieldDecorator('info', {
-                        initialValue: dataSource ? dataSource.info : null,
-                      })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
-                    </Form.Item>
-                  </Col>
+                  <Form.Item label="备注：">
+                    {getFieldDecorator('remark', {
+                      initialValue: dataSource ? dataSource.remark : null,
+                    })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
+                  </Form.Item>
                 </Row>
                 <Row style={{ marginTop: 20 }}>
                   <Col span={12}>

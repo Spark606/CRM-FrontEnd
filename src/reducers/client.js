@@ -1,5 +1,6 @@
 import * as cs from '../constants';
 import _ from 'lodash'
+import { Item } from 'rc-menu';
 let data = [
   {
     resourceId: 1,
@@ -7,8 +8,8 @@ let data = [
     resourceName: 'John Brown',
     certificate: '一级房建转加造价初',
     info: 'New York No. 1 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2010-12-24',
+    createDate: '2012-12-11',
+    endDate: '2010-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
@@ -23,8 +24,8 @@ let data = [
     resourceName: 'Joe Black',
     certificate: '一级房建转加造价初',
     info: 'London No. 1 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
@@ -39,8 +40,8 @@ let data = [
     resourceName: 'Jim Green',
     certificate: '一级房建转加造价初',
     info: 'Sidney No. 1 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
     status: 2,
     phone: '17844537359',
     qq: '1105394023',
@@ -55,8 +56,8 @@ let data = [
     resourceName: 'Jim Red',
     certificate: '一级房建转加造价初',
     info: 'London No. 2 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
@@ -71,8 +72,8 @@ let data = [
     resourceName: 'Jim Red',
     certificate: '一级房建转加造价初',
     info: 'London No. 2 Lake Park',
-    createTime: '2012-12-11',
-    endTime: '2020-12-24',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
@@ -121,6 +122,33 @@ const initialState = {
   oneClientStatus: 1,
 };
 
+function formatClients(dataSource){
+  if(dataSource){
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({},{
+        clientId: item.resourceId,
+        resourceStatus: item.shareStatus,
+        clientName: item.resourceName,
+        certificate: item.certificate,
+        remark: item.info,
+        createDate: item.createDate,
+        expireDate: item.endDate,
+        status: item.status,
+        tel: item.phone,
+        qq: item.qq,
+        employeeName: item.employeeName,
+        province: item.province,
+        gender: item.gender,
+        email: item.email,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
+
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
@@ -129,9 +157,10 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
-      // data = action.payload.data;
+      data =  formatClients(action.payload.data);
+      console.log(data);
       return Object.assign({}, state, {
-        clientsList: action.payload.data,
+        clientsList: action.payload ? data: [],
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
@@ -154,20 +183,20 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
 
-    case cs. ADD_NEW_RECORD_REQUEST:
-        return Object.assign({}, state, {
-            isFetching: true
-        });
-    case cs. ADD_NEW_RECORD_SUCCESS:
-        console.log(action.payload.data)
-        return Object.assign({}, state, {
-            oneClientRecord:  _.concat([], action.payload.data, this.state.oneClientRecord),
-            isFetching: false,
-        });
-    case cs. ADD_NEW_RECORD_FAIL:
-        return Object.assign({}, state, {
-            isFetching: false,
-        });
+    case cs.ADD_NEW_RECORD_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.ADD_NEW_RECORD_SUCCESS:
+      console.log(action.payload.data)
+      return Object.assign({}, state, {
+        oneClientRecord: _.concat([], action.payload.data, this.state.oneClientRecord),
+        isFetching: false,
+      });
+    case cs.ADD_NEW_RECORD_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
     case cs.ADD_NEW_CLIENT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -181,8 +210,8 @@ export default function clientReducer(state = initialState, action) {
           resourceName: '傻bobo',
           certificate: '一级房建转加造价初',
           info: 'London No. 2 Lake Park',
-          createTime: '2012-12-11',
-          endTime: '2020-12-24',
+          createDate: '2012-12-11',
+          endDate: '2020-12-24',
           status: 1,
           phone: '17844537359',
           qq: '1105394023',
@@ -201,8 +230,8 @@ export default function clientReducer(state = initialState, action) {
           resourceName: '傻bobo',
           certificate: '一级房建转加造价初',
           info: 'London No. 2 Lake Park',
-          createTime: '2012-12-11',
-          endTime: '2020-12-24',
+          createDate: '2012-12-11',
+          endDate: '2020-12-24',
           status: 1,
           phone: '17844537359',
           qq: '1105394023',
@@ -228,8 +257,8 @@ export default function clientReducer(state = initialState, action) {
               resourceName: '傻bobo',
               certificate: '一级房建转加造价初',
               info: 'London No. 2 Lake Park',
-              createTime: '2012-12-11',
-              endTime: '2020-12-24',
+              createDate: '2012-12-11',
+              endDate: '2020-12-24',
               status: 1,
               phone: '17844537359',
               qq: '1105394023',
@@ -254,8 +283,8 @@ export default function clientReducer(state = initialState, action) {
               resourceName: '傻bobo',
               certificate: '一级房建转加造价初',
               info: 'London No. 2 Lake Park',
-              createTime: '2012-12-11',
-              endTime: '2020-12-24',
+              createDate: '2012-12-11',
+              endDate: '2020-12-24',
               status: 1,
               phone: '17844537359',
               qq: '1105394023',
