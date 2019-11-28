@@ -144,7 +144,7 @@ export default class ClientsTable extends Component {
     //   }
     // });
     this.props.updateOneClient(values);
-    console.log(newData, 'cccccccccccccccccccc');
+    // console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
     })
@@ -177,7 +177,7 @@ export default class ClientsTable extends Component {
 
   render() {
     const { clientsList } = this.props;
-    console.log('clientsList', clientsList);
+    // console.log('clientsList', clientsList);
     const columns = [
       {
         width: 120,
@@ -263,19 +263,19 @@ export default class ClientsTable extends Component {
       {
         width: 150,
         title: '获得客户时间',
-        dataIndex: 'createTime',
+        dataIndex: 'createDate',
         filterMultiple: false,
-        sorter: (a, b) => a.createTime - b.createTime,
+        sorter: (a, b) => a.createDate - b.createDate,
         sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
         width: 150,
         title: '到期时间',
-        dataIndex: 'endTime',
+        dataIndex: 'endDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
+        sorter: (a, b) => a.endDate - b.endDate,
         sortDirections: ['descend', 'ascend'],
       },
       {

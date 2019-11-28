@@ -30,7 +30,7 @@ class ClientsNew extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
       }
     });
   };
@@ -41,7 +41,7 @@ class ClientsNew extends Component {
     this.props.form.resetFields();
   };
   onChangeGenders = e => {
-    console.log('radio checked', e.target.value);
+    // console.log('radio checked', e.target.value);
     this.setState({
       genders: e.target.value,
     });

@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import {hourFormat, yearFormat} from '../../constants';
+import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+  firmsList: state.firm.firmsList
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+  },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class EditFirmModal extends Component {
   state = {
     visible: false,
@@ -13,14 +24,14 @@ class EditFirmModal extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const {dataSource} = this.props;
+    const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       values.expireDate = moment(values.expireDate).format(yearFormat);
       values.createTime = moment(values.createTime).format(yearFormat);
-      if(dataSource){ // 如果datasource是null，说明是新建客户
+      if (dataSource) { // 如果datasource是null，说明是新建客户
         values.key = dataSource.key;
         this.props.updateFormData(values); // 提交新数据
-      }else{
+      } else {
         console.log('我是新客户', values);
         this.props.addNewFormData(values); // 提交新数据
       }
@@ -52,7 +63,7 @@ class EditFirmModal extends Component {
     return (
       <div>
         <Modal
-          title="添加企业客户"
+          title={dataSource ? "添加企业客户" : "修改企业客户"}
           width={820}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -85,34 +96,17 @@ class EditFirmModal extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <hr style={{ marginTop: 20 }} />
-                <Row style={{ marginTop: 20 }}>
-                  <Col span={12}>
-                    <Form.Item label="客户名：">
-                      {getFieldDecorator('resourceName', {
-                        initialValue: dataSource ? dataSource.resourceName : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
 
-                    <Form.Item label="手机号：">
-                      {getFieldDecorator('phone', {
-                        initialValue: dataSource ? dataSource.phone : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: 20 }}>
+                <hr />
+                <Row>
                   <Col span={12}>
-                    <Form.Item label="证书及专业：">
-                      {getFieldDecorator('certificate', {
-                        initialValue: dataSource ? dataSource.certificate : null,
+                    <Form.Item label="企业名称：">
+                      {getFieldDecorator('firmName', {
+                        initialValue: dataSource ? dataSource.firmName : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-
                     <Form.Item label="到期时间：">
                       {getFieldDecorator('endTime', {
                         initialValue: dataSource ? moment(dataSource.endTime) : moment(),
@@ -121,54 +115,7 @@ class EditFirmModal extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row style={{ marginTop: 20 }}>
-                  <Col span={12}>
-                    <Form.Item label="注册省份：">
-                      {getFieldDecorator('province', {
-                        initialValue: dataSource ? dataSource.province : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="QQ：">
-                      {getFieldDecorator('qq', {
-                        initialValue: dataSource ? dataSource.qq : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: 20 }}>
-                  <Col span={12}>
-                    <Form.Item label="性别：">
-                      {getFieldDecorator('gender', {
-                        initialValue: dataSource ? dataSource.gender : 1
-                      })(
-                        <Radio.Group onChange={this.onChangeGenders} >
-                          <Radio value={1}>女</Radio>
-                          <Radio value={2}>男</Radio>
-                        </Radio.Group>
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="邮箱：">
-                      {getFieldDecorator('email', {
-                        initialValue: dataSource ? dataSource.email : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: 20 }}>
-                  <Col span={24} className="marker">
-
-                    <Form.Item label="备注：">
-                      {getFieldDecorator('info', {
-                        initialValue: dataSource ? dataSource.info : null,
-                      })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: 20 }}>
+                <Row>
                   <Col span={12}>
                     <Form.Item label="客户状态：">
                       {getFieldDecorator('status', {
@@ -188,6 +135,69 @@ class EditFirmModal extends Component {
                     <Form.Item label="所在城市：">
                       {getFieldDecorator('city', {
                         initialValue: dataSource ? dataSource.province : null,
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  {/* <Col span={24} className="marker"> */}
+                    <Form.Item label="备注：">
+                      {getFieldDecorator('info', {
+                        initialValue: dataSource ? dataSource.info : null,
+                      })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
+                    </Form.Item>
+                  {/* </Col> */}
+                </Row>
+                <hr />
+                <Row>
+                  <Col span={12}>
+                    <Form.Item label="联系人：">
+                      {getFieldDecorator('resourceName', {
+                        initialValue: dataSource ? dataSource.resourceName : null,
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="手机号：">
+                      {getFieldDecorator('phone', {
+                        initialValue: dataSource ? dataSource.phone : null,
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item label="职务：">
+                      {getFieldDecorator('position', {
+                        initialValue: dataSource ? dataSource.position : null,
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="QQ：">
+                      {getFieldDecorator('qq', {
+                        initialValue: dataSource ? dataSource.qq : null,
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item label="性别：">
+                      {getFieldDecorator('gender', {
+                        initialValue: dataSource ? dataSource.gender : 1
+                      })(
+                        <Radio.Group onChange={this.onChangeGenders} >
+                          <Radio value={1}>女</Radio>
+                          <Radio value={2}>男</Radio>
+                        </Radio.Group>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="邮箱：">
+                      {getFieldDecorator('email', {
+                        initialValue: dataSource ? dataSource.email : null,
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

@@ -3,14 +3,15 @@ import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col
 const { TextArea } = Input;
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';
+import {addNewClientRecord} from '../../actions/client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   oneClientRecord: state.client.oneClientRecord,
-  oneClientStatus: state.client.oneClientStatus
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
+    addNewClientRecord
   },
   dispatch
 );
@@ -47,10 +48,16 @@ class AddClientRecordModal extends Component {
       });
     } else {
       this.props.form.validateFieldsAndScroll((err, values) => {
-        values.recordTimeDay = moment(values.recordTimeDay).format(yearFormat);
-        values.recordTimeHour = moment(values.recordTimeHour).format(hourFormat);
-        values.resourceId = dataSource.resourceId;
-        console.log('i am record:', values);
+        values.createTime = `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`;
+        values.resourceId = this.props.dataSource.resourceId;
+        const data = Object.assign({}, {
+          createTime: values.createTime,
+          resourceId: values.resourceId,
+          status: values.status,
+          content: values.recordContent
+        });
+        console.log('i am record:', data);
+        this.props.addNewClientRecord(data);
       });
       this.setState({
         editBox: false,
@@ -121,7 +128,7 @@ class AddClientRecordModal extends Component {
             : null}
           <hr />
           <Timeline>
-            {oneClientRecord.map(item => <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>{item.content} {item.recorderTime} {item.recorderName}</Timeline.Item>)}
+            {oneClientRecord ? oneClientRecord.map(item => <Timeline.Item key={`hd-${item.id ? item.id : Math.random()}`}>{item.content} {moment(item.createTime).format('YYYY/MM/DD HH:mm')} {item.employeeName}</Timeline.Item>) : "NO DATA"}
           </Timeline>
         </div>
       </Modal>

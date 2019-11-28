@@ -8,7 +8,7 @@ export function getFirms(){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/getResourceList',
+        endpoint: url + '/crm/firm/test',
         method: 'GET',
         header: {
           'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export function getFirmRecordsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/test',
+        endpoint: url + '/crm/firm/test',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -44,7 +44,7 @@ export function addNewFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/add',
+        endpoint: url + '/crm/firm/add',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -63,7 +63,7 @@ export function updateOneFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/update',
+        endpoint: url + '/crm/firm/update',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -82,7 +82,7 @@ export function deleteFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/delete',
+        endpoint: url + '/crm/firm/delete',
         method: 'POST',
         mode: "cors",
         body: params,

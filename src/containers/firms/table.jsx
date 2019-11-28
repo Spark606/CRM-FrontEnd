@@ -12,7 +12,7 @@ import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } f
 
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
-  clientsList: state.client.clientsList,
+  firmsList: state.firm.firmsList,
   oneFirmRecord: state.client.oneFirmRecord
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -117,7 +117,7 @@ export default class FirmsTable extends Component {
   };
   addNewFormData = (values) => {
     // values.resourceId = this.state.data.length + 1;
-    console.log(values, 'xxxxxxxxxxxxxx');
+    // console.log(values, 'xxxxxxxxxxxxxx');
     // let arr = this.state.data;
     // arr.unshift(values)
     this.props.addNewFirm(values);
@@ -144,7 +144,7 @@ export default class FirmsTable extends Component {
     //   }
     // });
     this.props.updateOneFirm(values);
-    console.log(newData, 'cccccccccccccccccccc');
+    // console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
     })
@@ -174,33 +174,17 @@ export default class FirmsTable extends Component {
   }
 
   render() {
-    const { clientsList } = this.props;
-    console.log('clientsList', clientsList);
+    const { firmsList } = this.props;
+    // console.log('firmsList', firmsList);
     const columns = [
       {
         width: 120,
-        title: '客户名称',
-        dataIndex: 'resourceName',
-        key: 'resourceName',
+        title: '公司名称',
+        dataIndex: 'firmName',
+        key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('resourceName'),
-      },
-      {
-        width: 200,
-        title: '证书及专业',
-        dataIndex: 'certificate',
-        key: 'certificate',
-        render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('certificate'),
-      },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'info',
-        key: 'info',
-        render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('info'),
+        // ...this.getColumnSearchProps('firmName'),
       },
       {
         width: 100,
@@ -211,11 +195,12 @@ export default class FirmsTable extends Component {
         // ...this.getColumnSearchProps('province'),
       },
       {
-        width: 100,
-        title: '性别',
-        dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
-        render: text => <span>{text === 1 ? '女' : '男'}</span>
+        // width: 200,
+        title: '备注',
+        dataIndex: 'info',
+        key: 'info',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('info'),
       },
       {
         width: 100,
@@ -247,6 +232,36 @@ export default class FirmsTable extends Component {
         }
       },
       {
+        width: 150,
+        title: '到期时间',
+        dataIndex: 'endTime',
+        filterMultiple: false,
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+        sorter: (a, b) => a.expireDate - b.expireDate,
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        width: 200,
+        title: '联系人',
+        dataIndex: 'contact',
+        key: 'contact',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('contact'),
+      },
+      {
+        width: 100,
+        title: '职务',
+        dataIndex: 'position',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '性别',
+        dataIndex: 'gender',
+        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
+        render: text => <span>{text === 1 ? '女' : '男'}</span>
+      },
+      {
         width: 200,
         title: '邮箱',
         dataIndex: 'email',
@@ -268,18 +283,9 @@ export default class FirmsTable extends Component {
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
-        width: 150,
-        title: '到期时间',
-        dataIndex: 'endTime',
-        filterMultiple: false,
-        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
-      },
-      {
         width: 100,
         title: '经办人',
-        dataIndex: 'agent',
+        dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
@@ -306,7 +312,7 @@ export default class FirmsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.resourceId} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.resourceId} columns={columns} dataSource={firmsList} scroll={{ x: 1800 }} />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditFirmModal

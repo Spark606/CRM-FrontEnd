@@ -39,12 +39,32 @@ export function getClientRecordsList(params){
     return action;
   };
 }
+export function addNewClientRecord(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: url + '/crm/employee/createResourceFollow',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs. ADD_NEW_RECORD_REQUEST, cs. ADD_NEW_RECORD_SUCCESS, cs. ADD_NEW_RECORD_FAIL],
+      },
+    });
+    return action;
+  };
+}
+
+
 
 export function addNewClient(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + 'crm/employee/createResource',
+        endpoint: url + '/crm/employee/createResource',
         method: 'POST',
         mode: "cors",
         body: params,

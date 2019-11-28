@@ -1,6 +1,6 @@
 // data format
-export const hourFormat = 'HH:mm:SS';
-export const yearFormat = 'YYYY/MM/DD';
+export const hourFormat = 'HH:mm';
+export const yearFormat = 'YYYY-MM-DD';
 
 // common action types
 export const SET_UI_ELEMENT = 'SET_UI_ELEMENT';
@@ -37,6 +37,10 @@ export const GET_CLIENT_RECORDS_REQUEST = 'GET_CLIENT_RECORDS_REQUEST';
 export const GET_CLIENT_RECORDS_SUCCESS = 'GET_CLIENT_RECORDS_SUCCESS';
 export const GET_CLIENT_RECORDS_FAIL = 'GET_CLIENT_RECORDS_FAIL';
 
+// push a new record 
+export const ADD_NEW_RECORD_REQUEST = 'ADD_NEW_RECORD_REQUEST';
+export const ADD_NEW_RECORD_SUCCESS = 'ADD_NEW_RECORD_SUCCESS';
+export const ADD_NEW_RECORD_FAIL = 'ADD_NEW_RECORD_FAIL';
 // add new client
 export const ADD_NEW_CLIENT_REQUEST = 'ADD_NEW_CLIENT_REQUEST';
 export const ADD_NEW_CLIENT_SUCCESS = 'ADD_NEW_CLIENT_SUCCESS';

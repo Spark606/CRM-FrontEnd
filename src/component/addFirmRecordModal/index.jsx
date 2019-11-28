@@ -49,7 +49,7 @@ class AddFirmRecordModal extends Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
       values.recordTimeDay = moment(values.recordTimeDay).format({yearFormat});
       values.recordTimeHour = moment(values.recordTimeHour).format({hourFormat});
-        console.log('i am record:', values);
+        // console.log('i am record:', values);
       });
       this.setState({
         editBox: false,

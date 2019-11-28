@@ -3,15 +3,17 @@ let data = [
   {
     resourceId: 1,
     shareStatus: "private",
+    firmName: '阿里巴巴',
+    contact: 'bobo',
     resourceName: 'John Brown',
-    certificate: '一级房建转加造价初',
     info: 'New York No. 1 Lake Park',
     createTime: '2012-12-11',
     endTime: '2010-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    position: 'Hr',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -19,15 +21,17 @@ let data = [
   {
     resourceId: 2,
     shareStatus: "private",
+    firmName: '阿里巴巴',
+    contact: 'bobo',
     resourceName: 'Joe Black',
-    certificate: '一级房建转加造价初',
     info: 'London No. 1 Lake Park',
     createTime: '2012-12-11',
     endTime: '2020-12-24',
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    position: 'Hr',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -35,15 +39,17 @@ let data = [
   {
     resourceId: 3,
     shareStatus: "private",
+    firmName: '阿里巴巴',
+    contact: 'bobo',
     resourceName: 'Jim Green',
-    certificate: '一级房建转加造价初',
     info: 'Sidney No. 1 Lake Park',
     createTime: '2012-12-11',
     endTime: '2020-12-24',
     status: 2,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    position: 'Hr',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -84,8 +90,6 @@ const initialState = {
   firmsList: data,
   tableRow: 10,
   currentPage: 1,
-  oneClientRecord: records,
-  oneClientStatus: 1,
 };
 
 // const layoutReducer = (state = initialState) => state;
@@ -96,9 +100,9 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_FIRMS_SUCCESS:
-      data = action.payload.data;
+      // data = action.payload.data;
       return Object.assign({}, state, {
-        firmsList: action.payload.data,
+        // firmsList: action.payload.data,
         isFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
@@ -139,15 +143,17 @@ export default function firmReducer(state = initialState, action) {
         firmsList: data.unshift({
           resourceId: 20,
           shareStatus: "private",
-          resourceName: '傻bobo',
-          certificate: '一级房建转加造价初',
-          info: 'London No. 2 Lake Park',
+          firmName: '阿里巴巴',
+          contact: 'bobo',
+          resourceName: 'Jim Green',
+          info: 'Sidney No. 1 Lake Park',
           createTime: '2012-12-11',
           endTime: '2020-12-24',
-          status: 1,
+          status: 2,
           phone: '17844537359',
           qq: '1105394023',
-          agent: 'Liz',
+          position: 'Hr',
+          employeeName: 'Liz',
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
@@ -159,15 +165,17 @@ export default function firmReducer(state = initialState, action) {
         firmsList: data.unshift({
           resourceId: 20,
           shareStatus: "private",
+          firmName: '阿里巴巴',
+          contact: 'bobo',
           resourceName: '傻bobo',
-          certificate: '一级房建转加造价初',
           info: 'London No. 2 Lake Park',
           createTime: '2012-12-11',
           endTime: '2020-12-24',
           status: 1,
           phone: '17844537359',
           qq: '1105394023',
-          agent: 'Liz',
+          position: 'Hr',
+          employeeName: 'Liz',
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
@@ -186,15 +194,17 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
-              resourceName: '傻bobo',
-              certificate: '一级房建转加造价初',
-              info: 'London No. 2 Lake Park',
+              firmName: '阿里巴巴',
+              contact: 'bobo',
+              resourceName: 'Jim Green',
+              info: 'Sidney No. 1 Lake Park',
               createTime: '2012-12-11',
               endTime: '2020-12-24',
-              status: 1,
+              status: 2,
               phone: '17844537359',
               qq: '1105394023',
-              agent: 'Liz',
+              position: 'Hr',
+              employeeName: 'Liz',
               province: '四川',
               gender: 1,
               email: 'lizbaby606@163.com',
@@ -212,15 +222,17 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
-              resourceName: '傻bobo',
-              certificate: '一级房建转加造价初',
-              info: 'London No. 2 Lake Park',
+              firmName: '阿里巴巴',
+              contact: 'bobo',
+              resourceName: 'Jim Green',
+              info: 'Sidney No. 1 Lake Park',
               createTime: '2012-12-11',
               endTime: '2020-12-24',
-              status: 1,
+              status: 2,
               phone: '17844537359',
               qq: '1105394023',
-              agent: 'Liz',
+              position: 'Hr',
+              employeeName: 'Liz',
               province: '四川',
               gender: 1,
               email: 'lizbaby606@163.com',
@@ -238,20 +250,10 @@ export default function firmReducer(state = initialState, action) {
     case cs.DELETE_ONE_FIRM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: _.filter(data, e => {
-          if (e.resourceName !== '李四') {
-            return e;
-          }
-        })
       });
     case cs.DELETE_ONE_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: _.filter(data, e => {
-          if (e.resourceName !== '李四') {
-            return e;
-          }
-        })
       });
     // case cs.GET_FIRMS_REQUEST:
     //     return Object.assign({}, state, {

@@ -15,13 +15,13 @@ class EditClientModal extends Component {
     e.preventDefault();
     const {dataSource} = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.endDate = moment(values.endDate).format({yearFormat});
-      values.createTime = moment(values.createTime).format({yearFormat});
+      values.endDate = moment(values.endDate).format(yearFormat);
+      values.createTime = moment(values.createTime).format(yearFormat);
       if(dataSource){ // 如果datasource是null，说明是新建客户
         values.key = dataSource.key;
         this.props.updateFormData(values); // 提交新数据
       }else{
-        console.log('我是新客户', values);
+        // console.log('我是新客户', values);
         this.props.addNewFormData(values); // 提交新数据
       }
     });
@@ -52,7 +52,7 @@ class EditClientModal extends Component {
     return (
       <div>
         <Modal
-          title="添加个人客户"
+          title={dataSource ? "添加个人客户" : "修改个人客户"}
           width={820}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -60,14 +60,14 @@ class EditClientModal extends Component {
             <Button key="back" onClick={this.handleCancel}>
               关闭
             </Button>,
-            <Button key="submit" htmlType="submit" type="primary" form="formBox" onClick={this.handleOk}>
+            <Button key="submit" htmlType="submit" type="primary" htmlFor="formBox"  onClick={(e) => this.handleSubmit(e)} >
               提交
             </Button>,
           ]}
         >
           <div className="container">
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              <Form id="formBox" onSubmit={this.handleSubmit} style={{ textAlign: 'left' }}>
+              <Form id="formBox" style={{ textAlign: 'left' }}>
                 <Row>
                   <Col span={12}>
                     <Form.Item label="获得客户时间：">
@@ -114,8 +114,8 @@ class EditClientModal extends Component {
                   <Col span={12}>
 
                     <Form.Item label="到期时间：">
-                      {getFieldDecorator('endTime', {
-                        initialValue: dataSource ? moment(dataSource.endTime) : moment(),
+                      {getFieldDecorator('endDate', {
+                        initialValue: dataSource ? moment(dataSource.endDate) : moment(),
                         rules: [{ required: true, message: '客户到期时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>

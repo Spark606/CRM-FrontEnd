@@ -1,4 +1,5 @@
 import * as cs from '../constants';
+import _ from 'lodash'
 let data = [
   {
     resourceId: 1,
@@ -11,7 +12,7 @@ let data = [
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -27,7 +28,7 @@ let data = [
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -43,7 +44,7 @@ let data = [
     status: 2,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -59,7 +60,7 @@ let data = [
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -75,7 +76,7 @@ let data = [
     status: 1,
     phone: '17844537359',
     qq: '1105394023',
-    agent: 'Liz',
+    employeeName: 'Liz',
     province: '四川',
     gender: 1,
     email: 'lizbaby606@163.com',
@@ -128,7 +129,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
-      data = action.payload.data;
+      // data = action.payload.data;
       return Object.assign({}, state, {
         clientsList: action.payload.data,
         isFetching: false,
@@ -144,24 +145,29 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENT_RECORDS_SUCCESS:
-      console.log('i am recordslist', action.payload);
       return Object.assign({}, state, {
         isFetching: false,
-        // ...action.payload,
-        records: records.unshift({
-          key: records.length,
-          content: 'Network problems being solved',
-          recorderName: 'Liz',
-          recorderId: 3,
-          recorderTime: '2018-12-11 22:23:21'
-        })
+        oneClientRecord: action.payload.data
       });
     case cs.GET_CLIENT_RECORDS_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });
 
-
+    case cs. ADD_NEW_RECORD_REQUEST:
+        return Object.assign({}, state, {
+            isFetching: true
+        });
+    case cs. ADD_NEW_RECORD_SUCCESS:
+        console.log(action.payload.data)
+        return Object.assign({}, state, {
+            oneClientRecord:  _.concat([], action.payload.data, this.state.oneClientRecord),
+            isFetching: false,
+        });
+    case cs. ADD_NEW_RECORD_FAIL:
+        return Object.assign({}, state, {
+            isFetching: false,
+        });
     case cs.ADD_NEW_CLIENT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -169,7 +175,7 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: data.unshift({
+        clientsList: [{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -180,16 +186,16 @@ export default function clientReducer(state = initialState, action) {
           status: 1,
           phone: '17844537359',
           qq: '1105394023',
-          agent: 'Liz',
+          employeeName: 'Liz',
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }) ? data : null,
+        }]
       });
     case cs.ADD_NEW_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: data.unshift({
+        clientsList: [{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -200,11 +206,11 @@ export default function clientReducer(state = initialState, action) {
           status: 1,
           phone: '17844537359',
           qq: '1105394023',
-          agent: 'Liz',
+          employeeName: 'Liz',
           province: '四川',
           gender: 1,
           email: 'lizbaby606@163.com',
-        }) ? data : null,
+        }]
       });
 
     case cs.UPDATE_ONE_CLIENT_REQUEST:
@@ -227,7 +233,7 @@ export default function clientReducer(state = initialState, action) {
               status: 1,
               phone: '17844537359',
               qq: '1105394023',
-              agent: 'Liz',
+              employeeName: 'Liz',
               province: '四川',
               gender: 1,
               email: 'lizbaby606@163.com',
@@ -253,7 +259,7 @@ export default function clientReducer(state = initialState, action) {
               status: 1,
               phone: '17844537359',
               qq: '1105394023',
-              agent: 'Liz',
+              employeeName: 'Liz',
               province: '四川',
               gender: 1,
               email: 'lizbaby606@163.com',

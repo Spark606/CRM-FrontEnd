@@ -34,7 +34,7 @@ export default store => next => action => {
     console.log('options', options);
     // 这里开始使用fetch请求数据
     endpoint = fetch(endpoint, options).then(response => {
-      console.log('请求结束', response);
+      // console.log('请求结束', response);
       if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
         localStorage.removeItem('sessions');
         location.href = '/login';
