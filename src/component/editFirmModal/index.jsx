@@ -28,9 +28,11 @@ class EditFirmModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const seriesData =  Object.assign({}, {
         companyName: values.firmName,
+        companyCategory: values.category,
         startDate: moment(values.createDate).format(yearFormat),
         expireDate: moment(values.expireDate).format(yearFormat),
         status: values.status,
+        info: values.remark,
         phoneNumber: values.tel,
         qq: values.qq,
         employeeName: values.employeeName,
@@ -150,13 +152,25 @@ class EditFirmModal extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  {/* <Col span={24} className="marker"> */}
+                  <Col span={12}>
+                    <Form.Item label="公司类别：">
+                      {getFieldDecorator('category', {
+                        initialValue: dataSource ? dataSource.category : 1
+                      })(
+                        <Select style={{ width: 120 }}>
+                          <Select.Option value={1}>科技</Select.Option>
+                          <Select.Option value={2}>其他</Select.Option>
+                        </Select>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={12} className="marker">
                     <Form.Item label="备注：">
                       {getFieldDecorator('remark', {
                         initialValue: dataSource ? dataSource.remark : null,
                       })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
                     </Form.Item>
-                  {/* </Col> */}
+                  </Col>
                 </Row>
                 <hr />
                 <Row>

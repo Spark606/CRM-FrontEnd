@@ -23,7 +23,30 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default class LayoutPagae extends Component {
   state = {
     collapsed: false,
+    menu: 'todo'
   };
+  componentWillMount(){
+    const hash = window.location.hash;
+    if(hash === '#/main/todo'){
+      this.setState({
+        menu: 'todo'
+      })
+    } else if(hash === '#/main/client/table'){
+      this.setState({
+        menu: 'clienttable'
+      })
+    } else if(hash === '#/main/firms/table'){
+      this.setState({
+        menu: 'firmstable'
+      })
+    } else if(hash === '#/main/account/table'){
+      this.setState({
+        menu: 'accounttable'
+      })
+    } else {
+      history.push('/main/todo');
+    }
+  }
 
   onCollapse = collapsed => {
     console.log(collapsed);
@@ -52,22 +75,30 @@ export default class LayoutPagae extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
-          <Menu className="menu-box" theme="dark" defaultSelectedKeys={['todo']} defaultOpenKeys={['todo']} mode="inline">
+          <Menu className="menu-box" theme="dark" defaultSelectedKeys={this.state.menu} defaultOpenKeys={this.state.menu} mode="inline">
             <Menu.Item key="todo">
-              <Icon type="calendar" />
-              <span><Link to={'/main/todo'}>待办事项</Link></span>
+              <Link to={'/main/todo'}>
+                <Icon type="calendar" />
+                <span>待办事项</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="clienttable">
-              <Icon type="user" />
-              <span><Link to={'/main/client/table'}>个人客户</Link></span>
+              <Link to={'/main/client/table'}>
+                <Icon type="user" />
+                <span>个人客户</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="firmstable">
-              <Icon type="team" />
-              <span><Link to={'/main/firms/table'}>企业客户</Link></span>
+              <Link to={'/main/firms/table'}>
+                <Icon type="team" />
+                <span>企业客户</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="accounttable">
-              <Icon type="area-chart" />
-              <span><Link to={'/main/account/table'}>绩效汇总</Link></span>
+              <Link to={'/main/account/table'}>
+                <Icon type="area-chart" />
+                <span>绩效汇总</span>
+              </Link>
             </Menu.Item>
             {/* <SubMenu
               key="person"

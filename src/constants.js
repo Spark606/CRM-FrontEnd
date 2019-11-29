@@ -2,8 +2,6 @@
 export const hourFormat = 'HH:mm';
 export const yearFormat = 'YYYY-MM-DD';
 
-// common action types
-export const SET_UI_ELEMENT = 'SET_UI_ELEMENT';
 // login
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -80,3 +78,8 @@ export const UPDATE_ONE_FIRM_FAIL = 'UPDATE_ONE_FIRM_FAIL';
 export const DELETE_ONE_FIRM_REQUEST = 'DELETE_ONE_FIRM_REQUEST';
 export const DELETE_ONE_FIRM_SUCCESS = 'DELETE_ONE_FIRM_SUCCESS';
 export const DELETE_ONE_FIRM_FAIL = 'DELETE_ONE_FIRM_FAIL';
+
+// get todo
+export const GET_DELETE_CLIENT_REQUEST = 'GET_DELETE_CLIENT_REQUEST';
+export const GET_DELETE_CLIENT_SUCCESS = 'GET_DELETE_CLIENT_SUCCESS';
+export const GET_DELETE_CLIENT_FAIL = 'GET_DELETE_CLIENT_FAIL';

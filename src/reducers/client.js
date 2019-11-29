@@ -1,5 +1,6 @@
 import * as cs from '../constants';
-import _ from 'lodash'
+import _ from 'lodash';
+import {formatClients, formatRecords} from '../actions/base';
 import { Item } from 'rc-menu';
 let data = [
   {
@@ -118,75 +119,34 @@ const records = [
   },
 
 ];
+
+
 const initialState = {
-  clientsList: data,
-  tableRow: 10,
-  currentPage: 1,
+  clientsList: formatClients(data),
   oneClientRecord: records,
   oneClientStatus: 1,
+  currentPage: 1,
+  pageSize: 2,
+  pageTotal: 10
 };
-
-function formatRecords(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        key: item.key,
-        content: item.content,
-        recordName: item.resourceName,
-        recordId: item.recorderId,
-        status: item.status,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
-
-function formatClients(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        clientId: item.resourceId,
-        clientAvailable: item.shareStatus,
-        clientName: item.resourceName,
-        certificate: item.certificate,
-        remark: item.info,
-        createDate: item.createDate,
-        expireDate: item.endDate,
-        status: item.status,
-        tel: item.phone,
-        qq: item.qq,
-        employeeName: item.employeeName,
-        province: item.province,
-        gender: item.gender,
-        email: item.email,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
-
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
-
     case cs.GET_CLIENTS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
+      console.log(action.payload.data.number);
       return Object.assign({}, state, {
-        clientsList: action.payload ? formatClients(action.payload.data) : [],
+        clientsList: formatClients(action.payload.data.content),
+        pageTotal: action.payload.data.totalPages * 2,
+        currentPage: action.payload.data.number+1,
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
       return Object.assign({}, state, {
-        clientsList: data ? formatClients(data) : [],
+        clientsList: formatClients(data),
         isFetching: false,
       });
 

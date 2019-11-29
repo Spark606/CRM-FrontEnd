@@ -7,7 +7,6 @@ const initialState = {
   minScreen: false,
   noticeList: [],
   tableRow: 10,
-  currentPage: 1,
   showGuideStatus: false
 };
 

@@ -13,7 +13,10 @@ import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } f
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
-  oneFirmRecord: state.client.oneFirmRecord
+  oneFirmRecord: state.firm.oneFirmRecord,
+  currentPage: state.firm.currentPage,
+  pageTotal: state.firm.pageTotal,
+  pageSize: state.firm.pageSize,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -39,7 +42,7 @@ export default class FirmsTable extends Component {
   onInit = () => {
     this.props.getFirms({
       page: 1,
-      size: 10000,
+      size: 2,
     });
   }
   // 表头查询
@@ -173,9 +176,21 @@ export default class FirmsTable extends Component {
     this.props.getFirmRecordsList(record.resourceId);
     // 打开跟进记录，并编辑
   }
-
+  pageChange = (page, pageSize) => {
+    console.log(page, pageSize);
+    this.props.getFirms({
+      page: page,
+      pageSize: pageSize,
+    });
+  }
   render() {
-    const { firmsList } = this.props;
+    const { firmsList, pageSize, currentPage, pageTotal } = this.props;
+    const pagination = {
+      pageSize: pageSize,
+      current: currentPage,
+      total: pageTotal,
+      onChange: (a, b) => { this.pageChange(a, b); }
+    };
     console.log('firmsList', firmsList);
     const columns = [
       {
@@ -186,6 +201,23 @@ export default class FirmsTable extends Component {
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
         // ...this.getColumnSearchProps('firmName'),
+      },
+      {
+        width: 100,
+        title: '类别',
+        dataIndex: 'category',
+        filters: [{
+          value: 1, text: '科技'
+        }, {
+          value: 2, text: '其他'
+        }],
+        render: text => {
+          if (text === 1) {
+            return (<span>科技</span>)
+          } else if (text === 2) {
+            return (<span>其他</span>)
+          }
+        }
       },
       {
         width: 100,
@@ -313,7 +345,13 @@ export default class FirmsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.firmId ? record.firmId : Math.random()} columns={columns} dataSource={firmsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.firmId ? record.firmId : Math.random()}
+          columns={columns}
+          dataSource={firmsList}
+          scroll={{ x: 1800 }}
+          onChange={this.handleTableChange}
+          pagination={pagination}
+          />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditFirmModal

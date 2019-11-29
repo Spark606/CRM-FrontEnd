@@ -1,8 +1,11 @@
 import * as cs from '../constants';
+
+import {formatFirms, formatRecords} from '../actions/base';
 let data = [
   {
     companyId: 1,
     shareStatus: "private",
+    companyCategory: 1,
     companyName: '阿里巴巴',
     contactorName: 'bobo',
     info: 'New York No. 1 Lake',
@@ -21,6 +24,7 @@ let data = [
   {
     companyId: 2,
     shareStatus: "private",
+    companyCategory: 1,
     companyName: '阿里巴巴',
     contactorName: 'bobo',
     info: 'London No. 1 Lake',
@@ -39,6 +43,7 @@ let data = [
   {
     companyId: 3,
     shareStatus: "private",
+    companyCategory: 1,
     companyName: '阿里巴巴',
     contactorName: 'bobo',
     info: 'Sidney No. 1 Lake',
@@ -88,57 +93,15 @@ const records = [
   },
 
 ];
-const initialState = {
-  firmsList: data,
-  tableRow: 10,
-  currentPage: 1,
-  oneFirmRecord: []
-};
-function formatFirms(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        firmId: item.companyId,
-        firmAvailable: item.shareStatus,
-        firmName: item.companyName,
-        contact: item.contactorName,
-        remark: item.info,
-        createDate: item.startDate,
-        expireDate: item.expireDate,
-        status: item.status,
-        tel: item.phoneNumber,
-        position: item.occupation,
-        qq: item.qq,
-        employeeName: item.employeeName,
-        employeeId: item.employeeId,
-        province: item.province,
-        gender: item.gender,
-        email: item.email,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
 
-function formatRecords(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        key: item.key,
-        content: item.content,
-        recordName: item.resourceName,
-        recordId: item.recorderId,
-        status: item.status,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
+
+const initialState = {
+  firmsList: formatFirms(data),
+  currentPage: 1,
+  oneFirmRecord: records,
+  currentPage: 1,
+  pageSize: 2,
+  pageTotal: 10
 };
 
 export default function firmReducer(state = initialState, action) {
@@ -149,11 +112,14 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_FIRMS_SUCCESS:
       return Object.assign({}, state, {
-        firmsList: action.payload ? formatFirms(action.payload.data) : [],
+        firmsList: action.payload ? formatFirms(action.payload.data.content) : [],
+        pageTotal: action.payload.data.totalPages * 2,
+        currentPage: action.payload.data.number+1,
         isFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
+        totalPage: action.payload ? action.payload.data.totalPages : 1,
         firmsList: data ? formatFirms(data) : [],
         isFetching: false,
       });
@@ -189,6 +155,7 @@ export default function firmReducer(state = initialState, action) {
         firmsList: [...formatFirms([{
           resourceId: 20,
           shareStatus: "private",
+          companyCategory: 1,
           companyName: '阿里巴巴',
           contact: 'bobo',
           resourceName: 'Jim Green',
@@ -218,6 +185,7 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
+              companyCategory: 1,
               companyName: '百度',
               contact: 'bobo',
               resourceName: 'Jim Green',
@@ -246,6 +214,7 @@ export default function firmReducer(state = initialState, action) {
             return {
               resourceId: 1,
               shareStatus: "private",
+              companyCategory: 1,
               companyName: '阿里巴巴',
               contact: 'bobo',
               resourceName: 'Jim Green',

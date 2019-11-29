@@ -4,12 +4,14 @@ import {CALL_API} from '../middlewares/callAPI';
 const url = 'http://192.168.205.221:8000';
 
 // client page
-export function getClients(){
+export function getClients(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
         endpoint: url + '/crm/employee/getResourceList',
-        method: 'GET',
+        method: 'POST',
+        mode: "cors",
+        body: params,
         header: {
           'Content-Type': 'application/json',
         },

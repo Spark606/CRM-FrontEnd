@@ -5,7 +5,7 @@ import { Breadcrumb, Table, Input, Button, Icon, Divider } from 'antd';
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
-import {hourFormat, yearFormat} from '../../constants';
+import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
@@ -13,7 +13,10 @@ import { getClients, getClientRecordsList, updateOneClient, addNewClient, delete
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   clientsList: state.client.clientsList,
-  oneClientRecord: state.client.oneClientRecord
+  oneClientRecord: state.client.oneClientRecord,
+  currentPage: state.client.currentPage,
+  pageTotal: state.client.pageTotal,
+  pageSize: state.client.pageSize,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -38,8 +41,8 @@ export default class ClientsTable extends Component {
   }
   onInit = () => {
     this.props.getClients({
-      page: 1,
-      size: 10000,
+      page: this.props.currentPage,
+      pageSize: this.props.pageSize,
     });
   }
   // 表头查询
@@ -60,7 +63,7 @@ export default class ClientsTable extends Component {
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
-          size="small"
+          pageSize="small"
           style={{ width: 90, marginRight: 8 }}
         >
           查询
@@ -84,16 +87,17 @@ export default class ClientsTable extends Component {
       }
     },
     render: text => {
-      if(text){
-        return(<Highlighter
+      if (text) {
+        return (<Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[this.state.searchText]}
           autoEscape
           textToHighlight={text.toString()}
         />)
-      }else{
+      } else {
         return null
-      }},
+      }
+    },
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -171,13 +175,30 @@ export default class ClientsTable extends Component {
       tempData: record
     });
     this.addClientRecordModal.showModal();
-    this.props.getClientRecordsList({resourceId: record.clientId});
+    this.props.getClientRecordsList({
+      resourceId: record.clientId,
+      page: 0,
+      size: 1000
+    });
     // 打开跟进记录，并编辑
+  }
+  pageChange = (page, pageSize) => {
+    console.log(page, pageSize);
+    this.props.getClients({
+      page: page,
+      pageSize: pageSize,
+    });
   }
 
   render() {
-    const { clientsList } = this.props;
-    // console.log('clientsList', clientsList);
+    const { clientsList, pageSize, currentPage, pageTotal } = this.props;
+    const pagination = {
+      pageSize: pageSize,
+      current: currentPage,
+      total: pageTotal,
+      onChange: (a, b) => { this.pageChange(a, b); }
+    };
+    console.log('pagination', pagination);
     const columns = [
       {
         width: 120,
@@ -308,7 +329,13 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Table rowKey={record => record.clientId} columns={columns} dataSource={clientsList} scroll={{ x: 1800 }} />
+          <Table rowKey={record => record.clientId}
+            columns={columns}
+            dataSource={clientsList}
+            scroll={{ x: 1800 }}
+            onChange={this.handleTableChange}
+            pagination={pagination}
+          />
         </div>
         {/* 新建客户模态框 */}
         <WrapEditClientModal

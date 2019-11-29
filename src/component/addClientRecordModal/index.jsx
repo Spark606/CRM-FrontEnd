@@ -150,7 +150,7 @@ class AddClientRecordModal extends Component {
             </div>
             : null}
           <hr />
-          <Timeline>
+          <Timeline style={{maxHeight: '500px', overflowY: 'scroll'}}>
             {oneClientRecord ? oneClientRecord.map(item =>
               <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
                 {item.content} {moment(item.createDate).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
