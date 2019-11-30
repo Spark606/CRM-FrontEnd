@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import _ from 'lodash';
 import {Row, Col, Table, Button, Icon} from 'antd';
 import {connect} from 'react-redux';
-import setUIElement from '../../actions/base';
 import { getIndexItems } from '../../actions/api';
 
 const mapStateToProps = state => ({
@@ -11,7 +10,7 @@ const mapStateToProps = state => ({
   indexItems: state.pcdm.indexItems
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
-  setUIElement, getIndexItems
+   getIndexItems
 }, dispatch);
 
 @connect(mapStateToProps, mapDispatchToProps)

@@ -4,11 +4,13 @@ import { yearFormat } from '../../constants';
 import { Table, Icon, Divider } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {getUpdateFirmsList} from '../../actions/todo';
 const mapStateToProps = state => ({
-  firmsList: state.firm.firmsList
+  updateFirmsList: state.todo.updateFirmsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
+    getUpdateFirmsList
   },
   dispatch
 );
@@ -16,6 +18,13 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class UpdateFirm extends Component {
   componentWillMount(){
     console.log('UpdateFirm page init');
+    this.onInit();
+  }
+  onInit = () => {
+    this.props.getUpdateFirmsList({
+      page: 1,
+      pageSize: 2
+    });
   }
   render() {
     const columns = [
@@ -145,7 +154,7 @@ class UpdateFirm extends Component {
     return (
       <Table rowKey={record => record.firmId ? record.firmId : Math.random()}
         columns={columns}
-        dataSource={this.props.firmsList}
+        dataSource={this.props.updateFirmsList}
         scroll={{ x: 1800 }} />
     )
   }

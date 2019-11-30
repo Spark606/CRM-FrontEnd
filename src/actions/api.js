@@ -3,7 +3,6 @@ const history = createHashHistory();
 import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
 
-import setUIElement, {format} from './base';
 // if Refresh set Session to Store
 // const url = 'http://127.0.0.1:7001';
 const url = 'http://192.168.205.221:8000';
@@ -103,8 +102,6 @@ export function refreshToken(params) {
       const {token} = action.payload;
       if(token) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));
-        // console.log('uuuuuuuuuuu');
-        dispatch(setUIElement('sessions', 'status', action.payload.userMsg.status));
       }
     }
     if(action.type === cs.UPDATE_TOKEN_FAIL) {

@@ -5,13 +5,13 @@ import { Table, Icon, Divider } from 'antd';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {getDeletCientsList} from '../../actions/todo'
+import {getDeleteCientsList} from '../../actions/todo';
 const mapStateToProps = state => ({
-  firmsList: state.firm.firmsList
+  deleteClientsList: state.todo.deleteClientsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    getDeletCientsList
+    getDeleteCientsList
   },
   dispatch
 );
@@ -22,7 +22,7 @@ class DeleteClient extends Component {
     this.onInit();
   }
   onInit = () => {
-    this.props.getDeletCientsList({
+    this.props.getDeleteCientsList({
       page: 1,
       pageSize: 2
     });
@@ -148,10 +148,11 @@ class DeleteClient extends Component {
         </span>,
       },
     ];
+    console.log(this.props.deleteClientsList);
     return (
       <Table rowKey={record => record.clientId}
         columns={columns}
-        dataSource={this.props.clientsList}
+        dataSource={this.props.deleteClientsList}
         scroll={{ x: 1800 }}
         onChange={this.handleTableChange}
         // pagination={pagination}

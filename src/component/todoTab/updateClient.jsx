@@ -5,11 +5,13 @@ import { Table, Icon, Divider } from 'antd';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {getUpdateCientsList} from '../../actions/todo'
 const mapStateToProps = state => ({
-  firmsList: state.firm.firmsList
+  updateClientsList: state.todo.updateClientsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
+    getUpdateCientsList
   },
   dispatch
 );
@@ -17,6 +19,13 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class UpdateClient extends Component {
   componentWillMount(){
     console.log('UpdateClient page init');
+    this.onInit();
+  }
+  onInit = () => {
+    this.props.getUpdateCientsList({
+      page: 1,
+      pageSize: 2
+    });
   }
   render() {
     const columns = [
@@ -142,7 +151,7 @@ class UpdateClient extends Component {
     return (
       <Table rowKey={record => record.clientId}
         columns={columns}
-        dataSource={this.props.clientsList}
+        dataSource={this.props.updateClientsList}
         scroll={{ x: 1800 }}
         onChange={this.handleTableChange}
         // pagination={pagination}

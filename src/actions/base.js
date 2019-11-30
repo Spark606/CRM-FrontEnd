@@ -83,3 +83,11 @@ export function formatFirms(dataSource) {
     return [];
   }
 };
+
+export function findErrorMessage(code) {
+  const thisError = _.find(ErrorCode, ds => ds.code === code);
+  if(thisError) {
+    return thisError.msg;
+  }
+  return 'Operation failed.';
+}

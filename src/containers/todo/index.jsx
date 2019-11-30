@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { Breadcrumb, Tabs, Table, Icon, Divider } from 'antd';
-import { hourFormat, yearFormat } from '../../constants';
-import { getTodoList } from '../../actions/todo';
+import { Breadcrumb, Tabs } from 'antd';
 import UpdateFirm from '../../component/todoTab/updateFirm';
 import UpdateClient from '../../component/todoTab/updateClient';
 import DeleteFirm from '../../component/todoTab/deleteFirm';
@@ -16,15 +13,12 @@ const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    getTodoList
-  },
+  { },
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps)
 export default class TodoPage extends Component {
   render() {
-    const {clientsList, firmsList} = this.props;
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>

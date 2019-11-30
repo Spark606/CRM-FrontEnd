@@ -1,5 +1,6 @@
 import * as cs from '../constants';
-let data = [
+import { formatClients, formatFirms } from '../actions/base';
+let firmsData = [
   {
     companyId: 1,
     shareStatus: "private",
@@ -55,57 +56,175 @@ let data = [
     email: 'lizbaby606@163.com',
   }
 ];
-
+let clientsData = [
+  {
+    resourceId: 1,
+    shareStatus: "private",
+    resourceName: 'John Brown',
+    certificate: '一级房建转加造价初',
+    info: 'New York No. 1 Lake Park',
+    createDate: '2012-12-11',
+    endDate: '2010-12-24',
+    status: 1,
+    phone: '17844537359',
+    qq: '1105394023',
+    employeeName: 'Liz',
+    province: '四川',
+    gender: 1,
+    email: 'lizbaby606@163.com',
+  },
+  {
+    resourceId: 2,
+    shareStatus: "private",
+    resourceName: 'Joe Black',
+    certificate: '一级房建转加造价初',
+    info: 'London No. 1 Lake Park',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
+    status: 1,
+    phone: '17844537359',
+    qq: '1105394023',
+    employeeName: 'Liz',
+    province: '四川',
+    gender: 1,
+    email: 'lizbaby606@163.com',
+  },
+  {
+    resourceId: 3,
+    shareStatus: "private",
+    resourceName: 'Jim Green',
+    certificate: '一级房建转加造价初',
+    info: 'Sidney No. 1 Lake Park',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
+    status: 2,
+    phone: '17844537359',
+    qq: '1105394023',
+    employeeName: 'Liz',
+    province: '四川',
+    gender: 1,
+    email: 'lizbaby606@163.com',
+  },
+  {
+    resourceId: 4,
+    shareStatus: "private",
+    resourceName: 'Jim Red',
+    certificate: '一级房建转加造价初',
+    info: 'London No. 2 Lake Park',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
+    status: 1,
+    phone: '17844537359',
+    qq: '1105394023',
+    employeeName: 'Liz',
+    province: '四川',
+    gender: 1,
+    email: 'lizbaby606@163.com',
+  },
+  {
+    resourceId: 5,
+    shareStatus: "private",
+    resourceName: 'Jim Red',
+    certificate: '一级房建转加造价初',
+    info: 'London No. 2 Lake Park',
+    createDate: '2012-12-11',
+    endDate: '2020-12-24',
+    status: 1,
+    phone: '17844537359',
+    qq: '1105394023',
+    employeeName: 'Liz',
+    province: '四川',
+    gender: 1,
+    email: 'lizbaby606@163.com',
+  }
+];
 const initialState = {
-  todoList: data,
-  tableRow: 10,
+  deleteClientsList: formatClients(clientsData),
+  updateClientsList: formatClients(clientsData),
+  deleteFirmsList: formatFirms(firmsData),
+  updateFirmsList: formatFirms(firmsData),
+  deleteClientsPageTotal: 10,
+  updateClientsPageTotal: 10,
+  deleteFirmsPageTotal: 10,
+  updateFirmsPageTotal: 10,
+  deleteClientsCurrentPage: 1,
+  updateClientsCurrentPage: 1,
+  deleteFirmsCurrentPage: 1,
+  updateFirmsCurrentPage: 1,
+  pageSize: 2,
   currentPage: 1,
   oneFirmRecord: []
 };
-function formatFirms(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        firmId: item.companyId,
-        firmAvailable: item.shareStatus,
-        firmName: item.companyName,
-        contact: item.contactorName,
-        remark: item.info,
-        createDate: item.startDate,
-        expireDate: item.expireDate,
-        status: item.status,
-        tel: item.phoneNumber,
-        position: item.occupation,
-        qq: item.qq,
-        employeeName: item.employeeName,
-        employeeId: item.employeeId,
-        province: item.province,
-        gender: item.gender,
-        email: item.email,
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
-
 
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
-    case cs.GET_DELETE_CLIENT_REQUEST:
+    case cs.GET_DELETE_CLIENTS_LIST_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.GET_DELETE_CLIENT_SUCCESS:
+    case cs.GET_DELETE_CLIENTS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        todoList: action.payload ? formatFirms(action.payload.data) : [],
+        // deleteClientsList: action.payload ? formatClients(action.payload.data) : [],
+        deleteClientsPageTotal: action.payload.data.totalPages * 2,
+        deleteClientsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
       });
-    case cs.GET_DELETE_CLIENT_FAIL:
+    case cs.GET_DELETE_CLIENTS_LIST_FAIL:
       return Object.assign({}, state, {
-        todoList: data ? formatFirms(data) : [],
+        isFetching: false,
+      });
+
+
+
+    case cs.GET_UPDATE_CLIENTS_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_UPDATE_CLIENTS_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateClientsPageTotal: action.payload.data.totalPages * 2,
+        updateClientsCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.GET_UPDATE_CLIENTS_LIST_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+
+
+    case cs.GET_DELETE_FIRMS_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_DELETE_FIRMS_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        // deleteClientsList: action.payload ? formatClients(action.payload.data) : [],
+        deleteFirmsPageTotal: action.payload.data.totalPages * 2,
+        deleteFirmsCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.GET_DELETE_FIRMS_LIST_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+
+
+    case cs.GET_UPDATE_FIRMS_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_UPDATE_FIRMS_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateFirmsPageTotal: action.payload.data.totalPages * 2,
+        updateFirmsCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.GET_UPDATE_FIRMS_LIST_FAIL:
+      return Object.assign({}, state, {
         isFetching: false,
       });
     default:

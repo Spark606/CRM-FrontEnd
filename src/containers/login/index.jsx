@@ -6,14 +6,12 @@ import { connect } from 'react-redux';
 import './style.scss';
 
 import {login} from '../../actions/api';
-import setUIElement from '../../actions/base';
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
   documentTitle: state.layout.documentTitle,
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   login,
-  setUIElement
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 class Login extends React.Component {
