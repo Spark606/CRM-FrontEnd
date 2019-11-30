@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { yearFormat } from '../../constants';
-import { Table, Icon, Divider } from 'antd';
+import { Table, Icon, Divider, Popover} from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {getUpdateFirmsList} from '../../actions/todo';
 const mapStateToProps = state => ({
-  updateFirmsList: state.todo.updateFirmsList
+  updateFirmsList: state.todo.updateFirmsList,
+  userRole: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -27,6 +28,7 @@ class UpdateFirm extends Component {
     });
   }
   render() {
+    const { userRole } = this.props;
     const columns = [
       {
         width: 120,
@@ -144,11 +146,33 @@ class UpdateFirm extends Component {
         title: '操作',
         key: 'operation',
         fixed: 'right',
-        render: (record) => <span>
-          <a onClick={() => this.handlePass(record)}><Icon type="edit" /></a>
-          <Divider type="vertical" />
-          <a onClick={() => this.handleRefuse(record)}><Icon type="snippets" /></a>
-        </span>,
+        render: (record) => {
+          if (userRole === 1) {
+            return (
+              <span>
+                <a onClick={() => this.handlePass(record)}>
+                  <Popover content={(<span>审批</span>)} trigger="hover">
+                  <Icon type="check-circle" />
+                  </Popover>
+                </a>
+                <Divider type="vertical" />
+                <a onClick={() => this.handleSendBack(record)}>
+                  <Popover content={(<span>退回</span>)} trigger="hover">
+                  <Icon type="close-circle" />
+                  </Popover>
+                </a>
+              </span>)
+          } else {
+            return (
+              <span>
+                <a onClick={() => this.handleWithWdraw(record)}>
+                  <Popover content={(<span>撤回</span>)} trigger="hover">
+                    <Icon type="rollback" />
+                  </Popover>
+                </a>
+              </span>)
+          }
+        }
       },
     ];
     return (

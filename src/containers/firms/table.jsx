@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover } from 'antd';
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
@@ -42,7 +42,7 @@ export default class FirmsTable extends Component {
   onInit = () => {
     this.props.getFirms({
       page: 1,
-      size: 2,
+      pageSize: 2,
     });
   }
   // 表头查询
@@ -349,11 +349,23 @@ export default class FirmsTable extends Component {
         key: 'operation',
         fixed: 'right',
         render: (record) => <span>
-          <a onClick={() => this.handleEditFirm(record)}><Icon type="edit" /></a>
+          <a onClick={() => this.handleEditFirm(record)}>
+            <Popover content={(<span>修改</span>)} trigger="hover">
+              <Icon type="edit" />
+            </Popover>
+          </a>
           <Divider type="vertical" />
-          <a onClick={() => this.handleAddRecord(record)}><Icon type="snippets" /></a>
+          <a onClick={() => this.handleAddRecord(record)}>
+            <Popover content={(<span>跟进</span>)} trigger="hover">
+              <Icon type="snippets" />
+            </Popover>
+          </a>
           <Divider type="vertical" />
-          <a onClick={() => this.handledeleteFirm(record)}><Icon type="delete" /></a>
+          <a onClick={() => this.handledeleteFirm(record)}>
+            <Popover content={(<span>删除</span>)} trigger="hover">
+              <Icon type="delete" />
+            </Popover>
+          </a>
         </span>,
       },
     ];

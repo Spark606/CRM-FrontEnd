@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import { Table, Icon, Divider } from 'antd';
+import { Table, Icon, Divider, Popover } from 'antd';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {getUpdateCientsList} from '../../actions/todo'
 const mapStateToProps = state => ({
-  updateClientsList: state.todo.updateClientsList
+  updateClientsList: state.todo.updateClientsList,
+  userRole: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -28,6 +29,7 @@ class UpdateClient extends Component {
     });
   }
   render() {
+    const { userRole } = this.props;
     const columns = [
       {
         width: 120,
@@ -139,13 +141,33 @@ class UpdateClient extends Component {
         title: '操作',
         key: 'operation',
         fixed: 'right',
-        render: (record) => <span>
-          <a onClick={() => this.handleEditClient(record)}><Icon type="edit" /></a>
-          <Divider type="vertical" />
-          <a onClick={() => this.handleAddRecord(record)}><Icon type="snippets" /></a>
-          <Divider type="vertical" />
-          <a onClick={() => this.handledeleteClient(record)}><Icon type="delete" /></a>
-        </span>,
+        render: (record) => {
+          if (userRole === 1) {
+            return (
+              <span>
+                <a onClick={() => this.handlePass(record)}>
+                  <Popover content={(<span>审批</span>)} trigger="hover">
+                  <Icon type="check-circle" />
+                  </Popover>
+                </a>
+                <Divider type="vertical" />
+                <a onClick={() => this.handleSendBack(record)}>
+                  <Popover content={(<span>退回</span>)} trigger="hover">
+                  <Icon type="close-circle" />
+                  </Popover>
+                </a>
+              </span>)
+          } else {
+            return (
+              <span>
+                <a onClick={() => this.handleWithWdraw(record)}>
+                  <Popover content={(<span>撤回</span>)} trigger="hover">
+                    <Icon type="rollback" />
+                  </Popover>
+                </a>
+              </span>)
+          }
+        }
       },
     ];
     return (
