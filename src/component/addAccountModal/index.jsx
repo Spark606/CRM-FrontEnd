@@ -3,22 +3,21 @@ import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col
 const { TextArea } = Input;
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';
-import {addNewFirmRecord} from '../../actions/firm';
+import {addNewClientRecord} from '../../actions/client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
-  oneFirmRecord: state.firm.oneFirmRecord,
-  oneFirmStatus: state.firm.oneFirmStatus
+  oneClientRecord: state.client.oneClientRecord,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    addNewFirmRecord
+    addNewClientRecord
   },
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 
-class AddFirmRecordModal extends Component {
+class AddAccountModal extends Component {
   state = {
     visible: false,
     editBox: false,
@@ -51,18 +50,18 @@ class AddFirmRecordModal extends Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         const data = Object.assign({}, {
           createDate: `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`,
-          companyId: this.props.dataSource.firmId,
+          resourceId: this.props.dataSource.clientId,
           status: values.status,
           content: values.recordContent
         });
-        this.props.addNewFirmRecord(data);
+        this.props.addNewClientRecord(data);
       });
       this.setState({
         editBox: false,
       });
     }
   }
-  getStatus(text) {
+  getStatus(text){
     if (text === 1) {
       return "潜在";
     } else if (text === 2) {
@@ -75,7 +74,7 @@ class AddFirmRecordModal extends Component {
       return "已流失";
     }
   }
-  getStatusColor(text) {
+  getStatusColor(text){
     if (text === 1) {
       return "orange";
     } else if (text === 2) {
@@ -90,12 +89,12 @@ class AddFirmRecordModal extends Component {
   }
   render() {
     const { editBox } = this.state;
-    const { oneFirmRecord, dataSource } = this.props;
+    const { oneClientRecord, dataSource } = this.props;
     const { getFieldDecorator } = this.props.form;
-    // console.log(oneFirmRecord, 'AddFirmRecordModal');
+    // console.log(oneClientRecord, dataSource, 'AddAccountModal');
     return (
       <Modal
-        title="企业跟进记录"
+        title="个人跟进记录"
         width={820}
         visible={this.state.visible}
         onCancel={this.handleCancel}
@@ -118,7 +117,7 @@ class AddFirmRecordModal extends Component {
                         rules: [{ required: true, message: '请输入跟进时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
-                    <Form.Item style={{ position: 'absolute', right: '75px', top: '39px' }}>
+                    <Form.Item style={{position: 'absolute',right: '75px',top: '39px'}}>
                       {getFieldDecorator('recordTimeHour', {
                         initialValue: moment(),
                         rules: [{ required: true, message: '请输入跟进时间。' }],
@@ -144,15 +143,15 @@ class AddFirmRecordModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
+                    })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
                   </Form.Item>
                 </Row>
               </Form>
             </div>
             : null}
           <hr />
-          <Timeline>
-            {oneFirmRecord ? oneFirmRecord.map(item =>
+          <Timeline style={{maxHeight: '500px', overflowY: 'scroll'}}>
+            {oneClientRecord ? oneClientRecord.map(item =>
               <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
                 {item.content} {moment(item.createDate).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
               </Timeline.Item>) :
@@ -164,6 +163,6 @@ class AddFirmRecordModal extends Component {
   }
 }
 
-const wraFirmpAddRecordModal = Form.create()(AddFirmRecordModal);
+const wrapAddAccountModal = Form.create()(AddAccountModal);
 
-export default wraFirmpAddRecordModal;
+export default wrapAddAccountModal;

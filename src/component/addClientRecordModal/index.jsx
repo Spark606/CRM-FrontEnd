@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col, Input, Divider } from 'antd';
 const { TextArea } = Input;
 import moment from 'moment';
-import {hourFormat, yearFormat} from '../../constants';
-import {addNewClientRecord} from '../../actions/client';
+import { hourFormat, yearFormat } from '../../constants';
+import { addNewClientRecord } from '../../actions/client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
@@ -49,7 +49,7 @@ class AddClientRecordModal extends Component {
     } else {
       this.props.form.validateFieldsAndScroll((err, values) => {
         const data = Object.assign({}, {
-          createDate: `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`,
+          createDate: `${moment(values.recordTimeDay).format(yearFormat)} ${moment(values.recordTimeHour).format(hourFormat)}`,
           resourceId: this.props.dataSource.clientId,
           status: values.status,
           content: values.recordContent
@@ -61,7 +61,7 @@ class AddClientRecordModal extends Component {
       });
     }
   }
-  getStatus(text){
+  getStatus(text) {
     if (text === 1) {
       return "潜在";
     } else if (text === 2) {
@@ -74,7 +74,7 @@ class AddClientRecordModal extends Component {
       return "已流失";
     }
   }
-  getStatusColor(text){
+  getStatusColor(text) {
     if (text === 1) {
       return "orange";
     } else if (text === 2) {
@@ -117,7 +117,7 @@ class AddClientRecordModal extends Component {
                         rules: [{ required: true, message: '请输入跟进时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
-                    <Form.Item style={{position: 'absolute',right: '75px',top: '39px'}}>
+                    <Form.Item style={{ position: 'absolute', right: '75px', top: '39px' }}>
                       {getFieldDecorator('recordTimeHour', {
                         initialValue: moment(),
                         rules: [{ required: true, message: '请输入跟进时间。' }],
@@ -150,7 +150,7 @@ class AddClientRecordModal extends Component {
             </div>
             : null}
           <hr />
-          <Timeline style={{maxHeight: '500px', overflowY: 'scroll'}}>
+          <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' }}>
             {oneClientRecord ? oneClientRecord.map(item =>
               <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
                 {item.content} {moment(item.createDate).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}

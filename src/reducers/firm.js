@@ -98,7 +98,7 @@ const records = [
 const initialState = {
   firmsList: formatFirms(data),
   currentPage: 1,
-  oneFirmRecord: formatRecords(records),
+  oneFirmRecord: [],
   currentPage: 1,
   pageSize: 2,
   pageTotal: 10
@@ -254,7 +254,7 @@ export default function firmReducer(state = initialState, action) {
     case cs.ADD_NEW_FIRM_RECORD_SUCCESS:
       console.log(action.payload.data)
       return Object.assign({}, state, {
-        oneFirmRecord: action.payload ? [...formatRecords(action.payload.data), ...state.oneFirmRecord] : state.oneFirmRecord,
+        oneFirmRecord: action.payload ? [...formatRecords([action.payload.data]), ...state.oneFirmRecord] : state.oneFirmRecord,
         isFetching: false,
       });
     case cs.ADD_NEW_FIRM_RECORD_FAIL:

@@ -27,7 +27,7 @@ export function getFirmRecordsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/firm/test',
+        endpoint: url + '/crm/employee/getCompanyFollows',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -46,7 +46,7 @@ export function addNewFirmRecord(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/test',
+        endpoint: url + '/crm/employee/createCompanyFollow',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -54,7 +54,7 @@ export function addNewFirmRecord(params){
           'Content-Type': 'application/json',
         },
         timeout: 3000,
-        types: [cs. ADD_NEW_RECORD_REQUEST, cs. ADD_NEW_RECORD_SUCCESS, cs. ADD_NEW_RECORD_FAIL],
+        types: [cs. ADD_NEW_FIRM_RECORD_REQUEST, cs. ADD_NEW_FIRM_RECORD_SUCCESS, cs. ADD_NEW_FIRM_RECORD_FAIL],
       },
     });
     return action;

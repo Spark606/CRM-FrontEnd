@@ -177,8 +177,8 @@ export default class ClientsTable extends Component {
     this.addClientRecordModal.showModal();
     this.props.getClientRecordsList({
       resourceId: record.clientId,
-      page: 0,
-      size: 1000
+      page: 1,
+      pageSize: 1000
     });
     // 打开跟进记录，并编辑
   }
@@ -334,7 +334,6 @@ export default class ClientsTable extends Component {
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>个人客户</Breadcrumb.Item>
           <Breadcrumb.Item>个人客户表</Breadcrumb.Item>
         </Breadcrumb>
         <Button type="primary" onClick={this.openAddModal} className="addBtn">

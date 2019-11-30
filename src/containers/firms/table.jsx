@@ -171,12 +171,14 @@ export default class FirmsTable extends Component {
 
   // 跟进记录
   handleAddRecord = (record) => {
+    this.setState({
+      tempData: record
+    });
     this.addFirmRecordModal.showModal();
-    // this.refs["addFirmRecordModal"].showModal();
     this.props.getFirmRecordsList({
-      companyId: record.firmsId,
+      companyId: record.firmId,
       page: 1,
-      size: 1000
+      pageSize: 1000
     });
   }
   pageChange = (page, pageSize) => {
@@ -375,7 +377,6 @@ export default class FirmsTable extends Component {
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>企业客户</Breadcrumb.Item>
           <Breadcrumb.Item>企业客户表</Breadcrumb.Item>
         </Breadcrumb>
         <Button type="primary" onClick={this.openAddModal} className="addBtn">
@@ -401,6 +402,7 @@ export default class FirmsTable extends Component {
         <AddFirmRecordModal
           // ref={(e) => this.addFirmRecordModal = e}
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
+          dataSource={this.state.tempData}
         // ref="addFirmRecordModal"
         />
       </div>

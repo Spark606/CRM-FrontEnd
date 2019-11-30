@@ -123,7 +123,7 @@ const records = [
 
 const initialState = {
   clientsList: formatClients(data),
-  oneClientRecord: records,
+  oneClientRecord: [],
   oneClientStatus: 1,
   currentPage: 1,
   pageSize: 2,
@@ -158,11 +158,10 @@ export default function clientReducer(state = initialState, action) {
     case cs.GET_CLIENT_RECORDS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        oneClientRecord: action.payload.data ? formatRecords(action.payload.data) : [],
+        oneClientRecord: formatRecords(action.payload.data),
       });
     case cs.GET_CLIENT_RECORDS_FAIL:
       return Object.assign({}, state, {
-        oneClientRecord: records ? formatRecords(records) : [],
         isFetching: false,
       });
 
@@ -173,19 +172,11 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_RECORD_SUCCESS:
       console.log(action.payload.data)
       return Object.assign({}, state, {
-        oneClientRecord: action.payload ? [...formatRecords(action.payload.data), ...state.oneClientRecord] : state.oneClientRecord,
+        oneClientRecord: [...formatRecords([action.payload.data]), ...state.oneClientRecord],
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_RECORD_FAIL:
       return Object.assign({}, state, {
-        oneClientRecord: [...formatRecords([{
-          key: 6,
-          content: '我是新跟进',
-          recorderName: 'Liz',
-          status: 4,
-          recorderId: 3,
-          recorderTime: '2018-12-11 22:23:21'
-        }]), ...state.oneClientRecord],
         isFetching: false,
       });
 
