@@ -31,6 +31,7 @@ class EditFirmModal extends Component {
         companyCategory: values.category,
         startDate: moment(values.createDate).format(yearFormat),
         expireDate: moment(values.expireDate).format(yearFormat),
+        contactorName: values.contact,
         status: values.status,
         info: values.remark,
         phoneNumber: values.tel,
@@ -158,8 +159,19 @@ class EditFirmModal extends Component {
                         initialValue: dataSource ? dataSource.category : 1
                       })(
                         <Select style={{ width: 120 }}>
-                          <Select.Option value={1}>科技</Select.Option>
-                          <Select.Option value={2}>其他</Select.Option>
+                          <Select.Option value={1}>建筑业</Select.Option>
+                          <Select.Option value={2}>农林牧渔</Select.Option>
+                          <Select.Option value={3}>住宿餐饮</Select.Option>
+                          <Select.Option value={4}>IT</Select.Option>
+                          <Select.Option value={5}>金融业</Select.Option>
+                          <Select.Option value={6}>房地产</Select.Option>
+                          <Select.Option value={7}>政府机关</Select.Option>
+                          <Select.Option value={8}>文体传媒</Select.Option>
+                          <Select.Option value={9}>运输物流</Select.Option>
+                          <Select.Option value={10}>商业服务</Select.Option>
+                          <Select.Option value={11}>卫生医疗</Select.Option>
+                          <Select.Option value={12}>教育培训</Select.Option>
+                          <Select.Option value={13}>其他</Select.Option>
                         </Select>
                       )}
                     </Form.Item>
