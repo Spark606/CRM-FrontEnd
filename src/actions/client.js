@@ -77,6 +77,12 @@ export function addNewClient(params){
         types: [cs.ADD_NEW_CLIENT_REQUEST, cs.ADD_NEW_CLIENT_SUCCESS, cs.ADD_NEW_CLIENT_FAIL],
       },
     });
+    if(action.type === cs.ADD_NEW_CLIENT_SUCCESS && action.payload) {
+      this.getClients({
+        page: 1,
+        pageSize: 2,
+      })
+    }
     return action;
   };
 }
