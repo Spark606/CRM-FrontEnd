@@ -166,17 +166,17 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
 
-    case cs.ADD_NEW_RECORD_REQUEST:
+    case cs.ADD_NEW_CLIENT_RECORD_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
-    case cs.ADD_NEW_RECORD_SUCCESS:
+    case cs.ADD_NEW_CLIENT_RECORD_SUCCESS:
       console.log(action.payload.data)
       return Object.assign({}, state, {
         oneClientRecord: action.payload ? [...formatRecords(action.payload.data), ...state.oneClientRecord] : state.oneClientRecord,
         isFetching: false,
       });
-    case cs.ADD_NEW_RECORD_FAIL:
+    case cs.ADD_NEW_CLIENT_RECORD_FAIL:
       return Object.assign({}, state, {
         oneClientRecord: [...formatRecords([{
           key: 6,

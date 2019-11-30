@@ -173,8 +173,11 @@ export default class FirmsTable extends Component {
   handleAddRecord = (record) => {
     this.addFirmRecordModal.showModal();
     // this.refs["addFirmRecordModal"].showModal();
-    this.props.getFirmRecordsList(record.resourceId);
-    // 打开跟进记录，并编辑
+    this.props.getFirmRecordsList({
+      companyId: record.firmsId,
+      page: 1,
+      size: 1000
+    });
   }
   pageChange = (page, pageSize) => {
     console.log(page, pageSize);

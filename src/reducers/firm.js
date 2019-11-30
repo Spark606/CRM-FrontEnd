@@ -1,6 +1,6 @@
 import * as cs from '../constants';
 
-import {formatFirms, formatRecords} from '../actions/base';
+import { formatFirms, formatRecords } from '../actions/base';
 let data = [
   {
     companyId: 1,
@@ -98,7 +98,7 @@ const records = [
 const initialState = {
   firmsList: formatFirms(data),
   currentPage: 1,
-  oneFirmRecord: records,
+  oneFirmRecord: formatRecords(records),
   currentPage: 1,
   pageSize: 2,
   pageTotal: 10
@@ -114,13 +114,11 @@ export default function firmReducer(state = initialState, action) {
       return Object.assign({}, state, {
         firmsList: action.payload ? formatFirms(action.payload.data.content) : [],
         pageTotal: action.payload.data.totalPages * 2,
-        currentPage: action.payload.data.number+1,
+        currentPage: action.payload.data.number + 1,
         isFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
-        totalPage: action.payload ? action.payload.data.totalPages : 1,
-        firmsList: data ? formatFirms(data) : [],
         isFetching: false,
       });
 
@@ -248,6 +246,31 @@ export default function firmReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+
+    case cs.ADD_NEW_FIRM_RECORD_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.ADD_NEW_FIRM_RECORD_SUCCESS:
+      console.log(action.payload.data)
+      return Object.assign({}, state, {
+        oneFirmRecord: action.payload ? [...formatRecords(action.payload.data), ...state.oneFirmRecord] : state.oneFirmRecord,
+        isFetching: false,
+      });
+    case cs.ADD_NEW_FIRM_RECORD_FAIL:
+      return Object.assign({}, state, {
+        oneFirmRecord: [...formatRecords([{
+          key: 6,
+          content: '我是新跟进',
+          recorderName: 'Liz',
+          status: 4,
+          recorderId: 3,
+          recorderTime: '2018-12-11 22:23:21'
+        }]), ...state.oneFirmRecord],
+        isFetching: false,
+      });
+
+
     // case cs.GET_FIRMS_REQUEST:
     //     return Object.assign({}, state, {
     //         isFetching: true

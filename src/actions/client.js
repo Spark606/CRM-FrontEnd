@@ -53,7 +53,7 @@ export function addNewClientRecord(params){
           'Content-Type': 'application/json',
         },
         timeout: 3000,
-        types: [cs. ADD_NEW_RECORD_REQUEST, cs. ADD_NEW_RECORD_SUCCESS, cs. ADD_NEW_RECORD_FAIL],
+        types: [cs. ADD_NEW_CLIENT_RECORD_REQUEST, cs. ADD_NEW_CLIENT_RECORD_SUCCESS, cs. ADD_NEW_CLIENT_RECORD_FAIL],
       },
     });
     return action;

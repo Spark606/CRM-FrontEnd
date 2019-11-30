@@ -3,6 +3,7 @@ import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col
 const { TextArea } = Input;
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';
+import {addNewFirmRecord} from '../../actions/firm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
@@ -47,9 +48,13 @@ class AddFirmRecordModal extends Component {
       });
     } else {
       this.props.form.validateFieldsAndScroll((err, values) => {
-      values.recordTimeDay = moment(values.recordTimeDay).format({yearFormat});
-      values.recordTimeHour = moment(values.recordTimeHour).format({hourFormat});
-        // console.log('i am record:', values);
+        const data = Object.assign({}, {
+          createDate: `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`,
+          resourceId: this.props.dataSource.clientId,
+          status: values.status,
+          content: values.recordContent
+        });
+        this.props.addNewFirmRecord(data);
       });
       this.setState({
         editBox: false,
