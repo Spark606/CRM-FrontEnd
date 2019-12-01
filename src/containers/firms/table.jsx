@@ -8,6 +8,7 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
+import AddFirmOrderModal from '../../component/addFirmOrderModal';
 import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } from '../../actions/firm';
 
 const mapStateToProps = state => ({
@@ -180,6 +181,14 @@ export default class FirmsTable extends Component {
       page: 1,
       pageSize: 1000
     });
+  }
+  handleAddOrder = (record) => {
+    console.log("record", record);
+    this.setState({
+      tempData: record
+    });
+    this.addFirmOrderModal.showModal();
+    // 打开跟进记录，并编辑
   }
   pageChange = (page, pageSize) => {
     console.log(page, pageSize);
@@ -366,6 +375,13 @@ export default class FirmsTable extends Component {
             </Popover>
           </a>
           <Divider type="vertical" />
+          <a onClick={() => this.handleAddOrder(record)}>
+            <Popover content={(<span>新建订单
+            </span>)} trigger="hover">
+              <Icon type="plus-square" />
+            </Popover>
+          </a>
+          <Divider type="vertical" />
           <a onClick={() => this.handledeleteFirm(record)}>
             <Popover content={(<span>删除</span>)} trigger="hover">
               <Icon type="delete" />
@@ -404,6 +420,13 @@ export default class FirmsTable extends Component {
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
           dataSource={this.state.tempData}
         // ref="addFirmRecordModal"
+        />
+        {/* 新建订单模态框 */}
+        <AddFirmOrderModal
+          // ref={(e) => this.addFirmRecordModal = e}
+          wrappedComponentRef={(form) => this.addFirmOrderModal = form}
+          // ref="addFirmRecordModal"
+          dataSource={this.state.tempData}
         />
       </div>
     );

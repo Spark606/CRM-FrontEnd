@@ -28,7 +28,7 @@ export function getUpdateCientsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/test',
+        endpoint: url + '/crm/manager/getResourceCheckList',
         method: 'POST',
         mode: "cors",
         body: params,

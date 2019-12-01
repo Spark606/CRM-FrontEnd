@@ -105,7 +105,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="负责人：">
                       {getFieldDecorator('employeeName', {
                         initialValue: 'Liz',
-                      })(<Input />)}
+                      })(<Input  style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
                 </Row>

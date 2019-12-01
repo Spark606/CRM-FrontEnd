@@ -93,7 +93,7 @@ class Personal extends Component {
                       message: '邮箱不能为空!',
                     },
                   ],
-                })(<Input />)}
+                })(<Input style={{ maxWidth: 200 }} />)}
               </Form.Item>
               <Form.Item label="电话号码">
                 {getFieldDecorator('phone', {

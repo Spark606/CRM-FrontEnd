@@ -131,7 +131,7 @@ class ClientsNew extends Component {
             </Row>
             <Row style={{marginTop: 20}}>
                 <Col span={24} className="marker">
-                  备注：<TextArea placeholder="textarea with clear icon" rows={4} style={{maxWidth: 400}}/>
+                  备注：<TextArea placeholder="textarea with clear icon" rows={4} />
                 </Col>
             </Row>
             <Row style={{marginTop: 20}}>

@@ -8,6 +8,7 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
+import AddClientOrderModal from '../../component/addClientOrderModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
 
 const mapStateToProps = state => ({
@@ -120,15 +121,7 @@ export default class ClientsTable extends Component {
     this.formEditClientModal.showModal();
   };
   addNewFormData = (values) => {
-    // values.resourceId = this.state.data.length + 1;
-    console.log(values, 'xxxxxxxxxxxxxx');
-    // let arr = this.state.data;
-    // arr.unshift(values)
     this.props.addNewClient(values);
-    // 提交新的数据，并获得新row，加到data数组前部
-    // this.setState({
-    //   data: arr
-    // });
   }
   // 新建客户end
   // 修改客户
@@ -148,7 +141,6 @@ export default class ClientsTable extends Component {
     //   }
     // });
     this.props.updateOneClient(values);
-    // console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
     })
@@ -182,6 +174,14 @@ export default class ClientsTable extends Component {
     });
     // 打开跟进记录，并编辑
   }
+  handleAddOrder = (record) => {
+    console.log("record", record);
+    this.setState({
+      tempData: record
+    });
+    this.addClientOrderModal.showModal();
+    // 打开跟进记录，并编辑
+  }
   pageChange = (page, pageSize) => {
     console.log(page, pageSize);
     this.props.getClients({
@@ -198,7 +198,7 @@ export default class ClientsTable extends Component {
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    console.log('pagination', pagination);
+    console.log('clientsList', clientsList);
     const columns = [
       {
         width: 120,
@@ -323,6 +323,13 @@ export default class ClientsTable extends Component {
             </Popover>
           </a>
           <Divider type="vertical" />
+          <a onClick={() => this.handleAddOrder(record)}>
+            <Popover content={(<span>新建订单
+            </span>)} trigger="hover">
+              <Icon type="plus-square" />
+            </Popover>
+          </a>
+          <Divider type="vertical" />
           <a onClick={() => this.handledeleteClient(record)}>
             <Popover content={(<span>删除</span>)} trigger="hover">
               <Icon type="delete" />
@@ -359,6 +366,13 @@ export default class ClientsTable extends Component {
         <AddClientRecordModal
           // ref={(e) => this.addClientRecordModal = e}
           wrappedComponentRef={(form) => this.addClientRecordModal = form}
+          // ref="addClientRecordModal"
+          dataSource={this.state.tempData}
+        />
+        {/* 新建订单模态框 */}
+        <AddClientOrderModal
+          // ref={(e) => this.addClientRecordModal = e}
+          wrappedComponentRef={(form) => this.addClientOrderModal = form}
           // ref="addClientRecordModal"
           dataSource={this.state.tempData}
         />

@@ -43,6 +43,7 @@ export function formatClients(dataSource) {
         tel: item.phone,
         qq: item.qq,
         employeeName: item.employeeName,
+        employeeId: item.employeeId,
         province: item.province,
         gender: item.gender,
         email: item.email,

@@ -6,8 +6,7 @@ import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import WrapEditClientModal from '../../component/editClientModal';
-import wrapAddAccountModal from '../../component/addAccountModal';
+import WrapAddAccountModal from '../../component/addAccountModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
 
 const mapStateToProps = state => ({
@@ -45,7 +44,7 @@ export default class AccountTable extends Component {
     this.setState({
       tempData: null
     });
-    this.formEditClientModal.showModal();
+    this.formAddAccountModal.showModal();
   };
   pageChange = (page, pageSize) => {
     console.log(page, pageSize);
@@ -206,8 +205,8 @@ export default class AccountTable extends Component {
             pagination={pagination}
           />
           {/* 新建客户模态框 */}
-          <wrapAddAccountModal
-            wrappedComponentRef={(form) => this.formEditClientModal = form}
+          <WrapAddAccountModal
+            wrappedComponentRef={(form) => this.formAddAccountModal = form}
             dataSource={this.state.tempData}
             addNewFormData={this.addNewFormData}
             updateFormData={this.updateFormData}

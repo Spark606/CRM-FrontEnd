@@ -163,6 +163,6 @@ class AddAccountModal extends Component {
   }
 }
 
-const wrapAddAccountModal = Form.create()(AddAccountModal);
+const WrapAddAccountModal = Form.create()(AddAccountModal);
 
-export default wrapAddAccountModal;
+export default WrapAddAccountModal;

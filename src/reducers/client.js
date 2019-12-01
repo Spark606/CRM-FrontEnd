@@ -1,7 +1,6 @@
 import * as cs from '../constants';
 import _ from 'lodash';
 import {formatClients, formatRecords} from '../actions/base';
-import { Item } from 'rc-menu';
 let data = [
   {
     resourceId: 1,

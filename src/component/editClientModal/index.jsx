@@ -95,7 +95,7 @@ class EditClientModal extends Component {
                     <Form.Item label="负责人：">
                       {getFieldDecorator('employeeName', {
                         initialValue: 'Liz',
-                      })(<Input />)}
+                      })(<Input disabled style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -176,7 +176,7 @@ class EditClientModal extends Component {
                   <Form.Item label="备注：">
                     {getFieldDecorator('remark', {
                       initialValue: dataSource ? dataSource.remark : null,
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
+                    })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
                   </Form.Item>
                 </Row>
                 <Row style={{ marginTop: 20 }}>

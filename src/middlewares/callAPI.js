@@ -15,7 +15,7 @@ export default store => next => action => {
   if (!endpoint) {
     throw new Error('Endpoint is missing.');
   }
-  const token = store.getState().sessions.token ? store.getState().sessions.token : localStorage.getItem('sessions');
+  const token = localStorage.getItem('sessions');
   const { types, schema, method = 'GET', body, headers = {
     Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
     'Content-Type': 'application/json;charset=utf-8', //默认就是这个
@@ -47,7 +47,7 @@ export default store => next => action => {
         }
         return json;
       });
-    }), 1000);
+    }), 13000);
     
     // 封装可timeout的fetch-------start
     function _fetch(fetch_promise, timeout) {

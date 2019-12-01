@@ -144,7 +144,7 @@ class AddFirmRecordModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} style={{ maxWidth: 400 }} />)}
+                    })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
                   </Form.Item>
                 </Row>
               </Form>
