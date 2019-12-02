@@ -1,22 +1,21 @@
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 import * as cs from '../constants';
-import {CALL_API} from '../middlewares/callAPI';
+import { CALL_API } from '../middlewares/callAPI';
 
 // if Refresh set Session to Store
 export function restoreSessionFromLocalStorage() {
-  const sessionString = localStorage.getItem('sessions');
-  if(sessionString) {
-    const session = JSON.parse(sessionString);
-
-    if(session.token) {
+  const userString = localStorage.getItem('user');
+  if (userString) {
+    const user = JSON.parse(userString);
+    if (user) {
       return {
-        type: cs.LOGIN_SUCCESS,
-        payload: JSON.parse(sessionString),
-      };
+        type: cs.GET_USER_MSG_SUCCESS,
+        payload: user,
+      }
     }
   }
-  return {type: 'DO_LOGIN'};
+  return { type: 'DO_LOGIN' };
 }
 // Login
 
@@ -36,10 +35,15 @@ export function login(params) {
       },
     });
 
-    if(action.type === cs.LOGIN_SUCCESS && action.payload) {
-      const {token} = action.payload.data;
-      if(token) {
+    if (action.type === cs.LOGIN_SUCCESS && action.payload) {
+      const { token } = action.payload.data;
+      if (token) {
         localStorage.setItem('sessions', JSON.stringify(token));
+        localStorage.setItem('user', JSON.stringify({
+          user_Id: "3",
+          user_name: "test",
+          user_role: "2"
+        }));
         history.push('/main/client/table');
       }
     }
@@ -60,9 +64,9 @@ export function register(params) {
         types: [cs.REG_REQUEST, cs.REG_SUCCESS, cs.REG_FAIL],
       },
     });
-    if(action.type === cs.REG_SUCCESS && action.payload) {
-      const {token} = action.payload;
-      if(token) {
+    if (action.type === cs.REG_SUCCESS && action.payload) {
+      const { token } = action.payload;
+      if (token) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));
       }
     }
@@ -73,7 +77,7 @@ export function register(params) {
 export function checkLogin() {
   try {
     const sessions = JSON.parse(localStorage.getItem('sessions'));
-    if(!sessions) {
+    if (!sessions) {
       history.push('/login');
     }
   } catch (e) {
@@ -95,17 +99,17 @@ export function refreshToken(params) {
         ]
       }
     });
-    if(action.type === cs.UPDATE_TOKEN_SUCCESS) {
+    if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
       // console.log(action);
-      const {token} = action.payload;
-      if(token) {
+      const { token } = action.payload;
+      if (token) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));
       }
     }
-    if(action.type === cs.UPDATE_TOKEN_FAIL) {
+    if (action.type === cs.UPDATE_TOKEN_FAIL) {
       // console.log(action);
       // 没有找到用户
-      if(action.error.code === '205005') {
+      if (action.error.code === '205005') {
         localStorage.removeItem('sessions');
         history.push('/login');
       }

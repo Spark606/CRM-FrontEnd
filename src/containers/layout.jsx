@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ContentMain from './contentMain';
 import { createHashHistory } from 'history';
 import './style.scss';
+import { restoreSessionFromLocalStorage } from '../actions/api';
 const history = createHashHistory();
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,7 +17,7 @@ const mapStateToProps = state => ({
   userName: state.sessions.user_name
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
-  // loginOut
+  restoreSessionFromLocalStorage
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 
@@ -25,21 +26,22 @@ export default class LayoutPagae extends Component {
     collapsed: false,
     menu: 'todo'
   };
-  componentWillMount(){
+  componentWillMount() {
+    this.onInit();
     const hash = window.location.hash;
-    if(hash === '#/main/todo'){
+    if (hash === '#/main/todo') {
       this.setState({
         menu: 'todo'
       })
-    } else if(hash === '#/main/client/table'){
+    } else if (hash === '#/main/client/table') {
       this.setState({
         menu: 'clienttable'
       })
-    } else if(hash === '#/main/firms/table'){
+    } else if (hash === '#/main/firms/table') {
       this.setState({
         menu: 'firmstable'
       })
-    } else if(hash === '#/main/account/table'){
+    } else if (hash === '#/main/account/table') {
       this.setState({
         menu: 'accounttable'
       })
@@ -47,7 +49,9 @@ export default class LayoutPagae extends Component {
       history.push('/main/todo');
     }
   }
-
+  onInit = () => {
+    this.props.restoreSessionFromLocalStorage();
+  }
   onCollapse = collapsed => {
     console.log(collapsed);
     this.setState({ collapsed });

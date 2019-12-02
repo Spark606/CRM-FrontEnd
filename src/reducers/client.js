@@ -241,7 +241,7 @@ export default function clientReducer(state = initialState, action) {
       console.log("temp", temp);
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: temp
+        // clientsList: temp
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       return Object.assign({}, state, {

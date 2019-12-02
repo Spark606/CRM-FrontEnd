@@ -3,20 +3,11 @@ import jwtDecode from 'jwt-decode';
 import { findErrorMessage } from '../actions/base';
 import * as cs from '../constants';
 
-// const sessionsLocal = localStorage.getItem('sessions');
-let decodeSessions = {};
-let userMsg = {};
-// if(sessionsLocal) {
-//   userMsg = JSON.parse(sessionsLocal).userMsg;
-//   decodeSessions = jwtDecode(sessionsLocal);
-//   // console.log('------------>', decodeSessions);
-// }
 const initialState = {
   isFetching: false,
   user_name: 'Lizzy',
-  user_role: 1, 
+  user_role: 1,
   user_Id: null,
-  token: null,
   error: false,
   loginMsg: {},
   regMsg: {},
@@ -28,9 +19,18 @@ const initialState = {
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
+    case cs.GET_USER_MSG_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        user_name: action.payload.user_name,
+        user_role: action.payload.user_role,
+        user_Id: action.payload.user_Id,
+      });
+
     case cs.LOGIN_REQUEST:
-      return Object.assign({}, state, { error: false, isFetching: true });
-    case cs.LOGIN_SUCCESS:
+      return Object.assign({}, state, { isFetching: true });
+    case cs.LOGIN_SUCCESS: console.log();
+      console.log("是我，session");
       return Object.assign({}, state, {
         isFetching: false,
         token: action.payload.data.token,

@@ -4,11 +4,11 @@ import {CALL_API} from '../middlewares/callAPI';
 const url = 'http://192.168.205.221:8000';
 
 // get delete client page
-export function getDeleteCientsList(params){
+export function getDeleteClientsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/getResourceCheckList',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -24,7 +24,7 @@ export function getDeleteCientsList(params){
 }
 
 // get update client page
-export function getUpdateCientsList(params){
+export function getUpdateClientsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -83,3 +83,39 @@ export function getUpdateFirmsList(params){
   };
 }
 
+export function checkPassClient(params){
+    return async (dispatch) => {
+      const action = await dispatch({
+        [CALL_API]: {
+          endpoint: '/crm/manager/checkResourceCheckList',
+          method: 'POST',
+          mode: "cors",
+          body: params,
+          header: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 3000,
+          types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
+        },
+      });
+      return action;
+    };
+  }
+  export function checkPassFirm(params){
+    return async (dispatch) => {
+      const action = await dispatch({
+        [CALL_API]: {
+          endpoint: '/crm/manager/checkResourceCheckList',
+          method: 'POST',
+          mode: "cors",
+          body: params,
+          header: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 3000,
+          types: [cs.CKECK_PASS_FIRM_REQUEST, cs.CKECK_PASS_FIRM_SUCCESS, cs.CKECK_PASS_FIRM_FAIL],
+        },
+      });
+      return action;
+    };
+  }

@@ -164,7 +164,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_DELETE_CLIENTS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        // deleteClientsList: action.payload ? formatClients(action.payload.data) : [],
+        deleteClientsList: formatClients(action.payload.data.content),
         deleteClientsPageTotal: action.payload.data.totalPages * 2,
         deleteClientsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -182,7 +182,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_UPDATE_CLIENTS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateClientsList: formatClients(action.payload.data.content),
         updateClientsPageTotal: action.payload.data.totalPages * 2,
         updateClientsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -200,7 +200,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_DELETE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        // deleteClientsList: action.payload ? formatClients(action.payload.data) : [],
+        deleteFirmsList: formatClients(action.payload.data.content),
         deleteFirmsPageTotal: action.payload.data.totalPages * 2,
         deleteFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -218,7 +218,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_UPDATE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateFirmsList: formatClients(action.payload.data.content),
         updateFirmsPageTotal: action.payload.data.totalPages * 2,
         updateFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -227,6 +227,40 @@ export default function firmReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+
+
+    case cs.CKECK_PASS_CLIENT_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.CKECK_PASS_CLIENT_SUCCESS:
+      return Object.assign({}, state, {
+        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateFirmsPageTotal: action.payload.data.totalPages * 2,
+        updateFirmsCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.CKECK_PASS_CLIENT_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+    case cs.CKECK_PASS_FIRM_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.CKECK_PASS_FIRM_SUCCESS:
+      return Object.assign({}, state, {
+        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
+        updateFirmsPageTotal: action.payload.data.totalPages * 2,
+        updateFirmsCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.CKECK_PASS_FIRM_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
     default:
       return state;
   }
