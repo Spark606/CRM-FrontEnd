@@ -104,11 +104,11 @@ export function updateOneClient(params){
   };
 }
 
-export function deleteClient(params){
+export function deleteClient(params, currentPage, pageSize){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/delete',
+        endpoint: '/crm/employee/deleteResource',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -119,6 +119,12 @@ export function deleteClient(params){
         types: [cs.DELETE_ONE_CLIENT_REQUEST, cs.DELETE_ONE_CLIENT_SUCCESS, cs.DELETE_ONE_CLIENT_FAIL],
       },
     });
+    if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS && action.payload) {
+      this.getClients({
+        page: 1,
+        pageSize: 2,
+      })
+    }
     return action;
   };
 }

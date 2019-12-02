@@ -83,7 +83,7 @@ export function getUpdateFirmsList(params){
   };
 }
 
-export function checkPassClient(params){
+export function checkPassClient(params, currentPage, pageSize){
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
@@ -98,6 +98,13 @@ export function checkPassClient(params){
           types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
         },
       });
+      if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS'){
+        this.getUpdateClientsList({
+          checkedStatus: 0,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
       return action;
     };
   }

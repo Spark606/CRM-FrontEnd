@@ -235,9 +235,6 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.CKECK_PASS_CLIENT_SUCCESS:
       return Object.assign({}, state, {
-        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
-        updateFirmsPageTotal: action.payload.data.totalPages * 2,
-        updateFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
       });
     case cs.CKECK_PASS_CLIENT_FAIL:

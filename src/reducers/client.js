@@ -115,7 +115,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_CLIENT_SUCCESS:
-      const temp = state.clientsList.map( e => {
+      const updateClientTemp = state.clientsList.map( e => {
         if (e.clientId === action.payload.data.resource.resourceId){
           return formatClients([action.payload.data.resource])[0];
         }
@@ -123,7 +123,7 @@ export default function clientReducer(state = initialState, action) {
       })
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: action.payload.data.employeeRole === 2 ? temp : [...state.clientsList]
+        clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       return Object.assign({}, state, {
@@ -137,20 +137,10 @@ export default function clientReducer(state = initialState, action) {
     case cs.DELETE_ONE_CLIENT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.filter(data, e => {
-          if (e.resourceName !== '李四') {
-            return e;
-          }
-        })
       });
     case cs.DELETE_ONE_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: _.filter(data, e => {
-          if (e.resourceName !== '李四') {
-            return e;
-          }
-        })
       });
 
     // case cs.GET_CLIENTS_REQUEST:
