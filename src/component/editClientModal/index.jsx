@@ -15,27 +15,27 @@ class EditClientModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const seriesData =  Object.assign({}, {
-          resourceId: values.clientId,
-          shareStatus: values.clientAvailable,
-          resourceName: values.clientName,
-          certificate: values.certificate,
-          info: values.remark,
-          createDate: moment(values.createDate).format(yearFormat),
-          endDate: moment(values.expireDate).format(yearFormat),
-          status: values.status,
-          phone: values.tel,
-          qq: values.qq,
-          employeeName: values.employeeName,
-          province: values.province,
-          gender: values.gender,
-          email: values.email,
-        });
+      const seriesData = Object.assign({}, {
+        shareStatus: values.clientAvailable,
+        resourceName: values.clientName,
+        certificate: values.certificate,
+        info: values.remark,
+        shareStatus: values.clientAvailable,
+        createDate: moment(values.createDate).format(yearFormat),
+        endDate: moment(values.expireDate).format(yearFormat),
+        status: values.status,
+        phone: values.tel,
+        qq: values.qq,
+        employeeName: values.employeeName,
+        province: values.province,
+        gender: values.gender,
+        email: values.email,
+      });
       if (dataSource) { // 如果datasource是null，说明是新建客户
-        seriesData.key = dataSource.key;
-        this.props.updateFormData(seriesData); // 提交新数据
+          seriesData.employeeId = dataSource.employeeId,
+          seriesData.resourceId = dataSource.clientId,
+          this.props.updateFormData(seriesData); // 提交更新数据
       } else {
-        // console.log('我是新客户', seriesData);
         this.props.addNewFormData(seriesData); // 提交新数据
       }
     });
@@ -157,7 +157,7 @@ class EditClientModal extends Component {
                       {getFieldDecorator('gender', {
                         initialValue: dataSource ? dataSource.gender : 1
                       })(
-                        <Radio.Group onChange={this.onChangeGenders} >
+                        <Radio.Group >
                           <Radio value={1}>女</Radio>
                           <Radio value={2}>男</Radio>
                         </Radio.Group>
@@ -192,6 +192,18 @@ class EditClientModal extends Component {
                           <Select.Option value={4}>失败客户</Select.Option>
                           <Select.Option value={5}>已流失客户</Select.Option>
                         </Select>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item label="类别">
+                      {getFieldDecorator('clientAvailable', {
+                        initialValue: dataSource ? dataSource.clientAvailable : 1
+                      })(
+                        <Radio.Group >
+                          <Radio value={1}>公有</Radio>
+                          <Radio value={2}>私有</Radio>
+                        </Radio.Group>
                       )}
                     </Form.Item>
                   </Col>

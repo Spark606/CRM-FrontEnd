@@ -232,14 +232,20 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_CLIENT_SUCCESS:
+      const temp = state.clientsList.map( e => {
+        if (e.clientId === action.payload.data.resourceId){
+          return formatClients([action.payload.data])[0];
+        }
+        return e;
+      })
+      console.log("temp", temp);
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [...state.clientsList]
+        clientsList: temp
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: [...state.clientsList]
       });
 
     case cs.DELETE_ONE_CLIENT_REQUEST:

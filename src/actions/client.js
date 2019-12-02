@@ -1,14 +1,12 @@
 import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
 
-const url = 'http://192.168.205.221:8000';
-
 // client page
 export function getClients(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/getResourceList',
+        endpoint: '/crm/employee/getResourceList',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -27,7 +25,7 @@ export function getClientRecordsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/getResourceFollows',
+        endpoint: '/crm/employee/getResourceFollows',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -45,7 +43,7 @@ export function addNewClientRecord(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/createResourceFollow',
+        endpoint: '/crm/employee/createResourceFollow',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -66,7 +64,7 @@ export function addNewClient(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/createResource',
+        endpoint: '/crm/employee/createResource',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -91,7 +89,7 @@ export function updateOneClient(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/update',
+        endpoint: '/crm/employee/updateResource',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -110,7 +108,7 @@ export function deleteClient(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/employee/delete',
+        endpoint: '/crm/employee/delete',
         method: 'POST',
         mode: "cors",
         body: params,

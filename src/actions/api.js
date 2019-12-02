@@ -4,8 +4,6 @@ import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
 
 // if Refresh set Session to Store
-// const url = 'http://127.0.0.1:7001';
-const url = 'http://192.168.205.221:8000';
 export function restoreSessionFromLocalStorage() {
   const sessionString = localStorage.getItem('sessions');
   if(sessionString) {
@@ -26,8 +24,8 @@ export function login(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: url + '/crm/login',
-        // endpoint: url + '/api/v1/login',
+        endpoint: '/crm/login',
+        // endpoint: '/api/v1/login',
         method: 'POST',
         body: params,
         mode: "cors",

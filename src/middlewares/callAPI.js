@@ -30,11 +30,15 @@ export default store => next => action => {
     if (options.loading) {
       NProgress.start();
     }
+    
+    // const url = 'http://127.0.0.1:7001';
+    const url = 'http://192.168.205.221:8000';
+    endpoint = url + endpoint;
     const apiUrl = endpoint;
     console.log('options', options);
 
     // 这里开始使用fetch请求数据
-    endpoint = _fetch(fetch(endpoint, options).then(response => {
+    endpoint = fetch(endpoint, options).then(response => {
       // console.log('请求结束', response);
       if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
         localStorage.removeItem('sessions');
@@ -47,28 +51,42 @@ export default store => next => action => {
         }
         return json;
       });
-    }), 13000);
+    })
+    // endpoint = _fetch(fetch(endpoint, options).then(response => {
+    //   // console.log('请求结束', response);
+    //   if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
+    //     localStorage.removeItem('sessions');
+    //     location.href = '/login';
+    //   }
+    //   return response.json().then(json => {
+    //     NProgress.done();
+    //     if (!response.ok) {
+    //       return Promise.reject(json);
+    //     }
+    //     return json;
+    //   });
+    // }), 30000);
     
-    // 封装可timeout的fetch-------start
-    function _fetch(fetch_promise, timeout) {
-      var abort_fn = null;
-      //这是一个可以被reject的promise
-      var abort_promise = new Promise(function (resolve, reject) {
-        abort_fn = function () {
-          reject('abort promise');
-        };
-      });
-      //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
-      var abortable_promise = Promise.race([
-        fetch_promise,
-        abort_promise
-      ]);
-      setTimeout(function () {
-        abort_fn();
-      }, timeout);
-      return abortable_promise;
-    }
-    // 封装可timeout的fetch-------end
+    // // 封装可timeout的fetch-------start
+    // function _fetch(fetch_promise, timeout) {
+    //   var abort_fn = null;
+    //   //这是一个可以被reject的promise
+    //   var abort_promise = new Promise(function (resolve, reject) {
+    //     abort_fn = function () {
+    //       reject('abort promise');
+    //     };
+    //   });
+    //   //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
+    //   var abortable_promise = Promise.race([
+    //     fetch_promise,
+    //     abort_promise
+    //   ]);
+    //   setTimeout(function () {
+    //     abort_fn();
+    //   }, timeout);
+    //   return abortable_promise;
+    // }
+    // // 封装可timeout的fetch-------end
 
 
   }

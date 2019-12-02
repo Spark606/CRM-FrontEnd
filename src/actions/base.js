@@ -45,6 +45,7 @@ export function formatClients(dataSource) {
         employeeName: item.employeeName,
         employeeId: item.employeeId,
         province: item.province,
+        city: item.city,
         gender: item.gender,
         email: item.email,
       }));
