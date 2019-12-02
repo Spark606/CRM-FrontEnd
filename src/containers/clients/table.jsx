@@ -18,6 +18,7 @@ const mapStateToProps = state => ({
   currentPage: state.client.currentPage,
   pageTotal: state.client.pageTotal,
   pageSize: state.client.pageSize,
+  user_role: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -148,16 +149,26 @@ export default class ClientsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteClient = (record) => {
-    // 提交删除请求，更新页面
-    this.props.deleteClient(record.resourceId);
-    // const newData = _.filter(this.state.data, e => {
-    //   if (e.resourceId !== record.resourceId) {
-    //     return e;
-    //   }
+    this.props.deleteClient({resourceId: record.clientId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
+    // const seriesData = Object.assign({}, {
+    //   shareStatus: record.clientAvailable,
+    //   resourceName: record.clientName,
+    //   certificate: record.certificate,
+    //   info: record.remark,
+    //   shareStatus: record.clientAvailable,
+    //   createDate: moment(record.createDate).format(yearFormat),
+    //   endDate: moment(record.expireDate).format(yearFormat),
+    //   status: record.status,
+    //   phone: record.tel,
+    //   qq: record.qq,
+    //   employeeId: record.employeeId,
+    //   resourceId: record.clientId,
+    //   employeeName: record.employeeName,
+    //   province: record.province,
+    //   gender: record.gender,
+    //   email: record.email,
     // });
-    // this.setState({
-    //   data: newData
-    // })
+    // this.props.deleteClient(seriesData, this.props.currentPage,  this.props.pageSize, this.props.user_role);
   }
   // 删除客户end
 

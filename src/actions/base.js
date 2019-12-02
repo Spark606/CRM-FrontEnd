@@ -33,6 +33,7 @@ export function formatClients(dataSource) {
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
         clientId: item.resourceId,
+        id: item.id,
         clientAvailable: item.shareStatus,
         clientName: item.resourceName,
         certificate: item.certificate,

@@ -36,14 +36,15 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 @connect(mapStateToProps, mapDispatchToProps)
 export default class TodoPage extends Component {
 handleUpdateClientPass = (record) => {
+  console.log(record);
   this.props.checkPassClient({
-    id: record.clientId,
+    id: record.id,
     checkedStatus: 1,
-  });
+  }, this.props.updateClientsCurrentPage, this.props.pageSize);
 }
 handleUpdateClientSendBack = (record) => {
   this.props.checkPassClient({
-    id: record.clientId,
+    id: record.id,
     checkedStatus: 0,
   });
 }
@@ -54,13 +55,13 @@ handleUpdateClientWithWdraw = (record) => {
 }
 handleDeleteClientPass = (record) => {
   this.props.checkPassClient({
-    id: record.clientId,
+    id: record.id,
     checkedStatus: 0,
   });
 }
 handleDeleteClientSendBack = (record) => {
   this.props.checkPassClient({
-    id: record.clientId,
+    id: record.id,
     checkedStatus: 0,
   });
 }
