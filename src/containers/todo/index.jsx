@@ -45,8 +45,8 @@ handleUpdateClientPass = (record) => {
 handleUpdateClientSendBack = (record) => {
   this.props.checkPassClient({
     id: record.id,
-    checkedStatus: 0,
-  });
+    checkedStatus: 2,
+  }, this.UpdateClient.state.checkedStatus, this.props.updateClientsCurrentPage, this.props.pageSize);
 }
 handleUpdateClientWithWdraw = (record) => {
   this.props.checkPassClient({
@@ -57,13 +57,13 @@ handleDeleteClientPass = (record) => {
   this.props.checkPassClient({
     id: record.id,
     checkedStatus: 1,
-  }, this.props.deleteClientsCurrentPage, this.props.pageSize);
+  }, this.DeleteClient.state.checkedStatus, this.props.deleteClientsCurrentPage, this.props.pageSize);
 }
 handleDeleteClientSendBack = (record) => {
   this.props.checkPassClient({
     id: record.id,
-    checkedStatus: 0,
-  });
+    checkedStatus: 2,
+  }, this.DeleteClient.state.checkedStatus, this.props.deleteClientsCurrentPage, this.props.pageSize);
 }
 handleDeleteClientWithWdraw = (record) => {
   this.props.checkPassClient({

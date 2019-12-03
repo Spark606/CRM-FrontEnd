@@ -36,6 +36,7 @@ class EditFirmModal extends Component {
         info: values.remark,
         phoneNumber: values.tel,
         qq: values.qq,
+        occupation: values.position,
         employeeName: values.employeeName,
         province: values.province,
         gender: values.gender,

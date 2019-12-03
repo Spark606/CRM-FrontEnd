@@ -101,8 +101,7 @@ export function checkPassClient(params, checkedStatus, currentPage, pageSize){
           timeout: 3000,
           types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
         },
-      });
-      console.log(action.payload.data, '-----------------------------');
+      }); 
       if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS'){
         this.getUpdateClientsList({
           checkedStatus: checkedStatus,
@@ -110,7 +109,21 @@ export function checkPassClient(params, checkedStatus, currentPage, pageSize){
           pageSize: pageSize
         })
       }
+      if(action.payload.data === 'REJECT_UPDATE_SUCCESS'){
+        this.getUpdateClientsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
       if(action.payload.data === 'DELETE_RESOURCE_SUCCESS'){
+        this.getDeleteClientsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
+      if(action.payload.data === 'REJECT_DELETE_SUCCESS'){
         this.getDeleteClientsList({
           checkedStatus: checkedStatus,
           page: currentPage,

@@ -1,4 +1,5 @@
 import * as cs from '../constants';
+import { message } from 'antd';
 
 import { formatFirms, formatRecords } from '../actions/base';
 
@@ -51,6 +52,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_FIRM_SUCCESS:
+        message.success('新建企业客户成功！');
       return Object.assign({}, state, {
         isFetching: false,
         firmsList: action.payload ? [...formatFirms([action.payload.data]), ...state.firmsList] : state.firmsList,
@@ -84,6 +86,11 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_FIRM_SUCCESS:
+        if (action.payload.data.employeeRole === 2) {
+          message.success('修改企业客户成功！');
+        } else {
+          message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
+        }
       return Object.assign({}, state, {
         isFetching: false,
         firmsList: _.map(data, e => {
@@ -147,6 +154,11 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_FIRM_SUCCESS:
+        if (action.payload.data.employeeRole === 2) {
+          message.success('删除企业客户成功！');
+        } else {
+          message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');
+        }
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -160,7 +172,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_FIRM_RECORD_SUCCESS:
-      console.log(action.payload.data)
+        message.success('添加跟进记录成功！');
       return Object.assign({}, state, {
         oneFirmRecord: action.payload ? [...formatRecords([action.payload.data]), ...state.oneFirmRecord] : state.oneFirmRecord,
         isFetching: false,
