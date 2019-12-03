@@ -1,4 +1,5 @@
 import * as cs from '../constants';
+import {message} from 'antd';
 import { formatClients, formatFirms } from '../actions/base';
 
 const initialState = {
@@ -6,10 +7,10 @@ const initialState = {
   updateClientsList:  [],
   deleteFirmsList: [],
   updateFirmsList:  [],
-  deleteClientsPageTotal: 10,
-  updateClientsPageTotal: 10,
-  deleteFirmsPageTotal: 10,
-  updateFirmsPageTotal: 10,
+  deleteClientsPageTotal: 0,
+  updateClientsPageTotal: 0,
+  deleteFirmsPageTotal: 0,
+  updateFirmsPageTotal: 0,
   deleteClientsCurrentPage: 1,
   updateClientsCurrentPage: 1,
   deleteFirmsCurrentPage: 1,
@@ -44,8 +45,6 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_UPDATE_CLIENTS_LIST_SUCCESS:
-      console.log("GET_UPDATE_CLIENTS_LIST_SUCCESS");
-      console.table(action.payload.data.content);
       return Object.assign({}, state, {
         updateClientsList: formatClients(action.payload.data.content),
         updateClientsPageTotal: action.payload.data.totalPages * 2,
@@ -99,6 +98,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_CLIENT_SUCCESS:
+        message.success('审核通过成功！');
       return Object.assign({}, state, {
         isFetching: false,
       });
