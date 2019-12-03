@@ -36,7 +36,6 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 @connect(mapStateToProps, mapDispatchToProps)
 export default class TodoPage extends Component {
 handleUpdateClientPass = (record) => {
-  console.log("我是当前被修改客户", record, this.UpdateClient.checkedStatus);
   this.props.checkPassClient({
     id: record.id,
     checkedStatus: 1,
@@ -70,33 +69,50 @@ handleDeleteClientWithWdraw = (record) => {
 
   });
 }
-handleUpdateFirmPass = (record) => {
-  this.props.checkPassClient({
 
-  });
+
+
+
+
+
+
+
+
+
+
+
+handleUpdateFirmPass = (record) => {
+  console.log(record);
+  this.props.checkPassFirm({
+    id: record.id,
+    checkedStatus: 1,
+  }, this.UpdateFirm.state.checkedStatus, this.props.updateFirmsCurrentPage, this.props.pageSize);
 }
 handleUpdateFirmSendBack = (record) => {
-  this.props.checkPassClient({
-
-  });
+  this.props.checkPassFirm({
+    id: record.id,
+    checkedStatus: 2,
+  }, this.UpdateFirm.state.checkedStatus, this.props.updateFirmsCurrentPage, this.props.pageSize);
 }
 handleUpdateFirmWithWdraw = (record) => {
-  this.props.checkPassClient({
+  this.props.checkPassFirm({
 
   });
 }
 handleDeleteFirmPass = (record) => {
-  this.props.checkPassClient({
-
-  });
+  this.props.checkPassFirm({
+    id: record.id,
+    checkedStatus: 1,
+  }, this.DeleteFirm.state.checkedStatus, this.props.deleteFirmsCurrentPage, this.props.pageSize);
 }
 handleDeleteFirmSendBack = (record) => {
-  this.props.checkPassClient({
-
-  });
+  this.props.checkPassFirm({
+    id: record.id,
+    checkedStatus: 2,
+  }, this.DeleteFirm.state.checkedStatus, this.props.deleteFirmsCurrentPage, this.props.pageSize);
 }
 handleDeleteFirmWithWdraw = (record) => {
-  this.props.checkPassClient({
+  this.props.checkPassFirm({
 
   });
 }
