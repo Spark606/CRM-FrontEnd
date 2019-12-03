@@ -36,13 +36,13 @@ export function login(params) {
     });
 
     if (action.type === cs.LOGIN_SUCCESS && action.payload) {
-      const { token } = action.payload.data;
+      const { token, user_Id, user_name, user_role} = action.payload.data;
       if (token) {
         localStorage.setItem('sessions', JSON.stringify(token));
         localStorage.setItem('user', JSON.stringify({
-          user_Id: "3",
-          user_name: "test",
-          user_role: "2"
+          user_Id: user_Id,
+          user_name: user_name,
+          user_role: user_role
         }));
         history.push('/main/client/table');
       }
@@ -52,6 +52,7 @@ export function login(params) {
 }
 export function logout() {
   localStorage.removeItem('sessions');
+  localStorage.removeItem('user');
   history.push('/login');
 }
 export function register(params) {

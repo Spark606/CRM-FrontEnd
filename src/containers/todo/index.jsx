@@ -36,11 +36,11 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 @connect(mapStateToProps, mapDispatchToProps)
 export default class TodoPage extends Component {
 handleUpdateClientPass = (record) => {
-  console.log(record);
+  console.log("我是当前被修改客户", record, this.UpdateClient.checkedStatus);
   this.props.checkPassClient({
     id: record.id,
     checkedStatus: 1,
-  }, this.props.updateClientsCurrentPage, this.props.pageSize);
+  }, this.UpdateClient.state.checkedStatus, this.props.updateClientsCurrentPage, this.props.pageSize);
 }
 handleUpdateClientSendBack = (record) => {
   this.props.checkPassClient({
@@ -56,8 +56,8 @@ handleUpdateClientWithWdraw = (record) => {
 handleDeleteClientPass = (record) => {
   this.props.checkPassClient({
     id: record.id,
-    checkedStatus: 0,
-  });
+    checkedStatus: 1,
+  }, this.props.deleteClientsCurrentPage, this.props.pageSize);
 }
 handleDeleteClientSendBack = (record) => {
   this.props.checkPassClient({
@@ -689,6 +689,7 @@ handleDeleteFirmWithWdraw = (record) => {
                 pageTotal={this.props.updateClientsPageTotal}
                 pageSize={this.props.pageSize}
                 getTodoList={this.props.getUpdateClientsList}
+                ref={(e) => this.UpdateClient = e}
               />
             </TabPane>
             <TabPane tab="修改企业客户" key="updateFirm">
@@ -700,6 +701,7 @@ handleDeleteFirmWithWdraw = (record) => {
                 pageTotal={this.props.updateFirmsPageTotal}
                 pageSize={this.props.pageSize}
                 getTodoList={this.props.getUpdateFirmsList}
+                ref={(e) => this.UpdateFirm = e}
               />
             </TabPane>
             <TabPane tab="删除个人客户" key="deleteClient">
@@ -710,7 +712,8 @@ handleDeleteFirmWithWdraw = (record) => {
                 currentPage={this.props.deleteClientsCurrentPage}
                 pageTotal={this.props.deleteClientsPageTotal}
                 pageSize={this.props.pageSize}
-                getTodoList={this.props.getDeleteFirmsList}
+                getTodoList={this.props.getDeleteClientsList}
+                ref={(e) => this.DeleteClient = e}
               />
             </TabPane>
             <TabPane tab="删除企业客户" key="deleteFirm">
@@ -721,7 +724,8 @@ handleDeleteFirmWithWdraw = (record) => {
                 currentPage={this.props.deleteFirmsCurrentPage}
                 pageTotal={this.props.deleteFirmsPageTotal}
                 pageSize={this.props.pageSize}
-                getTodoList={this.props.getDeleteClientsList}
+                getTodoList={this.props.getDeleteFirmsList}
+                ref={(e) => this.DeleteFirm = e}
               />
             </TabPane>
             <TabPane tab="回款订单审批" key="payment">
@@ -733,6 +737,7 @@ handleDeleteFirmWithWdraw = (record) => {
                 pageTotal={this.props.updateClientsPageTotal}
                 pageSize={this.props.pageSize}
                 getTodoList={this.props.getUpdateClientsList}
+                ref={(e) => this.Payment = e}
               />
             </TabPane>
           </Tabs>
