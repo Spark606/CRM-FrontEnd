@@ -1,6 +1,7 @@
 import * as cs from '../constants';
+import { message } from 'antd';
 import _ from 'lodash';
-import {formatClients, formatRecords} from '../actions/base';
+import { formatClients, formatRecords } from '../actions/base';
 
 
 const initialState = {
@@ -23,7 +24,7 @@ export default function clientReducer(state = initialState, action) {
       return Object.assign({}, state, {
         clientsList: formatClients(action.payload.data.content),
         pageTotal: action.payload.data.totalPages * 2,
-        currentPage: action.payload.data.number+1,
+        currentPage: action.payload.data.number + 1,
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
@@ -52,7 +53,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_CLIENT_RECORD_SUCCESS:
-      console.log(action.payload.data)
+      message.success('添加跟进记录成功！');
       return Object.assign({}, state, {
         oneClientRecord: [...formatRecords([action.payload.data]), ...state.oneClientRecord],
         isFetching: false,
@@ -68,9 +69,10 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_CLIENT_SUCCESS:
+      message.success('新建个人客户成功！');
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList:  action.payload ? [...formatClients([{
+        clientsList: action.payload ? [...formatClients([{
           resourceId: 20,
           shareStatus: "private",
           resourceName: '傻bobo',
@@ -115,8 +117,13 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_CLIENT_SUCCESS:
-      const updateClientTemp = state.clientsList.map( e => {
-        if (e.clientId === action.payload.data.resource.resourceId){
+      if (action.payload.data.employeeRole === 2) {
+        message.success('修改个人客户成功！');
+      } else {
+        message.success('提交修改个人客户审核记录成功！请耐心等待审核结果。');
+      }
+      const updateClientTemp = state.clientsList.map(e => {
+        if (e.clientId === action.payload.data.resource.resourceId) {
           return formatClients([action.payload.data.resource])[0];
         }
         return e;
@@ -135,6 +142,11 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_CLIENT_SUCCESS:
+      if (action.payload.data.employeeRole === 2) {
+        message.success('删除个人客户成功！');
+      } else {
+        message.success('提交删除个人客户审核记录成功！请耐心等待审核结果。');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });

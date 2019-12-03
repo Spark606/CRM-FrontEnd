@@ -61,6 +61,7 @@ export default class LayoutPagae extends Component {
     e.preventDefault();
     // this.props.loginOut();
     localStorage.removeItem('sessions');
+    localStorage.removeItem('user');
     history.push('/login');
   };
   render() {

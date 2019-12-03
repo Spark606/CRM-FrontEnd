@@ -150,25 +150,6 @@ export default class ClientsTable extends Component {
   // 删除客户
   handledeleteClient = (record) => {
     this.props.deleteClient({resourceId: record.clientId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
-    // const seriesData = Object.assign({}, {
-    //   shareStatus: record.clientAvailable,
-    //   resourceName: record.clientName,
-    //   certificate: record.certificate,
-    //   info: record.remark,
-    //   shareStatus: record.clientAvailable,
-    //   createDate: moment(record.createDate).format(yearFormat),
-    //   endDate: moment(record.expireDate).format(yearFormat),
-    //   status: record.status,
-    //   phone: record.tel,
-    //   qq: record.qq,
-    //   employeeId: record.employeeId,
-    //   resourceId: record.clientId,
-    //   employeeName: record.employeeName,
-    //   province: record.province,
-    //   gender: record.gender,
-    //   email: record.email,
-    // });
-    // this.props.deleteClient(seriesData, this.props.currentPage,  this.props.pageSize, this.props.user_role);
   }
   // 删除客户end
 

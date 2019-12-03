@@ -121,8 +121,8 @@ export function deleteClient(params, currentPage, pageSize){
     });
     if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS && action.payload) {
       this.getClients({
-        page: 1,
-        pageSize: 2,
+        page: currentPage,
+        pageSize: pageSize,
       })
     }
     return action;
