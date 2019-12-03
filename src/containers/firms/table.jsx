@@ -18,6 +18,7 @@ const mapStateToProps = state => ({
   currentPage: state.firm.currentPage,
   pageTotal: state.firm.pageTotal,
   pageSize: state.firm.pageSize,
+  user_role: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -157,16 +158,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    // 提交删除请求，更新页面
-    this.props.deleteFirm(record.resourceId);
-    // const newData = _.filter(this.state.data, e => {
-    //   if (e.resourceId !== record.resourceId) {
-    //     return e;
-    //   }
-    // });
-    // this.setState({
-    //   data: newData
-    // })
+    this.props.deleteFirm({companyId: record.firmId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
   }
   // 删除客户end
 

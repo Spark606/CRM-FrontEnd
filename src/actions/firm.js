@@ -77,6 +77,12 @@ export function addNewFirm(params){
         types: [cs.ADD_NEW_FIRM_REQUEST, cs.ADD_NEW_FIRM_SUCCESS, cs.ADD_NEW_FIRM_FAIL],
       },
     });
+    if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
+      this.getFirms({
+        page: 1,
+        pageSize: 2,
+      })
+    }
     return action;
   };
 }
@@ -85,7 +91,7 @@ export function updateOneFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/firm/update',
+        endpoint: '/crm/employee/updateCompany',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -100,11 +106,11 @@ export function updateOneFirm(params){
   };
 }
 
-export function deleteFirm(params){
+export function deleteFirm(params, currentPage, pageSize){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/firm/delete',
+        endpoint: '/crm/employee/deleteCompany',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -115,6 +121,12 @@ export function deleteFirm(params){
         types: [cs.DELETE_ONE_FIRM_REQUEST, cs.DELETE_ONE_FIRM_SUCCESS, cs.DELETE_ONE_FIRM_FAIL],
       },
     });
+    if(action.type === cs.DELETE_ONE_FIRM_SUCCESS && action.payload) {
+      this.getFirms({
+        page: currentPage,
+        pageSize: pageSize,
+      })
+    }
     return action;
   };
 }

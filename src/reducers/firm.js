@@ -86,67 +86,24 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_FIRM_SUCCESS:
-        if (action.payload.data.employeeRole === 2) {
+        if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
           message.success('修改企业客户成功！');
         } else {
           message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
         }
+       const updateFirmTemp = state.firmsList.map(e => {
+        if (e.firmId === action.payload.data.company.companyId) {
+          return formatFirms([action.payload.data.company])[0];
+        }
+        return e;
+      })
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: _.map(data, e => {
-          if (e.resourceId === 1) {
-            return {
-              resourceId: 1,
-              shareStatus: "private",
-              companyCategory: 1,
-              companyName: '百度',
-              contact: 'bobo',
-              resourceName: 'Jim Green',
-              info: 'Sidney No. 1 Lake Park',
-              createDate: '2012-12-11',
-              endDate: '2020-12-24',
-              status: 2,
-              phone: '17844537359',
-              qq: '1105394023',
-              position: 'Hr',
-              employeeName: 'Liz',
-              province: '四川',
-              gender: 1,
-              email: 'lizbaby606@163.com',
-            };
-          } else {
-            return e;
-          }
-        })
+        firmsList: action.payload.data.employeeRole === 2 ? updateFirmTemp : [...state.firmsList]
       });
     case cs.UPDATE_ONE_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: _.map(data, e => {
-          if (e.resourceId === 1) {
-            return {
-              resourceId: 1,
-              shareStatus: "private",
-              companyCategory: 1,
-              companyName: '阿里巴巴',
-              contact: 'bobo',
-              resourceName: 'Jim Green',
-              info: 'Sidney No. 1 Lake Park',
-              createDate: '2012-12-11',
-              endDate: '2020-12-24',
-              status: 2,
-              phone: '17844537359',
-              qq: '1105394023',
-              position: 'Hr',
-              employeeName: 'Liz',
-              province: '四川',
-              gender: 1,
-              email: 'lizbaby606@163.com',
-            };
-          } else {
-            return e;
-          }
-        })
       });
 
     case cs.DELETE_ONE_FIRM_REQUEST:
@@ -154,7 +111,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_FIRM_SUCCESS:
-        if (action.payload.data.employeeRole === 2) {
+        if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
           message.success('删除企业客户成功！');
         } else {
           message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');
