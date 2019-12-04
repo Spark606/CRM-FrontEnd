@@ -36,6 +36,7 @@ export default store => next => action => {
     endpoint = url + endpoint;
     const apiUrl = endpoint;
 
+      console.log('请求Body:', options);
     // 这里开始使用fetch请求数据
     endpoint = fetch(endpoint, options).then(response => {
       // console.log('请求结束', response);
