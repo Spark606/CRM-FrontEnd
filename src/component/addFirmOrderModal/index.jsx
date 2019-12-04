@@ -16,7 +16,7 @@ class AddFirmOrderModal extends Component {
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       const seriesData = Object.assign({}, {
-        resourceId: values.clientId,
+        resourceId: values.dealClientsName,
         info: values.remark,
         createDate: moment(values.dealDate).format(yearFormat),
         employeeId: dataSource.employeeId,
@@ -107,10 +107,15 @@ class AddFirmOrderModal extends Component {
                     <Form.Item label="成交个人客户：">
                       {getFieldDecorator('dealClientsName', {
                       })(
-                        <Select style={{ width: 200 }}  placeholder="请选择成交个人客户">
+                        <Select style={{ width: 200 }}
+                          mode="multiple"
+                          placeholder="请选择成交个人客户"
+                        >
                           {allClientsList ? allClientsList.map((item) =>
-                              <Option key={item.resourceId}>{item.resourceName}</Option>
-                            )
+                            <Option key={item.resourceId}>
+                              {item.resourceName}
+                            </Option>
+                          )
                             : null
                           }
                         </Select>
