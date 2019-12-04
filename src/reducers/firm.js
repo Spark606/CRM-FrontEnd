@@ -5,6 +5,20 @@ import { formatFirms, formatRecords } from '../actions/base';
 
 const initialState = {
   firmsList: [],
+  allFirmsList: [
+    {
+      companyName: "a",
+      id: 1
+    },
+    {
+      companyName: "b",
+      id: 2
+    },
+    {
+      companyName: "c",
+      id: 3
+    }
+  ],
   currentPage: 1,
   oneFirmRecord: [],
   currentPage: 1,
@@ -13,7 +27,6 @@ const initialState = {
 };
 
 export default function firmReducer(state = initialState, action) {
-  console.log("我是state", state);
   switch (action.type) {
     case cs.GET_FIRMS_REQUEST:
       return Object.assign({}, state, {
@@ -52,7 +65,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_FIRM_SUCCESS:
-        message.success('新建企业客户成功！');
+      message.success('新建企业客户成功！');
       return Object.assign({}, state, {
         isFetching: false,
         firmsList: action.payload ? [...formatFirms([action.payload.data]), ...state.firmsList] : state.firmsList,
@@ -86,12 +99,12 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_FIRM_SUCCESS:
-        if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
-          message.success('修改企业客户成功！');
-        } else {
-          message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
-        }
-       const updateFirmTemp = state.firmsList.map(e => {
+      if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
+        message.success('修改企业客户成功！');
+      } else {
+        message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
+      }
+      const updateFirmTemp = state.firmsList.map(e => {
         if (e.firmId === action.payload.data.company.companyId) {
           return formatFirms([action.payload.data.company])[0];
         }
@@ -111,11 +124,11 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_FIRM_SUCCESS:
-        if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
-          message.success('删除企业客户成功！');
-        } else {
-          message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');
-        }
+      if (action.payload.data && action.payload.data && action.payload.data.employeeRole === 2) {
+        message.success('删除企业客户成功！');
+      } else {
+        message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -129,7 +142,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_FIRM_RECORD_SUCCESS:
-        message.success('添加跟进记录成功！');
+      message.success('添加跟进记录成功！');
       return Object.assign({}, state, {
         oneFirmRecord: action.payload ? [...formatRecords([action.payload.data]), ...state.oneFirmRecord] : state.oneFirmRecord,
         isFetching: false,
@@ -148,6 +161,19 @@ export default function firmReducer(state = initialState, action) {
       });
 
 
+    case cs.GET_ALL_FIRMS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_ALL_FIRMS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        allFirmsList: action.payload.data
+      });
+    case cs.GET_ALL_FIRMS_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
     // case cs.GET_FIRMS_REQUEST:
     //     return Object.assign({}, state, {
     //         isFetching: true

@@ -30,7 +30,6 @@ export default function sessionReducer(state = initialState, action) {
     case cs.LOGIN_REQUEST:
       return Object.assign({}, state, { isFetching: true });
     case cs.LOGIN_SUCCESS: console.log();
-      console.log("是我，session");
       return Object.assign({}, state, {
         isFetching: false,
         token: action.payload.data.token,

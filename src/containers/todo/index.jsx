@@ -82,7 +82,6 @@ handleDeleteClientWithWdraw = (record) => {
 
 
 handleUpdateFirmPass = (record) => {
-  console.log(record);
   this.props.checkPassFirm({
     id: record.id,
     checkedStatus: 1,

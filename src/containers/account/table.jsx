@@ -47,7 +47,6 @@ export default class AccountTable extends Component {
     this.formAddAccountModal.showModal();
   };
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getClients({
       page: page,
       pageSize: pageSize,
@@ -61,7 +60,6 @@ export default class AccountTable extends Component {
     total: pageTotal,
     onChange: (a, b) => { this.pageChange(a, b); }
   };
-  console.log('pagination', pagination);
   const columns = [
     {
       width: 120,

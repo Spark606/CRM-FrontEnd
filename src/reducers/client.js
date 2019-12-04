@@ -6,6 +6,7 @@ import { formatClients, formatRecords } from '../actions/base';
 
 const initialState = {
   clientsList: [],
+  allClientsList: [],
   oneClientRecord: [],
   oneClientStatus: 1,
   currentPage: 1,
@@ -20,7 +21,6 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
-      console.log(action.payload.data.number);
       return Object.assign({}, state, {
         clientsList: formatClients(action.payload.data.content),
         pageTotal: action.payload.data.totalPages * 2,
@@ -151,6 +151,20 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.DELETE_ONE_CLIENT_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+    case cs.GET_ALL_CLIENTS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_ALL_CLIENTS_SUCCESS:
+      return Object.assign({}, state, {
+        allClientsList: action.payload.data,
+        isFetching: false,
+      });
+    case cs.GET_ALL_CLIENTS_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });

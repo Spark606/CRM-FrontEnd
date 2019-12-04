@@ -62,7 +62,6 @@ class EditClientModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource } = this.props;
-    console.log(dataSource, 'wrapEditClientModal');
     return (
       <div>
         <Modal

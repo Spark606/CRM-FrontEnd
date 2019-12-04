@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
+import {getAllFirms} from '../../actions/firm';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, InputNumber } from 'antd';
 const { TextArea } = Input;
-
+const { Option } = Select;
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+  allFirmsList: state.firm.allFirmsList
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    getAllFirms
+  },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class AddClientOrderModal extends Component {
   state = {
     visible: false,
@@ -11,6 +24,9 @@ class AddClientOrderModal extends Component {
     autoCompleteResult: [],
     genders: 1,
   };
+  componentWillMount(){
+    this.props.getAllFirms();
+  }
   handleSubmit = e => {
     e.preventDefault();
     const { dataSource } = this.props;
@@ -47,7 +63,7 @@ class AddClientOrderModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataSource } = this.props;
+    const { dataSource, allFirmsList } = this.props;
     return (
       <div>
         <Modal
@@ -105,8 +121,15 @@ class AddClientOrderModal extends Component {
                   <Col span={12}>
                     <Form.Item label="成交企业：">
                       {getFieldDecorator('dealFirmName', {
-                        initialValue: dataSource ? dataSource.dealFirmName : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
+                      })(
+                        <Select style={{ width: 200 }}>
+                          {
+                            allFirmsList.map(item => {
+                            <Option value={item.id}>{item.compamyName}</Option>
+                            })
+                          }
+                        </Select>
+                      )}
                     </Form.Item>
                   </Col>
                 </Row>

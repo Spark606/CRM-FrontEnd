@@ -167,7 +167,6 @@ export default class ClientsTable extends Component {
     // 打开跟进记录，并编辑
   }
   handleAddOrder = (record) => {
-    console.log("record", record);
     this.setState({
       tempData: record
     });
@@ -175,7 +174,6 @@ export default class ClientsTable extends Component {
     // 打开跟进记录，并编辑
   }
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getClients({
       page: page,
       pageSize: pageSize,
@@ -190,7 +188,6 @@ export default class ClientsTable extends Component {
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    console.log('clientsList', clientsList);
     const columns = [
       {
         width: 120,

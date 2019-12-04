@@ -122,15 +122,7 @@ export default class FirmsTable extends Component {
     this.formEditFirmModal.showModal();
   };
   addNewFormData = (values) => {
-    // values.resourceId = this.state.data.length + 1;
-    // console.log(values, 'xxxxxxxxxxxxxx');
-    // let arr = this.state.data;
-    // arr.unshift(values)
     this.props.addNewFirm(values);
-    // 提交新的数据，并获得新row，加到data数组前部
-    // this.setState({
-    //   data: arr
-    // });
   }
   // 新建客户end
   // 修改客户
@@ -141,16 +133,7 @@ export default class FirmsTable extends Component {
     this.formEditFirmModal.showModal();
   }
   updateFormData = (values) => {
-    // 更新数据后，也将原始state里的数据更新
-    // const newData = _.map(this.state.data, e => {
-    //   if (e.resourceId === values.resourceId) {
-    //     return values;
-    //   } else {
-    //     return e;
-    //   }
-    // });
     this.props.updateOneFirm(values);
-    // console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
     })
@@ -175,7 +158,6 @@ export default class FirmsTable extends Component {
     });
   }
   handleAddOrder = (record) => {
-    console.log("record", record);
     this.setState({
       tempData: record
     });
@@ -183,7 +165,6 @@ export default class FirmsTable extends Component {
     // 打开跟进记录，并编辑
   }
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getFirms({
       page: page,
       pageSize: pageSize,
@@ -197,7 +178,6 @@ export default class FirmsTable extends Component {
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    console.log('firmsList', firmsList);
     const columns = [
       {
         width: 120,

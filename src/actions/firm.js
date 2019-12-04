@@ -61,7 +61,6 @@ export function addNewFirmRecord(params){
   };
 }
 
-
 export function addNewFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
@@ -127,6 +126,23 @@ export function deleteFirm(params, currentPage, pageSize){
         pageSize: pageSize,
       })
     }
+    return action;
+  };
+}
+export function getAllFirms(){
+  console.log('getAllFirms');
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/getResourceList',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_ALL_FIRMS_REQUEST, cs.GET_ALL_FIRMS_SUCCESS, cs.GET_ALL_FIRMS_FAIL],
+      },
+    });
     return action;
   };
 }

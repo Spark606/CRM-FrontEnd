@@ -53,7 +53,6 @@ export default class LayoutPagae extends Component {
     this.props.restoreSessionFromLocalStorage();
   }
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 

@@ -47,7 +47,6 @@ class EditFirmModal extends Component {
         seriesData.companyId = dataSource.firmId,
         this.props.updateFormData(seriesData); // 提交新数据
       } else {
-        console.log('我是新企业', seriesData);
         this.props.addNewFormData(seriesData); // 提交新数据
       }
     });
