@@ -98,7 +98,11 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_CLIENT_SUCCESS:
+        if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS' || action.payload.data === 'DELETE_RESOURCE_SUCCESS'){
         message.success('审核通过成功！');
+      } else {
+        message.success('审核驳回成功！');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -112,7 +116,11 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_FIRM_SUCCESS:
-        message.success('审核通过成功！');
+        if(action.payload.data === 'UPDATE_COMPANY_SUCCESS' || action.payload.data === 'DELETE_COMPANY_SUCCESS'){
+          message.success('审核通过成功！');
+        } else {
+          message.success('审核驳回成功！');
+        }
       return Object.assign({}, state, {
         isFetching: false,
       });
