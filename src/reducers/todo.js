@@ -64,7 +64,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_DELETE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        deleteFirmsList: formatClients(action.payload.data.content),
+        deleteFirmsList: formatFirms(action.payload.data.content),
         deleteFirmsPageTotal: action.payload.data.totalPages * 2,
         deleteFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -82,7 +82,7 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_UPDATE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
-        updateFirmsList: formatClients(action.payload.data.content),
+        updateFirmsList: formatFirms(action.payload.data.content),
         updateFirmsPageTotal: action.payload.data.totalPages * 2,
         updateFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
@@ -112,10 +112,8 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_FIRM_SUCCESS:
+        message.success('审核通过成功！');
       return Object.assign({}, state, {
-        // updateClientsList: action.payload ? formatClients(action.payload.data) : [],
-        updateFirmsPageTotal: action.payload.data.totalPages * 2,
-        updateFirmsCurrentPage: action.payload.data.number + 1,
         isFetching: false,
       });
     case cs.CKECK_PASS_FIRM_FAIL:

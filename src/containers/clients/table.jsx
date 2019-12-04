@@ -9,7 +9,8 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder } from '../../actions/client';
+import {getAllFirms} from '../../actions/firm';
 
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -18,7 +19,8 @@ const mapStateToProps = state => ({
   currentPage: state.client.currentPage,
   pageTotal: state.client.pageTotal,
   pageSize: state.client.pageSize,
-  user_role: state.sessions.user_role
+  user_role: state.sessions.user_role,
+  allFirmsList: state.firm.allFirmsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -26,7 +28,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getClientRecordsList,
     updateOneClient,
     addNewClient,
-    deleteClient
+    deleteClient,
+    getAllFirms,
+    addNewClientOrder
   },
   dispatch
 );
@@ -42,6 +46,7 @@ export default class ClientsTable extends Component {
     this.onInit();
   }
   onInit = () => {
+    this.props.getAllFirms();
     this.props.getClients({
       page: this.props.currentPage,
       pageSize: this.props.pageSize,
@@ -133,14 +138,6 @@ export default class ClientsTable extends Component {
     this.formEditClientModal.showModal();
   }
   updateFormData = (values) => {
-    // 更新数据后，也将原始state里的数据更新
-    // const newData = _.map(this.state.data, e => {
-    //   if (e.resourceId === values.resourceId) {
-    //     return values;
-    //   } else {
-    //     return e;
-    //   }
-    // });
     this.props.updateOneClient(values);
     this.setState({
       data: newData
@@ -167,7 +164,6 @@ export default class ClientsTable extends Component {
     // 打开跟进记录，并编辑
   }
   handleAddOrder = (record) => {
-    console.log("record", record);
     this.setState({
       tempData: record
     });
@@ -175,7 +171,6 @@ export default class ClientsTable extends Component {
     // 打开跟进记录，并编辑
   }
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getClients({
       page: page,
       pageSize: pageSize,
@@ -183,14 +178,13 @@ export default class ClientsTable extends Component {
   }
 
   render() {
-    const { clientsList, pageSize, currentPage, pageTotal } = this.props;
+    const { clientsList, pageSize, currentPage, pageTotal, allFirmsList} = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    console.log('clientsList', clientsList);
     const columns = [
       {
         width: 120,
@@ -367,6 +361,8 @@ export default class ClientsTable extends Component {
           wrappedComponentRef={(form) => this.addClientOrderModal = form}
           // ref="addClientRecordModal"
           dataSource={this.state.tempData}
+          addNewClientOrder={this.props.addNewClientOrder}
+          allFirmsList = {allFirmsList}
         />
       </div>
     );

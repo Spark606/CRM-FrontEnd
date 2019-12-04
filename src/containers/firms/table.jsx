@@ -9,8 +9,8 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
-import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } from '../../actions/firm';
-
+import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm, addNewFirmOrder } from '../../actions/firm';
+import {getAllClients} from '../../actions/client';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
@@ -18,6 +18,8 @@ const mapStateToProps = state => ({
   currentPage: state.firm.currentPage,
   pageTotal: state.firm.pageTotal,
   pageSize: state.firm.pageSize,
+  user_role: state.sessions.user_role,
+  allClientsList: state.client.allClientsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -25,7 +27,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getFirmRecordsList,
     updateOneFirm,
     addNewFirm,
-    deleteFirm
+    deleteFirm,
+    getAllClients,
+    addNewFirmOrder
   },
   dispatch
 );
@@ -41,6 +45,7 @@ export default class FirmsTable extends Component {
     this.onInit();
   }
   onInit = () => {
+    this.props.getAllClients();
     this.props.getFirms({
       page: 1,
       pageSize: 2,
@@ -121,15 +126,7 @@ export default class FirmsTable extends Component {
     this.formEditFirmModal.showModal();
   };
   addNewFormData = (values) => {
-    // values.resourceId = this.state.data.length + 1;
-    // console.log(values, 'xxxxxxxxxxxxxx');
-    // let arr = this.state.data;
-    // arr.unshift(values)
     this.props.addNewFirm(values);
-    // 提交新的数据，并获得新row，加到data数组前部
-    // this.setState({
-    //   data: arr
-    // });
   }
   // 新建客户end
   // 修改客户
@@ -140,16 +137,7 @@ export default class FirmsTable extends Component {
     this.formEditFirmModal.showModal();
   }
   updateFormData = (values) => {
-    // 更新数据后，也将原始state里的数据更新
-    // const newData = _.map(this.state.data, e => {
-    //   if (e.resourceId === values.resourceId) {
-    //     return values;
-    //   } else {
-    //     return e;
-    //   }
-    // });
     this.props.updateOneFirm(values);
-    // console.log(newData, 'cccccccccccccccccccc');
     this.setState({
       data: newData
     })
@@ -157,16 +145,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    // 提交删除请求，更新页面
-    this.props.deleteFirm(record.resourceId);
-    // const newData = _.filter(this.state.data, e => {
-    //   if (e.resourceId !== record.resourceId) {
-    //     return e;
-    //   }
-    // });
-    // this.setState({
-    //   data: newData
-    // })
+    this.props.deleteFirm({companyId: record.firmId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
   }
   // 删除客户end
 
@@ -183,7 +162,6 @@ export default class FirmsTable extends Component {
     });
   }
   handleAddOrder = (record) => {
-    console.log("record", record);
     this.setState({
       tempData: record
     });
@@ -191,21 +169,19 @@ export default class FirmsTable extends Component {
     // 打开跟进记录，并编辑
   }
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getFirms({
       page: page,
       pageSize: pageSize,
     });
   }
   render() {
-    const { firmsList, pageSize, currentPage, pageTotal } = this.props;
+    const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    console.log('firmsList', firmsList);
     const columns = [
       {
         width: 120,
@@ -427,6 +403,8 @@ export default class FirmsTable extends Component {
           wrappedComponentRef={(form) => this.addFirmOrderModal = form}
           // ref="addFirmRecordModal"
           dataSource={this.state.tempData}
+          addNewFirmOrder={this.props.addNewFirmOrder}
+          allClientsList = {allClientsList}
         />
       </div>
     );

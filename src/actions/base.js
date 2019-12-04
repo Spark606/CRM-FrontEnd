@@ -62,6 +62,7 @@ export function formatFirms(dataSource) {
     const seriesData = [];
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
+        id: item.id,
         firmId: item.companyId,
         firmAvailable: item.shareStatus,
         firmName: item.companyName,

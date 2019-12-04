@@ -33,7 +33,6 @@ class Login extends React.Component {
     });
   };
   onChangeRole = e => {
-    console.log('radio checked', e.target.value);
     this.setState({
       employRole: e.target.value,
     });

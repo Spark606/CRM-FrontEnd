@@ -35,7 +35,6 @@ export default store => next => action => {
     const url = 'http://192.168.205.221:8000';
     endpoint = url + endpoint;
     const apiUrl = endpoint;
-    console.log('options', options);
 
     // 这里开始使用fetch请求数据
     endpoint = fetch(endpoint, options).then(response => {

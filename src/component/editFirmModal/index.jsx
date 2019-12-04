@@ -36,16 +36,17 @@ class EditFirmModal extends Component {
         info: values.remark,
         phoneNumber: values.tel,
         qq: values.qq,
+        occupation: values.position,
         employeeName: values.employeeName,
         province: values.province,
         gender: values.gender,
         email: values.email,
       });
       if (dataSource) { // 如果datasource是null，说明是新建客户
-        seriesData.key = dataSource.key;
+        seriesData.employeeId = dataSource.employeeId,
+        seriesData.companyId = dataSource.firmId,
         this.props.updateFormData(seriesData); // 提交新数据
       } else {
-        console.log('我是新企业', seriesData);
         this.props.addNewFormData(seriesData); // 提交新数据
       }
     });
@@ -206,6 +207,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="职务：">
                       {getFieldDecorator('position', {
                         initialValue: dataSource ? dataSource.position : null,
+                        rules: [{ required: true, message: '请输入联系人职位。' }],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

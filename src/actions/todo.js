@@ -51,7 +51,7 @@ export function getDeleteFirmsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/getCompanyCheckList',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -72,7 +72,7 @@ export function getUpdateFirmsList(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/getCompanyCheckList',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -101,9 +101,15 @@ export function checkPassClient(params, checkedStatus, currentPage, pageSize){
           timeout: 3000,
           types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
         },
-      });
-      console.log(action.payload.data, '-----------------------------');
+      }); 
       if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS'){
+        this.getUpdateClientsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
+      if(action.payload.data === 'REJECT_UPDATE_SUCCESS'){
         this.getUpdateClientsList({
           checkedStatus: checkedStatus,
           page: currentPage,
@@ -117,14 +123,21 @@ export function checkPassClient(params, checkedStatus, currentPage, pageSize){
           pageSize: pageSize
         })
       }
+      if(action.payload.data === 'REJECT_DELETE_SUCCESS'){
+        this.getDeleteClientsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
       return action;
     };
   }
-  export function checkPassFirm(params){
+  export function checkPassFirm(params, checkedStatus, currentPage, pageSize){
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
-          endpoint: '/crm/manager/checkResourceCheckList',
+          endpoint: '/crm/manager/checkCompanyCheckList',
           method: 'POST',
           mode: "cors",
           body: params,
@@ -135,6 +148,34 @@ export function checkPassClient(params, checkedStatus, currentPage, pageSize){
           types: [cs.CKECK_PASS_FIRM_REQUEST, cs.CKECK_PASS_FIRM_SUCCESS, cs.CKECK_PASS_FIRM_FAIL],
         },
       });
+      if(action.payload.data === 'UPDATE_COMPANY_SUCCESS'){
+        this.getUpdateFirmsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
+      if(action.payload.data === 'REJECT_UPDATE_SUCCESS'){
+        this.getUpdateFirmsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
+      if(action.payload.data === 'DELETE_COMPANY_SUCCESS'){
+        this.getDeleteFirmsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
+      if(action.payload.data === 'REJECT_DELETE_SUCCESS'){
+        this.getDeleteFirmsList({
+          checkedStatus: checkedStatus,
+          page: currentPage,
+          pageSize: pageSize
+        })
+      }
       return action;
     };
   }

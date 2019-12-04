@@ -61,7 +61,6 @@ export function addNewFirmRecord(params){
   };
 }
 
-
 export function addNewFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
@@ -77,6 +76,12 @@ export function addNewFirm(params){
         types: [cs.ADD_NEW_FIRM_REQUEST, cs.ADD_NEW_FIRM_SUCCESS, cs.ADD_NEW_FIRM_FAIL],
       },
     });
+    if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
+      this.getFirms({
+        page: 1,
+        pageSize: 2,
+      })
+    }
     return action;
   };
 }
@@ -85,7 +90,7 @@ export function updateOneFirm(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/firm/update',
+        endpoint: '/crm/employee/updateCompany',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -100,11 +105,11 @@ export function updateOneFirm(params){
   };
 }
 
-export function deleteFirm(params){
+export function deleteFirm(params, currentPage, pageSize){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/firm/delete',
+        endpoint: '/crm/employee/deleteCompany',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -113,6 +118,49 @@ export function deleteFirm(params){
         },
         timeout: 3000,
         types: [cs.DELETE_ONE_FIRM_REQUEST, cs.DELETE_ONE_FIRM_SUCCESS, cs.DELETE_ONE_FIRM_FAIL],
+      },
+    });
+    if(action.type === cs.DELETE_ONE_FIRM_SUCCESS && action.payload) {
+      this.getFirms({
+        page: currentPage,
+        pageSize: pageSize,
+      })
+    }
+    return action;
+  };
+}
+export function getAllFirms(){
+  console.log('getAllFirms');
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/getCompanyNames',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_ALL_FIRMS_REQUEST, cs.GET_ALL_FIRMS_SUCCESS, cs.GET_ALL_FIRMS_FAIL],
+      },
+    });
+    return action;
+  };
+}
+
+
+export function addNewFirmOrder(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/createResource',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.ADD_NEW_FIRM_ORDER_REQUEST, cs.ADD_NEW_FIRM_ORDER_SUCCESS, cs.ADD_NEW_FIRM_ORDER_FAIL],
       },
     });
     return action;

@@ -18,7 +18,6 @@ class CheckPage extends Component {
     checkedStatus: 0,
   }
   componentWillMount() {
-    console.log('CheckPage page init');
     this.onInit();
   }
   onInit = () => {
@@ -39,7 +38,6 @@ class CheckPage extends Component {
     });
   }
   pageChange = (page, pageSize) => {
-    console.log(page, pageSize);
     this.props.getTodoList({
       checkedStatus: this.state.checkedStatus,
       page: page,
