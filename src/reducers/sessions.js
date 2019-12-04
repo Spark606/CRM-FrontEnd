@@ -13,7 +13,8 @@ const initialState = {
   regMsg: {},
   userMsg: {},
   id: null,
-
+  user_email: null,
+  user_phone:1234567,
   errorMessage: 'Server Lost Connect!'
 };
 
@@ -74,6 +75,25 @@ export default function sessionReducer(state = initialState, action) {
         isFetching: false,
         errorMessage: findErrorMessage(action.error.code)
       });
+
+
+    case cs.UPDATE_USER_INFORMATION_REQUEST:
+      return Object.assign({}, state, { error: false, isFetching: true });
+    case cs.UPDATE_USER_INFORMATION_SUCCESS:
+      console.log(action.payload);
+      return Object.assign({}, state, {
+        isFetching: false,
+        ...action.payload.userMsg,
+        //: action.payload.token,
+        regStatus: true,
+      });
+    case cs.UPDATE_USER_INFORMATION_FAIL:
+      return Object.assign({}, state, {
+        error: true,
+        isFetching: false,
+        errorMessage: findErrorMessage(action.error.code)
+      });
+
 
     case cs.LOGOUT:
       return Object.assign({}, state, initialState);

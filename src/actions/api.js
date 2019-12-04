@@ -36,7 +36,7 @@ export function login(params) {
     });
 
     if (action.type === cs.LOGIN_SUCCESS && action.payload) {
-      const { token, user_Id, user_name, user_role} = action.payload.data;
+      const { token, user_Id, user_name, user_role } = action.payload.data;
       if (token) {
         localStorage.setItem('sessions', JSON.stringify(token));
         localStorage.setItem('user', JSON.stringify({
@@ -116,4 +116,22 @@ export function refreshToken(params) {
       }
     }
   };
+}
+
+export function updateUserInf(params) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/test',
+        method: 'POST',
+        body: params,
+        mode: "cors",
+        header: {
+          'Content-Type': 'application/json',
+        },
+        types: [cs.UPDATE_USER_INFORMATION_REQUEST, cs.UPDATE_USER_INFORMATION_SUCCESS, cs.UPDATE_USER_INFORMATION_FAIL],
+      },
+    });
+    return action;
+  }
 }
