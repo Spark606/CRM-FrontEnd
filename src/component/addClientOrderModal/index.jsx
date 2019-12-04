@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import {getAllFirms} from '../../actions/firm';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, InputNumber } from 'antd';
 const { TextArea } = Input;
 const { Option } = Select;
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-const mapStateToProps = state => ({
-  allFirmsList: state.firm.allFirmsList
-});
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    getAllFirms
-  },
-  dispatch
-);
-@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class AddClientOrderModal extends Component {
   state = {
     visible: false,
@@ -24,22 +11,20 @@ class AddClientOrderModal extends Component {
     autoCompleteResult: [],
     genders: 1,
   };
-  componentWillMount(){
-    this.props.getAllFirms();
-  }
   handleSubmit = e => {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       const seriesData = Object.assign({}, {
-        resourceId: values.clientId,
-        resourceName: values.clientName,
+        resourceId: dataSource.clientId,
         info: values.remark,
         createDate: moment(values.dealDate).format(yearFormat),
-        employeeName: values.employeeName,
         employeeId: dataSource.employeeId,
+        companyId: values.dealFirmName,
+        orderPaySum: values.orderPaySum
       });
-      this.props.addNewFormData(seriesData);
+      console.log(seriesData);
+      this.props.addNewClientOrder(seriesData);
     });
     this.props.form.resetFields();
     // 提交成功，关闭模态框
@@ -64,6 +49,7 @@ class AddClientOrderModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource, allFirmsList } = this.props;
+    console.log(dataSource, allFirmsList);
     return (
       <div>
         <Modal
@@ -115,18 +101,18 @@ class AddClientOrderModal extends Component {
                     <Form.Item label="成交总额：">
                       {getFieldDecorator('orderPaySum', {
                         initialValue: dataSource ? dataSource.orderPaySum : null,
-                      })(<div><InputNumber min={1} style={{ maxWidth: 200 }} />  元</div>)}
+                      })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="成交企业：">
                       {getFieldDecorator('dealFirmName', {
                       })(
-                        <Select style={{ width: 200 }}>
-                          {
-                            allFirmsList.map(item => {
-                            <Option value={item.id}>{item.compamyName}</Option>
-                            })
+                        <Select style={{ width: 200 }}  placeholder="请选择成交公司">
+                          {allFirmsList ? allFirmsList.map((item) =>
+                              <Option key={item.companyId}>{item.companyName}</Option>
+                            )
+                            : null
                           }
                         </Select>
                       )}

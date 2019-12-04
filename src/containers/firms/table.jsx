@@ -9,8 +9,8 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
-import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm } from '../../actions/firm';
-
+import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm, addNewFirmOrder } from '../../actions/firm';
+import {getAllClients} from '../../actions/client';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
   currentPage: state.firm.currentPage,
   pageTotal: state.firm.pageTotal,
   pageSize: state.firm.pageSize,
-  user_role: state.sessions.user_role
+  user_role: state.sessions.user_role,
+  allClientsList: state.client.allClientsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -26,7 +27,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getFirmRecordsList,
     updateOneFirm,
     addNewFirm,
-    deleteFirm
+    deleteFirm,
+    getAllClients,
+    addNewFirmOrder
   },
   dispatch
 );
@@ -42,6 +45,7 @@ export default class FirmsTable extends Component {
     this.onInit();
   }
   onInit = () => {
+    this.props.getAllClients();
     this.props.getFirms({
       page: 1,
       pageSize: 2,
@@ -171,7 +175,7 @@ export default class FirmsTable extends Component {
     });
   }
   render() {
-    const { firmsList, pageSize, currentPage, pageTotal } = this.props;
+    const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -399,6 +403,8 @@ export default class FirmsTable extends Component {
           wrappedComponentRef={(form) => this.addFirmOrderModal = form}
           // ref="addFirmRecordModal"
           dataSource={this.state.tempData}
+          addNewFirmOrder={this.props.addNewFirmOrder}
+          allClientsList = {allClientsList}
         />
       </div>
     );

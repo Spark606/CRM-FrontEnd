@@ -126,13 +126,33 @@ export function getAllClients(params){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/getResourceList',
+        endpoint: '/crm/employee/getResourceNames',
         method: 'GET',
         header: {
           'Content-Type': 'application/json',
         },
         timeout: 3000,
         types: [cs.GET_ALL_CLIENTS_REQUEST, cs.GET_ALL_CLIENTS_SUCCESS, cs.GET_ALL_CLIENTS_FAIL],
+      },
+    });
+    return action;
+  };
+}
+
+
+export function addNewClientOrder(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/createResource',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.ADD_NEW_CLIENT_ORDER_REQUEST, cs.ADD_NEW_CLIENT_ORDER_SUCCESS, cs.ADD_NEW_CLIENT_ORDER_FAIL],
       },
     });
     return action;

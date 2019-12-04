@@ -5,20 +5,7 @@ import { formatFirms, formatRecords } from '../actions/base';
 
 const initialState = {
   firmsList: [],
-  allFirmsList: [
-    {
-      companyName: "a",
-      id: 1
-    },
-    {
-      companyName: "b",
-      id: 2
-    },
-    {
-      companyName: "c",
-      id: 3
-    }
-  ],
+  allFirmsList: [],
   currentPage: 1,
   oneFirmRecord: [],
   currentPage: 1,
@@ -73,25 +60,6 @@ export default function firmReducer(state = initialState, action) {
     case cs.ADD_NEW_FIRM_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: [...formatFirms([{
-          resourceId: 20,
-          shareStatus: "private",
-          companyCategory: 1,
-          companyName: '阿里巴巴',
-          contact: 'bobo',
-          resourceName: 'Jim Green',
-          info: 'Sidney No. 1 Lake Park',
-          createDate: '2012-12-11',
-          endDate: '2020-12-24',
-          status: 2,
-          phone: '17844537359',
-          qq: '1105394023',
-          position: 'Hr',
-          employeeName: 'Liz',
-          province: '四川',
-          gender: 1,
-          email: 'lizbaby606@163.com',
-        }]), ...state.firmsList]
       });
 
     case cs.UPDATE_ONE_FIRM_REQUEST:
@@ -149,14 +117,6 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.ADD_NEW_FIRM_RECORD_FAIL:
       return Object.assign({}, state, {
-        oneFirmRecord: [...formatRecords([{
-          key: 6,
-          content: '我是新跟进',
-          recorderName: 'Liz',
-          status: 4,
-          recorderId: 3,
-          recorderTime: '2018-12-11 22:23:21'
-        }]), ...state.oneFirmRecord],
         isFetching: false,
       });
 
@@ -166,11 +126,27 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ALL_FIRMS_SUCCESS:
+      console.log("GET_ALL_FIRMS_SUCCESS", action.payload.data);
       return Object.assign({}, state, {
         isFetching: false,
         allFirmsList: action.payload.data
       });
     case cs.GET_ALL_FIRMS_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+
+    case cs.ADD_NEW_FIRM_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.ADD_NEW_FIRM_ORDER_SUCCESS:
+      message.success('新建企业客户订单成功！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+    case cs.ADD_NEW_FIRM_ORDER_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });

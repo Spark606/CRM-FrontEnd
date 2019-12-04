@@ -134,13 +134,33 @@ export function getAllFirms(){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/getResourceList',
+        endpoint: '/crm/employee/getCompanyNames',
         method: 'GET',
         header: {
           'Content-Type': 'application/json',
         },
         timeout: 3000,
         types: [cs.GET_ALL_FIRMS_REQUEST, cs.GET_ALL_FIRMS_SUCCESS, cs.GET_ALL_FIRMS_FAIL],
+      },
+    });
+    return action;
+  };
+}
+
+
+export function addNewFirmOrder(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/employee/createResource',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.ADD_NEW_FIRM_ORDER_REQUEST, cs.ADD_NEW_FIRM_ORDER_SUCCESS, cs.ADD_NEW_FIRM_ORDER_FAIL],
       },
     });
     return action;
