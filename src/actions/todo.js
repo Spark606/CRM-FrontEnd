@@ -1,10 +1,10 @@
 import * as cs from '../constants';
-import {CALL_API} from '../middlewares/callAPI';
+import { CALL_API } from '../middlewares/callAPI';
 
 const url = 'http://192.168.205.221:8000';
 
 // get delete client page
-export function getDeleteClientsList(params){
+export function getDeleteClientsList(params) {
   params.requestStatus = 1;
   return async (dispatch) => {
     const action = await dispatch({
@@ -25,7 +25,7 @@ export function getDeleteClientsList(params){
 }
 
 // get update client page
-export function getUpdateClientsList(params){
+export function getUpdateClientsList(params) {
   params.requestStatus = 0;
   return async (dispatch) => {
     const action = await dispatch({
@@ -46,7 +46,7 @@ export function getUpdateClientsList(params){
 }
 
 // get delete client page
-export function getDeleteFirmsList(params){
+export function getDeleteFirmsList(params) {
   params.requestStatus = 1;
   return async (dispatch) => {
     const action = await dispatch({
@@ -67,7 +67,7 @@ export function getDeleteFirmsList(params){
 }
 
 // get update client page
-export function getUpdateFirmsList(params){
+export function getUpdateFirmsList(params) {
   params.requestStatus = 0;
   return async (dispatch) => {
     const action = await dispatch({
@@ -87,95 +87,95 @@ export function getUpdateFirmsList(params){
   };
 }
 
-export function checkPassClient(params, checkedStatus, currentPage, pageSize){
-    return async (dispatch) => {
-      const action = await dispatch({
-        [CALL_API]: {
-          endpoint: '/crm/manager/checkResourceCheckList',
-          method: 'POST',
-          mode: "cors",
-          body: params,
-          header: {
-            'Content-Type': 'application/json',
-          },
-          timeout: 3000,
-          types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
+export function checkPassClient(params, checkedStatus, currentPage, pageSize) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/manager/checkResourceCheckList',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
         },
-      }); 
-      if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS'){
-        this.getUpdateClientsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'REJECT_UPDATE_SUCCESS'){
-        this.getUpdateClientsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'DELETE_RESOURCE_SUCCESS'){
-        this.getDeleteClientsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'REJECT_DELETE_SUCCESS'){
-        this.getDeleteClientsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      return action;
-    };
-  }
-  export function checkPassFirm(params, checkedStatus, currentPage, pageSize){
-    return async (dispatch) => {
-      const action = await dispatch({
-        [CALL_API]: {
-          endpoint: '/crm/manager/checkCompanyCheckList',
-          method: 'POST',
-          mode: "cors",
-          body: params,
-          header: {
-            'Content-Type': 'application/json',
-          },
-          timeout: 3000,
-          types: [cs.CKECK_PASS_FIRM_REQUEST, cs.CKECK_PASS_FIRM_SUCCESS, cs.CKECK_PASS_FIRM_FAIL],
+        timeout: 3000,
+        types: [cs.CKECK_PASS_CLIENT_REQUEST, cs.CKECK_PASS_CLIENT_SUCCESS, cs.CKECK_PASS_CLIENT_FAIL],
+      },
+    });
+    if (action.payload.data === 'UPDATE_RESOURCE_SUCCESS') {
+      this.getUpdateClientsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'REJECT_UPDATE_SUCCESS') {
+      this.getUpdateClientsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'DELETE_RESOURCE_SUCCESS') {
+      this.getDeleteClientsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'REJECT_DELETE_SUCCESS') {
+      this.getDeleteClientsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    return action;
+  };
+}
+export function checkPassFirm(params, checkedStatus, currentPage, pageSize) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/manager/checkCompanyCheckList',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
         },
-      });
-      if(action.payload.data === 'UPDATE_COMPANY_SUCCESS'){
-        this.getUpdateFirmsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'REJECT_UPDATE_SUCCESS'){
-        this.getUpdateFirmsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'DELETE_COMPANY_SUCCESS'){
-        this.getDeleteFirmsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      if(action.payload.data === 'REJECT_DELETE_SUCCESS'){
-        this.getDeleteFirmsList({
-          checkedStatus: checkedStatus,
-          page: currentPage,
-          pageSize: pageSize
-        })
-      }
-      return action;
-    };
-  }
+        timeout: 3000,
+        types: [cs.CKECK_PASS_FIRM_REQUEST, cs.CKECK_PASS_FIRM_SUCCESS, cs.CKECK_PASS_FIRM_FAIL],
+      },
+    });
+    if (action.payload.data === 'UPDATE_COMPANY_SUCCESS') {
+      this.getUpdateFirmsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'REJECT_UPDATE_SUCCESS') {
+      this.getUpdateFirmsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'DELETE_COMPANY_SUCCESS') {
+      this.getDeleteFirmsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'REJECT_DELETE_SUCCESS') {
+      this.getDeleteFirmsList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    return action;
+  };
+}
