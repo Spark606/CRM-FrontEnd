@@ -9,7 +9,7 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddAccountModal from '../../component/addAccountModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
-import {getOrderList} from '../../actions/order';
+import { getOrderList } from '../../actions/order';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   clientsList: state.client.clientsList,
@@ -24,30 +24,39 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getClientRecordsList,
     updateOneClient,
     addNewClient,
-    deleteClient
+    deleteClient,
+    getOrderList
   },
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps)
 export default class AccountTable extends Component {
   state = {
-    orderType: 0,
+    orderType: 1,
   }
   componentWillMount() {
     this.onInit();
   }
   onInit = () => {
-    this.props.getClients({
-      page: this.props.currentPage,
-      pageSize: this.props.pageSize,
+    this.props.getOrderList({
+      orderType: this.state.orderType,
+      page: 1,
+      pageSize: 2
     });
   }
-  handleCheckStatus = (e) => {
+  handleCheckType = (e) => {
     this.setState({
       orderType: e
     });
     this.props.getOrderList({
-      orderType: e,
+      orderType: this.state.orderType,
+      page: 1,
+      pageSize: 2
+    });
+  }
+  pageChange = (page, pageSize) => {
+    this.props.getOrderList({
+      orderType: this.state.orderType,
       page: 1,
       pageSize: 2
     });
@@ -58,12 +67,6 @@ export default class AccountTable extends Component {
     });
     this.formAddAccountModal.showModal();
   };
-  pageChange = (page, pageSize) => {
-    this.props.getClients({
-      page: page,
-      pageSize: pageSize,
-    });
-  }
   render() {
     const { clientsList, pageSize, currentPage, pageTotal } = this.props;
     const pagination = {
@@ -205,9 +208,9 @@ export default class AccountTable extends Component {
         </Breadcrumb>
 
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Select defaultValue={0} style={{ width: 130 }} onChange={this.handleCheckStatus}>
-            <Option value={0}>个人客户订单</Option>
-            <Option value={1}>企业客户订单</Option>
+          <Select defaultValue={this.state.orderType} style={{ width: 130 }} onChange={this.handleCheckType}>
+            <Option value={1}>个人客户订单</Option>
+            <Option value={2}>企业客户订单</Option>
           </Select>
           <Table rowKey={record => record.clientId}
             columns={columns}

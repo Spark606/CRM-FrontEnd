@@ -4,6 +4,7 @@ import layout from './layout';
 import client from './client';
 import firm from './firm';
 import todo from './todo';
+import order from './order';
 
 /**
  * 合并reducers
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   firm,
   client,
   sessions,
-  todo
+  todo,
+  order
 });
 
 export default rootReducer;

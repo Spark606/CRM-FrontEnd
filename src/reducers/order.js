@@ -6,7 +6,7 @@ const initialState = {
     firmOrdersList: [],
     currentPage: 1,
     pageSize: 2,
-    pageTotal: 10
+    pageTotal: 1
 };
 
 export default function orderReducer(state = initialState, action) {

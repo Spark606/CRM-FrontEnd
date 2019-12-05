@@ -126,7 +126,7 @@ class AddFirmOrderModal extends Component {
                 <Row style={{ marginTop: 20 }}>
                   <Form.Item label="备注：">
                     {getFieldDecorator('remark', {
-                      initialValue: dataSource ? dataSource.remark : null,
+                      initialValue: "",
                     })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
                   </Form.Item>
                 </Row>
