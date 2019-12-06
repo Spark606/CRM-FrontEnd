@@ -53,7 +53,7 @@ export default class ClientsTable extends Component {
   onInit = () => {
     this.props.getAllFirms();
     this.props.getClients({
-      page: this.props.currentPage,
+      page: 1,
       pageSize: this.props.pageSize,
     });
     if(this.props.userRole === '2'){

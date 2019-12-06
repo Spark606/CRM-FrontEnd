@@ -8,10 +8,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddOrderBackModal from '../../component/addOrderBackModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient } from '../../actions/client';
 import { getOrderList, getOrderBackDetail, deleteOrder} from '../../actions/order';
 const mapStateToProps = state => ({
-  documentTitle: state.layout.documentTitle,
   clientOrdersList: state.order.clientOrdersList,
   firmOrdersList: state.order.firmOrdersList,
   currentPage: state.order.currentPage,
@@ -21,10 +19,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    getClients,
-    getClientRecordsList,
-    updateOneClient,
-    addNewClient,
     deleteOrder,
     getOrderList,
     getOrderBackDetail
