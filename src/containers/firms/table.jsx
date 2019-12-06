@@ -379,7 +379,6 @@ export default class FirmsTable extends Component {
           columns={columns}
           dataSource={firmsList}
           scroll={{ x: 1800 }}
-          onChange={this.handleTableChange}
           pagination={pagination}
           />
         </div>

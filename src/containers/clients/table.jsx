@@ -337,7 +337,6 @@ export default class ClientsTable extends Component {
             columns={columns}
             dataSource={clientsList}
             scroll={{ x: 1800 }}
-            onChange={this.handleTableChange}
             pagination={pagination}
           />
         </div>
