@@ -61,7 +61,7 @@ export function addNewFirmRecord(params){
   };
 }
 
-export function addNewFirm(params){
+export function addNewFirm(params, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -77,16 +77,13 @@ export function addNewFirm(params){
       },
     });
     if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
-      this.getFirms({
-        page: 1,
-        pageSize: 2,
-      })
+      callBack();
     }
     return action;
   };
 }
 
-export function updateOneFirm(params){
+export function updateOneFirm(params, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -101,6 +98,9 @@ export function updateOneFirm(params){
         types: [cs.UPDATE_ONE_FIRM_REQUEST, cs.UPDATE_ONE_FIRM_SUCCESS, cs.UPDATE_ONE_FIRM_FAIL],
       },
     });
+    if(action.type === cs.UPDATE_ONE_FIRM_SUCCESS && action.payload) {
+      callBack();
+    }
     return action;
   };
 }

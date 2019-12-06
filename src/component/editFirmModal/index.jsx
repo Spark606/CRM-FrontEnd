@@ -3,14 +3,17 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
+import { updateOneFirm, addNewFirm, getFirms} from '../../actions/firm';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
-  firmsList: state.firm.firmsList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
+    updateOneFirm,
+    addNewFirm,
+    getFirms
   },
   dispatch
 );
@@ -37,23 +40,36 @@ class EditFirmModal extends Component {
         phoneNumber: values.tel,
         qq: values.qq,
         occupation: values.position,
-        employeeName: values.employeeName,
         province: values.province,
         gender: values.gender,
         email: values.email,
       });
-      if (dataSource) { // 如果datasource是null，说明是新建客户
-        seriesData.employeeId = dataSource.employeeId,
+      if (this.props.userRole === '2') { //管理员
+        seriesData.employeeId = values.employeeId;
+      };
+      if (dataSource) {
+        // 修改数据，管理员直接values.employeeId，普通员工只能dataSource.employeeId,而且还得传resourceId
+        if (this.props.userRole === '1') { //普通用户
+          seriesData.employeeId = dataSource.employeeId;
+        };
         seriesData.companyId = dataSource.firmId,
-        this.props.updateFormData(seriesData); // 提交新数据
+          this.props.updateOneFirm(seriesData, this.handleCancel); // 提交更新数据
       } else {
-        this.props.addNewFormData(seriesData); // 提交新数据
+        // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
+        if (this.props.userRole === '1') { //普通用户
+          seriesData.employeeId = this.props.userId;
+        };
+        this.props.addNewFirm(seriesData, () => {
+          this.props.form.resetFields(); //重置表单并关闭模态框
+          this.setState({
+            visible: false,
+          });
+          this.props.getFirms({
+            page: 1,
+            pageSize: 2,
+          });
+        });
       }
-    });
-    this.props.form.resetFields();
-    // 提交成功，关闭模态框
-    this.setState({
-      visible: false,
     });
   };
 
@@ -72,7 +88,7 @@ class EditFirmModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataSource } = this.props;
+    const { dataSource, userRole, employeeList } = this.props;
     // console.log(dataSource, 'wrapEditFirmModal');
     return (
       <div>
@@ -103,11 +119,31 @@ class EditFirmModal extends Component {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="负责人：">
-                      {getFieldDecorator('employeeName', {
-                        initialValue: 'Liz',
-                      })(<Input  style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
+                    {
+                      userRole === '2' ?
+                        //管理员
+                        <Form.Item label="负责人：">
+                          {getFieldDecorator('employeeId', {
+                            initialValue: dataSource ? dataSource.employeeId : this.props.userId, // 管理员修改显示原本的employeeId,新建默认填自己的userId
+                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                          })(
+                            <Select style={{ width: 120 }}>
+                              {employeeList.map((item) =>
+                                <Select.Option key={item.employeeId}>
+                                  {item.employeeName}
+                                </Select.Option>
+                              )}
+                            </Select>)}
+                        </Form.Item>
+                        :
+                        // 普通员工
+                        <Form.Item label="负责人：">
+                          {getFieldDecorator('employeeId', {
+                            initialValue: dataSource ? dataSource.employeeName : this.props.userName, // 普通员工，不为空时为修改，为空时为新建
+                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                          })(<Input disabled style={{ maxWidth: 200 }} />)}
+                        </Form.Item>
+                    }
                   </Col>
                 </Row>
 

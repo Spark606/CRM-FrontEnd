@@ -134,9 +134,6 @@ export default class ClientsTable extends Component {
     });
     this.formEditClientModal.showModal();
   };
-  addNewFormData = (values) => {
-    this.props.addNewClient(values);
-  }
   // 新建客户end
   // 修改客户
   handleEditClient = (record) => {
@@ -144,12 +141,6 @@ export default class ClientsTable extends Component {
       tempData: record
     });
     this.formEditClientModal.showModal();
-  }
-  updateFormData = (values) => {
-    this.props.updateOneClient(values);
-    this.setState({
-      data: newData
-    })
   }
   // 修改客户end
   // 删除客户
@@ -356,8 +347,6 @@ export default class ClientsTable extends Component {
           userId={this.props.userId}
           userName={this.props.userName}
           employeeList={this.props.employeeList}
-          addNewFormData={this.addNewFormData}
-          updateFormData={this.updateFormData}
         />
         {/* 新建跟进记录模态框 */}
         <AddClientRecordModal

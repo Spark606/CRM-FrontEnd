@@ -9,8 +9,9 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
-import { getFirms, getFirmRecordsList, updateOneFirm, addNewFirm, deleteFirm, addNewFirmOrder } from '../../actions/firm';
+import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder } from '../../actions/firm';
 import {getAllClients} from '../../actions/client';
+import {getEmployeeList} from '../../actions/api';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
@@ -18,18 +19,20 @@ const mapStateToProps = state => ({
   currentPage: state.firm.currentPage,
   pageTotal: state.firm.pageTotal,
   pageSize: state.firm.pageSize,
-  user_role: state.sessions.user_role,
-  allClientsList: state.client.allClientsList
+  allClientsList: state.client.allClientsList,
+  userId: state.sessions.user_Id,
+  userRole: state.sessions.user_role,
+  userName: state.sessions.user_name,
+  employeeList: state.sessions.employeeList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     getFirms,
     getFirmRecordsList,
-    updateOneFirm,
-    addNewFirm,
     deleteFirm,
     getAllClients,
-    addNewFirmOrder
+    addNewFirmOrder,
+    getEmployeeList
   },
   dispatch
 );
@@ -50,6 +53,9 @@ export default class FirmsTable extends Component {
       page: 1,
       pageSize: 2,
     });
+    if(this.props.userRole === '2'){
+      this.props.getEmployeeList();
+    }
   }
   // 表头查询
   getColumnSearchProps = dataIndex => ({
@@ -125,9 +131,6 @@ export default class FirmsTable extends Component {
     });
     this.formEditFirmModal.showModal();
   };
-  addNewFormData = (values) => {
-    this.props.addNewFirm(values);
-  }
   // 新建客户end
   // 修改客户
   handleEditFirm = (record) => {
@@ -135,12 +138,6 @@ export default class FirmsTable extends Component {
       tempData: record
     });
     this.formEditFirmModal.showModal();
-  }
-  updateFormData = (values) => {
-    this.props.updateOneFirm(values);
-    this.setState({
-      data: newData
-    })
   }
   // 修改客户end
   // 删除客户
@@ -386,8 +383,10 @@ export default class FirmsTable extends Component {
         <WrapEditFirmModal
           wrappedComponentRef={(form) => this.formEditFirmModal = form}
           dataSource={this.state.tempData}
-          addNewFormData={this.addNewFormData}
-          updateFormData={this.updateFormData}
+          userRole={this.props.userRole}
+          userId={this.props.userId}
+          userName={this.props.userName}
+          employeeList={this.props.employeeList}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal

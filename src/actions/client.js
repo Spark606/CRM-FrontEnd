@@ -56,7 +56,7 @@ export function addNewClientRecord(params){
     return action;
   };
 }
-export function addNewClient(params){
+export function addNewClient(params, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -72,15 +72,12 @@ export function addNewClient(params){
       },
     });
     if(action.type === cs.ADD_NEW_CLIENT_SUCCESS && action.payload) {
-      this.getClients({
-        page: 1,
-        pageSize: 2,
-      })
+      callBack();
     }
     return action;
   };
 }
-export function updateOneClient(params){
+export function updateOneClient(params, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -95,6 +92,10 @@ export function updateOneClient(params){
         types: [cs.UPDATE_ONE_CLIENT_REQUEST, cs.UPDATE_ONE_CLIENT_SUCCESS, cs.UPDATE_ONE_CLIENT_FAIL],
       },
     });
+    
+    if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS && action.payload) {
+      callBack();
+    }
     return action;
   };
 }
@@ -117,7 +118,7 @@ export function deleteClient(params, currentPage, pageSize){
       this.getClients({
         page: currentPage,
         pageSize: pageSize,
-      })
+      });
     }
     return action;
   };

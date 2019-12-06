@@ -70,7 +70,7 @@ class Personal extends Component {
                 {getFieldDecorator('username', {
                   initialValue: this.props.userName,
                   rules: [{ required: true, message: '用户名不能为空!' }],
-                })(<Input />)}
+                })(<Input disabled />)}
               </Form.Item>
               <Form.Item label="E-mail">
                 {getFieldDecorator('email', {

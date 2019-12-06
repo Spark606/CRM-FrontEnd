@@ -3,7 +3,21 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
+import { updateOneClient, addNewClient, getClients} from '../../actions/client';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    updateOneClient,
+    addNewClient,
+    getClients
+  },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class EditClientModal extends Component {
   state = {
     visible: false,
@@ -27,32 +41,36 @@ class EditClientModal extends Component {
           status: values.status,
           phone: values.tel,
           qq: values.qq,
-          // employeeName: values.employeeName,
           province: values.province,
           gender: values.gender,
           email: values.email,
         });
-
         if (this.props.userRole === '2') { //管理员
           seriesData.employeeId = values.employeeId;
         };
-
         if (dataSource) {
           // 修改数据，管理员直接values.employeeId，普通员工只能dataSource.employeeId,而且还得传resourceId
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = dataSource.employeeId;
           };
           seriesData.resourceId = dataSource.clientId,
-            this.props.updateFormData(seriesData); // 提交更新数据
+            this.props.updateOneClient(seriesData, this.handleCancel); // 提交更新数据
         } else {
-          // 提交新数据, 管理员还是直接values.employeeId, 
+          // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = this.props.userId;
           };
-
-          this.props.addNewFormData(seriesData);
+          this.props.addNewClient(seriesData, () => {
+            this.props.form.resetFields(); //重置表单并关闭模态框
+            this.setState({
+              visible: false,
+            });
+            this.props.getClients({
+              page: 1,
+              pageSize: 2,
+            });
+          });
         }
-        this.handleCancel();
       }
     });
   };
