@@ -94,7 +94,7 @@ class EditClientModal extends Component {
     return (
       <div>
         <Modal
-          title={dataSource ? "添加个人客户" : "修改个人客户"}
+          title={!dataSource ? "添加个人客户" : "修改个人客户"}
           width={820}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -126,7 +126,7 @@ class EditClientModal extends Component {
                         <Form.Item label="负责人：">
                           {getFieldDecorator('employeeId', {
                             initialValue: dataSource ? dataSource.employeeId : this.props.userId, // 管理员修改显示原本的employeeId,新建默认填自己的userId
-                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                            rules: [{ required: true, message: '请输入负责人。' }],
                           })(
                             <Select style={{ width: 120 }}>
                               {employeeList.map((item) =>
@@ -141,7 +141,7 @@ class EditClientModal extends Component {
                         <Form.Item label="负责人：">
                           {getFieldDecorator('employeeId', {
                             initialValue: dataSource ? dataSource.employeeName : this.props.userName, // 普通员工，不为空时为修改，为空时为新建
-                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                            rules: [{ required: true, message: '请输入负责人。' }],
                           })(<Input disabled style={{ maxWidth: 200 }} />)}
                         </Form.Item>
                     }
