@@ -27,17 +27,30 @@ class EditClientModal extends Component {
           status: values.status,
           phone: values.tel,
           qq: values.qq,
-          employeeName: values.employeeName,
+          // employeeName: values.employeeName,
           province: values.province,
           gender: values.gender,
           email: values.email,
         });
-        if (dataSource) { // 如果datasource是null，说明是新建客户
-            seriesData.employeeId = dataSource.employeeId,
-            seriesData.resourceId = dataSource.clientId,
+
+        if (this.props.userRole === '2') { //管理员
+          seriesData.employeeId = values.employeeId;
+        };
+
+        if (dataSource) {
+          // 修改数据，管理员直接values.employeeId，普通员工只能dataSource.employeeId,而且还得传resourceId
+          if (this.props.userRole === '1') { //普通用户
+            seriesData.employeeId = dataSource.employeeId;
+          };
+          seriesData.resourceId = dataSource.clientId,
             this.props.updateFormData(seriesData); // 提交更新数据
         } else {
-          this.props.addNewFormData(seriesData); // 提交新数据
+          // 提交新数据, 管理员还是直接values.employeeId, 
+          if (this.props.userRole === '1') { //普通用户
+            seriesData.employeeId = this.props.userId;
+          };
+
+          this.props.addNewFormData(seriesData);
         }
         this.handleCancel();
       }
@@ -59,7 +72,7 @@ class EditClientModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataSource } = this.props;
+    const { dataSource, userRole, employeeList } = this.props;
     return (
       <div>
         <Modal
@@ -89,13 +102,31 @@ class EditClientModal extends Component {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="负责人：">
-                      {getFieldDecorator('employeeName', {
-                        initialValue: dataSource ? dataSource.employeeName : null,
-                        rules: [{ required: true, message: '请输入获得客户名。' }],
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    {/* })(<Input disabled style={{ maxWidth: 200 }} />)} */}
-                    </Form.Item>
+                    {
+                      userRole === '2' ?
+                        //管理员
+                        <Form.Item label="负责人：">
+                          {getFieldDecorator('employeeId', {
+                            initialValue: dataSource ? dataSource.employeeId : this.props.userId, // 管理员修改显示原本的employeeId,新建默认填自己的userId
+                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                          })(
+                            <Select style={{ width: 120 }}>
+                              {employeeList.map((item) =>
+                                <Select.Option key={item.employeeId}>
+                                  {item.employeeName}
+                                </Select.Option>
+                              )}
+                            </Select>)}
+                        </Form.Item>
+                        :
+                        // 普通员工
+                        <Form.Item label="负责人：">
+                          {getFieldDecorator('employeeId', {
+                            initialValue: dataSource ? dataSource.employeeName : this.props.userName, // 普通员工，不为空时为修改，为空时为新建
+                            rules: [{ required: true, message: '请输入获得客户名。' }],
+                          })(<Input disabled style={{ maxWidth: 200 }} />)}
+                        </Form.Item>
+                    }
                   </Col>
                 </Row>
                 <hr style={{ marginTop: 20 }} />
@@ -104,6 +135,7 @@ class EditClientModal extends Component {
                     <Form.Item label="客户名：">
                       {getFieldDecorator('clientName', {
                         initialValue: dataSource ? dataSource.clientName : null,
+                        rules: [{ required: true, message: '请输入客户名。' }],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

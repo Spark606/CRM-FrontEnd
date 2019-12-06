@@ -11,6 +11,7 @@ import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder } from '../../actions/client';
 import {getAllFirms} from '../../actions/firm';
+import {getEmployeeList} from '../../actions/api';
 
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -19,8 +20,11 @@ const mapStateToProps = state => ({
   currentPage: state.client.currentPage,
   pageTotal: state.client.pageTotal,
   pageSize: state.client.pageSize,
-  user_role: state.sessions.user_role,
-  allFirmsList: state.firm.allFirmsList
+  userId: state.sessions.user_Id,
+  userRole: state.sessions.user_role,
+  userName: state.sessions.user_name,
+  allFirmsList: state.firm.allFirmRsList,
+  employeeList: state.sessions.employeeList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -30,7 +34,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     addNewClient,
     deleteClient,
     getAllFirms,
-    addNewClientOrder
+    addNewClientOrder,
+    getEmployeeList
   },
   dispatch
 );
@@ -51,6 +56,9 @@ export default class ClientsTable extends Component {
       page: this.props.currentPage,
       pageSize: this.props.pageSize,
     });
+    if(this.props.userRole === '2'){
+      this.props.getEmployeeList();
+    }
   }
   // 表头查询
   getColumnSearchProps = dataIndex => ({
@@ -146,7 +154,7 @@ export default class ClientsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteClient = (record) => {
-    this.props.deleteClient({resourceId: record.clientId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
+    this.props.deleteClient({resourceId: record.clientId}, this.props.currentPage,  this.props.pageSize, this.props.userRole);
   }
   // 删除客户end
 
@@ -344,6 +352,10 @@ export default class ClientsTable extends Component {
         <WrapEditClientModal
           wrappedComponentRef={(form) => this.formEditClientModal = form}
           dataSource={this.state.tempData}
+          userRole={this.props.userRole}
+          userId={this.props.userId}
+          userName={this.props.userName}
+          employeeList={this.props.employeeList}
           addNewFormData={this.addNewFormData}
           updateFormData={this.updateFormData}
         />

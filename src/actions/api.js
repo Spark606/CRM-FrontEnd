@@ -166,3 +166,19 @@ export function updateUserInf(params, callBack) {
     return action;
   }
 }
+
+export function getEmployeeList() {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/manager/getEmployeeList',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        types: [cs.GET_EMPLOYEE_LIST_REQUEST, cs.GET_EMPLOYEE_LIST_SUCCESS, cs.GET_EMPLOYEE_LIST_FAIL],
+      },
+    });
+    return action;
+  };
+}

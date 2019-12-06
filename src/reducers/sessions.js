@@ -15,7 +15,7 @@ const initialState = {
   id: null,
   user_email: null,
   user_phonenumber: null,
-  errorMessage: 'Server Lost Connect!'
+  employeeList: [],
 };
 
 export default function sessionReducer(state = initialState, action) {
@@ -99,7 +99,6 @@ export default function sessionReducer(state = initialState, action) {
     case cs.UPDATE_USER_INFORMATION_REQUEST:
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.UPDATE_USER_INFORMATION_SUCCESS:
-      console.log(action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         user_name: action.payload.data.user_name,
@@ -113,7 +112,19 @@ export default function sessionReducer(state = initialState, action) {
         errorMessage: findErrorMessage(action.error.code)
       });
 
-
+      
+    case cs.GET_EMPLOYEE_LIST_REQUEST:
+        return Object.assign({}, state, { error: false, isFetching: true });
+      case cs.GET_EMPLOYEE_LIST_SUCCESS:
+        console.log(action.payload);
+        return Object.assign({}, state, {
+          isFetching: false,
+          employeeList: action.payload.data
+        });
+      case cs.GET_EMPLOYEE_LIST_FAIL:
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
     case cs.LOGOUT:
       return Object.assign({}, state, initialState);
     default:
