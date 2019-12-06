@@ -126,7 +126,6 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ALL_FIRMS_SUCCESS:
-      console.log("GET_ALL_FIRMS_SUCCESS", action.payload.data);
       return Object.assign({}, state, {
         isFetching: false,
         allFirmsList: action.payload.data

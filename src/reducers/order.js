@@ -20,7 +20,6 @@ export default function orderReducer(state = initialState, action) {
       });
 
     case cs.GET_ORDER_LIST_SUCCESS:
-      console.log(action.payload);
       if (action.payload.data.orderType === 'GET_RESOURCE_BUSINESS_SUCCESS') {
         return Object.assign({}, state, {
           isFetching: false,
@@ -74,7 +73,6 @@ export default function orderReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ORDER_BACK_DETAIL_SUCCESS:
-        console.log('GET_ORDER_BACK_DETAIL_SUCCESS', action.payload.data);
       const tempDetail = action.payload.data.payBackDetail;
       tempDetail.progressRatio = action.payload.data.progressRatio;
       return Object.assign({}, state, {

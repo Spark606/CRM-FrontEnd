@@ -128,7 +128,6 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ALL_CLIENTS_SUCCESS:
-        console.log("GET_ALL_CLIENTS_SUCCESS", action.payload.data);
       return Object.assign({}, state, {
         allClientsList: action.payload.data,
         isFetching: false,
