@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 );
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class AccountTable extends Component {
+export default class OrderTable extends Component {
   state = {
     orderType: 1,
     tempData: null,

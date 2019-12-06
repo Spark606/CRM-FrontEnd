@@ -42,9 +42,9 @@ export default class LayoutPagae extends Component {
       this.setState({
         menu: 'firmstable'
       })
-    } else if (hash === '#/main/account/table') {
+    } else if (hash === '#/main/order/table') {
       this.setState({
-        menu: 'accounttable'
+        menu: 'ordertable'
       })
     } else {
       history.push('/main/todo');
@@ -101,10 +101,10 @@ export default class LayoutPagae extends Component {
                 <span>企业客户</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="accounttable">
-              <Link to={'/main/account/table'}>
+            <Menu.Item key="ordertable">
+              <Link to={'/main/order/table'}>
                 <Icon type="area-chart" />
-                <span>绩效汇总</span>
+                <span>订单汇总</span>
               </Link>
             </Menu.Item>
           </Menu>
