@@ -95,3 +95,90 @@ export function findErrorMessage(code) {
   }
   return 'Operation failed.';
 }
+
+export function formatClientOrder(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        orderId: item.businessId,
+        firmId: item.companyId,
+        firmName: item.companyName,
+        createDate: item.createDate,
+        employeeId: item.employeeId,
+        employeeName: item.employeeName,
+        remark: item.info,
+        orderPaySum: item.orderPaySum,
+        clientId: item.resourceId,
+        clientName: item.resourceName,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
+export function formatFirmOrder(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        orderId: item.businessId,
+        firmId: item.companyId,
+        firmName: item.companyName,
+        createDate: item.createDate,
+        employeeId: item.employeeId,
+        employeeName: item.employeeName,
+        remark: item.info,
+        orderPaySum: item.orderPaySum,
+        clientLists: item.resource,
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
+export function formatOrderBackDetail(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        orderPaySum: item.orderPaySum, // 成交总额
+        owePay: item.orderPaySum, // 欠款金额
+        backPay: item.orderPaySum, // 回款金额
+        laterBackPay: item.orderPaySum, // 最后回款金额
+        laterBackDate: item.orderPaySum, // 最后回款时间
+        backTimes: item.orderPaySum, // 回款次数
+        recordDate: item.orderPaySum, // 录入时间
+        updateDate: item.orderPaySum, // 修改时间
+        createDate: item.orderPaySum, // 最后成交时间
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};
+
+export function formatOrderBack(dataSource) {
+  if (dataSource) {
+    const seriesData = [];
+    dataSource.map(item => {
+      seriesData.push(Object.assign({}, {
+        orderPaySum: item.orderPaySum, // 成交总额
+        owePay: item.orderPaySum, // 欠款金额
+        backPay: item.backPay, // 回款金额
+        laterBackPay: item.laterBackPay, // 最后回款金额
+        laterBackDate: item.laterBackDate, // 最后回款时间
+        backTimes: item.backTimes, // 回款次数
+        recordDate: item.recordDate, // 录入时间
+        updateDate: item.updateDate, // 修改时间
+        createDate: item.createDate, // 最后成交时间
+      }));
+    });
+    return seriesData;
+  } else {
+    return [];
+  }
+};

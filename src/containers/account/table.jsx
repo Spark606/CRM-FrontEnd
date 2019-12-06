@@ -7,17 +7,16 @@ import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import WrapAddAccountModal from '../../component/addAccountModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
-import { getOrderList } from '../../actions/order';
-
+import WrapAddOrderBackModal from '../../component/addOrderBackModal';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient } from '../../actions/client';
+import { getOrderList, getOrderBackDetail, deleteOrder} from '../../actions/order';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
-  clientsList: state.client.clientsList,
-  oneClientRecord: state.client.oneClientRecord,
-  currentPage: state.client.currentPage,
-  pageTotal: state.client.pageTotal,
-  pageSize: state.client.pageSize,
+  clientOrdersList: state.order.clientOrdersList,
+  firmOrdersList: state.order.firmOrdersList,
+  currentPage: state.order.currentPage,
+  pageTotal: state.order.pageTotal,
+  pageSize: state.order.pageSize,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -27,7 +26,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     updateOneClient,
     addNewClient,
     deleteOrder,
-    getOrderList
+    getOrderList,
+    getOrderBackDetail
   },
   dispatch
 );
@@ -36,6 +36,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class AccountTable extends Component {
   state = {
     orderType: 1,
+    tempData: null,
   }
   componentWillMount() {
     this.onInit();
@@ -48,11 +49,12 @@ export default class AccountTable extends Component {
     });
   }
   handleCheckType = (e) => {
+    console.log(e);
     this.setState({
       orderType: e
     });
     this.props.getOrderList({
-      orderType: this.state.orderType,
+      orderType: e,
       page: 1,
       pageSize: 2
     });
@@ -60,14 +62,28 @@ export default class AccountTable extends Component {
 
   //删除订单
   handledeleteOrder = (record) => {
-    this.props.deleteOrder({ orderId: record.oderId }, this.props.orderType, this.props.currentPage, this.props.pageSize);
+    this.props.deleteOrder({ 
+      businessId: record.orderId,
+      orderType: this.state.orderType,
+     }, this.state.orderType, this.props.currentPage, this.props.pageSize);
   }
 
+  handleAddOrderBack = (record) => {
+    this.setState({
+      tempData: record
+    });
+    this.props.getOrderBackDetail({
+      orderType: this.state.orderType,
+      businessId: record.orderId
+    });
+    this.addOrderBackModal.showModal();
+  }
+  
   pageChange = (page, pageSize) => {
     this.props.getOrderList({
       orderType: this.state.orderType,
-      page: 1,
-      pageSize: 2
+      page: page,
+      pageSize: pageSize
     });
   }
   openAddModal = (e) => {
@@ -77,30 +93,37 @@ export default class AccountTable extends Component {
     this.formAddAccountModal.showModal();
   };
   render() {
-    const { clientsList, pageSize, currentPage, pageTotal } = this.props;
+    const { clientOrdersList, firmOrdersList, pageSize, currentPage, pageTotal } = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    const columns = [
+    const clientOrderColumns = [
       {
         width: 120,
         title: '客户名称',
         dataIndex: 'clientName',
         key: 'clientName',
-        fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
         // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
-        title: '证书及专业',
-        dataIndex: 'certificate',
-        key: 'certificate',
+        title: '企业名称',
+        dataIndex: 'firmName',
+        key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('certificate'),
+        // ...this.getColumnSearchProps('firmName'),
+      },
+      {
+        width: 100,
+        title: '成交总额',
+        dataIndex: 'orderPaySum',
+        key: 'orderPaySum',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('orderPaySum'),
       },
       {
         // width: 200,
@@ -111,78 +134,13 @@ export default class AccountTable extends Component {
         // ...this.getColumnSearchProps('remark'),
       },
       {
-        width: 100,
-        title: '省份',
-        dataIndex: 'province',
-        key: 'province',
-        render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
-      },
-      {
-        width: 100,
-        title: '性别',
-        dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
-        render: text => <span>{text === 1 ? '女' : '男'}</span>
-      },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
-      {
-        width: 200,
-        title: '邮箱',
-        dataIndex: 'email',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
         width: 150,
-        title: '电话',
-        dataIndex: 'tel',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 150,
-        title: '获得客户时间',
+        title: '成交时间',
         dataIndex: 'createDate',
         filterMultiple: false,
         sorter: (a, b) => a.createDate - b.createDate,
         sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-      },
-      {
-        width: 150,
-        title: '到期时间',
-        dataIndex: 'expireDate',
-        filterMultiple: false,
-        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
       },
       {
         width: 100,
@@ -194,9 +152,85 @@ export default class AccountTable extends Component {
         width: 150,
         title: '操作',
         key: 'operation',
-        fixed: 'right',
         render: (record) => <span>
-          <a onClick={() => this.handleEditClient(record)}>
+          <a onClick={() => this.handleAddOrderBack(record)}>
+            <Popover content={(<span>添加回款记录</span>)} trigger="hover">
+              <Icon type="plus-square" />
+            </Popover>
+          </a>
+          <Divider type="vertical" />
+          <a onClick={() => this.handledeleteOrder(record)}>
+            <Popover content={(<span>删除</span>)} trigger="hover">
+              <Icon type="delete" />
+            </Popover>
+          </a>
+        </span>,
+      },
+    ];
+
+    const firmOrderColumns = [
+      {
+        width: 200,
+        title: '企业名称',
+        dataIndex: 'firmName',
+        key: 'firmName',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('firmName'),
+      },
+      {
+        width: 120,
+        title: '客户名称',
+        dataIndex: 'clientLists',
+        key: 'clientLists',
+        render: text => {
+          if (text) {
+            const temp = text.map(e => {
+              return <Button>{e.resourceName}</Button>
+            });
+            return temp;
+          } else {
+            return '--'
+          }
+        },
+        // ...this.getColumnSearchProps('clientName'),
+      },
+      {
+        width: 100,
+        title: '成交总额',
+        dataIndex: 'orderPaySum',
+        key: 'orderPaySum',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('orderPaySum'),
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('remark'),
+      },
+      {
+        width: 150,
+        title: '成交时间',
+        dataIndex: 'createDate',
+        filterMultiple: false,
+        sorter: (a, b) => a.createDate - b.createDate,
+        sortDirections: ['descend', 'ascend'],
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '经办人',
+        dataIndex: 'employeeName',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '操作',
+        key: 'operation',
+        render: (record) => <span>
+          <a onClick={() => this.handleAddOrderBack(record)}>
             <Popover content={(<span>添加回款记录</span>)} trigger="hover">
               <Icon type="plus-square" />
             </Popover>
@@ -217,16 +251,19 @@ export default class AccountTable extends Component {
         </Breadcrumb>
 
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Select defaultValue={this.state.orderType} style={{ width: 130 }} onChange={this.handleCheckType}>
+          <Select defaultValue={1} style={{ width: 130 }} onChange={this.handleCheckType}>
             <Option value={1}>个人客户订单</Option>
             <Option value={2}>企业客户订单</Option>
           </Select>
-          <Table rowKey={record => record.clientId}
-            columns={columns}
-            dataSource={clientsList}
-            scroll={{ x: 1800 }}
-            onChange={this.handleTableChange}
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
+            dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
             pagination={pagination}
+          />
+          <WrapAddOrderBackModal
+            wrappedComponentRef={(form) => this.addOrderBackModal = form}
+            orderType={this.state.orderType}
+            dataSource={this.state.tempData}
           />
         </div>
       </div>

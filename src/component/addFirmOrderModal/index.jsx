@@ -4,6 +4,17 @@ import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, InputNumber } from 'antd';
 const { TextArea } = Input;
 const { Option } = Select;
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  user_Id: state.sessions.user_Id,
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  { },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class AddFirmOrderModal extends Component {
   state = {
     visible: false,
@@ -15,20 +26,22 @@ class AddFirmOrderModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const seriesData = Object.assign({}, {
-        resourceId: values.dealClientsName,
-        info: values.remark,
-        createDate: moment(values.dealDate).format(yearFormat),
-        employeeId: dataSource.employeeId,
-        companyId: dataSource.firmId,
-        orderPaySum: values.orderPaySum
-      });
-      this.props.addNewFirmOrder(seriesData);
-    });
-    this.props.form.resetFields();
-    // 提交成功，关闭模态框
-    this.setState({
-      visible: false,
+      if(!err){
+        const seriesData = Object.assign({}, {
+          resourceId: values.dealClientsName,
+          info: values.remark,
+          createDate: moment(values.dealDate).format(yearFormat),
+          employeeId: this.state.user_Id,
+          companyId: dataSource.firmId,
+          orderPaySum: values.orderPaySum
+        });
+        this.props.addNewFirmOrder(seriesData);
+        this.props.form.resetFields();
+        // 提交成功，关闭模态框
+        this.setState({
+          visible: false,
+        });
+      }
     });
   };
 
@@ -99,6 +112,7 @@ class AddFirmOrderModal extends Component {
                   <Col span={12}>
                     <Form.Item label="成交总额：">
                       {getFieldDecorator('orderPaySum', {
+                        rules: [{ required: true, message: '请输入成交总额!' }],
                         initialValue: dataSource ? dataSource.orderPaySum : null,
                       })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
                     </Form.Item>
