@@ -9,7 +9,7 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddOrderBackModal from '../../component/addOrderBackModal';
 import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
-import { getOrderList } from '../../actions/order';
+import { getOrderList, getOrderBackDetail } from '../../actions/order';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   clientOrdersList: state.order.clientOrdersList,
@@ -26,6 +26,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     addNewClient,
     deleteClient,
     getOrderList,
+    getOrderBackDetail
   },
   dispatch
 );
@@ -59,6 +60,10 @@ export default class AccountTable extends Component {
   handleAddOrderBack = (record) => {
     this.setState({
       tempData: record
+    });
+    this.props.getOrderBackDetail({
+      orderType: this.state.orderType,
+      businessId: record.orderId
     });
     this.addOrderBackModal.showModal();
   }
@@ -174,7 +179,7 @@ export default class AccountTable extends Component {
           } else {
             return '--'
           }
-      },
+        },
         // ...this.getColumnSearchProps('clientName'),
       },
       {
@@ -245,7 +250,7 @@ export default class AccountTable extends Component {
           />
           <WrapAddOrderBackModal
             wrappedComponentRef={(form) => this.addOrderBackModal = form}
-            orderType = {this.state.orderType}
+            orderType={this.state.orderType}
             dataSource={this.state.tempData}
           />
         </div>

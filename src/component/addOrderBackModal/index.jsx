@@ -10,6 +10,7 @@ import './style.scss';
 const { TabPane } = Tabs;
 const mapStateToProps = state => ({
   oneOrderBackList: state.order.oneOrderBackList,
+  orderBackDetail: state.order.orderBackDetail,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -24,35 +25,39 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class AddOrderBackModal extends Component {
   state = {
     visible: false,
-    editBox: false,
+    activeTab: '1',
     recorderDate: "",
     recorderHour: ""
   };
-  componentWillMount(){
-    console.log(this.props.dataSource);
-    // this.props.getOrderBackDetail({
-      // businessId: this.props.dataSource.orderId
-    // });
-    this.props.getOrderBackList({
-      // orderId: record.orderId,
-      page: 1,
-      pageSize: 1000
-    });
+  handleChangeTab = (e) => {
+    console.log(e);
+    if (e === '1') {
+      this.props.getOrderBackDetail({
+        businessId: this.props.dataSource.orderId,
+        orderType: this.props.orderType
+      });
+    } else if (e === '2') {
+      this.props.getOrderBackList({
+        businessId: this.props.dataSource.orderId
+      });
+    }
   }
   showModal = () => {
     this.setState({
       visible: true,
+      activeTab: '1'
     });
   };
   handleCancel = e => {
     this.setState({
       visible: false,
-      editBox: false,
+      activeTab: '1'
     });
   };
   handleOk = () => {
     this.setState({
       visible: false,
+      activeTab: '1'
     });
   }
   handleEditBox = (e) => {
@@ -63,19 +68,15 @@ class AddOrderBackModal extends Component {
         recordDate: moment().format(yearFormat),
         businessId: this.props.dataSource.orderId,
         employeeId: this.props.dataSource.employeeId,
-        backPay: values.backPay,
+        laterBackPay: values.laterBackPay,
         info: values.remark,
         businessType: this.props.orderType
       });
-      this.props.addNewOrderBack(data);
-    });
-    this.setState({
-      editBox: false,
+      this.props.addNewOrderBack(data, this.props.form.resetFields);
     });
   }
   render() {
-    const { editBox } = this.state;
-    const { oneOrderBackList, dataSource } = this.props;
+    const { oneOrderBackList, orderBackDetail } = this.props;
     const { getFieldDecorator } = this.props.form;
     const columns = [{
       width: 150,
@@ -85,24 +86,24 @@ class AddOrderBackModal extends Component {
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
-      width: 120,
+      width: 140,
       title: '回款金额（元）',
-      dataIndex: 'backPay',
-      key: 'backPay',
+      dataIndex: 'laterBackPay',
+      key: 'laterBackPay',
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
-      width: 200,
+      width: 180,
       title: '备注',
-      dataIndex: 'remark',
-      key: 'remark',
+      dataIndex: 'info',
+      key: 'info',
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 120,
       title: '录入人',
-      dataIndex: 'clientName',
-      key: 'clientName',
+      dataIndex: 'employeeName',
+      key: 'employeeName',
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
@@ -114,55 +115,6 @@ class AddOrderBackModal extends Component {
       render: text => <span>{text ? text : '--'}</span>,
     }
     ];
-    const _dataSource = [{
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真1',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真2',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真3',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真4',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真5',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真6',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真7',
-      recordDate: '2018-12-11',
-    }, {
-      laterBackDate: '2018-12-11',
-      backPay: '123',
-      remark: 'xxx',
-      clientName: '李真8',
-      recordDate: '2018-12-11',
-    }];
     return (
       <Modal
         title="订单回款"
@@ -176,46 +128,47 @@ class AddOrderBackModal extends Component {
         ]}
       >
         <div className="container">
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="订单详情" key="1">
+          <Tabs defaultActiveKey={this.state.activeTab} onChange={this.handleChangeTab}>
+            <TabPane tab="回款详情" key="1">
               <div className="orderDetilBox">
                 <Row>
-                  <Col span={12}>编号：{}</Col>
-                  <Col span={12}>成交总额：{}</Col>
+                  <Col span={12}>编号：{orderBackDetail.businessId ? orderBackDetail.businessId : '--'}</Col>
+                  <Col span={12}>成交总额：{orderBackDetail.orderPaySum ? orderBackDetail.orderPaySum : '--'}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>欠款金额：</Col>
-                  <Col span={12}>回款金额：</Col>
+                  <Col span={12}>欠款金额：{orderBackDetail.owePay ? orderBackDetail.owePay : '--'}</Col>
+                  <Col span={12}>回款金额：{orderBackDetail.backPay ? orderBackDetail.backPay : '--'}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>最后回款金额：</Col>
-                  <Col span={12}>最后回款时间：</Col>
+                  <Col span={12}>最后回款金额：{orderBackDetail.backPay ? orderBackDetail.laterBackPay : '--'}</Col>
+                  <Col span={12}>最后回款时间：{orderBackDetail.createDate ? orderBackDetail.laterBackDate : '--'}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>回款次数：</Col>
-                  <Col span={12}>录入时间：</Col>
+                  <Col span={12}>回款次数：{orderBackDetail.backTimes ? orderBackDetail.backTimes : '--'}</Col>
+                  <Col span={12}>录入时间：{orderBackDetail.recordDate ? orderBackDetail.recordDate : '--'}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>修改时间：</Col>
-                  <Col span={12}>最后成交时间：</Col>
+                  <Col span={12}>修改时间：{orderBackDetail.recordDate ? orderBackDetail.recordDate : '--'}</Col>
+                  <Col span={12}>最后成交时间：{orderBackDetail.createDate ? orderBackDetail.createDate : '--'}</Col>
                 </Row>
                 <Row>
-                  <Col span={24}>回款进度：
+                  <Col span={24} >回款进度：
                   <Progress
                       strokeColor={{
                         '0%': '#108ee9',
                         '100%': '#87d068',
                       }}
-                      percent={99.9}
+                      percent={orderBackDetail.progressRatio * 100}
+                      style={{margiTop: 20}}
                     />
                   </Col>
                 </Row>
               </div>
             </TabPane>
             <TabPane tab="回款记录" key="2">
-              <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+              <Table rowKey={record => record.id ? record.id : Math.random()}
                 columns={columns}
-                dataSource={_dataSource}
+                dataSource={oneOrderBackList}
                 scroll={{ y: 300 }}
                 pagination={false}
               />
@@ -242,7 +195,7 @@ class AddOrderBackModal extends Component {
                 <Row>
                   <Col span={12}>
                     <Form.Item label="回款金额：">
-                      {getFieldDecorator('backPay', {
+                      {getFieldDecorator('laterBackPay', {
                         rules: [{ required: true, message: '请输入回款金额!' }],
                         initialValue: 100,
                       })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元

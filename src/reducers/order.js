@@ -8,7 +8,8 @@ const initialState = {
   oneOrderBackList: [],
   currentPage: 1,
   pageSize: 2,
-  pageTotal: 1
+  pageTotal: 1,
+  orderBackDetail: {}
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -62,9 +63,25 @@ export default function orderReducer(state = initialState, action) {
       message.success('添加回款记录成功！');
       return Object.assign({}, state, {
         isFetching: false,
-        oneOrderBackList: [action.payload.data, ...state.oneOrderBackList]
       });
     case cs.ADD_NEW_ORDER_BACK_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+    case cs.GET_ORDER_BACK_DETAIL_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_ORDER_BACK_DETAIL_SUCCESS:
+        console.log('GET_ORDER_BACK_DETAIL_SUCCESS', action.payload.data);
+      const tempDetail = action.payload.data.payBackDetail;
+      tempDetail.progressRatio = action.payload.data.progressRatio;
+      return Object.assign({}, state, {
+        isFetching: false,
+        orderBackDetail: action.payload.data ? tempDetail : {}
+      });
+    case cs.GET_ORDER_BACK_DETAIL_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });
