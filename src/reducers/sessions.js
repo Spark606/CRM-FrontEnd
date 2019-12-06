@@ -5,7 +5,7 @@ import * as cs from '../constants';
 
 const initialState = {
   isFetching: false,
-  user_name: 'Lizzy',
+  user_name: null,
   user_role: 1,
   user_Id: null,
   error: false,
@@ -14,19 +14,39 @@ const initialState = {
   userMsg: {},
   id: null,
   user_email: null,
-  user_phone:1234567,
+  user_phonenumber: null,
   errorMessage: 'Server Lost Connect!'
 };
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
-    case cs.GET_USER_MSG_SUCCESS:
+    case cs.GET_USER_MSG_FROM_SESSION:
       return Object.assign({}, state, {
         isFetching: false,
         user_name: action.payload.user_name,
         user_role: action.payload.user_role,
         user_Id: action.payload.user_Id,
       });
+
+    case cs.GET_USER_MSG_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_USER_MSG_SUCCESS:
+      console.log(action.payload);
+      return Object.assign({}, state, {
+        isFetching: false,
+        user_name: action.payload.data.user_name,
+        user_role: action.payload.data.user_role,
+        user_Id: action.payload.data.user_Id,
+        user_email: action.payload.data.user_email,
+        user_phonenumber: action.payload.data.user_phonenumber,
+      });
+      case cs.GET_USER_MSG_FAIL:
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+  
 
     case cs.LOGIN_REQUEST:
       return Object.assign({}, state, { isFetching: true });
@@ -67,7 +87,6 @@ export default function sessionReducer(state = initialState, action) {
         isFetching: false,
         ...action.payload.userMsg,
         token: action.payload.token,
-        regStatus: true,
       });
     case cs.REG_FAIL:
       return Object.assign({}, state, {
@@ -83,9 +102,9 @@ export default function sessionReducer(state = initialState, action) {
       console.log(action.payload);
       return Object.assign({}, state, {
         isFetching: false,
-        ...action.payload.userMsg,
-        //: action.payload.token,
-        regStatus: true,
+        user_name: action.payload.data.user_name,
+        user_phonenumber: action.payload.data.user_phonenumber,
+        user_email: action.payload.data.user_email,
       });
     case cs.UPDATE_USER_INFORMATION_FAIL:
       return Object.assign({}, state, {

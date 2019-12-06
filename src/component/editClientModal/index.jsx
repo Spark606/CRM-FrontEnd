@@ -15,34 +15,32 @@ class EditClientModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const seriesData = Object.assign({}, {
-        shareStatus: values.clientAvailable,
-        resourceName: values.clientName,
-        certificate: values.certificate,
-        info: values.remark,
-        shareStatus: values.clientAvailable,
-        createDate: moment(values.createDate).format(yearFormat),
-        endDate: moment(values.expireDate).format(yearFormat),
-        status: values.status,
-        phone: values.tel,
-        qq: values.qq,
-        employeeName: values.employeeName,
-        province: values.province,
-        gender: values.gender,
-        email: values.email,
-      });
-      if (dataSource) { // 如果datasource是null，说明是新建客户
-          seriesData.employeeId = dataSource.employeeId,
-          seriesData.resourceId = dataSource.clientId,
-          this.props.updateFormData(seriesData); // 提交更新数据
-      } else {
-        this.props.addNewFormData(seriesData); // 提交新数据
+      if (!err) {
+        const seriesData = Object.assign({}, {
+          shareStatus: values.clientAvailable,
+          resourceName: values.clientName,
+          certificate: values.certificate,
+          info: values.remark,
+          shareStatus: values.clientAvailable,
+          createDate: moment(values.createDate).format(yearFormat),
+          endDate: moment(values.expireDate).format(yearFormat),
+          status: values.status,
+          phone: values.tel,
+          qq: values.qq,
+          employeeName: values.employeeName,
+          province: values.province,
+          gender: values.gender,
+          email: values.email,
+        });
+        if (dataSource) { // 如果datasource是null，说明是新建客户
+            seriesData.employeeId = dataSource.employeeId,
+            seriesData.resourceId = dataSource.clientId,
+            this.props.updateFormData(seriesData); // 提交更新数据
+        } else {
+          this.props.addNewFormData(seriesData); // 提交新数据
+        }
+        this.handleCancel();
       }
-    });
-    this.props.form.resetFields();
-    // 提交成功，关闭模态框
-    this.setState({
-      visible: false,
     });
   };
 
@@ -93,8 +91,10 @@ class EditClientModal extends Component {
                   <Col span={12}>
                     <Form.Item label="负责人：">
                       {getFieldDecorator('employeeName', {
-                        initialValue: 'Liz',
-                      })(<Input disabled style={{ maxWidth: 200 }} />)}
+                        initialValue: dataSource ? dataSource.employeeName : null,
+                        rules: [{ required: true, message: '请输入获得客户名。' }],
+                      })(<Input style={{ maxWidth: 200 }} />)}
+                    {/* })(<Input disabled style={{ maxWidth: 200 }} />)} */}
                     </Form.Item>
                   </Col>
                 </Row>

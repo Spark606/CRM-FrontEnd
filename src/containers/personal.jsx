@@ -1,24 +1,24 @@
 
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { Breadcrumb } from 'antd';
 import _ from 'lodash';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
-import { updateUserInf } from '../actions/api'
+import { updateUserInf, getUserInfo } from '../actions/api'
 const { Option } = Select;
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   userName: state.sessions.user_name,
   userMsg: state.sessions.userMsg,
   userEmail: state.sessions.user_email,
-  userPhone: state.sessions.user_phone,
+  userPhone: state.sessions.user_phonenumber,
   userID: state.sessions.user_Id
 });
-
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    updateUserInf
+    updateUserInf,
+    getUserInfo
   },
   dispatch
 );
@@ -44,6 +44,7 @@ class Personal extends Component {
   };
 
   componentWillMount() {
+    this.props.getUserInfo();
   }
   handleReset = () => {
     this.setState({ edit: false });

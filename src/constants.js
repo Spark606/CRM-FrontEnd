@@ -2,6 +2,8 @@
 export const hourFormat = 'HH:mm';
 export const yearFormat = 'YYYY-MM-DD';
 
+export const GET_USER_MSG_FROM_SESSION = 'GET_USER_MSG_FROM_SESSION';
+
 export const GET_USER_MSG_REQUEST = 'GET_USER_MSG_REQUEST';
 export const GET_USER_MSG_FAIL = 'GET_USER_MSG_FAIL';
 export const GET_USER_MSG_SUCCESS = 'GET_USER_MSG_SUCCESS';

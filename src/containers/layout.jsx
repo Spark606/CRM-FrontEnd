@@ -14,7 +14,8 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
   documentTitle: state.layout.documentTitle,
-  userName: state.sessions.user_name
+  userName: state.sessions.user_name,
+  userRole: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   restoreSessionFromLocalStorage
@@ -80,12 +81,14 @@ export default class LayoutPagae extends Component {
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
           <Menu className="menu-box" theme="dark" defaultSelectedKeys={this.state.menu} defaultOpenKeys={this.state.menu} mode="inline">
-            <Menu.Item key="todo">
+            {this.props.userRole === '2' ? <Menu.Item key="todo">
               <Link to={'/main/todo'}>
                 <Icon type="calendar" />
                 <span>待办事项</span>
               </Link>
             </Menu.Item>
+            :
+            null }
             <Menu.Item key="clienttable">
               <Link to={'/main/client/table'}>
                 <Icon type="user" />
@@ -104,42 +107,6 @@ export default class LayoutPagae extends Component {
                 <span>绩效汇总</span>
               </Link>
             </Menu.Item>
-            {/* <SubMenu
-              key="person"
-              title={
-                <span>
-                  <Icon type="user" />
-                  <span>个人客户</span>
-                </span>
-              }
-            >
-              <Menu.Item key="clienttable"><Link to={'/main/client/table'}>个人客户表</Link></Menu.Item>
-              <Menu.Item key="clientnew"><Link to={'/main/client/new'}>添加个人客户</Link></Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="firms"
-              title={
-                <span>
-                  <Icon type="team" />
-                  <span>企业客户</span>
-                </span>
-              }
-            >
-              <Menu.Item key="firmstable"><Link to={'/main/firms/table'}>企业客户表</Link></Menu.Item>
-              <Menu.Item key="firmsnew"><Link to={'/main/firms/new'}>添加企业客户</Link></Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="account"
-              title={
-                <span>
-                  <Icon type="area-chart" />
-                  <span>绩效汇总</span>
-                </span>
-              }
-            >
-              <Menu.Item key="accounttable"><Link to={'/main/account/table'}>绩效汇总表</Link></Menu.Item>
-              <Menu.Item key="accountnew"><Link to={'/main/account/new'}>添加新成交</Link></Menu.Item>
-            </SubMenu> */}
           </Menu>
         </Sider>
         <Layout>

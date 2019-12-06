@@ -10,12 +10,35 @@ export function restoreSessionFromLocalStorage() {
     const user = JSON.parse(userString);
     if (user) {
       return {
-        type: cs.GET_USER_MSG_SUCCESS,
+        type: cs.GET_USER_MSG_FROM_SESSION,
         payload: user,
       }
     }
   }
   return { type: 'DO_LOGIN' };
+}
+export function getUserInfo() {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/getPersonalInfoApi',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        types: [cs.GET_USER_MSG_REQUEST, cs.GET_USER_MSG_SUCCESS, cs.GET_USER_MSG_FAIL],
+      },
+    });
+    if (action.type === cs.GET_USER_MSG_SUCCESS && action.payload) {
+      const { user_Id, user_name, user_role } = action.payload.data;
+      localStorage.setItem('user', JSON.stringify({
+        user_Id: user_Id,
+        user_name: user_name,
+        user_role: user_role
+      }));
+    }
+    return action;
+  };
 }
 // Login
 
@@ -132,8 +155,13 @@ export function updateUserInf(params, callBack) {
         types: [cs.UPDATE_USER_INFORMATION_REQUEST, cs.UPDATE_USER_INFORMATION_SUCCESS, cs.UPDATE_USER_INFORMATION_FAIL],
       },
     });
-    if(action.type === cs.UPDATE_USER_INFORMATION_SUCCESS){
+    if (action.type === cs.UPDATE_USER_INFORMATION_SUCCESS) {
       callBack();
+      localStorage.setItem('user', JSON.stringify({
+        user_Id: action.payload.data.user_email,
+        user_name: action.payload.data.user_name,
+        user_role: action.payload.data.user_phonenumber
+      }));
     }
     return action;
   }
