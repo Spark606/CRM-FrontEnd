@@ -45,11 +45,26 @@ export default function orderReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ORDER_BACK_LIST_SUCCESS:
+      console.log(action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         oneOrderBackList: action.payload.data,
       });
     case cs.GET_ORDER_BACK_LIST_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+    case cs.DELETE_ONE_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.DELETE_ONE_ORDER_SUCCESS:
+      message.success('删除订单成功！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+    case cs.DELETE_ONE_ORDER_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });

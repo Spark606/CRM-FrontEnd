@@ -11,6 +11,7 @@ const { TabPane } = Tabs;
 const mapStateToProps = state => ({
   oneOrderBackList: state.order.oneOrderBackList,
   orderBackDetail: state.order.orderBackDetail,
+  user_Id: state.sessions.user_Id
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -67,7 +68,7 @@ class AddOrderBackModal extends Component {
         createDate: moment(values.recordTimeDay).format(yearFormat),
         recordDate: moment().format(yearFormat),
         businessId: this.props.dataSource.orderId,
-        employeeId: this.props.dataSource.employeeId,
+        employeeId: this.props.user_Id,
         laterBackPay: values.laterBackPay,
         info: values.remark,
         businessType: this.props.orderType

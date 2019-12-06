@@ -8,8 +8,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddOrderBackModal from '../../component/addOrderBackModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient } from '../../actions/client';
-import { getOrderList, getOrderBackDetail } from '../../actions/order';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient } from '../../actions/client';
+import { getOrderList, getOrderBackDetail, deleteOrder} from '../../actions/order';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   clientOrdersList: state.order.clientOrdersList,
@@ -18,18 +18,20 @@ const mapStateToProps = state => ({
   pageTotal: state.order.pageTotal,
   pageSize: state.order.pageSize,
 });
+
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     getClients,
     getClientRecordsList,
     updateOneClient,
     addNewClient,
-    deleteClient,
+    deleteOrder,
     getOrderList,
     getOrderBackDetail
   },
   dispatch
 );
+
 @connect(mapStateToProps, mapDispatchToProps)
 export default class AccountTable extends Component {
   state = {
@@ -57,6 +59,15 @@ export default class AccountTable extends Component {
       pageSize: 2
     });
   }
+
+  //删除订单
+  handledeleteOrder = (record) => {
+    this.props.deleteOrder({ 
+      businessId: record.orderId,
+      orderType: this.state.orderType,
+     }, this.state.orderType, this.props.currentPage, this.props.pageSize);
+  }
+
   handleAddOrderBack = (record) => {
     this.setState({
       tempData: record
@@ -67,6 +78,7 @@ export default class AccountTable extends Component {
     });
     this.addOrderBackModal.showModal();
   }
+  
   pageChange = (page, pageSize) => {
     this.props.getOrderList({
       orderType: this.state.orderType,
@@ -147,7 +159,7 @@ export default class AccountTable extends Component {
             </Popover>
           </a>
           <Divider type="vertical" />
-          <a onClick={() => this.handledeleteClient(record)}>
+          <a onClick={() => this.handledeleteOrder(record)}>
             <Popover content={(<span>删除</span>)} trigger="hover">
               <Icon type="delete" />
             </Popover>
@@ -224,7 +236,7 @@ export default class AccountTable extends Component {
             </Popover>
           </a>
           <Divider type="vertical" />
-          <a onClick={() => this.handledeleteClient(record)}>
+          <a onClick={() => this.handledeleteOrder(record)}>
             <Popover content={(<span>删除</span>)} trigger="hover">
               <Icon type="delete" />
             </Popover>

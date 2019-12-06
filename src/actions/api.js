@@ -118,11 +118,11 @@ export function refreshToken(params) {
   };
 }
 
-export function updateUserInf(params) {
+export function updateUserInf(params, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/updatePersonalInfo',
         method: 'POST',
         body: params,
         mode: "cors",
@@ -132,6 +132,9 @@ export function updateUserInf(params) {
         types: [cs.UPDATE_USER_INFORMATION_REQUEST, cs.UPDATE_USER_INFORMATION_SUCCESS, cs.UPDATE_USER_INFORMATION_FAIL],
       },
     });
+    if(action.type === cs.UPDATE_USER_INFORMATION_SUCCESS){
+      callBack();
+    }
     return action;
   }
 }

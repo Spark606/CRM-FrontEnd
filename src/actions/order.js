@@ -40,7 +40,7 @@ export function getOrderBackList(params) {
 }
 
 
-export function addNewOrderBack(params, callBack){
+export function addNewOrderBack(params, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -52,7 +52,7 @@ export function addNewOrderBack(params, callBack){
           'Content-Type': 'application/json',
         },
         timeout: 3000,
-        types: [cs. ADD_NEW_ORDER_BACK_REQUEST, cs. ADD_NEW_ORDER_BACK_SUCCESS, cs. ADD_NEW_ORDER_BACK_FAIL],
+        types: [cs.ADD_NEW_ORDER_BACK_REQUEST, cs.ADD_NEW_ORDER_BACK_SUCCESS, cs.ADD_NEW_ORDER_BACK_FAIL],
       },
     });
     if (action.type === cs.ADD_NEW_ORDER_BACK_SUCCESS) {
@@ -82,11 +82,11 @@ export function getOrderBackDetail(params) {
 }
 
 //删除订单
-export function deleteOrder(params, orderType, currentPage, pageSize){
+export function deleteOrder(params, orderType, currentPage, pageSize) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/order/deleteOrder',
+        endpoint: '/crm/business/deleteBusiness',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -97,13 +97,13 @@ export function deleteOrder(params, orderType, currentPage, pageSize){
         types: [cs.DELETE_ONE_ORDER_REQUEST, cs.DELETE_ONE_ORDER_SUCCESS, cs.DELETE_ONE_ORDER_FAIL],
       },
     });
-    if(action.type === cs.DELETE_ONE_ORDER_SUCCESS && action.payload) {
+    if (action.type === cs.DELETE_ONE_ORDER_SUCCESS && action.payload) {
       this.getOrderList({
         orderType: orderType,
         page: currentPage,
         pageSize: pageSize,
       })
-    }
+    };
     return action;
-  };
+  }
 }

@@ -32,10 +32,13 @@ class Personal extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values);
       if (!err) {
-        this.props.updateUserInf(values);
-        console.log('Received values of form: ', values);
+        const seriesData = Object.assign({}, {
+          employeeName: values.username,
+          email: values.email,
+          phoneNumber: values.phone
+        });
+        this.props.updateUserInf(seriesData, this.handleReset);
       }
     });
   };

@@ -52,6 +52,10 @@ class CheckPage extends Component {
       total: pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
+    if (this.state.checkedStatus===1)
+    {
+      this.props.columns.pop();
+    }
     return (
       <div>
         <Select defaultValue={0} style={{ width: 120 }} onChange={this.handleCheckStatus}>

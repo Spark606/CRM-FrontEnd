@@ -4,6 +4,17 @@ import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, InputNumber } from 'antd';
 const { TextArea } = Input;
 const { Option } = Select;
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  user_Id: state.sessions.user_Id,
+});
+const mapDispatchToProps = dispatch => bindActionCreators(
+  { },
+  dispatch
+);
+@connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
 class AddFirmOrderModal extends Component {
   state = {
     visible: false,
@@ -20,7 +31,7 @@ class AddFirmOrderModal extends Component {
           resourceId: values.dealClientsName,
           info: values.remark,
           createDate: moment(values.dealDate).format(yearFormat),
-          employeeId: dataSource.employeeId,
+          employeeId: this.state.user_Id,
           companyId: dataSource.firmId,
           orderPaySum: values.orderPaySum
         });
