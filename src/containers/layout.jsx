@@ -53,7 +53,7 @@ export default class LayoutPagae extends Component {
       this.setState({
         menu: 'employeetable'
       })
-    }  {
+    } else {
       history.push('/main/todo');
     }
     if (this.props.userRole === '2') {
@@ -90,12 +90,13 @@ export default class LayoutPagae extends Component {
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
           <Menu className="menu-box" theme="dark" defaultSelectedKeys={this.state.menu} defaultOpenKeys={this.state.menu} mode="inline">
-            {this.props.userRole === '2' ? <Menu.Item key="todo">
-              <Link to={'/main/todo'}>
-                <Icon type="calendar" />
-                <span>待办事项</span>
-              </Link>
-            </Menu.Item>
+            {this.props.userRole === '2' ?
+              <Menu.Item key="todo">
+                <Link to={'/main/todo'}>
+                  <Icon type="calendar" />
+                  <span>待办事项</span>
+                </Link>
+              </Menu.Item>
               :
               null}
             <Menu.Item key="clienttable">
@@ -116,12 +117,15 @@ export default class LayoutPagae extends Component {
                 <span>订单汇总</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="employeetable">
-              <Link to={'/main/employee'}>
-                <Icon type="team" />
-                <span>员工管理</span>
-              </Link>
-            </Menu.Item>
+            {this.props.userRole === '2' ?
+              <Menu.Item key="employeetable">
+                <Link to={'/main/employee'}>
+                  <Icon type="team" />
+                  <span>员工管理</span>
+                </Link>
+              </Menu.Item>
+              :
+              null}
           </Menu>
         </Sider>
         <Layout>

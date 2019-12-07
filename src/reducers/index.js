@@ -5,6 +5,7 @@ import client from './client';
 import firm from './firm';
 import todo from './todo';
 import order from './order';
+import employee from './employee';
 
 /**
  * 合并reducers
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   client,
   sessions,
   todo,
-  order
+  order,
+  employee
 });
 
 export default rootReducer;
