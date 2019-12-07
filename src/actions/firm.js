@@ -130,7 +130,6 @@ export function deleteFirm(params, currentPage, pageSize){
   };
 }
 export function getAllFirms(){
-  console.log('getAllFirms');
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {

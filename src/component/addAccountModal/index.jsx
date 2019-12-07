@@ -91,7 +91,6 @@ class AddAccountModal extends Component {
     const { editBox } = this.state;
     const { oneClientRecord, dataSource } = this.props;
     const { getFieldDecorator } = this.props.form;
-    // console.log(oneClientRecord, dataSource, 'AddAccountModal');
     return (
       <Modal
         title="个人跟进记录"

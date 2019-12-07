@@ -34,7 +34,6 @@ class AddClientOrderModal extends Component {
         companyId: values.dealFirmName,
         orderPaySum: values.orderPaySum
       });
-      console.log(seriesData);
       this.props.addNewClientOrder(seriesData);
     });
     this.props.form.resetFields();
@@ -60,7 +59,6 @@ class AddClientOrderModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource, allFirmsList } = this.props;
-    console.log(dataSource, allFirmsList);
     return (
       <div>
         <Modal

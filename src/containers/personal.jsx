@@ -56,8 +56,6 @@ class Personal extends Component {
   render() {
     const { getFieldDecorator, userMsg } = this.props.form;
 
-    console.log('userMsg', userMsg);
-
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>

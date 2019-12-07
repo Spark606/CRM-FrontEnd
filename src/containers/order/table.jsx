@@ -43,7 +43,6 @@ export default class OrderTable extends Component {
     });
   }
   handleCheckType = (e) => {
-    console.log(e);
     this.setState({
       orderType: e
     });

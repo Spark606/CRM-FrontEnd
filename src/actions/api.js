@@ -124,14 +124,12 @@ export function refreshToken(params) {
       }
     });
     if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
-      // console.log(action);
       const { token } = action.payload;
       if (token) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));
       }
     }
     if (action.type === cs.UPDATE_TOKEN_FAIL) {
-      // console.log(action);
       // 没有找到用户
       if (action.error.code === '205005') {
         localStorage.removeItem('sessions');

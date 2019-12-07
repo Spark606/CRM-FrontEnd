@@ -61,7 +61,6 @@ class AddFirmOrderModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource, allClientsList } = this.props;
-    console.log(dataSource, allClientsList);
     return (
       <div>
         <Modal

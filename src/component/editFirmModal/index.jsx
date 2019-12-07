@@ -89,7 +89,6 @@ class EditFirmModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataSource, userRole, employeeList } = this.props;
-    // console.log(dataSource, 'wrapEditFirmModal');
     return (
       <div>
         <Modal

@@ -36,7 +36,6 @@ export default class IndexItemList extends Component {
     const items1 = _.slice(indexItems, 0, 10);
     const items2 = _.slice(indexItems, 10, 20);
     const items3 = _.slice(indexItems, 20, 30);
-    // console.log(items1, items2, items3);
     const columns = [{
       title: 'Description',
       dataIndex: 'description',

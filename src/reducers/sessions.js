@@ -33,7 +33,6 @@ export default function sessionReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_USER_MSG_SUCCESS:
-      console.log(action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         user_name: action.payload.data.user_name,
@@ -68,7 +67,6 @@ export default function sessionReducer(state = initialState, action) {
     case cs.UPDATE_TOKEN_REQUEST:
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.UPDATE_TOKEN_SUCCESS:
-      // console.log(decodeSessions);
       return Object.assign({}, state, {
         isFetching: false,
         token: action.payload.token
@@ -116,7 +114,6 @@ export default function sessionReducer(state = initialState, action) {
     case cs.GET_EMPLOYEE_LIST_REQUEST:
         return Object.assign({}, state, { error: false, isFetching: true });
       case cs.GET_EMPLOYEE_LIST_SUCCESS:
-        console.log(action.payload);
         return Object.assign({}, state, {
           isFetching: false,
           employeeList: action.payload.data

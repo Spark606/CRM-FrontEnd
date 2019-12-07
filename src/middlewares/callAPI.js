@@ -36,10 +36,8 @@ export default store => next => action => {
     endpoint = url + endpoint;
     const apiUrl = endpoint;
 
-      console.log('请求Body:', options);
     // 这里开始使用fetch请求数据
     endpoint = fetch(endpoint, options).then(response => {
-      // console.log('请求结束', response);
       if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
         localStorage.removeItem('sessions');
         location.href = '/login';
@@ -53,7 +51,6 @@ export default store => next => action => {
       });
     })
     // endpoint = _fetch(fetch(endpoint, options).then(response => {
-    //   // console.log('请求结束', response);
     //   if (response.status === 401 && apiUrl === '/api/v1/user/refresh_token') {
     //     localStorage.removeItem('sessions');
     //     location.href = '/login';
@@ -114,7 +111,6 @@ export default store => next => action => {
     })))
     .catch(err => {
       NProgress.done();
-      // console.log('error', err);
       return next(actionWith({
         type: failureType,
         error: err || { message: 'Something bad happened' },

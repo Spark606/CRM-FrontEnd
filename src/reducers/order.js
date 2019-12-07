@@ -45,7 +45,6 @@ export default function orderReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_ORDER_BACK_LIST_SUCCESS:
-      console.log(action.payload);
       return Object.assign({}, state, {
         isFetching: false,
         oneOrderBackList: action.payload.data,

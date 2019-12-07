@@ -92,7 +92,6 @@ class AddFirmRecordModal extends Component {
     const { editBox } = this.state;
     const { oneFirmRecord, dataSource } = this.props;
     const { getFieldDecorator } = this.props.form;
-    // console.log(oneFirmRecord, 'AddFirmRecordModal');
     return (
       <Modal
         title="企业跟进记录"
