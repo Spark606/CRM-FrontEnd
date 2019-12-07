@@ -25,10 +25,13 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default class LayoutPagae extends Component {
   state = {
     collapsed: false,
-    menu: 'todo'
+    menu: 'clientable'
   };
   componentWillMount() {
     this.onInit();
+  }
+  onInit = () => {
+    this.props.restoreSessionFromLocalStorage();
     const hash = window.location.hash;
     if (hash === '#/main/todo') {
       this.setState({
@@ -49,9 +52,11 @@ export default class LayoutPagae extends Component {
     } else {
       history.push('/main/todo');
     }
-  }
-  onInit = () => {
-    this.props.restoreSessionFromLocalStorage();
+    if(this.props.userRole === '2' ){
+      this.setState({
+        menu: 'todo'
+      })
+    }
   }
   onCollapse = collapsed => {
     this.setState({ collapsed });
