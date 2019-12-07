@@ -37,22 +37,26 @@ export default class LayoutPagae extends Component {
       this.setState({
         menu: 'todo'
       })
-    } else if (hash === '#/main/client/table') {
+    } else if (hash === '#/main/client') {
       this.setState({
         menu: 'clienttable'
       })
-    } else if (hash === '#/main/firms/table') {
+    } else if (hash === '#/main/firms') {
       this.setState({
         menu: 'firmstable'
       })
-    } else if (hash === '#/main/order/table') {
+    } else if (hash === '#/main/order') {
       this.setState({
         menu: 'ordertable'
       })
-    } else {
+    } else if (hash === '#/main/employee') {
+      this.setState({
+        menu: 'employeetable'
+      })
+    }  {
       history.push('/main/todo');
     }
-    if(this.props.userRole === '2' ){
+    if (this.props.userRole === '2') {
       this.setState({
         menu: 'todo'
       })
@@ -92,24 +96,30 @@ export default class LayoutPagae extends Component {
                 <span>待办事项</span>
               </Link>
             </Menu.Item>
-            :
-            null }
+              :
+              null}
             <Menu.Item key="clienttable">
-              <Link to={'/main/client/table'}>
+              <Link to={'/main/client'}>
                 <Icon type="user" />
                 <span>个人客户</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="firmstable">
-              <Link to={'/main/firms/table'}>
+              <Link to={'/main/firms'}>
                 <Icon type="team" />
                 <span>企业客户</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="ordertable">
-              <Link to={'/main/order/table'}>
+              <Link to={'/main/order'}>
                 <Icon type="area-chart" />
                 <span>订单汇总</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="employeetable">
+              <Link to={'/main/employee'}>
+                <Icon type="team" />
+                <span>员工管理</span>
               </Link>
             </Menu.Item>
           </Menu>

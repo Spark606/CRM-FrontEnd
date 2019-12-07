@@ -1,10 +1,11 @@
 import React from 'react';
 import {HashRouter as Router,Route, Switch} from 'react-router-dom';
-import ClientsTable from './clients/table';
-import FirmsTable from './firms/table';
-import OrderTable from './order/table';
+import ClientsTable from './clients';
+import FirmsTable from './firms';
+import OrderTable from './order';
 import Personal from './personal';
 import TodoPage from './todo';
+import EmployeeTable from './employee';
 class ContentMain extends React.Component {
 	render() {
 		return (
@@ -12,10 +13,11 @@ class ContentMain extends React.Component {
 				<Router>
 					<Switch>
 						<Route exact path='/main/todo' component={TodoPage}/>
-						<Route exact path='/main/client/table' component={ClientsTable}/>
-						<Route exact path='/main/firms/table' component={FirmsTable}/>
-						<Route exact path='/main/order/table' component={OrderTable}/>
+						<Route exact path='/main/client' component={ClientsTable}/>
+						<Route exact path='/main/firms' component={FirmsTable}/>
+						<Route exact path='/main/order' component={OrderTable}/>
 						<Route exact path='/main/personal' component={Personal}/>
+						<Route exact path='/main/employee' component={EmployeeTable}/>
 					</Switch>
 				</Router>
 			</div>
