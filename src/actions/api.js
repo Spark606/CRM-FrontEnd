@@ -181,3 +181,22 @@ export function getEmployeeList() {
   };
 }
 
+
+export function getPassKey(params){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/business/createResourceBusiness',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_PASS_KEY_REQUEST, cs.GET_PASS_KEY_SUCCESS, cs.GET_PASS_KEY_FAIL],
+      },
+    });
+    return action;
+  };
+}

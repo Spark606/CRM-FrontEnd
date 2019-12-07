@@ -77,13 +77,12 @@ class Login extends React.Component {
                 initialValue: true,
               })(<Checkbox>记住我</Checkbox>)}
             </Form.Item>   */}
-            {/* <Link className="login-form-forgot" to={"/reset"}>
+            <Link className="login-form-forgot" to={"/reset"}>
               忘记密码？
-            </Link> */}
+            </Link>
             <Button type="primary" htmlType="submit" loading={isFetching} className="login-form-button">
               登录
             </Button>
-            <a href="">马上注册</a>
           </Form>
         </div>
       </div>
