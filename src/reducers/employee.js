@@ -1,4 +1,5 @@
 import * as cs from '../constants';
+import { message } from 'antd';
 
 const initialState = {
   employeeTree: [
@@ -32,13 +33,13 @@ const initialState = {
     // }
   ],
   selectedEmployee: {
-    // employeeId: '1',
-    // employeeRole: '1',
-    // employeeName: '李真',
-    // employeePhone: '138888888888',
-    // employeeEmail: 'Lizbaby606@163.com',
-    // supEmployeeName: '胡君林',
-    // supEmployeeId: '1',
+    employeeId: '1',
+    employeeRole: '1',
+    employeeName: '李真',
+    employeePhone: '138888888888',
+    employeeEmail: 'Lizbaby606@163.com',
+    supEmployeeName: '胡君林',
+    supEmployeeId: '1',
   },
   managerEmployeeList: [
     //   {
@@ -135,6 +136,28 @@ export default function employeeReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+
+    case cs.DELETE_EMPLOYEE_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+
+    case cs.DELETE_EMPLOYEE_SUCCESS:
+      {
+        message.success('删除成功!');
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+      }
+
+    case cs.DELETE_EMPLOYEE_FAIL:
+      {
+        message.success('删除失败!');
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+      }
+
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Tree, Form, Icon, Input, Button, Row, Col, Select, Radio, Card } from 'antd';
+import { Breadcrumb, Tree, Form, Icon, Input, Button, Row, Col, Select, Radio, Card, Popconfirm } from 'antd';
 import { bindActionCreators } from 'redux';
-import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee, updateEmployee } from '../../actions/employee';
+import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee, updateEmployee, deleteEmployee } from '../../actions/employee';
 import { connect } from 'react-redux';
 import './style.scss';
 const { TreeNode } = Tree;
@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getEmployeeDetail,
   getManagerEmployeeList,
   addNewEmployee,
-  updateEmployee
+  updateEmployee,
+  deleteEmployee
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 
@@ -61,11 +62,11 @@ class EmployeePage extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      const seriesData =  Object.assign({}, {
+      const seriesData = Object.assign({}, {
         employeeId: values.employeeId,
         employeeName: values.employeeName,
-        phoneNumber:  values.employeePhone,
-        employeeRole:  values.employeeRole,
+        phoneNumber: values.employeePhone,
+        employeeRole: values.employeeRole,
         employeeManagerId: values.supEmployeeId,
         email: values.employeeEmail,
       });
@@ -98,7 +99,7 @@ class EmployeePage extends Component {
       isEdit: true,
       selectedEmployee: null,
       selectedKeys: [],
-      employeeRole: 1
+      employeeRole: '1'
     });
   }
 
@@ -116,6 +117,14 @@ class EmployeePage extends Component {
       selectedEmployee: this.props.selectedEmployee
     })
   }
+
+  deleteEmployee = e => {
+    this.props.deleteEmployee({ employeeId: this.props.selectedEmployee.employeeId }, () => {
+      this.openEditBox();
+      this.props.getEmployeeTree();
+    });
+  }
+
   render() {
     const { employeeTree, managerEmployeeList } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -235,7 +244,7 @@ class EmployeePage extends Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}> 提交 </Button>
                   </Form>
                   :
-                  <Card title={`员工：${this.props.selectedEmployee.employeeName}`} bordered={false} style={{}}>
+                              <Card title={<span> {this.props.selectedEmployee.employeeRole === '1' ? '员工' : '经理'}  ： {this.props.selectedEmployee.employeeName}</span>} bordered={false} style={{}}>
                     <p>工 号：{this.props.selectedEmployee.employeeId}</p>
                     <p>职 务：{this.props.selectedEmployee.employeeRole === '1' ? '普通员工' : '经理'}</p>
                     {this.props.selectedEmployee.employeeRole === '1' ?
@@ -243,9 +252,26 @@ class EmployeePage extends Component {
                       : null}
                     <p>电 话：{this.props.selectedEmployee.employeePhone}</p>
                     <p>邮 箱：{this.props.selectedEmployee.employeeEmail}</p>
-                    <Button type="primary" onClick={this.openEditBoxToUpdate} style={{ float: 'right', marginTop: '20px' }}>
-                      修改
-                    </Button>
+
+                    <Row type="flex" justify="space-around">
+                      <Col span={4}>
+                        <Button type="primary" onClick={this.openEditBoxToUpdate} style={{ float: 'right', marginTop: '20px' }}>
+                          修改
+                        </Button>
+                      </Col>
+
+                      <Col span={4}>
+                        <Popconfirm
+                          title={<span>确定删除员工<b>{this.props.selectedEmployee.employeeName}</b> ？</span>}
+                          onConfirm={this.deleteEmployee}
+                          icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        >
+                          <Button type="primary" style={{ float: 'right', marginTop: '20px' }}>
+                            删除
+                          </Button>
+                        </Popconfirm>
+                      </Col>
+                    </Row>
                   </Card>
                 }
               </div>
