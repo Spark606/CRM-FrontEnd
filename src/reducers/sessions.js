@@ -2,6 +2,7 @@ import jwtDecode from 'jwt-decode';
 
 import { findErrorMessage } from '../actions/base';
 import * as cs from '../constants';
+import { message } from 'antd';
 
 const initialState = {
   isFetching: false,
@@ -58,6 +59,7 @@ export default function sessionReducer(state = initialState, action) {
         user_role: action.payload.data.user_role
       });
     case cs.LOGIN_FAIL:
+      message.error("登录失败！");
       return Object.assign({}, state, {
         error: true,
         isFetching: false,

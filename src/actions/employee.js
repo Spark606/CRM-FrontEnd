@@ -5,7 +5,7 @@ export function getEmployeeTree() {
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
-          endpoint: '/crm/manager/test',
+          endpoint: '/crm/manager/getEmployeeTree',
           method: 'GET',
           header: {
             'Content-Type': 'application/json',
@@ -18,11 +18,11 @@ export function getEmployeeTree() {
   }
   
 
-  export function getEmployeeDetail(params) {
+  export function getEmployeeDetail(params,callBack) {
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
-          endpoint: '/crm/manager/test',
+          endpoint: '/crm/manager/getEmployeeDetail',
           method: 'POST',
           body: params,
           mode: "cors",
@@ -32,6 +32,10 @@ export function getEmployeeTree() {
           types: [cs.GET_EMPLOYEE_DETAIL_REQUEST, cs.GET_EMPLOYEE_DETAIL_SUCCESS, cs.GET_EMPLOYEE_DETAIL_FAIL],
         },
       });
+      
+      if(action.type === cs.GET_EMPLOYEE_DETAIL_SUCCESS && action.payload) {
+        callBack();
+      }
       return action;
     };
   }
@@ -40,7 +44,7 @@ export function getEmployeeTree() {
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
-          endpoint: '/crm/manager/test',
+          endpoint: '/crm/manager/getManagerEmployeeList',
           method: 'GET',
           header: {
             'Content-Type': 'application/json',
@@ -56,7 +60,7 @@ export function getEmployeeTree() {
     return async (dispatch) => {
       const action = await dispatch({
         [CALL_API]: {
-          endpoint: '/crm/manager/test',
+          endpoint: '/crm/manager/createEmployee',
           method: 'POST',
           body: params,
           mode: "cors",
@@ -67,6 +71,27 @@ export function getEmployeeTree() {
         },
       });
       if(action.type === cs.ADD_NEW_EMPLOYEE_SUCCESS && action.payload) {
+        callBack();
+      }
+      return action;
+    };
+  }
+
+  export function updateEmployee(params, callBack) {
+    return async (dispatch) => {
+      const action = await dispatch({
+        [CALL_API]: {
+          endpoint: '/crm/manager/updateEmployeeManager',
+          method: 'POST',
+          body: params,
+          mode: "cors",
+          header: {
+            'Content-Type': 'application/json',
+          },
+          types: [cs.UPDATE_EMPLOYEE_REQUEST, cs.UPDATE_EMPLOYEE_SUCCESS, cs.UPDATE_EMPLOYEE_FAIL],
+        },
+      });
+      if(action.type === cs.UPDATE_EMPLOYEE_SUCCESS && action.payload) {
         callBack();
       }
       return action;

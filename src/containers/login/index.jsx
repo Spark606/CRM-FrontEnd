@@ -65,12 +65,12 @@ class Login extends React.Component {
                 />,
               )}
             </Form.Item>
-            <Form.Item>
+            {/* <Form.Item>
               <Radio.Group onChange={this.onChangeRole} value={this.state.employRole}>
                 <Radio value={1}>管理员</Radio>
                 <Radio value={2}>普通员工</Radio>
               </Radio.Group>
-            </Form.Item>
+            </Form.Item> */}
             {/* <Form.Item>
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',

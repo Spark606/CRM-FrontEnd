@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Tree, Form, Icon, Input, Button, Row, Col, Select, Radio, Card } from 'antd';
 import { bindActionCreators } from 'redux';
-import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee } from '../../actions/employee';
+import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee, updateEmployee } from '../../actions/employee';
 import { connect } from 'react-redux';
 import './style.scss';
 const { TreeNode } = Tree;
 const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
   userRole: state.sessions.user_role,
+  userId: state.sessions.user_Id,
   employeeTree: state.employee.employeeTree,
   selectedEmployee: state.employee.selectedEmployee,
   managerEmployeeList: state.employee.managerEmployeeList
@@ -16,7 +17,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getEmployeeTree,
   getEmployeeDetail,
   getManagerEmployeeList,
-  addNewEmployee
+  addNewEmployee,
+  updateEmployee
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 
@@ -27,13 +29,16 @@ class EmployeePage extends Component {
     isEdit: true,
     selectedEmployee: null
   };
+
   componentWillMount() {
     this.onInit();
   }
+
   onInit = () => {
     this.props.getEmployeeTree();
     this.props.getManagerEmployeeList();
   }
+
   constructureTree(treeRoot) {
     return treeRoot.map(treeNode => {
       if (treeNode.team && treeNode.team.length > 0) {
@@ -45,41 +50,66 @@ class EmployeePage extends Component {
       }
     })
   }
+
   onSelect = (selectedKeys, info) => {
     console.log(selectedKeys, info);
     this.closeEditBox();
     this.setState({ selectedKeys: selectedKeys });
-    this.props.getEmployeeDetail({ employeeId: selectedKeys[0] });
+    this.props.getEmployeeDetail({ employeeId: selectedKeys[0] }, () => { this.setState({ employeeRole: this.props.selectedEmployee.employeeRole }); })
   }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      const seriesData =  Object.assign({}, {
+        employeeId: values.employeeId,
+        employeeName: values.employeeName,
+        phoneNumber:  values.employeePhone,
+        employeeRole:  values.employeeRole,
+        employeeManagerId: values.supEmployeeId,
+        email: values.employeeEmail,
+      });
+
       if (!err) {
-        this.props.addNewEmployee(values, () => {
-          this.openEditBox();
-          this.props.getEmployeeTree();
-        });
+        if (this.state.selectedEmployee === null) {
+          this.props.addNewEmployee(seriesData, () => {
+            this.openEditBox();
+            this.props.getEmployeeTree();
+          });
+        }
+        else {
+          this.props.updateEmployee(seriesData, () => {
+            this.openEditBox();
+            this.props.getEmployeeTree();
+          });
+        }
         console.log('Received values of form: ', values);
       }
     });
   };
+
   handleChangeType = e => {
     this.setState({ employeeRole: e.target.value });
   }
+
   openEditBox = e => {
     this.props.form.resetFields(); //重置表单并关闭模态框
     this.setState({
       isEdit: true,
       selectedEmployee: null,
-      selectedKeys: []
-    })
+      selectedKeys: [],
+      employeeRole: 1
+    });
   }
+
   closeEditBox = e => {
     this.setState({
       isEdit: false,
-      selectedEmployee: null
+      selectedEmployee: null,
+      selectedKeys: []
     })
   }
+
   openEditBoxToUpdate = e => {
     this.setState({
       isEdit: true,
@@ -120,7 +150,10 @@ class EmployeePage extends Component {
                 {/* 密码默认都是123456，或者根据电话号码发送密码短信 */}
                 {isEdit ?
                   <Form id="formBox" style={{ textAlign: 'left' }}>
-                    新建员工
+                    {
+                      selectedEmployee === null ?
+                        '新建员工' : '修改员工'
+                    }
                     <hr />
                     <Row>
                       <Col span={12}>
@@ -132,12 +165,22 @@ class EmployeePage extends Component {
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="工 号：">
-                          {getFieldDecorator('employeeId', {
-                            initialValue: selectedEmployee ? selectedEmployee.employeeId : "",
-                            rules: [{ required: true, message: '请输入工号。' }],
-                          })(<Input style={{ maxWidth: 150 }} />)}
-                        </Form.Item>
+                        {
+                          selectedEmployee ?
+                            <Form.Item label="工 号：">
+                              {getFieldDecorator('employeeId', {
+                                initialValue: selectedEmployee ? selectedEmployee.employeeId : "",
+                                rules: [{ required: true, message: '请输入工号。' }],
+                              })(<Input style={{ maxWidth: 150 }} disabled />)}
+                            </Form.Item>
+                            :
+                            <Form.Item label="工 号：">
+                              {getFieldDecorator('employeeId', {
+                                initialValue: selectedEmployee ? selectedEmployee.employeeId : "",
+                                rules: [{ required: true, message: '请输入工号。' }],
+                              })(<Input style={{ maxWidth: 150 }} />)}
+                            </Form.Item>
+                        }
                       </Col>
                     </Row>
                     <Row style={{ marginTop: 20 }}>
@@ -176,7 +219,7 @@ class EmployeePage extends Component {
                         <Form.Item label="所属经理：">
                           {getFieldDecorator('supEmployeeId', {
                             // 管理员修改显示原本的employeeId,新建默认填自己的userId
-                            initialValue: selectedEmployee ? selectedEmployee.supEmployeeId : '1',
+                            initialValue: selectedEmployee ? selectedEmployee.supEmployeeId : this.props.userId,
                             rules: [{ required: true, message: '请输入所属经理。' }],
                           })(
                             <Select style={{ width: 120 }}>
@@ -200,7 +243,7 @@ class EmployeePage extends Component {
                       : null}
                     <p>电 话：{this.props.selectedEmployee.employeePhone}</p>
                     <p>邮 箱：{this.props.selectedEmployee.employeeEmail}</p>
-                    <Button type="primary" onClick={this.openEditBoxToUpdate} style={{ float: 'right', marginTop:'20px' }}>
+                    <Button type="primary" onClick={this.openEditBoxToUpdate} style={{ float: 'right', marginTop: '20px' }}>
                       修改
                     </Button>
                   </Card>

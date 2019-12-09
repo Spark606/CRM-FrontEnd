@@ -13,7 +13,7 @@ module.exports = merge(common, {   //合并两个webpack文件
     inline: true,
     open: 'Chrome',                //构建完成时自动打开浏览器
     openPage: "",
-    stats: "errors-only", // 只打印错误
+    // stats: "errors-only", // 只打印错误
     historyApiFallback: true
   },
   devtool: "inline-source-map",      //方便调试，将src目录下的资源映射到浏览器中
