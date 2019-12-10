@@ -247,7 +247,7 @@ class EditClientModal extends Component {
                   <Col span={12}>
                     <Form.Item label="类别">
                       {getFieldDecorator('clientAvailable', {
-                        initialValue: dataSource ? dataSource.clientAvailable : 1
+                        initialValue: dataSource ? dataSource.clientAvailable : 2
                       })(
                         <Radio.Group >
                           <Radio value={1}>公有</Radio>

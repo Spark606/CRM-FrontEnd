@@ -3,7 +3,7 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
-import { updateOneFirm, addNewFirm, getFirms} from '../../actions/firm';
+import { updateOneFirm, addNewFirm, getFirms } from '../../actions/firm';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -29,7 +29,7 @@ class EditFirmModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const seriesData =  Object.assign({}, {
+      const seriesData = Object.assign({}, {
         companyName: values.firmName,
         companyCategory: values.category,
         startDate: moment(values.createDate).format(yearFormat),
@@ -44,33 +44,36 @@ class EditFirmModal extends Component {
         gender: values.gender,
         email: values.email,
       });
-      if (this.props.userRole === '2') { //管理员
-        seriesData.employeeId = values.employeeId;
-      };
-      if (dataSource) {
-        // 修改数据，管理员直接values.employeeId，普通员工只能dataSource.employeeId,而且还得传resourceId
-        if (this.props.userRole === '1') { //普通用户
-          seriesData.employeeId = dataSource.employeeId;
+      if (!err) {
+        if (this.props.userRole === '2') { //管理员
+          seriesData.employeeId = values.employeeId;
         };
-        seriesData.companyId = dataSource.firmId,
-          this.props.updateOneFirm(seriesData, this.handleCancel); // 提交更新数据
-      } else {
-        // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
-        if (this.props.userRole === '1') { //普通用户
-          seriesData.employeeId = this.props.userId;
-        };
-        this.props.addNewFirm(seriesData, () => {
-          this.props.form.resetFields(); //重置表单并关闭模态框
-          this.setState({
-            visible: false,
+        if (dataSource) {
+          // 修改数据，管理员直接values.employeeId，普通员工只能dataSource.employeeId,而且还得传resourceId
+          if (this.props.userRole === '1') { //普通用户
+            seriesData.employeeId = dataSource.employeeId;
+          };
+          seriesData.companyId = dataSource.firmId,
+            this.props.updateOneFirm(seriesData, this.handleCancel); // 提交更新数据
+        } else {
+          // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
+          if (this.props.userRole === '1') { //普通用户
+            seriesData.employeeId = this.props.userId;
+          };
+          this.props.addNewFirm(seriesData, () => {
+            this.props.form.resetFields(); //重置表单并关闭模态框
+            this.setState({
+              visible: false,
+            });
+            this.props.getFirms({
+              page: 1,
+              pageSize: 2,
+            });
           });
-          this.props.getFirms({
-            page: 1,
-            pageSize: 2,
-          });
-        });
+        }
       }
     });
+
   };
 
   showModal = () => {
@@ -216,7 +219,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="备注：">
                       {getFieldDecorator('remark', {
                         initialValue: dataSource ? dataSource.remark : null,
-                      })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
+                      })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -226,6 +229,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="联系人：">
                       {getFieldDecorator('contact', {
                         initialValue: dataSource ? dataSource.contact : null,
+                        rules: [{ required: true, message: '请输入联系人。' }],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

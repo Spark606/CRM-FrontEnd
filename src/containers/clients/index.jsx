@@ -23,7 +23,6 @@ const mapStateToProps = state => ({
   userId: state.sessions.user_Id,
   userRole: state.sessions.user_role,
   userName: state.sessions.user_name,
-  allFirmsList: state.firm.allFirmRsList,
   employeeList: state.sessions.employeeList
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -177,7 +176,7 @@ export default class ClientsTable extends Component {
   }
 
   render() {
-    const { clientsList, pageSize, currentPage, pageTotal, allFirmsList} = this.props;
+    const { clientsList, pageSize, currentPage, pageTotal} = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -362,7 +361,6 @@ export default class ClientsTable extends Component {
           // ref="addClientRecordModal"
           dataSource={this.state.tempData}
           addNewClientOrder={this.props.addNewClientOrder}
-          allFirmsList = {allFirmsList}
         />
       </div>
     );

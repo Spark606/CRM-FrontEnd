@@ -1,5 +1,6 @@
 import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
+import { message } from 'antd';
 
 // client page
 export function getClients(params){
@@ -123,6 +124,7 @@ export function deleteClient(params, currentPage, pageSize){
     return action;
   };
 }
+
 export function getAllClients(params){
   return async (dispatch) => {
     const action = await dispatch({
@@ -139,7 +141,6 @@ export function getAllClients(params){
     return action;
   };
 }
-
 
 export function addNewClientOrder(params){
   return async (dispatch) => {

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
   user_Id: state.sessions.user_Id,
+  allFirmsList: state.firm.allFirmsList,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   { },

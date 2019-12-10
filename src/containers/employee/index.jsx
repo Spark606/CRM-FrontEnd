@@ -205,6 +205,16 @@ class EmployeePage extends Component {
                         <Form.Item label="邮箱：">
                           {getFieldDecorator('employeeEmail', {
                             initialValue: selectedEmployee ? selectedEmployee.employeeEmail : "",
+                            rules: [
+                              {
+                                type: 'email',
+                                message: '请输入正确的邮箱!',
+                              },
+                              {
+                                required: true,
+                                message: '邮箱不能为空!',
+                              }
+                            ]
                           })(<Input style={{ maxWidth: 150 }} />)}
                         </Form.Item>
                       </Col>
@@ -244,7 +254,7 @@ class EmployeePage extends Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}> 提交 </Button>
                   </Form>
                   :
-                              <Card title={<span> {this.props.selectedEmployee.employeeRole === '1' ? '员工' : '经理'}  ： {this.props.selectedEmployee.employeeName}</span>} bordered={false} style={{}}>
+                  <Card title={<span> {this.props.selectedEmployee.employeeRole === '1' ? '员工' : '经理'}  ： {this.props.selectedEmployee.employeeName}</span>} bordered={false} style={{}}>
                     <p>工 号：{this.props.selectedEmployee.employeeId}</p>
                     <p>职 务：{this.props.selectedEmployee.employeeRole === '1' ? '普通员工' : '经理'}</p>
                     {this.props.selectedEmployee.employeeRole === '1' ?

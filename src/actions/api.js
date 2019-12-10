@@ -2,6 +2,7 @@ import { createHashHistory } from 'history';
 const history = createHashHistory();
 import * as cs from '../constants';
 import { CALL_API } from '../middlewares/callAPI';
+import { message } from 'antd';
 
 // if Refresh set Session to Store
 export function restoreSessionFromLocalStorage() {
@@ -70,6 +71,8 @@ export function login(params) {
         history.push('/main/client/table');
       }
     }
+
+    if (action.type === cs.LOGIN_FAIL) { console.log(action); message.error(action.error.data.msg) }
     return action;
   };
 }
@@ -182,11 +185,11 @@ export function getEmployeeList() {
 }
 
 
-export function getPassKey(params){
+export function getCode(params, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/business/createResourceBusiness',
+        endpoint: '/crm/getCode',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -194,9 +197,67 @@ export function getPassKey(params){
           'Content-Type': 'application/json',
         },
         timeout: 3000,
-        types: [cs.GET_PASS_KEY_REQUEST, cs.GET_PASS_KEY_SUCCESS, cs.GET_PASS_KEY_FAIL],
+        types: [cs.GET_CODE_REQUEST, cs.GET_CODE_SUCCESS, cs.GET_CODE_FAIL],
       },
     });
+    if (action.type === cs.GET_CODE_SUCCESS) {
+      message.success('验证码发送成功！');
+      callBack();
+    }
+    if (action.type === cs.GET_CODE_FAIL) {
+      if (action.error.data) message.error(action.error.data.msg);
+      else message.error("验证码发送失败！")
+    }
+    return action;
+  };
+}
+
+export function verifyCode(params, callBack) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/verifyCode',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.VERIFY_CODE_REQUEST, cs.VERIFY_CODE_SUCCESS, cs.VERIFY_CODE_FAIL],
+      },
+    });
+    if (action.type === cs.VERIFY_CODE_SUCCESS) {
+      callBack();
+    }
+    if (action.type === cs.VERIFY_CODE_FAIL) {
+      if (action.error.data) message.error(action.error.data.msg);
+    }
+    return action;
+  };
+}
+
+export function resetPassword(params, callBack) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/resetPassword',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.RESET_PASSWD_REQUEST, cs.RESET_PASSWD_SUCCESS, cs.RESET_PASSWD_FAIL],
+      },
+    });
+    if (action.type === cs.RESET_PASSWD_SUCCESS) {
+      callBack();
+    }
+    if (action.type === cs.RESET_PASSWD_FAIL) {
+      if (action.error.data) message.error(action.error.data.msg);
+    }
     return action;
   };
 }

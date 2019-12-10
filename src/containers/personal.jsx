@@ -81,7 +81,7 @@ class Personal extends Component {
                     {
                       required: true,
                       message: '邮箱不能为空!',
-                    },
+                    }
                   ],
                 })(<Input style={{ maxWidth: 200 }} />)}
               </Form.Item>

@@ -1,5 +1,6 @@
 import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
+import { message } from 'antd';
 
 const url = 'http://192.168.205.221:8000';
 
@@ -78,6 +79,9 @@ export function addNewFirm(params, callBack){
     });
     if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
       callBack();
+    }
+    if(action.type === cs.ADD_NEW_FIRM_FAIL && action.error.msg) {
+      message.error(action.error.msg)
     }
     return action;
   };
