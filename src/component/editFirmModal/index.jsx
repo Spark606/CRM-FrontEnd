@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import { Modal, Form, Input, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
+import { Modal, Form, Input, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio, Select } from 'antd';
+const { Option } = Select;
 const { TextArea } = Input;
 import { updateOneFirm, addNewFirm, getFirms } from '../../actions/firm';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
+  pageSize: state.firm.pageSize,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -43,6 +45,7 @@ class EditFirmModal extends Component {
         province: values.province,
         gender: values.gender,
         email: values.email,
+        shareStatus: values.shareStatus,
       });
       if (!err) {
         if (this.props.userRole === '2') { //管理员
@@ -53,21 +56,27 @@ class EditFirmModal extends Component {
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = dataSource.employeeId;
           };
-          seriesData.companyId = dataSource.firmId,
-            this.props.updateOneFirm(seriesData, this.handleCancel); // 提交更新数据
+          seriesData.companyId = dataSource.firmId;
+          this.props.updateOneFirm(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
+            console.log(shareStatus, pageSize);
+            this.handleCancel();
+            this.props.getFirms({
+              shareStatus: shareStatus,
+              page: 1,
+              pageSize: pageSize,
+            });
+          }); // 提交更新数据
         } else {
           // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = this.props.userId;
           };
-          this.props.addNewFirm(seriesData, () => {
-            this.props.form.resetFields(); //重置表单并关闭模态框
-            this.setState({
-              visible: false,
-            });
+          this.props.addNewFirm(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
+            this.handleCancel();
             this.props.getFirms({
+              shareStatus: shareStatus,
               page: 1,
-              pageSize: 2,
+              pageSize: pageSize,
             });
           });
         }
@@ -131,9 +140,9 @@ class EditFirmModal extends Component {
                           })(
                             <Select style={{ width: 120 }}>
                               {employeeList.map((item) =>
-                                <Select.Option key={item.employeeId}>
+                                <Option key={item.employeeId}>
                                   {item.employeeName}
-                                </Select.Option>
+                                </Option>
                               )}
                             </Select>)}
                         </Form.Item>
@@ -174,11 +183,11 @@ class EditFirmModal extends Component {
                         initialValue: dataSource ? dataSource.status : 1
                       })(
                         <Select style={{ width: 120 }}>
-                          <Select.Option value={1}>潜在客户</Select.Option>
-                          <Select.Option value={2}>意向客户</Select.Option>
-                          <Select.Option value={3}>成交客户</Select.Option>
-                          <Select.Option value={4}>失败客户</Select.Option>
-                          <Select.Option value={5}>已流失客户</Select.Option>
+                          <Option value={1}>潜在客户</Option>
+                          <Option value={2}>意向客户</Option>
+                          <Option value={3}>成交客户</Option>
+                          <Option value={4}>失败客户</Option>
+                          <Option value={5}>已流失客户</Option>
                         </Select>
                       )}
                     </Form.Item>
@@ -198,24 +207,37 @@ class EditFirmModal extends Component {
                         initialValue: dataSource ? dataSource.category : 1
                       })(
                         <Select style={{ width: 120 }}>
-                          <Select.Option value={1}>建筑业</Select.Option>
-                          <Select.Option value={2}>农林牧渔</Select.Option>
-                          <Select.Option value={3}>住宿餐饮</Select.Option>
-                          <Select.Option value={4}>IT</Select.Option>
-                          <Select.Option value={5}>金融业</Select.Option>
-                          <Select.Option value={6}>房地产</Select.Option>
-                          <Select.Option value={7}>政府机关</Select.Option>
-                          <Select.Option value={8}>文体传媒</Select.Option>
-                          <Select.Option value={9}>运输物流</Select.Option>
-                          <Select.Option value={10}>商业服务</Select.Option>
-                          <Select.Option value={11}>卫生医疗</Select.Option>
-                          <Select.Option value={12}>教育培训</Select.Option>
-                          <Select.Option value={13}>其他</Select.Option>
+                          <Option value={1}>建筑业</Option>
+                          <Option value={2}>农林牧渔</Option>
+                          <Option value={3}>住宿餐饮</Option>
+                          <Option value={4}>IT</Option>
+                          <Option value={5}>金融业</Option>
+                          <Option value={6}>房地产</Option>
+                          <Option value={7}>政府机关</Option>
+                          <Option value={8}>文体传媒</Option>
+                          <Option value={9}>运输物流</Option>
+                          <Option value={10}>商业服务</Option>
+                          <Option value={11}>卫生医疗</Option>
+                          <Option value={12}>教育培训</Option>
+                          <Option value={13}>其他</Option>
                         </Select>
                       )}
                     </Form.Item>
                   </Col>
-                  <Col span={12} className="marker">
+                  <Col span={12}>
+                    <Form.Item label="资源状态：">
+                      {getFieldDecorator('shareStatus', {
+                        initialValue: dataSource ? dataSource.shareStatus : null,
+                      })(
+                        <Select style={{ width: 120 }}>
+                          <Option value={1}>公有资源</Option>
+                          <Option value={2}>私有资源</Option>
+                        </Select>)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24} className="marker">
                     <Form.Item label="备注：">
                       {getFieldDecorator('remark', {
                         initialValue: dataSource ? dataSource.remark : null,

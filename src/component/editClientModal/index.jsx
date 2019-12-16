@@ -3,11 +3,13 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
-import { updateOneClient, addNewClient, getClients} from '../../actions/client';
+const { Option } = Select;
+import { updateOneClient, addNewClient, getClients } from '../../actions/client';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
+  pageSize: state.client.pageSize,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -31,11 +33,9 @@ class EditClientModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const seriesData = Object.assign({}, {
-          shareStatus: values.clientAvailable,
           resourceName: values.clientName,
           certificate: values.certificate,
           info: values.remark,
-          shareStatus: values.clientAvailable,
           createDate: moment(values.createDate).format(yearFormat),
           endDate: moment(values.expireDate).format(yearFormat),
           status: values.status,
@@ -44,6 +44,7 @@ class EditClientModal extends Component {
           province: values.province,
           gender: values.gender,
           email: values.email,
+          shareStatus: values.shareStatus,
         });
         if (this.props.userRole === '2') { //管理员
           seriesData.employeeId = values.employeeId;
@@ -53,21 +54,26 @@ class EditClientModal extends Component {
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = dataSource.employeeId;
           };
-          seriesData.resourceId = dataSource.clientId,
-            this.props.updateOneClient(seriesData, this.handleCancel); // 提交更新数据
+          seriesData.resourceId = dataSource.clientId;
+          this.props.updateOneClient(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
+            this.handleCancel();
+            this.props.getClients({
+              shareStatus: shareStatus,
+              page: 1,
+              pageSize: pageSize,
+            });
+          }); // 提交更新数据
         } else {
           // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = this.props.userId;
           };
-          this.props.addNewClient(seriesData, () => {
-            this.props.form.resetFields(); //重置表单并关闭模态框
-            this.setState({
-              visible: false,
-            });
+          this.props.addNewClient(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
+            this.handleCancel();
             this.props.getClients({
+              shareStatus: shareStatus,
               page: 1,
-              pageSize: 2,
+              pageSize: pageSize,
             });
           });
         }
@@ -130,9 +136,9 @@ class EditClientModal extends Component {
                           })(
                             <Select style={{ width: 120 }}>
                               {employeeList.map((item) =>
-                                <Select.Option key={item.employeeId}>
+                                <Option key={item.employeeId}>
                                   {item.employeeName}
-                                </Select.Option>
+                                </Option>
                               )}
                             </Select>)}
                         </Form.Item>
@@ -235,25 +241,24 @@ class EditClientModal extends Component {
                         initialValue: dataSource ? dataSource.status : 1
                       })(
                         <Select style={{ width: 120 }}>
-                          <Select.Option value={1}>潜在客户</Select.Option>
-                          <Select.Option value={2}>意向客户</Select.Option>
-                          <Select.Option value={3}>成交客户</Select.Option>
-                          <Select.Option value={4}>失败客户</Select.Option>
-                          <Select.Option value={5}>已流失客户</Select.Option>
+                          <Option value={1}>潜在客户</Option>
+                          <Option value={2}>意向客户</Option>
+                          <Option value={3}>成交客户</Option>
+                          <Option value={4}>失败客户</Option>
+                          <Option value={5}>已流失客户</Option>
                         </Select>
                       )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item label="类别">
-                      {getFieldDecorator('clientAvailable', {
-                        initialValue: dataSource ? dataSource.clientAvailable : 2
+                    <Form.Item label="资源状态：">
+                      {getFieldDecorator('shareStatus', {
+                        initialValue: dataSource ? dataSource.shareStatus : null,
                       })(
-                        <Radio.Group >
-                          <Radio value={1}>公有</Radio>
-                          <Radio value={2}>私有</Radio>
-                        </Radio.Group>
-                      )}
+                        <Select style={{ width: 120 }}>
+                          <Option value={1}>公有资源</Option>
+                          <Option value={2}>私有资源</Option>
+                        </Select>)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>

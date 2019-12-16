@@ -57,7 +57,7 @@ export function addNewClientRecord(params){
     return action;
   };
 }
-export function addNewClient(params, callBack){
+export function addNewClient(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -78,7 +78,7 @@ export function addNewClient(params, callBack){
     return action;
   };
 }
-export function updateOneClient(params, callBack){
+export function updateOneClient(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -95,12 +95,13 @@ export function updateOneClient(params, callBack){
     });
     
     if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS && action.payload) {
-      callBack();
+      console.log(shareStatus, pageSize);
+      callBack(shareStatus, pageSize);
     }
     return action;
   };
 }
-export function deleteClient(params, currentPage, pageSize){
+export function deleteClient(params, currentPage, pageSize, shareStatus){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -117,6 +118,7 @@ export function deleteClient(params, currentPage, pageSize){
     });
     if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS && action.payload) {
       this.getClients({
+        shareStatus: shareStatus,
         page: currentPage,
         pageSize: pageSize,
       });
@@ -157,6 +159,33 @@ export function addNewClientOrder(params){
         types: [cs.ADD_NEW_CLIENT_ORDER_REQUEST, cs.ADD_NEW_CLIENT_ORDER_SUCCESS, cs.ADD_NEW_CLIENT_ORDER_FAIL],
       },
     });
+    return action;
+  };
+}
+
+export function updateClientShareStatus(params, status, pageSize, callBack){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/emmployee/updateResourceShareStatus',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.UPDATE_ONE_CLIENT_SHARESTATUS_REQUEST, cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS, cs.UPDATE_ONE_CLIENT_SHARESTATUS_FAIL],
+      },
+    });
+    
+    if(action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS && action.payload) {
+      callBack({
+        shareStatus: status,
+        page: 1,
+        pageSize: pageSize,
+      });
+    }
     return action;
   };
 }

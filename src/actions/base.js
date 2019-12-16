@@ -49,6 +49,7 @@ export function formatClients(dataSource) {
         city: item.city,
         gender: item.gender,
         email: item.email,
+        shareStatus: item.shareStatus,
       }));
     });
     return seriesData;
@@ -80,6 +81,7 @@ export function formatFirms(dataSource) {
         province: item.province,
         gender: item.gender,
         email: item.email,
+        shareStatus: item.shareStatus,
       }));
     });
     return seriesData;

@@ -47,6 +47,26 @@ export default function clientReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+      
+
+
+      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_REQUEST:
+        return Object.assign({}, state, {
+          isFetching: true
+        });
+      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS:
+        message.success('修改资源状态成功！');
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_FAIL:
+        message.error('修改资源状态失败！');
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+  
+
+
 
     case cs.ADD_NEW_CLIENT_RECORD_REQUEST:
       return Object.assign({}, state, {

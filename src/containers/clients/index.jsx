@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover, Select } from 'antd';
+const { Option } = Select;
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
@@ -9,9 +10,9 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder } from '../../actions/client';
-import {getAllFirms} from '../../actions/firm';
-import {getEmployeeList} from '../../actions/api';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder,updateClientShareStatus } from '../../actions/client';
+import { getAllFirms } from '../../actions/firm';
+import { getEmployeeList } from '../../actions/api';
 
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -34,7 +35,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     deleteClient,
     getAllFirms,
     addNewClientOrder,
-    getEmployeeList
+    getEmployeeList,
+    updateClientShareStatus
   },
   dispatch
 );
@@ -45,6 +47,7 @@ export default class ClientsTable extends Component {
     searchText: '',
     visible: false,
     tempData: null,
+    shareStatus: 2,
   };
   componentWillMount() {
     this.onInit();
@@ -52,10 +55,11 @@ export default class ClientsTable extends Component {
   onInit = () => {
     this.props.getAllFirms();
     this.props.getClients({
+      shareStatus: this.state.shareStatus,
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if(this.props.userRole === '2'){
+    if (this.props.userRole === '2') {
       this.props.getEmployeeList();
     }
   }
@@ -144,7 +148,7 @@ export default class ClientsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteClient = (record) => {
-    this.props.deleteClient({resourceId: record.clientId}, this.props.currentPage,  this.props.pageSize, this.props.userRole);
+    this.props.deleteClient({ resourceId: record.clientId }, this.props.currentPage, this.props.pageSize, this.props.userRole, this.state.shareStatus);
   }
   // 删除客户end
 
@@ -170,13 +174,32 @@ export default class ClientsTable extends Component {
   }
   pageChange = (page, pageSize) => {
     this.props.getClients({
+      shareStatus: this.state.shareStatus,
       page: page,
       pageSize: pageSize,
     });
   }
-
+  handleCheckStatus = (e) => {
+    this.setState({
+      shareStatus: e
+    });
+    this.props.getClients({
+      shareStatus: e,
+      page: 1,
+      pageSize: 2
+    });
+  }
+  handleCheckOneStatus = (e) => {
+    this.setState({
+      shareStatus: e
+    });
+    this.props.updateClientShareStatus({
+      resourceId: e.clientId,
+      shareStatus: e.shareStatus === 2 ? 1 : 2
+    }, this.state.shareStatus, this.props.pageSize, this.props.getClients);
+  }
   render() {
-    const { clientsList, pageSize, currentPage, pageTotal} = this.props;
+    const { clientsList, pageSize, currentPage, pageTotal } = this.props;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -290,7 +313,7 @@ export default class ClientsTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        width: 150,
+        width: 200,
         title: '操作',
         key: 'operation',
         fixed: 'right',
@@ -298,6 +321,12 @@ export default class ClientsTable extends Component {
           <a onClick={() => this.handleEditClient(record)}>
             <Popover content={(<span>修改</span>)} trigger="hover">
               <Icon type="edit" />
+            </Popover>
+          </a>
+          <Divider type="vertical" />
+          <a onClick={() => this.handleCheckOneStatus(record)}>
+            <Popover content={(this.state.shareStatus === 2 ? <span>转为公有资源</span> : <span>转为私有资源</span>)} trigger="hover">
+              <Icon type="import" />
             </Popover>
           </a>
           <Divider type="vertical" />
@@ -331,6 +360,10 @@ export default class ClientsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          <Select defaultValue={this.state.shareStatus} style={{ width: 120 }} onChange={this.handleCheckStatus}>
+            <Option value={1}>公有资源</Option>
+            <Option value={2}>私有资源</Option>
+          </Select>
           <Table rowKey={record => record.clientId}
             columns={columns}
             dataSource={clientsList}
@@ -346,6 +379,7 @@ export default class ClientsTable extends Component {
           userId={this.props.userId}
           userName={this.props.userName}
           employeeList={this.props.employeeList}
+          shareStatus={this.state.shareStatus}
         />
         {/* 新建跟进记录模态框 */}
         <AddClientRecordModal

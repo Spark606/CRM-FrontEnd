@@ -62,7 +62,7 @@ export function addNewFirmRecord(params){
   };
 }
 
-export function addNewFirm(params, callBack){
+export function addNewFirm(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -78,7 +78,7 @@ export function addNewFirm(params, callBack){
       },
     });
     if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
-      callBack();
+      callBack(shareStatus, pageSize);
     }
     if(action.type === cs.ADD_NEW_FIRM_FAIL && action.error.msg) {
       message.error(action.error.msg)
@@ -87,7 +87,7 @@ export function addNewFirm(params, callBack){
   };
 }
 
-export function updateOneFirm(params, callBack){
+export function updateOneFirm(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -103,7 +103,7 @@ export function updateOneFirm(params, callBack){
       },
     });
     if(action.type === cs.UPDATE_ONE_FIRM_SUCCESS && action.payload) {
-      callBack();
+      callBack(shareStatus, pageSize);
     }
     return action;
   };
@@ -166,6 +166,33 @@ export function addNewFirmOrder(params){
         types: [cs.ADD_NEW_FIRM_ORDER_REQUEST, cs.ADD_NEW_FIRM_ORDER_SUCCESS, cs.ADD_NEW_FIRM_ORDER_FAIL],
       },
     });
+    return action;
+  };
+}
+
+export function updateFirmShareStatus(params, status, pageSize, callBack){
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/emmployee/updateCompanyShareStatus',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.UPDATE_ONE_FIRM_SHARESTATUS_REQUEST, cs.UPDATE_ONE_FIRM_SHARESTATUS_SUCCESS, cs.UPDATE_ONE_FIRM_SHARESTATUS_FAIL],
+      },
+    });
+    
+    if(action.type === cs.UPDATE_ONE_FIRM_SHARESTATUS_SUCCESS && action.payload) {
+      callBack({
+        shareStatus: status,
+        page: 1,
+        pageSize: pageSize,
+      });
+    }
     return action;
   };
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover, Select } from 'antd';
+const { Option } = Select;
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
@@ -9,9 +10,9 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
-import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder } from '../../actions/firm';
-import {getAllClients} from '../../actions/client';
-import {getEmployeeList} from '../../actions/api';
+import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus } from '../../actions/firm';
+import { getAllClients } from '../../actions/client';
+import { getEmployeeList } from '../../actions/api';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
@@ -32,7 +33,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     deleteFirm,
     getAllClients,
     addNewFirmOrder,
-    getEmployeeList
+    getEmployeeList,
+    updateFirmShareStatus
   },
   dispatch
 );
@@ -43,6 +45,7 @@ export default class FirmsTable extends Component {
     searchText: '',
     visible: false,
     tempData: null,
+    shareStatus: 2,
   };
   componentWillMount() {
     this.onInit();
@@ -50,10 +53,11 @@ export default class FirmsTable extends Component {
   onInit = () => {
     this.props.getAllClients();
     this.props.getFirms({
+      shareStatus: this.state.shareStatus,
       page: 1,
-      pageSize: 2,
+      pageSize: this.props.pageSize,
     });
-    if(this.props.userRole === '2'){
+    if (this.props.userRole === '2') {
       this.props.getEmployeeList();
     }
   }
@@ -142,7 +146,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({companyId: record.firmId}, this.props.currentPage,  this.props.pageSize, this.props.user_role);
+    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.props.user_role);
   }
   // 删除客户end
 
@@ -167,9 +171,29 @@ export default class FirmsTable extends Component {
   }
   pageChange = (page, pageSize) => {
     this.props.getFirms({
+      shareStatus: this.state.shareStatus,
       page: page,
       pageSize: pageSize,
     });
+  }
+  handleCheckStatus = (e) => {
+    this.setState({
+      shareStatus: e
+    });
+    this.props.getFirms({
+      shareStatus: e,
+      page: 1,
+      pageSize: 2
+    });
+  }
+  handleCheckOneStatus = (e) => {
+    this.setState({
+      shareStatus: e
+    });
+    this.props.updateFirmShareStatus({
+      companyId: e.firmId,
+      shareStatus: e.shareStatus === 2 ? 1 : 2
+    }, this.state.shareStatus, this.props.pageSize, this.props.getFirms);
   }
   render() {
     const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
@@ -331,7 +355,7 @@ export default class FirmsTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        width: 150,
+        width: 200,
         title: '操作',
         key: 'operation',
         fixed: 'right',
@@ -339,6 +363,12 @@ export default class FirmsTable extends Component {
           <a onClick={() => this.handleEditFirm(record)}>
             <Popover content={(<span>修改</span>)} trigger="hover">
               <Icon type="edit" />
+            </Popover>
+          </a>
+          <Divider type="vertical" />
+          <a onClick={() => this.handleCheckOneStatus(record)}>
+            <Popover content={(this.state.shareStatus === 2 ? <span>转为公有资源</span> : <span>转为私有资源</span>)} trigger="hover">
+              <Icon type="import" />
             </Popover>
           </a>
           <Divider type="vertical" />
@@ -372,11 +402,15 @@ export default class FirmsTable extends Component {
           新建
         </Button>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          <Select defaultValue={this.state.shareStatus} style={{ width: 120 }} onChange={this.handleCheckStatus}>
+            <Option value={1}>公有资源</Option>
+            <Option value={2}>私有资源</Option>
+          </Select>
           <Table rowKey={record => record.firmId ? record.firmId : Math.random()}
-          columns={columns}
-          dataSource={firmsList}
-          scroll={{ x: 1800 }}
-          pagination={pagination}
+            columns={columns}
+            dataSource={firmsList}
+            scroll={{ x: 1800 }}
+            pagination={pagination}
           />
         </div>
         {/* 新建客户模态框 */}
@@ -387,6 +421,7 @@ export default class FirmsTable extends Component {
           userId={this.props.userId}
           userName={this.props.userName}
           employeeList={this.props.employeeList}
+          shareStatus={this.state.shareStatus}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal
@@ -402,7 +437,7 @@ export default class FirmsTable extends Component {
           // ref="addFirmRecordModal"
           dataSource={this.state.tempData}
           addNewFirmOrder={this.props.addNewFirmOrder}
-          allClientsList = {allClientsList}
+          allClientsList={allClientsList}
         />
       </div>
     );
