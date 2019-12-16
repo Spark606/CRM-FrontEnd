@@ -242,7 +242,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="备注：">
                       {getFieldDecorator('remark', {
                         initialValue: dataSource ? dataSource.remark : null,
-                      })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
+                      })(<TextArea rows={4} />)}
                     </Form.Item>
                   </Col>
                 </Row>

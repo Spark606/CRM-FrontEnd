@@ -150,8 +150,9 @@ class AddFirmRecordModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
-                        initialValue: "" // 获取当前客户的状态
-                    })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
+                        initialValue: "", // 获取当前客户的状态
+                        rules: [{ required: true, message: '请输入跟进备注。' }],
+                    })(<TextArea rows={4}/>)}
                   </Form.Item>
                 </Row>
               </Form>

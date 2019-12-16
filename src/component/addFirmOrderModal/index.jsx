@@ -140,7 +140,7 @@ class AddFirmOrderModal extends Component {
                   <Form.Item label="备注：">
                     {getFieldDecorator('remark', {
                       initialValue: "",
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
+                    })(<TextArea rows={4} />)}
                   </Form.Item>
                 </Row>
               </Form>

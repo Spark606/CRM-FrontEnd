@@ -142,7 +142,7 @@ class AddAccountModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
+                    })(<TextArea rows={4} />)}
                   </Form.Item>
                 </Row>
               </Form>

@@ -207,7 +207,7 @@ class AddOrderBackModal extends Component {
                   <Form.Item label="备注：">
                     {getFieldDecorator('remark', {
                       initialValue: "",
-                    })(<TextArea placeholder="textarea with clear icon" rows={4} />)}
+                    })(<TextArea rows={4} />)}
                   </Form.Item>
                 </Row>
                 <Button type="primary" htmlType="submit" form="formBox" onClick={this.handleEditBox}>提交</Button>
