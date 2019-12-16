@@ -77,7 +77,7 @@ export function addNewFirm(params, shareStatus, pageSize, callBack){
         types: [cs.ADD_NEW_FIRM_REQUEST, cs.ADD_NEW_FIRM_SUCCESS, cs.ADD_NEW_FIRM_FAIL],
       },
     });
-    if(action.type === cs.ADD_NEW_FIRM_SUCCESS && action.payload) {
+    if(action.type === cs.ADD_NEW_FIRM_SUCCESS) {
       callBack(shareStatus, pageSize);
     }
     if(action.type === cs.ADD_NEW_FIRM_FAIL && action.error.msg) {
@@ -102,14 +102,14 @@ export function updateOneFirm(params, shareStatus, pageSize, callBack){
         types: [cs.UPDATE_ONE_FIRM_REQUEST, cs.UPDATE_ONE_FIRM_SUCCESS, cs.UPDATE_ONE_FIRM_FAIL],
       },
     });
-    if(action.type === cs.UPDATE_ONE_FIRM_SUCCESS && action.payload) {
+    if(action.type === cs.UPDATE_ONE_FIRM_SUCCESS) {
       callBack(shareStatus, pageSize);
     }
     return action;
   };
 }
 
-export function deleteFirm(params, currentPage, pageSize){
+export function deleteFirm(params, currentPage, pageSize, shareStatus){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -124,8 +124,9 @@ export function deleteFirm(params, currentPage, pageSize){
         types: [cs.DELETE_ONE_FIRM_REQUEST, cs.DELETE_ONE_FIRM_SUCCESS, cs.DELETE_ONE_FIRM_FAIL],
       },
     });
-    if(action.type === cs.DELETE_ONE_FIRM_SUCCESS && action.payload) {
+    if(action.type === cs.DELETE_ONE_FIRM_SUCCESS) {
       this.getFirms({
+        shareStatus: shareStatus,
         page: currentPage,
         pageSize: pageSize,
       })
@@ -170,11 +171,11 @@ export function addNewFirmOrder(params){
   };
 }
 
-export function updateFirmShareStatus(params, status, pageSize, callBack){
+export function updateFirmShareStatus(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/emmployee/updateCompanyShareStatus',
+        endpoint: '/crm/employee/updateCompanyShareStatus',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -186,9 +187,9 @@ export function updateFirmShareStatus(params, status, pageSize, callBack){
       },
     });
     
-    if(action.type === cs.UPDATE_ONE_FIRM_SHARESTATUS_SUCCESS && action.payload) {
+    if(action.type === cs.UPDATE_ONE_FIRM_SHARESTATUS_SUCCESS) {
       callBack({
-        shareStatus: status,
+        shareStatus: shareStatus,
         page: 1,
         pageSize: pageSize,
       });

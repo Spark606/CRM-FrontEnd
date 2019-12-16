@@ -34,7 +34,7 @@ export function getEmployeeDetail(params, callBack) {
       },
     });
 
-    if (action.type === cs.GET_EMPLOYEE_DETAIL_SUCCESS && action.payload) {
+    if (action.type === cs.GET_EMPLOYEE_DETAIL_SUCCESS) {
       callBack();
     }
     return action;
@@ -71,7 +71,7 @@ export function addNewEmployee(params, callBack) {
         types: [cs.ADD_NEW_EMPLOYEE_REQUEST, cs.ADD_NEW_EMPLOYEE_SUCCESS, cs.ADD_NEW_EMPLOYEE_FAIL],
       },
     });
-    if (action.type === cs.ADD_NEW_EMPLOYEE_SUCCESS && action.payload) {
+    if (action.type === cs.ADD_NEW_EMPLOYEE_SUCCESS) {
       callBack();
     }
     return action;
@@ -92,7 +92,7 @@ export function updateEmployee(params, callBack) {
         types: [cs.UPDATE_EMPLOYEE_REQUEST, cs.UPDATE_EMPLOYEE_SUCCESS, cs.UPDATE_EMPLOYEE_FAIL],
       },
     });
-    if (action.type === cs.UPDATE_EMPLOYEE_SUCCESS && action.payload) {
+    if (action.type === cs.UPDATE_EMPLOYEE_SUCCESS) {
       callBack();
     }
     return action;
@@ -113,7 +113,7 @@ export function deleteEmployee(params, callBack) {
         types: [cs.DELETE_EMPLOYEE_REQUEST, cs.DELETE_EMPLOYEE_SUCCESS, cs.DELETE_EMPLOYEE_FAIL],
       },
     });
-    if (action.type === cs.DELETE_EMPLOYEE_SUCCESS && action.payload) {
+    if (action.type === cs.DELETE_EMPLOYEE_SUCCESS) {
       callBack();
     }
     return action;

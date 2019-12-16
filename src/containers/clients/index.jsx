@@ -148,7 +148,7 @@ export default class ClientsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteClient = (record) => {
-    this.props.deleteClient({ resourceId: record.clientId }, this.props.currentPage, this.props.pageSize, this.props.userRole, this.state.shareStatus);
+    this.props.deleteClient({ resourceId: record.clientId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus);
   }
   // 删除客户end
 
@@ -190,9 +190,6 @@ export default class ClientsTable extends Component {
     });
   }
   handleCheckOneStatus = (e) => {
-    this.setState({
-      shareStatus: e
-    });
     this.props.updateClientShareStatus({
       resourceId: e.clientId,
       shareStatus: e.shareStatus === 2 ? 1 : 2

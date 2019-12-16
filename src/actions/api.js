@@ -30,7 +30,7 @@ export function getUserInfo() {
         types: [cs.GET_USER_MSG_REQUEST, cs.GET_USER_MSG_SUCCESS, cs.GET_USER_MSG_FAIL],
       },
     });
-    if (action.type === cs.GET_USER_MSG_SUCCESS && action.payload) {
+    if (action.type === cs.GET_USER_MSG_SUCCESS) {
       const { user_Id, user_name, user_role } = action.payload.data;
       localStorage.setItem('user', JSON.stringify({
         user_Id: user_Id,
@@ -59,7 +59,7 @@ export function login(params) {
       },
     });
 
-    if (action.type === cs.LOGIN_SUCCESS && action.payload) {
+    if (action.type === cs.LOGIN_SUCCESS) {
       const { token, user_Id, user_name, user_role } = action.payload.data;
       if (token) {
         localStorage.setItem('sessions', JSON.stringify(token));
@@ -91,7 +91,7 @@ export function register(params) {
         types: [cs.REG_REQUEST, cs.REG_SUCCESS, cs.REG_FAIL],
       },
     });
-    if (action.type === cs.REG_SUCCESS && action.payload) {
+    if (action.type === cs.REG_SUCCESS) {
       const { token } = action.payload;
       if (token) {
         localStorage.setItem('sessions', JSON.stringify(action.payload));

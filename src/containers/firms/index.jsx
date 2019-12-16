@@ -146,7 +146,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.props.user_role);
+    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus);
   }
   // 删除客户end
 
@@ -187,9 +187,6 @@ export default class FirmsTable extends Component {
     });
   }
   handleCheckOneStatus = (e) => {
-    this.setState({
-      shareStatus: e
-    });
     this.props.updateFirmShareStatus({
       companyId: e.firmId,
       shareStatus: e.shareStatus === 2 ? 1 : 2

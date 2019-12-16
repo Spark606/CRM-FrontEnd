@@ -72,7 +72,7 @@ export function addNewClient(params, shareStatus, pageSize, callBack){
         types: [cs.ADD_NEW_CLIENT_REQUEST, cs.ADD_NEW_CLIENT_SUCCESS, cs.ADD_NEW_CLIENT_FAIL],
       },
     });
-    if(action.type === cs.ADD_NEW_CLIENT_SUCCESS && action.payload) {
+    if(action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
       callBack();
     }
     return action;
@@ -94,7 +94,7 @@ export function updateOneClient(params, shareStatus, pageSize, callBack){
       },
     });
     
-    if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS && action.payload) {
+    if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS) {
       console.log(shareStatus, pageSize);
       callBack(shareStatus, pageSize);
     }
@@ -116,7 +116,7 @@ export function deleteClient(params, currentPage, pageSize, shareStatus){
         types: [cs.DELETE_ONE_CLIENT_REQUEST, cs.DELETE_ONE_CLIENT_SUCCESS, cs.DELETE_ONE_CLIENT_FAIL],
       },
     });
-    if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS && action.payload) {
+    if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS) {
       this.getClients({
         shareStatus: shareStatus,
         page: currentPage,
@@ -163,11 +163,11 @@ export function addNewClientOrder(params){
   };
 }
 
-export function updateClientShareStatus(params, status, pageSize, callBack){
+export function updateClientShareStatus(params, shareStatus, pageSize, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/emmployee/updateResourceShareStatus',
+        endpoint: '/crm/employee/updateResourceShareStatus',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -179,9 +179,9 @@ export function updateClientShareStatus(params, status, pageSize, callBack){
       },
     });
     
-    if(action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS && action.payload) {
+    if(action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS) {
       callBack({
-        shareStatus: status,
+        shareStatus: shareStatus,
         page: 1,
         pageSize: pageSize,
       });

@@ -98,7 +98,7 @@ export function deleteOrder(params, orderType, currentPage, pageSize) {
         types: [cs.DELETE_ONE_ORDER_REQUEST, cs.DELETE_ONE_ORDER_SUCCESS, cs.DELETE_ONE_ORDER_FAIL],
       },
     });
-    if (action.type === cs.DELETE_ONE_ORDER_SUCCESS && action.payload) {
+    if (action.type === cs.DELETE_ONE_ORDER_SUCCESS) {
       this.getOrderList({
         orderType: orderType,
         page: currentPage,
