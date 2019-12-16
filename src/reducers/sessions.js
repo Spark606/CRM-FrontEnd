@@ -120,6 +120,19 @@ export default function sessionReducer(state = initialState, action) {
         return Object.assign({}, state, {
           isFetching: false,
         });
+        
+    case cs.UPDATE_TOKEN_REQUEST:
+      return Object.assign({}, state, { isFetching: true });
+    case cs.UPDATE_TOKEN_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+    case cs.UPDATE_TOKEN_FAIL:
+      message.error('令牌已过期，请重新登录！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
     case cs.LOGOUT:
       return Object.assign({}, state, initialState);
     default:
