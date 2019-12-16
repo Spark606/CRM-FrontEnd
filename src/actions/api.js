@@ -5,43 +5,14 @@ import { CALL_API } from '../middlewares/callAPI';
 import { message } from 'antd';
 
 // if Refresh set Session to Store
-export function restoreSessionFromLocalStorage() {
-  console.log("哈哈哈哈哈，我来啦，我来啦~");
-  // 先验证token是否存在
-  const tokenString = localStorage.getItem('sessions');
-  if (tokenString) {
-    return { type: 'DO_LOGIN' };
-    // 存在token则验证其有效性
-    // return async (dispatch) => {
-    //   const action = await dispatch({
-    //     [CALL_API]: {
-    //       endpoint: '/api/v1/user/refresh_token',
-    //       method: 'GET',
-    //       types: [
-    //         cs.UPDATE_TOKEN_REQUEST,
-    //         cs.UPDATE_TOKEN_SUCCESS,
-    //         cs.UPDATE_TOKEN_FAIL
-    //       ]
-    //     }
-    //   });
-    //   if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
-    //     const { token } = action.payload.data;
-    //     if (token) {
-    //       localStorage.setItem('sessions', JSON.stringify(token));
-    //     }
-    //   }
-    //   if (action.type === cs.UPDATE_TOKEN_FAIL) {
-    //     // token失效
-    //     localStorage.removeItem('sessions');
-    //     localStorage.removeItem('user');
-    //     history.push('/login');
-    //   }
-    // };
-  } else {
-    // 如果不存在token直接去登录页面
-    history.push('/login');
-  }
-}
+// export function restoreSessionFromLocalStorage() {
+//   console.log("哈哈哈哈哈，我来啦，我来啦~");
+//   const tokenString = localStorage.getItem('sessions');
+//   if (!tokenString) {
+//     history.push('/login');
+//   }
+//   return { type: 'DO_LOGIN' };
+// }
 export function getUserInfo() {
   return async (dispatch) => {
     const action = await dispatch({
@@ -92,7 +63,7 @@ export function login(params) {
           user_name: user_name,
           user_role: user_role
         }));
-        history.push('/main/client/table');
+        history.push('/main/client');
       }
     }
 
@@ -124,7 +95,36 @@ export function register(params) {
     return action;
   };
 }
-export function refreshToken() {
+export function verifyToken() {
+  // 存在token则验证其有效性
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/verifyToken',
+        method: 'GET',
+        types: [
+          cs.UPDATE_TOKEN_REQUEST,
+          cs.UPDATE_TOKEN_SUCCESS,
+          cs.UPDATE_TOKEN_FAIL
+        ]
+      }
+    });
+    if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
+      const { token, user_Id, user_name, user_role } = action.payload.data;
+      localStorage.setItem('sessions', JSON.stringify(token));
+      localStorage.setItem('user', JSON.stringify({
+        user_Id: user_Id,
+        user_name: user_name,
+        user_role: user_role
+      }));
+    }
+    if (action.type === cs.UPDATE_TOKEN_FAIL) {
+      // token失效
+      localStorage.removeItem('sessions');
+      localStorage.removeItem('user');
+      history.push('/login');
+    }
+  };
 }
 
 export function updateUserInf(params, callBack) {

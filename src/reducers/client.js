@@ -29,7 +29,6 @@ export default function clientReducer(state = initialState, action) {
       });
     case cs.GET_CLIENTS_FAIL:
       return Object.assign({}, state, {
-        clientsList: formatClients(data),
         isFetching: false,
       });
 

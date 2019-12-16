@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ContentMain from './contentMain';
 import { createHashHistory } from 'history';
 import './style.scss';
-import { restoreSessionFromLocalStorage } from '../actions/api';
+import { verifyToken } from '../actions/api';
 const history = createHashHistory();
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
   userRole: state.sessions.user_role
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
-  restoreSessionFromLocalStorage
+  verifyToken
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
 
@@ -31,9 +31,18 @@ export default class LayoutPagae extends Component {
     this.onInit();
   }
   onInit = () => {
-    this.props.restoreSessionFromLocalStorage();
+    const tokenString = localStorage.getItem('sessions');
+    if (tokenString) {
+      this.props.verifyToken();
+      this.checkHash();
+    } else {
+      console.log("hhhhhhh~");
+      history.push('/login');
+    }
+  }
+  checkHash = () => {
     const hash = window.location.hash;
-    if (hash === '#/main/todo') {
+    if (hash === '#/main/todo' || this.props.userRole === '2') {
       this.setState({
         menu: 'todo'
       })
@@ -58,11 +67,6 @@ export default class LayoutPagae extends Component {
         menu: 'clienttable'
       })
       history.push('/main/client');
-    }
-    if (this.props.userRole === '2') {
-      this.setState({
-        menu: 'todo'
-      })
     }
   }
   onCollapse = collapsed => {
