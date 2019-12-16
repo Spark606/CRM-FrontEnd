@@ -227,7 +227,7 @@ class EditFirmModal extends Component {
                   <Col span={12}>
                     <Form.Item label="资源状态：">
                       {getFieldDecorator('shareStatus', {
-                        initialValue: dataSource ? dataSource.shareStatus : null,
+                        initialValue: dataSource ? dataSource.shareStatus : 2,
                       })(
                         <Select style={{ width: 120 }}>
                           <Option value={1}>公有资源</Option>

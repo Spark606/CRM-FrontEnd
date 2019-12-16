@@ -9,7 +9,7 @@ const initialState = {
   currentPage: 1,
   oneFirmRecord: [],
   currentPage: 1,
-  pageSize: 2,
+  pageSize: 10,
   pageTotal: 1
 };
 
@@ -74,6 +74,7 @@ export default function firmReducer(state = initialState, action) {
         firmsList: action.payload ? [...formatFirms([action.payload.data]), ...state.firmsList] : state.firmsList,
       });
     case cs.ADD_NEW_FIRM_FAIL:
+      message.error('新建企业客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -99,6 +100,7 @@ export default function firmReducer(state = initialState, action) {
         firmsList: action.payload.data.employeeRole === 2 ? updateFirmTemp : [...state.firmsList]
       });
     case cs.UPDATE_ONE_FIRM_FAIL:
+      message.error('修改企业客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -117,6 +119,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.DELETE_ONE_FIRM_FAIL:
+      message.error('删除企业客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -128,10 +131,11 @@ export default function firmReducer(state = initialState, action) {
     case cs.ADD_NEW_FIRM_RECORD_SUCCESS:
       message.success('添加跟进记录成功！');
       return Object.assign({}, state, {
-        oneFirmRecord:  [...formatRecords([action.payload.data]), ...state.oneClientRecord],
+        oneFirmRecord:  [...formatRecords([action.payload.data]), ...state.oneFirmRecord],
         isFetching: false,
       });
     case cs.ADD_NEW_FIRM_RECORD_FAIL:
+      message.error('添加跟进记录失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -162,6 +166,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_FIRM_ORDER_FAIL:
+      message.error('新建企业客户订单失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });

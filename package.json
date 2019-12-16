@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/.bin/webpack",
-    "dev": "node_modules/.bin/webpack-dev-server  --config ./webpack.dev.config.js --process  --color --host localhost --mode development"
+    "dev": "node_modules/.bin/webpack-dev-server  --config ./webpack.dev.config.js --process  --color --host 192.168.205.231 --mode development"
   },
   "keywords": [],
   "author": "",

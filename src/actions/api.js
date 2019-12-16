@@ -6,6 +6,16 @@ import { message } from 'antd';
 
 // if Refresh set Session to Store
 export function restoreSessionFromLocalStorage() {
+  console.log("哈哈哈哈哈，我来啦，我来啦~");
+  // 先验证token是否存在
+  const tokenString = localStorage.getItem('sessions');
+  if(tokenString){
+    // 存在token则验证其有效性
+    
+  } else {
+    // 如果不存在token直接去登录页面
+    history.push('/login');
+  }
   const userString = localStorage.getItem('user');
   if (userString) {
     const user = JSON.parse(userString);

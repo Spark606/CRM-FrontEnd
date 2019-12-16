@@ -183,7 +183,7 @@ export default class FirmsTable extends Component {
     this.props.getFirms({
       shareStatus: e,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
   handleCheckOneStatus = (e) => {
@@ -425,6 +425,7 @@ export default class FirmsTable extends Component {
           // ref={(e) => this.addFirmRecordModal = e}
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
           dataSource={this.state.tempData}
+          shareStatus={this.state.shareStatus}
         // ref="addFirmRecordModal"
         />
         {/* 新建订单模态框 */}

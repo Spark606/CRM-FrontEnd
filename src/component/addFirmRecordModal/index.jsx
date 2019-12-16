@@ -3,16 +3,18 @@ import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col
 const { TextArea } = Input;
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';
-import {addNewFirmRecord} from '../../actions/firm';
+import {addNewFirmRecord, getFirms} from '../../actions/firm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   oneFirmRecord: state.firm.oneFirmRecord,
-  oneFirmStatus: state.firm.oneFirmStatus
+  pageSize: state.firm.pageSize,
+  currentPage: state.firm.currentPage,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    addNewFirmRecord
+    addNewFirmRecord,
+    getFirms
   },
   dispatch
 );
@@ -34,6 +36,11 @@ class AddFirmRecordModal extends Component {
     this.setState({
       visible: false,
       editBox: false,
+    });
+    this.props.getFirms({
+      shareStatus: this.props.shareStatus,
+      page: this.props.currentPage,
+      pageSize: this.props.pageSize,
     });
   };
   handleOk = () => {
@@ -143,6 +150,7 @@ class AddFirmRecordModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
+                        initialValue: "" // 获取当前客户的状态
                     })(<TextArea placeholder="textarea with clear icon" rows={4}/>)}
                   </Form.Item>
                 </Row>

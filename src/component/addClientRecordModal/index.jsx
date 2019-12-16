@@ -3,15 +3,18 @@ import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col
 const { TextArea } = Input;
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import { addNewClientRecord } from '../../actions/client';
+import { addNewClientRecord, getClients } from '../../actions/client';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   oneClientRecord: state.client.oneClientRecord,
+  pageSize: state.client.pageSize,
+  currentPage: state.client.currentPage,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    addNewClientRecord
+    addNewClientRecord,
+    getClients
   },
   dispatch
 );
@@ -33,6 +36,11 @@ class AddClientRecordModal extends Component {
     this.setState({
       visible: false,
       editBox: false,
+    });
+    this.props.getClients({
+      shareStatus: this.props.shareStatus,
+      page: this.props.currentPage,
+      pageSize: this.props.pageSize,
     });
   };
   handleOk = () => {

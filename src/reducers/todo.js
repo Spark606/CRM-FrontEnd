@@ -15,7 +15,7 @@ const initialState = {
   updateClientsCurrentPage: 1,
   deleteFirmsCurrentPage: 1,
   updateFirmsCurrentPage: 1,
-  pageSize: 2,
+  pageSize: 10,
   currentPage: 1,
   oneFirmRecord: []
 };
@@ -107,6 +107,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.CKECK_PASS_CLIENT_FAIL:
+      message.error('审核失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -125,6 +126,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.CKECK_PASS_FIRM_FAIL:
+      message.error('审核失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });

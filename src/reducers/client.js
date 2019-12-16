@@ -10,7 +10,7 @@ const initialState = {
   oneClientRecord: [],
   oneClientStatus: 1,
   currentPage: 1,
-  pageSize: 2,
+  pageSize: 10,
   pageTotal: 1
 };
 // const layoutReducer = (state = initialState) => state;
@@ -79,6 +79,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_RECORD_FAIL:
+      message.error('添加跟进记录失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -94,6 +95,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_FAIL:
+      message.error('新建个人客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -121,6 +123,7 @@ export default function clientReducer(state = initialState, action) {
         clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
+      message.error('修改个人客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -139,6 +142,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.DELETE_ONE_CLIENT_FAIL:
+      message.error('删除个人客户失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -167,6 +171,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_ORDER_FAIL:
+      message.error('新建个人客户订单失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });

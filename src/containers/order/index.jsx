@@ -39,7 +39,7 @@ export default class OrderTable extends Component {
     this.props.getOrderList({
       orderType: this.state.orderType,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
   handleCheckType = (e) => {
@@ -49,7 +49,7 @@ export default class OrderTable extends Component {
     this.props.getOrderList({
       orderType: e,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
 

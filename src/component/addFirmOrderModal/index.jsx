@@ -31,7 +31,7 @@ class AddFirmOrderModal extends Component {
           resourceId: values.dealClientsName,
           info: values.remark,
           createDate: moment(values.dealDate).format(yearFormat),
-          employeeId: this.state.user_Id,
+          employeeId: this.props.user_Id,
           companyId: dataSource.firmId,
           orderPaySum: values.orderPaySum
         });

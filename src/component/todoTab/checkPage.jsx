@@ -6,6 +6,7 @@ const { Option } = Select;
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
+  pageSize: state.todo.pageSize
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -24,7 +25,7 @@ class CheckPage extends Component {
     this.props.getTodoList({
       checkedStatus: 0,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
   handleCheckStatus = (e) => {
@@ -34,7 +35,7 @@ class CheckPage extends Component {
     this.props.getTodoList({
       checkedStatus: e,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
   pageChange = (page, pageSize) => {

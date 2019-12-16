@@ -54,7 +54,10 @@ export default class LayoutPagae extends Component {
         menu: 'employeetable'
       })
     } else {
-      history.push('/main/todo');
+      this.setState({
+        menu: 'clienttable'
+      })
+      history.push('/main/client');
     }
     if (this.props.userRole === '2') {
       this.setState({

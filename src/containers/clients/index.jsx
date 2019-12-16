@@ -186,7 +186,7 @@ export default class ClientsTable extends Component {
     this.props.getClients({
       shareStatus: e,
       page: 1,
-      pageSize: 2
+      pageSize: this.props.pageSize
     });
   }
   handleCheckOneStatus = (e) => {
@@ -384,6 +384,7 @@ export default class ClientsTable extends Component {
           wrappedComponentRef={(form) => this.addClientRecordModal = form}
           // ref="addClientRecordModal"
           dataSource={this.state.tempData}
+          shareStatus={this.state.shareStatus}
         />
         {/* 新建订单模态框 */}
         <AddClientOrderModal

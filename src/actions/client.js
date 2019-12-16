@@ -73,7 +73,7 @@ export function addNewClient(params, shareStatus, pageSize, callBack){
       },
     });
     if(action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
-      callBack();
+      callBack( shareStatus, pageSize);
     }
     return action;
   };

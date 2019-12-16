@@ -31,7 +31,7 @@ class AddClientOrderModal extends Component {
         resourceId: dataSource.clientId,
         info: values.remark,
         createDate: moment(values.dealDate).format(yearFormat),
-        employeeId: this.state.user_Id,
+        employeeId: this.props.user_Id,
         companyId: values.dealFirmName,
         orderPaySum: values.orderPaySum
       });

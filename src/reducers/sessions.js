@@ -98,6 +98,7 @@ export default function sessionReducer(state = initialState, action) {
     case cs.UPDATE_USER_INFORMATION_REQUEST:
       return Object.assign({}, state, { error: false, isFetching: true });
     case cs.UPDATE_USER_INFORMATION_SUCCESS:
+      message.success('修改用户信息成功！');
       return Object.assign({}, state, {
         isFetching: false,
         user_name: action.payload.data.user_name,
@@ -105,6 +106,7 @@ export default function sessionReducer(state = initialState, action) {
         user_email: action.payload.data.user_email,
       });
     case cs.UPDATE_USER_INFORMATION_FAIL:
+      message.error('修改用户信息失败！');
       return Object.assign({}, state, {
         error: true,
         isFetching: false,
