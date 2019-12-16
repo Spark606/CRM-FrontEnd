@@ -21,8 +21,6 @@ const initialState = {
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
-    case cs.UPDATE_TOKEN_SUCCESS:
-      return Object.assign({}, state, {});
 
     case cs.GET_USER_MSG_REQUEST:
       return Object.assign({}, state, {
@@ -54,20 +52,6 @@ export default function sessionReducer(state = initialState, action) {
         user_role: action.payload.data.user_role
       });
     case cs.LOGIN_FAIL:
-      return Object.assign({}, state, {
-        error: true,
-        isFetching: false,
-        errorMessage: findErrorMessage(action.error.code)
-      });
-
-    case cs.UPDATE_TOKEN_REQUEST:
-      return Object.assign({}, state, { error: false, isFetching: true });
-    case cs.UPDATE_TOKEN_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        token: action.payload.token
-      });
-    case cs.UPDATE_TOKEN_FAIL:
       return Object.assign({}, state, {
         error: true,
         isFetching: false,
@@ -126,6 +110,9 @@ export default function sessionReducer(state = initialState, action) {
     case cs.UPDATE_TOKEN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
+        user_name: action.payload.data.user_name,
+        user_role: action.payload.data.user_role,
+        user_Id: action.payload.data.user_Id,
       });
     case cs.UPDATE_TOKEN_FAIL:
       message.error('令牌已过期，请重新登录！');
