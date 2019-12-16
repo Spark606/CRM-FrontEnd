@@ -60,7 +60,7 @@ class AddClientRecordModal extends Component {
           createDate: `${moment(values.recordTimeDay).format(yearFormat)} ${moment(values.recordTimeHour).format(hourFormat)}`,
           resourceId: this.props.dataSource.clientId,
           status: values.status,
-          content: values.recordContent
+          content: values.recordContent ?  values.recordContent : null
         });
         this.props.addNewClientRecord(data);
       });
@@ -150,8 +150,6 @@ class AddClientRecordModal extends Component {
                 <Row>
                   <Form.Item label="跟进结果：">
                     {getFieldDecorator('recordContent', {
-                        initialValue: "", // 获取当前客户的状态
-                        rules: [{ required: true, message: '请输入跟进备注。' }],
                     })(<TextArea rows={4} />)}
                   </Form.Item>
                 </Row>
