@@ -9,24 +9,38 @@ export function restoreSessionFromLocalStorage() {
   console.log("哈哈哈哈哈，我来啦，我来啦~");
   // 先验证token是否存在
   const tokenString = localStorage.getItem('sessions');
-  if(tokenString){
+  if (tokenString) {
+    return { type: 'DO_LOGIN' };
     // 存在token则验证其有效性
-    
+    // return async (dispatch) => {
+    //   const action = await dispatch({
+    //     [CALL_API]: {
+    //       endpoint: '/api/v1/user/refresh_token',
+    //       method: 'GET',
+    //       types: [
+    //         cs.UPDATE_TOKEN_REQUEST,
+    //         cs.UPDATE_TOKEN_SUCCESS,
+    //         cs.UPDATE_TOKEN_FAIL
+    //       ]
+    //     }
+    //   });
+    //   if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
+    //     const { token } = action.payload.data;
+    //     if (token) {
+    //       localStorage.setItem('sessions', JSON.stringify(token));
+    //     }
+    //   }
+    //   if (action.type === cs.UPDATE_TOKEN_FAIL) {
+    //     // token失效
+    //     localStorage.removeItem('sessions');
+    //     localStorage.removeItem('user');
+    //     history.push('/login');
+    //   }
+    // };
   } else {
     // 如果不存在token直接去登录页面
     history.push('/login');
   }
-  const userString = localStorage.getItem('user');
-  if (userString) {
-    const user = JSON.parse(userString);
-    if (user) {
-      return {
-        type: cs.GET_USER_MSG_FROM_SESSION,
-        payload: user,
-      }
-    }
-  }
-  return { type: 'DO_LOGIN' };
 }
 export function getUserInfo() {
   return async (dispatch) => {
@@ -110,46 +124,7 @@ export function register(params) {
     return action;
   };
 }
-
-export function checkLogin() {
-  try {
-    const sessions = JSON.parse(localStorage.getItem('sessions'));
-    if (!sessions) {
-      history.push('/login');
-    }
-  } catch (e) {
-    history.push('/login');
-  }
-}
-export function refreshToken(params) {
-  return async (dispatch) => {
-    const action = await dispatch({
-      [CALL_API]: {
-        endpoint: '/api/v1/user/refresh_token',
-        body: params,
-        method: 'PATCH',
-        loading: false,
-        types: [
-          cs.UPDATE_TOKEN_REQUEST,
-          cs.UPDATE_TOKEN_SUCCESS,
-          cs.UPDATE_TOKEN_FAIL
-        ]
-      }
-    });
-    if (action.type === cs.UPDATE_TOKEN_SUCCESS) {
-      const { token } = action.payload;
-      if (token) {
-        localStorage.setItem('sessions', JSON.stringify(action.payload));
-      }
-    }
-    if (action.type === cs.UPDATE_TOKEN_FAIL) {
-      // 没有找到用户
-      if (action.error.code === '205005') {
-        localStorage.removeItem('sessions');
-        history.push('/login');
-      }
-    }
-  };
+export function refreshToken() {
 }
 
 export function updateUserInf(params, callBack) {
@@ -271,3 +246,18 @@ export function resetPassword(params, callBack) {
     return action;
   };
 }
+
+
+// export function getUserFromSession() {
+//   const userString = localStorage.getItem('user');
+//   if (userString) {
+//     const user = JSON.parse(userString);
+//     if (user) {
+//       return {
+//         type: cs.GET_USER_MSG_FROM_SESSION,
+//         payload: user,
+//       }
+//     }
+//   }
+//   return { type: 'DO_LOGIN' };
+// }

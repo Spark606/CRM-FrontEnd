@@ -164,6 +164,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="企业名称：">
                       {getFieldDecorator('firmName', {
                         initialValue: dataSource ? dataSource.firmName : null,
+                        rules: [{ required: true, message: '请填写企业名称。' }],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
@@ -171,7 +172,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="到期时间：">
                       {getFieldDecorator('expireDate', {
                         initialValue: dataSource ? moment(dataSource.expireDate) : moment(),
-                        rules: [{ required: true, message: '客户到期时间。' }],
+                        rules: [{ required: true, message: '请填写客户到期时间。' }],
                       })(<DatePicker format={yearFormat} />)}
                     </Form.Item>
                   </Col>
@@ -259,6 +260,7 @@ class EditFirmModal extends Component {
                     <Form.Item label="手机号：">
                       {getFieldDecorator('tel', {
                         initialValue: dataSource ? dataSource.tel : null,
+                        rules: [{ required: true, message: '请填写联系人手机号。' }],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
@@ -297,6 +299,9 @@ class EditFirmModal extends Component {
                     <Form.Item label="邮箱：">
                       {getFieldDecorator('email', {
                         initialValue: dataSource ? dataSource.email : null,
+                        rules: [
+                          {type: 'email', message: '请输入正确邮箱！'}
+                        ],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

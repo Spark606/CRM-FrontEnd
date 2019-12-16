@@ -21,13 +21,8 @@ const initialState = {
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
-    case cs.GET_USER_MSG_FROM_SESSION:
-      return Object.assign({}, state, {
-        isFetching: false,
-        user_name: action.payload.user_name,
-        user_role: action.payload.user_role,
-        user_Id: action.payload.user_Id,
-      });
+    case cs.UPDATE_TOKEN_SUCCESS:
+      return Object.assign({}, state, {});
 
     case cs.GET_USER_MSG_REQUEST:
       return Object.assign({}, state, {

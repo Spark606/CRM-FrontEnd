@@ -95,7 +95,11 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_FAIL:
-      message.error('新建个人客户失败！');
+      if(action.error.code === 88){
+        message.error(action.error.msg);
+      } else {
+        message.error('新建个人客户失败！');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });

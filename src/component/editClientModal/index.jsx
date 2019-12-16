@@ -223,6 +223,9 @@ class EditClientModal extends Component {
                     <Form.Item label="邮箱：">
                       {getFieldDecorator('email', {
                         initialValue: dataSource ? dataSource.email : null,
+                        rules: [
+                          {type: 'email', message: '请输入正确邮箱！'}
+                        ],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
