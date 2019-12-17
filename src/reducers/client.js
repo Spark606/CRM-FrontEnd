@@ -10,7 +10,7 @@ const initialState = {
   oneClientRecord: [],
   oneClientStatus: 1,
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 2,
   pageTotal: 1
 };
 // const layoutReducer = (state = initialState) => state;

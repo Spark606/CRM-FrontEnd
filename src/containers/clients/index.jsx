@@ -10,7 +10,7 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder,updateClientShareStatus } from '../../actions/client';
+import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus } from '../../actions/client';
 import { getAllFirms } from '../../actions/firm';
 import { getEmployeeList } from '../../actions/api';
 
@@ -59,9 +59,7 @@ export default class ClientsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if (this.props.userRole === '2') {
-      this.props.getEmployeeList();
-    }
+    this.props.getEmployeeList();
   }
   // 表头查询
   getColumnSearchProps = dataIndex => ({
@@ -71,7 +69,6 @@ export default class ClientsTable extends Component {
           ref={node => {
             this.searchInput = node;
           }}
-          placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
@@ -81,7 +78,7 @@ export default class ClientsTable extends Component {
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
-          pageSize="small"
+          size="small"
           style={{ width: 90, marginRight: 8 }}
         >
           查询
@@ -119,6 +116,7 @@ export default class ClientsTable extends Component {
   });
 
   handleSearch = (selectedKeys, confirm) => {
+    console.log(selectedKeys, confirm);
     confirm();
     this.setState({ searchText: selectedKeys[0] });
   };
@@ -211,7 +209,7 @@ export default class ClientsTable extends Component {
         key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('clientName'),
+        ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
@@ -219,7 +217,7 @@ export default class ClientsTable extends Component {
         dataIndex: 'certificate',
         key: 'certificate',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('certificate'),
+        ...this.getColumnSearchProps('certificate'),
       },
       {
         // width: 200,
@@ -227,7 +225,7 @@ export default class ClientsTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
+        ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
