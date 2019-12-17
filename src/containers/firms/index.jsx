@@ -43,6 +43,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class FirmsTable extends Component {
   state = {
     searchText: '',
+    searchArr: [],
     visible: false,
     tempData: null,
     shareStatus: 2,
@@ -53,6 +54,7 @@ export default class FirmsTable extends Component {
   onInit = () => {
     this.props.getAllClients();
     this.props.getFirms({
+      searchText: this.state.searchArr,
       shareStatus: this.state.shareStatus,
       page: 1,
       pageSize: this.props.pageSize,
@@ -60,68 +62,78 @@ export default class FirmsTable extends Component {
     this.props.getEmployeeList();
   }
   // 表头查询
-  getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            this.searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
-        <Button
-          type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm)}
-          icon="search"
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          查询
+  getColumnSearchProps = (dataIndex, title, key) => {
+    return ({
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={node => {
+              this.searchInput = node;
+            }}
+            placeholder={`搜索${title}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => this.handleSearch(selectedKeys, key, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, key, confirm)}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            查询
         </Button>
-        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-          重置
+          <Button onClick={() => this.handleReset(clearFilters, key)} size="small" style={{ width: 90 }}>
+            重置
         </Button>
-      </div>
-    ),
-    filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => this.searchInput.select());
-      }
-    },
-    render: text => {
-      if (text) {
-        return (<Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[this.state.searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />)
-      } else {
-        return null
-      }
-    },
-  });
-
-  handleSearch = (selectedKeys, confirm) => {
-    confirm();
-    this.setState({ searchText: selectedKeys[0] });
+        </div>
+      ),
+      filterIcon: filtered => (
+        <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      // onFilter: (value, record) => record[dataIndex]
+      //   .toString()
+      //   .toLowerCase()
+      //   .includes(value.toLowerCase()),
+      onFilterDropdownVisibleChange: visible => {
+        if (visible) {
+          setTimeout(() => this.searchInput.select());
+        }
+      },
+      render: text => {
+        if (text) {
+          return (<Highlighter
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            searchWords={[this.state.searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />)
+        } else {
+          return null
+        }
+      },
+    })
   };
 
-  handleReset = clearFilters => {
+  handleSearch = (selectedKeys, key, confirm) => {
+    const temp = {
+      searchText: selectedKeys[0],
+      dataIndex: key,
+    };
+    this.setState({
+      searchArr: this.state.searchArr.length > 0 ? [...this.state.searchArr, temp] : [temp]
+    }, () => confirm());
+  };
+
+  handleReset = (clearFilters, key) => {
     clearFilters();
-    this.setState({ searchText: '' });
+    const temp = this.state.searchArr.filter(item => item.dataIndex !== key);
+    console.log(temp, this.state.searchArr);
+    this.setState({
+      searchArr: temp
+    });
   };
 
   // 表头查询end
@@ -144,7 +156,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus);
+    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchArr);
   }
   // 删除客户end
 
@@ -167,8 +179,9 @@ export default class FirmsTable extends Component {
     this.addFirmOrderModal.showModal();
     // 打开跟进记录，并编辑
   }
-  pageChange = (page, pageSize) => {
+  pageChange = (page, pageSize = this.props.pageSize) => {
     this.props.getFirms({
+      searchText: this.state.searchArr,
       shareStatus: this.state.shareStatus,
       page: page,
       pageSize: pageSize,
@@ -179,6 +192,7 @@ export default class FirmsTable extends Component {
       shareStatus: e
     });
     this.props.getFirms({
+      searchText: this.state.searchArr,
       shareStatus: e,
       page: 1,
       pageSize: this.props.pageSize
@@ -188,7 +202,7 @@ export default class FirmsTable extends Component {
     this.props.updateFirmShareStatus({
       companyId: e.firmId,
       shareStatus: e.shareStatus === 2 ? 1 : 2
-    }, this.state.shareStatus, this.props.pageSize, this.props.getFirms);
+    }, this.state.shareStatus, this.props.pageSize, this.state.searchArr);
   }
   render() {
     const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
@@ -206,17 +220,12 @@ export default class FirmsTable extends Component {
         key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName'),
+        ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
       },
       {
         width: 100,
         title: '类别',
         dataIndex: 'category',
-        filters: [{
-          value: 1, text: '科技'
-        }, {
-          value: 2, text: '其他'
-        }],
         render: text => {
           if (text === 1) {
             return (<span>建筑业</span>)
@@ -253,7 +262,6 @@ export default class FirmsTable extends Component {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         // width: 200,
@@ -261,7 +269,7 @@ export default class FirmsTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
+        ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,
@@ -417,6 +425,7 @@ export default class FirmsTable extends Component {
           userName={this.props.userName}
           employeeList={this.props.employeeList}
           shareStatus={this.state.shareStatus}
+          searchArr={this.state.searchArr}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal
@@ -424,6 +433,7 @@ export default class FirmsTable extends Component {
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
           dataSource={this.state.tempData}
           shareStatus={this.state.shareStatus}
+          searchArr={this.state.searchArr}
         // ref="addFirmRecordModal"
         />
         {/* 新建订单模态框 */}

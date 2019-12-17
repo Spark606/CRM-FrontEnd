@@ -62,7 +62,7 @@ export function addNewFirmRecord(params){
   };
 }
 
-export function addNewFirm(params, shareStatus, pageSize, callBack){
+export function addNewFirm(params, currentPage, pageSize, shareStatus, searchArr, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -78,7 +78,7 @@ export function addNewFirm(params, shareStatus, pageSize, callBack){
       },
     });
     if(action.type === cs.ADD_NEW_FIRM_SUCCESS) {
-      callBack(shareStatus, pageSize);
+      callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     if(action.type === cs.ADD_NEW_FIRM_FAIL && action.error.msg) {
       message.error(action.error.msg)
@@ -87,7 +87,7 @@ export function addNewFirm(params, shareStatus, pageSize, callBack){
   };
 }
 
-export function updateOneFirm(params, shareStatus, pageSize, callBack){
+export function updateOneFirm(params, currentPage, pageSize, shareStatus, searchArr, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -103,13 +103,13 @@ export function updateOneFirm(params, shareStatus, pageSize, callBack){
       },
     });
     if(action.type === cs.UPDATE_ONE_FIRM_SUCCESS) {
-      callBack(shareStatus, pageSize);
+      callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     return action;
   };
 }
 
-export function deleteFirm(params, currentPage, pageSize, shareStatus){
+export function deleteFirm(params, currentPage, pageSize, shareStatus, searchArr){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -126,6 +126,7 @@ export function deleteFirm(params, currentPage, pageSize, shareStatus){
     });
     if(action.type === cs.DELETE_ONE_FIRM_SUCCESS) {
       this.getFirms({
+        searchArr: searchArr,
         shareStatus: shareStatus,
         page: currentPage,
         pageSize: pageSize,
@@ -171,7 +172,7 @@ export function addNewFirmOrder(params){
   };
 }
 
-export function updateFirmShareStatus(params, shareStatus, pageSize, callBack){
+export function updateFirmShareStatus(params, shareStatus, pageSize, searchArr){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -188,7 +189,8 @@ export function updateFirmShareStatus(params, shareStatus, pageSize, callBack){
     });
     
     if(action.type === cs.UPDATE_ONE_FIRM_SHARESTATUS_SUCCESS) {
-      callBack({
+      this.getFirms({
+        searchArr: searchArr,
         shareStatus: shareStatus,
         page: 1,
         pageSize: pageSize,

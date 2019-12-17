@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   pageSize: state.firm.pageSize,
+  currentPage: state.firm.currentPage,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -57,12 +58,17 @@ class EditFirmModal extends Component {
             seriesData.employeeId = dataSource.employeeId;
           };
           seriesData.companyId = dataSource.firmId;
-          this.props.updateOneFirm(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
-            console.log(shareStatus, pageSize);
+          this.props.updateOneFirm(seriesData, 
+            this.props.currentPage,
+            this.props.pageSize,
+            this.props.shareStatus,
+            this.props.searchArr,
+            (currentPage, pageSize, shareStatus, searchArr) => {
             this.handleCancel();
             this.props.getFirms({
+              searchArr: searchArr,
               shareStatus: shareStatus,
-              page: 1,
+              page: currentPage,
               pageSize: pageSize,
             });
           }); // 提交更新数据
@@ -71,11 +77,17 @@ class EditFirmModal extends Component {
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = this.props.userId;
           };
-          this.props.addNewFirm(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
+          this.props.addNewFirm(seriesData, 
+            this.props.currentPage,
+            this.props.pageSize,
+            this.props.shareStatus,
+            [],
+            (currentPage, pageSize, shareStatus, searchArr) => {
             this.handleCancel();
             this.props.getFirms({
+              searchArr: searchArr,
               shareStatus: shareStatus,
-              page: 1,
+              page: currentPage,
               pageSize: pageSize,
             });
           });
