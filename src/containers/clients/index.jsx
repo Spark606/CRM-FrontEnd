@@ -257,17 +257,6 @@ export default class ClientsTable extends Component {
         width: 100,
         title: '状态',
         dataIndex: 'status',
-        // filters: [{
-        //   value: 1, text: '潜在'
-        // }, {
-        //   value: 2, text: '意向'
-        // }, {
-        //   value: 3, text: '成交'
-        // }, {
-        //   value: 4, text: '失败'
-        // }, {
-        //   value: 5, text: '已流失'
-        // }],
         render: text => {
           if (text === 1) {
             return (<span>潜在</span>)
