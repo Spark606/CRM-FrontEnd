@@ -168,7 +168,6 @@ export default class OrderTable extends Component {
         dataIndex: 'firmName',
         key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName'),
       },
       {
         width: 120,
@@ -185,7 +184,6 @@ export default class OrderTable extends Component {
             return '--'
           }
         },
-        // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 100,
@@ -193,7 +191,6 @@ export default class OrderTable extends Component {
         dataIndex: 'orderPaySum',
         key: 'orderPaySum',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('orderPaySum'),
       },
       {
         // width: 200,
@@ -201,15 +198,11 @@ export default class OrderTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 150,
         title: '成交时间',
         dataIndex: 'createDate',
-        filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
@@ -240,7 +233,7 @@ export default class OrderTable extends Component {
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>绩效汇总表</Breadcrumb.Item>
+          <Breadcrumb.Item>订单汇总表</Breadcrumb.Item>
         </Breadcrumb>
 
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

@@ -6,6 +6,7 @@ import firm from './firm';
 import todo from './todo';
 import order from './order';
 import employee from './employee';
+import salary from './salary';
 
 /**
  * 合并reducers
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   sessions,
   todo,
   order,
-  employee
+  employee,
+  salary
 });
 
 export default rootReducer;

@@ -6,6 +6,7 @@ import OrderTable from './order';
 import Personal from './personal';
 import TodoPage from './todo';
 import EmployeeTable from './employee';
+import Salary from './salary';
 class ContentMain extends React.Component {
 	render() {
 		return (
@@ -18,6 +19,7 @@ class ContentMain extends React.Component {
 						<Route exact path='/main/order' component={OrderTable}/>
 						<Route exact path='/main/personal' component={Personal}/>
 						<Route exact path='/main/employee' component={EmployeeTable}/>
+						<Route exact path='/main/salary' component={Salary}/>
 					</Switch>
 				</Router>
 			</div>

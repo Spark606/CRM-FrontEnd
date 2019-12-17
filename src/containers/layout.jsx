@@ -62,6 +62,10 @@ export default class LayoutPagae extends Component {
       this.setState({
         menu: 'employeetable'
       })
+    } else if (hash === '#/main/salary') {
+      this.setState({
+        menu: 'salary'
+      })
     } else {
       this.setState({
         menu: 'clienttable'
@@ -122,6 +126,12 @@ export default class LayoutPagae extends Component {
               <Link to={'/main/order'}>
                 <Icon type="area-chart" />
                 <span>订单汇总</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="salary">
+              <Link to={'/main/salary'}>
+                <Icon type="money-collect" />
+                <span>绩效情况</span>
               </Link>
             </Menu.Item>
             {this.props.userRole === '2' ?
