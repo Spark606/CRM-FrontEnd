@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   pageSize: state.client.pageSize,
+  currentPage: state.client.currentPage,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -55,27 +56,39 @@ class EditClientModal extends Component {
             seriesData.employeeId = dataSource.employeeId;
           };
           seriesData.resourceId = dataSource.clientId;
-          this.props.updateOneClient(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
-            this.handleCancel();
-            this.props.getClients({
-              shareStatus: shareStatus,
-              page: 1,
-              pageSize: pageSize,
-            });
-          }); // 提交更新数据
+          this.props.updateOneClient(seriesData,
+            this.props.currentPage,
+            this.props.pageSize,
+            this.props.shareStatus,
+            this.props.searchArr,
+            (currentPage, pageSize, shareStatus, searchArr) => {
+              this.handleCancel();
+              this.props.getClients({
+                searchArr: searchArr,
+                shareStatus: shareStatus,
+                page: currentPage,
+                pageSize: pageSize,
+              });
+            }) // 提交更新数据
         } else {
           // 提交新数据, 管理员还是直接values.employeeId, 普通员工只能this.props.userId
           if (this.props.userRole === '1') { //普通用户
             seriesData.employeeId = this.props.userId;
           };
-          this.props.addNewClient(seriesData, this.props.shareStatus, this.props.pageSize, (shareStatus, pageSize) => {
-            this.handleCancel();
-            this.props.getClients({
-              shareStatus: shareStatus,
-              page: 1,
-              pageSize: pageSize,
+          this.props.addNewClient(seriesData,
+            this.props.currentPage,
+            this.props.pageSize,
+            this.props.shareStatus,
+            [], // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
+            (currentPage, pageSize, shareStatus, searchArr) => {
+              this.handleCancel();
+              this.props.getClients({
+                searchArr: searchArr,
+                shareStatus: shareStatus,
+                page: currentPage,
+                pageSize: pageSize,
+              });
             });
-          });
         }
       }
     });
@@ -224,7 +237,7 @@ class EditClientModal extends Component {
                       {getFieldDecorator('email', {
                         initialValue: dataSource ? dataSource.email : null,
                         rules: [
-                          {type: 'email', message: '请输入正确邮箱！'}
+                          { type: 'email', message: '请输入正确邮箱！' }
                         ],
                       })(<Input style={{ maxWidth: 200 }} />)}
                     </Form.Item>

@@ -57,7 +57,7 @@ export function addNewClientRecord(params){
     return action;
   };
 }
-export function addNewClient(params, shareStatus, pageSize, callBack){
+export function addNewClient(params, currentPage, pageSize, shareStatus, searchArr, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -73,12 +73,12 @@ export function addNewClient(params, shareStatus, pageSize, callBack){
       },
     });
     if(action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
-      callBack( shareStatus, pageSize);
+      callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     return action;
   };
 }
-export function updateOneClient(params, shareStatus, pageSize, callBack){
+export function updateOneClient(params, currentPage, pageSize, shareStatus, searchArr, callBack){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -95,13 +95,12 @@ export function updateOneClient(params, shareStatus, pageSize, callBack){
     });
     
     if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS) {
-      console.log(shareStatus, pageSize);
-      callBack(shareStatus, pageSize);
+      callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     return action;
   };
 }
-export function deleteClient(params, currentPage, pageSize, shareStatus){
+export function deleteClient(params, currentPage, pageSize, shareStatus, searchArr){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -118,6 +117,7 @@ export function deleteClient(params, currentPage, pageSize, shareStatus){
     });
     if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS) {
       this.getClients({
+        searchArr: searchArr,
         shareStatus: shareStatus,
         page: currentPage,
         pageSize: pageSize,
@@ -127,7 +127,7 @@ export function deleteClient(params, currentPage, pageSize, shareStatus){
   };
 }
 
-export function getAllClients(params){
+export function getAllClients(){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -163,7 +163,7 @@ export function addNewClientOrder(params){
   };
 }
 
-export function updateClientShareStatus(params, shareStatus, pageSize, callBack){
+export function updateClientShareStatus(params, shareStatus, pageSize, searchArr){
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -180,7 +180,8 @@ export function updateClientShareStatus(params, shareStatus, pageSize, callBack)
     });
     
     if(action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS) {
-      callBack({
+      this.getClients({
+        searchArr: searchArr,
         shareStatus: shareStatus,
         page: 1,
         pageSize: pageSize,

@@ -10,7 +10,7 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
-import { getClients, getClientRecordsList, updateOneClient, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus } from '../../actions/client';
+import { getClients, getClientRecordsList, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus } from '../../actions/client';
 import { getAllFirms } from '../../actions/firm';
 import { getEmployeeList } from '../../actions/api';
 
@@ -30,7 +30,6 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   {
     getClients,
     getClientRecordsList,
-    updateOneClient,
     addNewClient,
     deleteClient,
     getAllFirms,
@@ -45,9 +44,11 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class ClientsTable extends Component {
   state = {
     searchText: '',
+    searchArr: [],
     visible: false,
     tempData: null,
     shareStatus: 2,
+    pageSize: this.props.pageSize
   };
   componentWillMount() {
     this.onInit();
@@ -55,6 +56,7 @@ export default class ClientsTable extends Component {
   onInit = () => {
     this.props.getAllFirms();
     this.props.getClients({
+      searchText: this.state.searchArr,
       shareStatus: this.state.shareStatus,
       page: 1,
       pageSize: this.props.pageSize,
@@ -62,68 +64,78 @@ export default class ClientsTable extends Component {
     this.props.getEmployeeList();
   }
   // 表头查询
-  getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            this.searchInput = node;
-          }}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
-        <Button
-          type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm)}
-          icon="search"
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          查询
+  getColumnSearchProps = (dataIndex, title, key) => {
+    return ({
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={node => {
+              this.searchInput = node;
+            }}
+            placeholder={`搜索${title}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => this.handleSearch(selectedKeys, key, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, key, confirm)}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+          >
+            查询
         </Button>
-        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-          重置
+          <Button onClick={() => this.handleReset(clearFilters, key)} size="small" style={{ width: 90 }}>
+            重置
         </Button>
-      </div>
-    ),
-    filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => this.searchInput.select());
-      }
-    },
-    render: text => {
-      if (text) {
-        return (<Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[this.state.searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />)
-      } else {
-        return null
-      }
-    },
-  });
-
-  handleSearch = (selectedKeys, confirm) => {
-    console.log(selectedKeys, confirm);
-    confirm();
-    this.setState({ searchText: selectedKeys[0] });
+        </div>
+      ),
+      filterIcon: filtered => (
+        <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+      ),
+      // onFilter: (value, record) => record[dataIndex]
+      //   .toString()
+      //   .toLowerCase()
+      //   .includes(value.toLowerCase()),
+      onFilterDropdownVisibleChange: visible => {
+        if (visible) {
+          setTimeout(() => this.searchInput.select());
+        }
+      },
+      render: text => {
+        if (text) {
+          return (<Highlighter
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            searchWords={[this.state.searchText]}
+            autoEscape
+            textToHighlight={text.toString()}
+          />)
+        } else {
+          return null
+        }
+      },
+    })
   };
 
-  handleReset = clearFilters => {
+  handleSearch = (selectedKeys, key, confirm) => {
+    const temp = {
+      searchText: selectedKeys[0],
+      dataIndex: key,
+    };
+    this.setState({
+      searchArr: this.state.searchArr.length > 0 ? [...this.state.searchArr, temp] : [temp]
+    }, () => confirm());
+  };
+
+  handleReset = (clearFilters, key) => {
     clearFilters();
-    this.setState({ searchText: '' });
+    const temp = this.state.searchArr.filter(item => item.dataIndex !== key);
+    console.log(temp, this.state.searchArr);
+    this.setState({
+      searchArr: temp
+    });
   };
 
   // 表头查询end
@@ -146,7 +158,7 @@ export default class ClientsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteClient = (record) => {
-    this.props.deleteClient({ resourceId: record.clientId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus);
+    this.props.deleteClient({ resourceId: record.clientId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchArr);
   }
   // 删除客户end
 
@@ -170,8 +182,9 @@ export default class ClientsTable extends Component {
     this.addClientOrderModal.showModal();
     // 打开跟进记录，并编辑
   }
-  pageChange = (page, pageSize) => {
+  pageChange = (page, pageSize = this.props.pageSize) => {
     this.props.getClients({
+      searchText: this.state.searchArr,
       shareStatus: this.state.shareStatus,
       page: page,
       pageSize: pageSize,
@@ -182,6 +195,7 @@ export default class ClientsTable extends Component {
       shareStatus: e
     });
     this.props.getClients({
+      searchText: this.state.searchArr,
       shareStatus: e,
       page: 1,
       pageSize: this.props.pageSize
@@ -191,7 +205,7 @@ export default class ClientsTable extends Component {
     this.props.updateClientShareStatus({
       resourceId: e.clientId,
       shareStatus: e.shareStatus === 2 ? 1 : 2
-    }, this.state.shareStatus, this.props.pageSize, this.props.getClients);
+    }, this.state.shareStatus, this.props.pageSize, this.state.searchArr);
   }
   render() {
     const { clientsList, pageSize, currentPage, pageTotal } = this.props;
@@ -209,7 +223,7 @@ export default class ClientsTable extends Component {
         key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('clientName'),
+        ...this.getColumnSearchProps('clientName', '客户名称', 'resourceName'),
       },
       {
         width: 200,
@@ -217,15 +231,14 @@ export default class ClientsTable extends Component {
         dataIndex: 'certificate',
         key: 'certificate',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('certificate'),
+        ...this.getColumnSearchProps('certificate', '证书及专业', 'certificate'),
       },
       {
-        // width: 200,
         title: '备注',
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('remark'),
+        ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,
@@ -233,30 +246,28 @@ export default class ClientsTable extends Component {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       {
         width: 100,
         title: '状态',
         dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
+        // filters: [{
+        //   value: 1, text: '潜在'
+        // }, {
+        //   value: 2, text: '意向'
+        // }, {
+        //   value: 3, text: '成交'
+        // }, {
+        //   value: 4, text: '失败'
+        // }, {
+        //   value: 5, text: '已流失'
+        // }],
         render: text => {
           if (text === 1) {
             return (<span>潜在</span>)
@@ -287,19 +298,13 @@ export default class ClientsTable extends Component {
         width: 150,
         title: '获得客户时间',
         dataIndex: 'createDate',
-        filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
         width: 150,
         title: '到期时间',
         dataIndex: 'expireDate',
-        filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
       },
       {
         width: 100,
@@ -375,6 +380,7 @@ export default class ClientsTable extends Component {
           userName={this.props.userName}
           employeeList={this.props.employeeList}
           shareStatus={this.state.shareStatus}
+          searchArr={this.state.searchArr}
         />
         {/* 新建跟进记录模态框 */}
         <AddClientRecordModal
@@ -383,6 +389,7 @@ export default class ClientsTable extends Component {
           // ref="addClientRecordModal"
           dataSource={this.state.tempData}
           shareStatus={this.state.shareStatus}
+          searchArr={this.state.searchArr}
         />
         {/* 新建订单模态框 */}
         <AddClientOrderModal

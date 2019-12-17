@@ -38,6 +38,7 @@ class AddClientRecordModal extends Component {
       editBox: false,
     });
     this.props.getClients({
+      searchArr: this.props.searchArr,
       shareStatus: this.props.shareStatus,
       page: this.props.currentPage,
       pageSize: this.props.pageSize,
