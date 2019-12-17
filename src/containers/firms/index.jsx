@@ -275,17 +275,6 @@ export default class FirmsTable extends Component {
         width: 100,
         title: '状态',
         dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
         render: text => {
           if (text === 1) {
             return (<span>潜在</span>)
@@ -304,10 +293,7 @@ export default class FirmsTable extends Component {
         width: 150,
         title: '到期时间',
         dataIndex: 'expireDate',
-        filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
       },
       {
         width: 100,
@@ -315,7 +301,6 @@ export default class FirmsTable extends Component {
         dataIndex: 'contact',
         key: 'contact',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('contact'),
       },
       {
         width: 100,
@@ -327,7 +312,6 @@ export default class FirmsTable extends Component {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       {
@@ -346,9 +330,6 @@ export default class FirmsTable extends Component {
         width: 150,
         title: '获得客户时间',
         dataIndex: 'createDate',
-        filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
