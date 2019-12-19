@@ -7,6 +7,7 @@ import todo from './todo';
 import order from './order';
 import employee from './employee';
 import salary from './salary';
+import workspace from './workspace';
 
 /**
  * 合并reducers
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   todo,
   order,
   employee,
-  salary
+  salary,
+  workspace
 });
 
 export default rootReducer;

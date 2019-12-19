@@ -8,21 +8,20 @@ moment.locale('zh-cn');
 import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import WrapEditSalaryModal from '../../component/editSalaryModal';
 import './style.scss';
-import { getEmployeesSalaryList, getSalaryRegulationDetail } from '../../actions/salary';
+import { getGrossStatus } from '../../actions/workspace';
 const mapStateToProps = state => ({
-  employeesSalaryList: state.salary.employeesSalaryList,
-  currentPage: state.salary.currentPage,
-  pageTotal: state.salary.pageTotal,
-  pageSize: state.salary.pageSize,
-  employeeSalaryRegulation: state.salary.employeeSalaryRegulation
+  newResourceNum: state.workspace.newResourceNum,
+  recordNum: state.workspace.recordNum,
+  orderSum: state.workspace.orderSum,
+  orderPaySum: state.workspace.orderPaySum,
+  payBackSum: state.workspace.payBackSum,
+  ownPaySum: state.workspace.ownPaySum
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    getEmployeesSalaryList,
-    getSalaryRegulationDetail
+    getGrossStatus
   },
   dispatch
 );
@@ -38,12 +37,7 @@ export default class SalaryTable extends Component {
     this.onInit();
   }
   onInit = () => {
-    this.props.getEmployeesSalaryList({
-      searchStartData: this.state.searchStartData.format("YYYY-MM"),
-      searchEndData: this.state.searchEndData.format("YYYY-MM"),
-      page: 1,
-      pageSize: this.props.pageSize
-    });
+    this.props.getGrossStatus();
   }
 
   handleRangeChange = value => {
@@ -57,7 +51,7 @@ export default class SalaryTable extends Component {
   };
 
   render() {
-
+    const {newResourceNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum} = this.props;
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -73,7 +67,7 @@ export default class SalaryTable extends Component {
             <Row style={{ paddingTop: 30 }}>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{newResourceNum}</p>
                   <div className="bannar-box">
                     <Icon type="usergroup-add" /><span> 新增客户数</span>
                   </div>
@@ -81,7 +75,7 @@ export default class SalaryTable extends Component {
               </Col>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{recordNum}</p>
                   <div className="bannar-box">
                     <Icon type="solution" /><span> 联系跟进次数</span>
                   </div>
@@ -89,7 +83,7 @@ export default class SalaryTable extends Component {
               </Col>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{orderPaySum}</p>
                   <div className="bannar-box">
                     <Icon type="pay-circle" /><span> 成交总额</span>
                   </div>
@@ -99,7 +93,7 @@ export default class SalaryTable extends Component {
             <Row style={{ paddingTop: 30 }}>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{orderSum}</p>
                   <div className="bannar-box">
                     <Icon type="file-protect" /><span> 成交单数</span>
                   </div>
@@ -107,7 +101,7 @@ export default class SalaryTable extends Component {
               </Col>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{payBackSum}</p>
                   <div className="bannar-box">
                     <Icon type="wallet" /><span> 回款总额</span>
                   </div>
@@ -115,7 +109,7 @@ export default class SalaryTable extends Component {
               </Col>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{2}</p>
+                  <p>{ownPaySum}</p>
                   <div className="bannar-box">
                     <Icon type="exclamation-circle" /><span> 欠款</span>
                   </div>

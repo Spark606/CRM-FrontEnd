@@ -26,7 +26,8 @@ class UpLoadPage extends Component {
   onInit = () => {
   }
   handleUploadSuccess = (info) => {
-    const { badFormat = [1], noRepeat = [1], success = [] } = info.file.response;
+    const { badFormat = [1], noRepeat = [1], success = [2] } = info.file.response;
+    const that = this;
     this.setState({ uploading: false });
     if ((badFormat.length === 0 || noRepeat.length === 0) && success.length > 0) {
       this.setState({
@@ -38,11 +39,11 @@ class UpLoadPage extends Component {
           <div>本次成功导入资源总数: {success.length}条。</div>
         </span>),
         onOk() {
-          this.props.getNewPage({
-            searchText: this.props.searchArr,
-            shareStatus: this.props.shareStatus,
+          that.props.getNewPage({
+            searchText: that.props.searchArr,
+            shareStatus: that.props.shareStatus,
             page: 1,
-            pageSize: this.props.pageSize
+            pageSize: that.props.pageSize
           });
         }
       });
@@ -60,11 +61,11 @@ class UpLoadPage extends Component {
           <div>本次成功导入资源总数: {success.length}条。</div>
         </span>),
         onOk() {
-          this.props.getNewPage({
-            searchText: this.props.searchArr,
-            shareStatus: this.props.shareStatus,
+          that.props.getNewPage({
+            searchText: that.props.searchArr,
+            shareStatus: that.props.shareStatus,
             page: 1,
-            pageSize: this.props.pageSize
+            pageSize: that.props.pageSize
           });
         }
       });
