@@ -42,4 +42,9 @@ $footerHight: 50px;
         position: fixed;
         bottom: 0;
     }
+    .formRow{
+        .ant-row{
+            margin-bottom: 10px;
+        }
+    }
 }

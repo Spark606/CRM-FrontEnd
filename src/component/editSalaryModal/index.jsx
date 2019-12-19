@@ -5,19 +5,19 @@ import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getOrderBackList, getOrderBackDetail, addNewOrderBack } from '../../actions/order';
+import { updateSalaryRegulation, getEmployeesSalaryList } from '../../actions/salary';
 import './style.scss';
 const { TabPane } = Tabs;
 const mapStateToProps = state => ({
-  oneOrderBackList: state.order.oneOrderBackList,
-  orderBackDetail: state.order.orderBackDetail,
-  user_Id: state.sessions.user_Id
+  user_Id: state.sessions.user_Id,
+  user_role: state.sessions.user_role,
+  currentPage: state.salary.currentPage,
+  pageSize: state.salary.pageSize,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    addNewOrderBack,
-    getOrderBackList,
-    getOrderBackDetail
+    updateSalaryRegulation,
+    getEmployeesSalaryList
   },
   dispatch
 );
@@ -26,96 +26,62 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class EiditSalaryModal extends Component {
   state = {
     visible: false,
-    activeTab: '1',
-    recorderDate: "",
-    recorderHour: ""
+    showEidt: false
   };
-  handleChangeTab = (e) => {
-    console.log(e);
-    if (e === '1') {
-      this.props.getOrderBackDetail({
-        businessId: this.props.dataSource.orderId,
-        orderType: this.props.orderType
-      });
-    } else if (e === '2') {
-      this.props.getOrderBackList({
-        businessId: this.props.dataSource.orderId
-      });
-    }
-  }
   showModal = () => {
     this.setState({
       visible: true,
-      activeTab: '1'
     });
   };
   handleCancel = e => {
     this.setState({
       visible: false,
-      activeTab: '1'
+      showEidt: false
     });
   };
   handleOk = () => {
     this.setState({
       visible: false,
-      activeTab: '1'
+      showEidt: false
     });
   }
   handleEditBox = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const data = Object.assign({}, {
-        createDate: moment(values.recordTimeDay).format(yearFormat),
-        recordDate: moment().format(yearFormat),
-        businessId: this.props.dataSource.orderId,
-        employeeId: this.props.user_Id,
-        laterBackPay: values.laterBackPay,
-        info: values.remark,
-        businessType: this.props.orderType
+        employeeId: this.props.dataSource.employeeId,
+        employeeName: values.employeeName,
+        baseSalary: values.baseSalary,
+        clientSumPay: values.clientSumPay,
+        clientSumPayRatio: values.clientSumPayRatio,
+        firmSumPay: values.firmSumPay,
+        firmSumPayRatio: values.firmSumPayRatio,
+        positionSalary: values.positionSalary,
+        positionAge: values.positionAge,
+        employeeLeave: values.employeeLeave,
+        employeeLate: values.employeeLate,
+        penalty: values.penalty,
+        bonus: values.bonus,
       });
-      this.props.addNewOrderBack(data, this.props.form.resetFields);
+      this.props.updateSalaryRegulation(data, this.props.searchMonth, this.props.currentPage, this.props.pageSize, (searchMonth, currentPage, pageSize) => {
+        this.props.getEmployeesSalaryList({
+          searchMonth: searchMonth.format("YYYY-MM"),
+          page: currentPage,
+          pageSize: pageSize
+        });
+        this.handleCancel();
+        this.props.form.resetFields();
+      });
+    });
+  }
+  handleOpenEditBox = () => {
+    this.setState({
+      showEidt: true,
     });
   }
   render() {
-    const { oneOrderBackList, orderBackDetail } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const columns = [{
-      width: 150,
-      title: '回款时间',
-      dataIndex: 'laterBackDate',
-      key: 'laterBackDate',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 140,
-      title: '回款金额（元）',
-      dataIndex: 'laterBackPay',
-      key: 'laterBackPay',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 180,
-      title: '备注',
-      dataIndex: 'info',
-      key: 'info',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 120,
-      title: '录入人',
-      dataIndex: 'employeeName',
-      key: 'employeeName',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 150,
-      title: '录入时间',
-      dataIndex: 'recordDate',
-      key: 'recordDate',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }
-    ];
+    const { employeeSalaryRegulation } = this.props;
     return (
       <Modal
         title="工资结算"
@@ -129,110 +95,172 @@ class EiditSalaryModal extends Component {
         ]}
       >
         <div className="container">
-          <Form id="formBox" style={{ textAlign: 'left' }}>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="员工姓名：">
-                  {getFieldDecorator('employeeName', {
-                    initialValue: 'Liz',
-                  })(<Input disabled style={{ maxWidth: 200 }} />)}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="底薪：">
-                  {getFieldDecorator('recordTimeDay', {
-                    initialValue: moment(),
-                    rules: [{ required: true, message: '请输入底薪。' }],
-                  })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="个人客户总额：">
-                  {getFieldDecorator('laterBackPay', {
-                    rules: [{ required: true, message: '请输入个人客户总额!' }],
-                    initialValue: 100,
-                  })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
+          {this.state.showEidt ?
+            <Form id="formBox" className="formRow" style={{ textAlign: 'left' }}>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="员工姓名：">
+                    {getFieldDecorator('employeeName', {
+                      initialValue: employeeSalaryRegulation.employeeName,
+                    })(<Input disabled style={{ maxWidth: 88 }} />)}
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="底薪：">
+                    {getFieldDecorator('baseSalary', {
+                      initialValue: employeeSalaryRegulation.baseSalary,
+                      rules: [{ required: true, message: '请输入底薪。' }],
+                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="人才回款总额：">
+                    {getFieldDecorator('clientSumPay', {
+                      initialValue: employeeSalaryRegulation.clientSumPay,
+                      rules: [{ required: true, message: '请输入人才回款总额!' }],
+                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="个人客户提成比例：">
-                  {getFieldDecorator('laterBackPay', {
-                    rules: [{ required: true, message: '请输入个人客户提成比例!' }],
-                    initialValue: 100,
-                  })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  %
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="人才提成：">
+                    {getFieldDecorator('clientSumPayRatio', {
+                      initialValue: employeeSalaryRegulation.clientSumPayRatio,
+                      rules: [{ required: true, message: '请输入人才客户提成比例!' }],
+                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  %
                     </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="企业客户总额：">
-                  {getFieldDecorator('laterBackPay', {
-                    rules: [{ required: true, message: '请输入企业客户总额!' }],
-                    initialValue: 100,
-                  })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="企业回款总额：">
+                    {getFieldDecorator('firmSumPay', {
+                      initialValue: employeeSalaryRegulation.firmSumPay,
+                      rules: [{ required: true, message: '请输入企业回款!' }],
+                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="企业客户提成比例：">
-                  {getFieldDecorator('laterBackPay', {
-                    rules: [{ required: true, message: '企业客户提成比例!' }],
-                    initialValue: 100,
-                  })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  %
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="企业提成：">
+                    {getFieldDecorator('firmSumPayRatio', {
+                      initialValue: employeeSalaryRegulation.firmSumPayRatio,
+                      rules: [{ required: true, message: '企业客户提成比例!' }],
+                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  %
                     </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="岗位工资：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}  元
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="岗位工资：">
+                    {getFieldDecorator('positionSalary', {
+                      initialValue: employeeSalaryRegulation.positionSalary,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="工龄：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="工龄：">
+                    {getFieldDecorator('positionAge', {
+                      initialValue: employeeSalaryRegulation.positionAge,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)} 元
                     </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="请假：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}  次
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="请假：">
+                    {getFieldDecorator('employeeLeave', {
+                      initialValue: employeeSalaryRegulation.employeeLeave,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="迟到：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}  次
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="迟到：">
+                    {getFieldDecorator('employeeLate', {
+                      initialValue: employeeSalaryRegulation.employeeLate,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <Form.Item label="罚款：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}  元
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="罚款：">
+                    {getFieldDecorator('penalty', {
+                      initialValue: employeeSalaryRegulation.penalty,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="奖金：">
-                  {getFieldDecorator('laterBackPay', {
-                    initialValue: 0,
-                  })(<InputNumber min={0} style={{ maxWidth: 200 }} />)}  元
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="奖金：">
+                    {getFieldDecorator('bonus', {
+                      initialValue: employeeSalaryRegulation.bonus,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
-              </Col>
-            </Row>
-            <Button type="primary" htmlType="submit" form="formBox" onClick={this.handleEditBox}>提交</Button>
-          </Form>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Form.Item label="社保个人费用：">
+                    {getFieldDecorator('insurance', {
+                      initialValue: employeeSalaryRegulation.insurance,
+                    })(<InputNumber style={{ maxWidth: 88 }} />)}  元
+                    </Form.Item>
+                </Col>
+                <Col span={12} >
+                  <Form.Item label="其他：">
+                    {getFieldDecorator('other', {
+                      initialValue: employeeSalaryRegulation.other,
+                    })(<InputNumber style={{ maxWidth: 88 }} />)}  元
+                    </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <Form.Item label="备注(说明“其他”)：">
+                    {getFieldDecorator('info', {
+                      initialValue: employeeSalaryRegulation.info,
+                    })(<TextArea rows={4} style={{ maxWidth: 600 }} />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Button type="primary" htmlType="submit" form="formBox" onClick={this.handleEditBox}>提交</Button>
+            </Form>
+            :
+            <div className="detailRow">
+              <Row>
+                <Col span={12}>员工姓名：{employeeSalaryRegulation.employeeName}</Col>
+                <Col span={12}>底薪：{employeeSalaryRegulation.baseSalary}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>人才回款总额：{employeeSalaryRegulation.clientSumPay}</Col>
+                <Col span={12}>人才提成：{employeeSalaryRegulation.clientSumPayRatio}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>企业回款总额：{employeeSalaryRegulation.firmSumPay}</Col>
+                <Col span={12}>企业提成：{employeeSalaryRegulation.firmSumPayRatio}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>岗位工资：{employeeSalaryRegulation.positionSalary}</Col>
+                <Col span={12}>工龄：{employeeSalaryRegulation.positionAge}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>请假：{employeeSalaryRegulation.employeeLeave}</Col>
+                <Col span={12}>迟到：{employeeSalaryRegulation.employeeLate}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>罚款：{employeeSalaryRegulation.penalty}</Col>
+                <Col span={12}>奖金：{employeeSalaryRegulation.bonus}</Col>
+              </Row>
+              <Row>
+                <Col span={12}>社保个人费用：{employeeSalaryRegulation.insurance}</Col>
+                <Col span={12}>其他：{employeeSalaryRegulation.other}</Col>
+              </Row>
+              <Row>
+                <Col span={24}>备注(说明“其他”)：{employeeSalaryRegulation.info ? employeeSalaryRegulation.info : '--'}</Col>
+              </Row>
+              {this.props.user_role === '2' ? <Button type="primary" onClick={this.handleOpenEditBox}>修改</Button> : null}
+            </div>
+          }
         </div>
       </Modal>
     );
