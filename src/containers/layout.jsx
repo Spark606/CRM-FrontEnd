@@ -50,6 +50,10 @@ export default class LayoutPagae extends Component {
       this.setState({
         menu: 'clienttable'
       })
+    } else if (hash === '#/main/workspace') {
+      this.setState({
+        menu: 'workspace'
+      })
     } else if (hash === '#/main/firms') {
       this.setState({
         menu: 'firmstable'
@@ -68,9 +72,9 @@ export default class LayoutPagae extends Component {
       })
     } else {
       this.setState({
-        menu: 'clienttable'
+        menu: 'workspace'
       })
-      history.push('/main/client');
+      history.push('/main/workspace');
     }
   }
   onCollapse = collapsed => {
@@ -101,10 +105,17 @@ export default class LayoutPagae extends Component {
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
           <div className="logo"> CRM </div>
           <Menu className="menu-box" theme="dark" defaultSelectedKeys={this.state.menu} defaultOpenKeys={this.state.menu} mode="inline">
+
+            <Menu.Item key="workspace">
+              <Link to={'/main/workspace'}>
+                <Icon type="reconciliation" />
+                <span>汇总简报</span>
+              </Link>
+            </Menu.Item>
             {this.props.userRole === '2' ?
               <Menu.Item key="todo">
                 <Link to={'/main/todo'}>
-                  <Icon type="calendar" />
+                  <Icon type="schedule" />
                   <span>待办事项</span>
                 </Link>
               </Menu.Item>

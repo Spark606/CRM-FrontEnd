@@ -118,15 +118,13 @@ export default function salaryReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.GET_EMPLOYEES_SALARYLIST_SUCCESS:
-      message.success('获取员工工资汇总表成功！');
       return Object.assign({}, state, {
         isFetching: false,
         employeesSalaryList: formatEmployeesSalary(action.payload.data.employeeSalaryList),
         pageTotal: action.payload.data.totalPages * 2,
-        currentPage: action.payload.data.curPage + 1,
+        currentPage: action.payload.data.curPage,
       });
     case cs.GET_EMPLOYEES_SALARYLIST_FAIL:
-      message.error('获取员工工资汇总表失败！');
       return Object.assign({}, state, {
         isFetching: false,
       });
@@ -138,7 +136,7 @@ export default function salaryReducer(state = initialState, action) {
     case cs.GET_SALARY_REGULATION_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        employeeSalaryRegulation: formatemployeeSalaryRegulation(state.employeeSalaryRegulation),
+        employeeSalaryRegulation: formatemployeeSalaryRegulation(action.payload.data),
       });
     case cs.GET_SALARY_REGULATION_FAIL:
       return Object.assign({}, state, {

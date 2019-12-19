@@ -50,18 +50,22 @@ class EiditSalaryModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const data = Object.assign({}, {
         employeeId: this.props.dataSource.employeeId,
+        month: this.props.searchMonth.format("YYYY-MM"),
         employeeName: values.employeeName,
         baseSalary: values.baseSalary,
-        clientSumPay: values.clientSumPay,
-        clientSumPayRatio: values.clientSumPayRatio,
-        firmSumPay: values.firmSumPay,
-        firmSumPayRatio: values.firmSumPayRatio,
-        positionSalary: values.positionSalary,
+        resourcePaySum: values.clientSumPay,
+        resourceRatio: values.clientSumPayRatio,
+        companyPaySum: values.firmSumPay,
+        companyRatio: values.firmSumPayRatio,
+        positionWage: values.positionSalary,
         positionAge: values.positionAge,
         employeeLeave: values.employeeLeave,
         employeeLate: values.employeeLate,
         penalty: values.penalty,
+        insurance: values.insurance,
         bonus: values.bonus,
+        info: values.info,
+        other: values.other
       });
       this.props.updateSalaryRegulation(data, this.props.searchMonth, this.props.currentPage, this.props.pageSize, (searchMonth, currentPage, pageSize) => {
         this.props.getEmployeesSalaryList({
@@ -108,9 +112,9 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="底薪：">
                     {getFieldDecorator('baseSalary', {
-                      initialValue: employeeSalaryRegulation.baseSalary,
+                      initialValue: employeeSalaryRegulation.baseSalary || 0,
                       rules: [{ required: true, message: '请输入底薪。' }],
-                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}
                   </Form.Item>
                 </Col>
               </Row>
@@ -118,17 +122,17 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="人才回款总额：">
                     {getFieldDecorator('clientSumPay', {
-                      initialValue: employeeSalaryRegulation.clientSumPay,
+                      initialValue: employeeSalaryRegulation.clientSumPay || 0,
                       rules: [{ required: true, message: '请输入人才回款总额!' }],
-                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  元
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="人才提成：">
                     {getFieldDecorator('clientSumPayRatio', {
-                      initialValue: employeeSalaryRegulation.clientSumPayRatio,
+                      initialValue: employeeSalaryRegulation.clientSumPayRatio || 0,
                       rules: [{ required: true, message: '请输入人才客户提成比例!' }],
-                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  %
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  %
                     </Form.Item>
                 </Col>
               </Row>
@@ -136,17 +140,17 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="企业回款总额：">
                     {getFieldDecorator('firmSumPay', {
-                      initialValue: employeeSalaryRegulation.firmSumPay,
+                      initialValue: employeeSalaryRegulation.firmSumPay || 0,
                       rules: [{ required: true, message: '请输入企业回款!' }],
-                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  元
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="企业提成：">
                     {getFieldDecorator('firmSumPayRatio', {
-                      initialValue: employeeSalaryRegulation.firmSumPayRatio,
+                      initialValue: employeeSalaryRegulation.firmSumPayRatio || 0,
                       rules: [{ required: true, message: '企业客户提成比例!' }],
-                    })(<InputNumber min={1} style={{ maxWidth: 88 }} />)}  %
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  %
                     </Form.Item>
                 </Col>
               </Row>
@@ -154,14 +158,14 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="岗位工资：">
                     {getFieldDecorator('positionSalary', {
-                      initialValue: employeeSalaryRegulation.positionSalary,
+                      initialValue: employeeSalaryRegulation.positionSalary || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="工龄：">
                     {getFieldDecorator('positionAge', {
-                      initialValue: employeeSalaryRegulation.positionAge,
+                      initialValue: employeeSalaryRegulation.positionAge || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)} 元
                     </Form.Item>
                 </Col>
@@ -170,14 +174,14 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="请假：">
                     {getFieldDecorator('employeeLeave', {
-                      initialValue: employeeSalaryRegulation.employeeLeave,
+                      initialValue: employeeSalaryRegulation.employeeLeave || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="迟到：">
                     {getFieldDecorator('employeeLate', {
-                      initialValue: employeeSalaryRegulation.employeeLate,
+                      initialValue: employeeSalaryRegulation.employeeLate || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
@@ -186,14 +190,14 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="罚款：">
                     {getFieldDecorator('penalty', {
-                      initialValue: employeeSalaryRegulation.penalty,
+                      initialValue: employeeSalaryRegulation.penalty || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="奖金：">
                     {getFieldDecorator('bonus', {
-                      initialValue: employeeSalaryRegulation.bonus,
+                      initialValue: employeeSalaryRegulation.bonus || 0,
                     })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
@@ -202,15 +206,15 @@ class EiditSalaryModal extends Component {
                 <Col span={12}>
                   <Form.Item label="社保个人费用：">
                     {getFieldDecorator('insurance', {
-                      initialValue: employeeSalaryRegulation.insurance,
-                    })(<InputNumber style={{ maxWidth: 88 }} />)}  元
+                      initialValue: employeeSalaryRegulation.insurance || 0,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
                 <Col span={12} >
                   <Form.Item label="其他：">
                     {getFieldDecorator('other', {
-                      initialValue: employeeSalaryRegulation.other,
-                    })(<InputNumber style={{ maxWidth: 88 }} />)}  元
+                      initialValue: employeeSalaryRegulation.other || 0,
+                    })(<InputNumber min={0} style={{ maxWidth: 88 }} />)}  元
                     </Form.Item>
                 </Col>
               </Row>
@@ -218,7 +222,7 @@ class EiditSalaryModal extends Component {
                 <Col span={24}>
                   <Form.Item label="备注(说明“其他”)：">
                     {getFieldDecorator('info', {
-                      initialValue: employeeSalaryRegulation.info,
+                      initialValue: employeeSalaryRegulation.info || "",
                     })(<TextArea rows={4} style={{ maxWidth: 600 }} />)}
                   </Form.Item>
                 </Col>

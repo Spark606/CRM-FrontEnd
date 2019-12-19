@@ -1,0 +1,20 @@
+.card-box{
+    p{
+        color: #2d8cf0;
+        background: 0 0;
+        padding: 18px 0px;
+        text-decoration: none;
+        outline: 0;
+        cursor: pointer;
+        -webkit-transition: color .2s ease;
+        transition: color .2s ease;
+        font-size: 30px;
+    }
+    .bannar-box{
+        width: 100%;
+        padding-top: 18px;
+        border-top: 1px solid #e8e8e8;
+        color: rgb(144, 147, 153);
+        font-size: 14px;
+    }
+}

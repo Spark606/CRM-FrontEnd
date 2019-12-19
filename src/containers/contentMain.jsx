@@ -7,6 +7,7 @@ import Personal from './personal';
 import TodoPage from './todo';
 import EmployeeTable from './employee';
 import Salary from './salary';
+import Workspace from './workspace';
 class ContentMain extends React.Component {
 	render() {
 		return (
@@ -20,6 +21,7 @@ class ContentMain extends React.Component {
 						<Route exact path='/main/personal' component={Personal}/>
 						<Route exact path='/main/employee' component={EmployeeTable}/>
 						<Route exact path='/main/salary' component={Salary}/>
+						<Route exact path='/main/workspace' component={Workspace}/>
 					</Switch>
 				</Router>
 			</div>

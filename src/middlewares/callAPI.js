@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { normalize } from 'normalizr';
 import NProgress from 'nprogress';
-
+import PackageJSON from '../../package.json';
 import 'nprogress/nprogress.css';
 
 export const CALL_API = Symbol('Call API');
@@ -32,7 +32,8 @@ export default store => next => action => {
     }
     
     // const url = 'http://127.0.0.1:7001';
-    const url = 'http://192.168.205.221:8000';
+    // const url = 'http://192.168.205.221:8000';
+    const url = PackageJSON.proxy;
     endpoint = url + endpoint;
     const apiUrl = endpoint;
 

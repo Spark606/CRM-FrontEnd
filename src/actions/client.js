@@ -1,9 +1,15 @@
 import * as cs from '../constants';
-import {CALL_API} from '../middlewares/callAPI';
+import { CALL_API } from '../middlewares/callAPI';
 import { message } from 'antd';
 
 // client page
-export function getClients(params){
+export function getClients(params) {
+  console.log("getClients", params);
+  const tempParams = {
+    shareStatus: params.shareStatus,
+    page: params.page,
+    pageSize: params.pageSize,
+  }
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -11,6 +17,7 @@ export function getClients(params){
         method: 'POST',
         mode: "cors",
         body: params,
+        body: tempParams,
         header: {
           'Content-Type': 'application/json',
         },
@@ -21,7 +28,7 @@ export function getClients(params){
     return action;
   };
 }
-export function getClientRecordsList(params){
+export function getClientRecordsList(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -39,7 +46,7 @@ export function getClientRecordsList(params){
     return action;
   };
 }
-export function addNewClientRecord(params){
+export function addNewClientRecord(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -51,13 +58,13 @@ export function addNewClientRecord(params){
           'Content-Type': 'application/json',
         },
         timeout: 3000,
-        types: [cs. ADD_NEW_CLIENT_RECORD_REQUEST, cs. ADD_NEW_CLIENT_RECORD_SUCCESS, cs. ADD_NEW_CLIENT_RECORD_FAIL],
+        types: [cs.ADD_NEW_CLIENT_RECORD_REQUEST, cs.ADD_NEW_CLIENT_RECORD_SUCCESS, cs.ADD_NEW_CLIENT_RECORD_FAIL],
       },
     });
     return action;
   };
 }
-export function addNewClient(params, currentPage, pageSize, shareStatus, searchArr, callBack){
+export function addNewClient(params, currentPage, pageSize, shareStatus, searchArr, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -72,13 +79,13 @@ export function addNewClient(params, currentPage, pageSize, shareStatus, searchA
         types: [cs.ADD_NEW_CLIENT_REQUEST, cs.ADD_NEW_CLIENT_SUCCESS, cs.ADD_NEW_CLIENT_FAIL],
       },
     });
-    if(action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
+    if (action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
       callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     return action;
   };
 }
-export function updateOneClient(params, currentPage, pageSize, shareStatus, searchArr, callBack){
+export function updateOneClient(params, currentPage, pageSize, shareStatus, searchArr, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -93,14 +100,14 @@ export function updateOneClient(params, currentPage, pageSize, shareStatus, sear
         types: [cs.UPDATE_ONE_CLIENT_REQUEST, cs.UPDATE_ONE_CLIENT_SUCCESS, cs.UPDATE_ONE_CLIENT_FAIL],
       },
     });
-    
-    if(action.type === cs.UPDATE_ONE_CLIENT_SUCCESS) {
+
+    if (action.type === cs.UPDATE_ONE_CLIENT_SUCCESS) {
       callBack(currentPage, pageSize, shareStatus, searchArr);
     }
     return action;
   };
 }
-export function deleteClient(params, currentPage, pageSize, shareStatus, searchArr){
+export function deleteClient(params, currentPage, pageSize, shareStatus, searchArr) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -115,7 +122,7 @@ export function deleteClient(params, currentPage, pageSize, shareStatus, searchA
         types: [cs.DELETE_ONE_CLIENT_REQUEST, cs.DELETE_ONE_CLIENT_SUCCESS, cs.DELETE_ONE_CLIENT_FAIL],
       },
     });
-    if(action.type === cs.DELETE_ONE_CLIENT_SUCCESS) {
+    if (action.type === cs.DELETE_ONE_CLIENT_SUCCESS) {
       this.getClients({
         searchArr: searchArr,
         shareStatus: shareStatus,
@@ -127,7 +134,7 @@ export function deleteClient(params, currentPage, pageSize, shareStatus, searchA
   };
 }
 
-export function getAllClients(){
+export function getAllClients() {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -144,7 +151,7 @@ export function getAllClients(){
   };
 }
 
-export function addNewClientOrder(params){
+export function addNewClientOrder(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -163,7 +170,7 @@ export function addNewClientOrder(params){
   };
 }
 
-export function updateClientShareStatus(params, shareStatus, pageSize, searchArr){
+export function updateClientShareStatus(params, shareStatus, pageSize, searchArr) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -178,8 +185,8 @@ export function updateClientShareStatus(params, shareStatus, pageSize, searchArr
         types: [cs.UPDATE_ONE_CLIENT_SHARESTATUS_REQUEST, cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS, cs.UPDATE_ONE_CLIENT_SHARESTATUS_FAIL],
       },
     });
-    
-    if(action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS) {
+
+    if (action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS) {
       this.getClients({
         searchArr: searchArr,
         shareStatus: shareStatus,

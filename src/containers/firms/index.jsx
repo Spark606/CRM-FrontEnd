@@ -10,9 +10,11 @@ import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
+import UpLoadModal from '../../component/uploadModal';
 import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus } from '../../actions/firm';
 import { getAllClients } from '../../actions/client';
 import { getEmployeeList } from '../../actions/api';
+import './style.scss';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   firmsList: state.firm.firmsList,
@@ -377,14 +379,21 @@ export default class FirmsTable extends Component {
         </span>,
       },
     ];
+
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>企业客户表</Breadcrumb.Item>
         </Breadcrumb>
-        <Button type="primary" onClick={this.openAddModal} className="addBtn">
-          新建
-        </Button>
+        <div className="addBtn">
+          <UpLoadModal
+            searchText={this.state.searchText}
+            shareStatus={this.state.shareStatus}
+            pageSize={this.props.pageSize}
+            getNewPage={this.props.getFirms}
+          />
+          <Button type="primary" onClick={this.openAddModal} style={{ marginLeft: 20 }}> 新建 </Button>
+        </div>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
           <Select defaultValue={this.state.shareStatus} style={{ width: 120 }} onChange={this.handleCheckStatus}>
             <Option value={1}>公有资源</Option>

@@ -228,29 +228,25 @@ export function formatEmployeesSalary(dataSource) {
 
 export function formatemployeeSalaryRegulation(dataSource) {
   if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        employeeId: item.employeeId,
-        employeeName: item.employeeName,
-        baseSalary: item.baseSalary,
-        clientSumPay: item.clientSumPay,
-        clientSumPayRatio: item.clientSumPayRatio,
-        firmSumPay: item.firmSumPay,
-        firmSumPayRatio: item.firmSumPayRatio,
-        positionSalary: item.positionSalary,
-        positionAge: item.positionAge,
-        employeeLeave: item.employeeLeave,
-        employeeLate: item.employeeLate,
-        penalty: item.penalty,
-        bonus: item.bonus,
-        insurance: item.insurance,
-        other: item.other,
-        info: item.info,
-      }));
-    });
-    return seriesData;
+    return Object.assign({}, {
+      employeeId: dataSource.employeeId,
+      employeeName: dataSource.employeeName,
+      baseSalary: dataSource.baseSalary,
+      clientSumPay: dataSource.resourcePaySum,
+      clientSumPayRatio: dataSource.resourceRatio,
+      firmSumPay: dataSource.companyPaySum,
+      firmSumPayRatio: dataSource.companyRatio,
+      positionSalary: dataSource.positionWage,
+      positionAge: dataSource.positionAge,
+      employeeLeave: dataSource.employeeLeave,
+      employeeLate: dataSource.employeeLate,
+      penalty: dataSource.penalty,
+      bonus: dataSource.bonus,
+      insurance: dataSource.insurance,
+      other: dataSource.other,
+      info: dataSource.info,
+    });;
   } else {
     return [];
-  }
-};
+  };
+}

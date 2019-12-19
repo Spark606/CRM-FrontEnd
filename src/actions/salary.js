@@ -26,7 +26,7 @@ export function getSalaryRegulationDetail(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/getEmployeeSalaryRegulation',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -45,7 +45,7 @@ export function updateSalaryRegulation(params, searchMonth, currentPage, pageSiz
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/createEmployeeSalaryRegulation',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -57,7 +57,7 @@ export function updateSalaryRegulation(params, searchMonth, currentPage, pageSiz
       },
     });
     
-    if(action.type === cs.UPDATE_SALARY_REGULATION_FAIL) {
+    if(action.type === cs.UPDATE_SALARY_REGULATION_SUCCESS) {
       callBack(searchMonth, currentPage, pageSize);
     }
     return action;
