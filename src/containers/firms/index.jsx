@@ -49,6 +49,7 @@ export default class FirmsTable extends Component {
     visible: false,
     tempData: null,
     shareStatus: 2,
+    user_role: JSON.parse(localStorage.getItem("user")).user_role,
   };
   componentWillMount() {
     this.onInit();
@@ -61,7 +62,7 @@ export default class FirmsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if(this.props.user_role === "2"){
+    if(this.state.user_role === "2"){
       this.props.getEmployeeList();
     }
   }
@@ -224,7 +225,7 @@ export default class FirmsTable extends Component {
         key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
+        // ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
       },
       {
         width: 100,
@@ -273,7 +274,7 @@ export default class FirmsTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('remark', '备注', 'info'),
+        // ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,

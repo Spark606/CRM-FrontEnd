@@ -49,6 +49,7 @@ export default class ClientsTable extends Component {
     visible: false,
     tempData: null,
     shareStatus: 2,
+    user_role: JSON.parse(localStorage.getItem("user")).user_role,
     pageSize: this.props.pageSize
   };
   componentWillMount() {
@@ -62,7 +63,7 @@ export default class ClientsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if(this.props.user_role === "2"){
+    if(this.state.user_role === "2"){
       this.props.getEmployeeList();
     }
   }
@@ -212,6 +213,7 @@ export default class ClientsTable extends Component {
   }
   render() {
     const { clientsList, pageSize, currentPage, pageTotal } = this.props;
+    console.log(this.props.userRole, 'userRole');
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -226,7 +228,7 @@ export default class ClientsTable extends Component {
         key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('clientName', '客户名称', 'resourceName'),
+        // ...this.getColumnSearchProps('clientName', '客户名称', 'resourceName'),
       },
       {
         width: 200,
@@ -234,14 +236,14 @@ export default class ClientsTable extends Component {
         dataIndex: 'certificate',
         key: 'certificate',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('certificate', '证书及专业', 'certificate'),
+        // ...this.getColumnSearchProps('certificate', '证书及专业', 'certificate'),
       },
       {
         title: '备注',
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        ...this.getColumnSearchProps('remark', '备注', 'info'),
+        // ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,
