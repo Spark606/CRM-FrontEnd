@@ -105,9 +105,10 @@ class UpLoadPage extends Component {
     const that = this;
     const uploadProps = {
       name: 'file',
-      action: `${PackageJSON.proxy}/crm/employee/test`,
+      action: `${PackageJSON.proxy}/crm/upload/uploadResourceFile`,
       headers: {
         Authorization: `Bearer ${token}`.trim(),
+        // 'Content-Type': 'multipart/form-data',
       },
       showUploadList: false,
       onChange(info) {
