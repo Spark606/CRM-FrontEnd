@@ -190,21 +190,21 @@ export function formatEmployeesSalary(dataSource) {
     const seriesData = [];
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
-        employeeId: item.employeeId || null, // 成交总额
-        employeeName: item.employeeName || null, // 欠款金额
-        performance: item.performance || null, // 回款金额
-        penalty: item.penalty || null, // 最后回款金额
-        baseSalary: item.baseSalary || null, // 最后回款时间
-        salary: item.salary || null, // 回款次数
-        info: item.info || null, // 录入时间
+        employeeId: item.employeeId || null,
+        employeeName: item.employeeName || null, 
+        performance: item.performance || null, 
+        penalty: item.penalty || null,
+        baseSalary: item.baseSalary || null, 
+        salary: item.salary || null,
+        info: item.info || null, 
         clientOrderData: item.resourceBusinessList ? item.resourceBusinessList.map(e => {
           return {
             clientName: e.clientName || null,
             businessId: e.businessId || null,
             createDate: e.createDate || null,
             orderPaySum: e.orderPaySum || null,
-            curretMonthPayBackSum: e.curretMonthPayBackSum || null,
-            owePay: e.owePay || null,
+            curretMonthPayBackSum: e.paybackSum || null,
+            owePay: e.oweSum || null,
           };
         }) : [],
         firmOrderData: item.comapnyBusinessList ? item.comapnyBusinessList.map(e => {
@@ -213,8 +213,8 @@ export function formatEmployeesSalary(dataSource) {
             businessId: e.businessId || null,
             createDate: e.createDate || null,
             orderPaySum: e.orderPaySum || null,
-            curretMonthPayBackSum: e.curretMonthPayBackSum || null,
-            owePay: e.owePay || null,
+            curretMonthPayBackSum: e.paybackSum || null,
+            owePay: e.oweSum || null,
           };
         }) : null,
       }));

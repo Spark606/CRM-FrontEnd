@@ -61,7 +61,9 @@ export default class FirmsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
-    this.props.getEmployeeList();
+    if(this.props.user_role === "2"){
+      this.props.getEmployeeList();
+    }
   }
   // 表头查询
   getColumnSearchProps = (dataIndex, title, key) => {

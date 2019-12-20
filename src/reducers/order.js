@@ -73,11 +73,16 @@ export default function orderReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.ADD_NEW_ORDER_BACK_SUCCESS:
-      message.success('添加回款记录成功！');
+      if (action.payload.data.employeeRole === 2) {
+        message.success('添加回款记录成功！');
+      } else {
+        message.success('提交回款记录成功！请耐心等待审核结果。');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });
     case cs.ADD_NEW_ORDER_BACK_FAIL:
+      message.error(`添加回款记录失败！${action.error.msg}!`);
       return Object.assign({}, state, {
         isFetching: false,
       });

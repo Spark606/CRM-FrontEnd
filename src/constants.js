@@ -1,6 +1,7 @@
 // data format
 export const hourFormat = 'HH:mm';
 export const yearFormat = 'YYYY-MM-DD';
+export const yearAndHourFormat = 'YYYY-MM-DD HH:mm:ss';
 
 export const GET_USER_MSG_FROM_SESSION = 'GET_USER_MSG_FROM_SESSION';
 

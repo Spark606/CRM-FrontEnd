@@ -49,7 +49,7 @@ export default class SalaryTable extends Component {
       tempData: record
     });
     this.props.getSalaryRegulationDetail({
-      searchMonth: this.state.searchMonth,
+      searchMonth: this.state.searchMonth.format("YYYY-MM"),
       employeeId: record.employeeId
     });
     this.editSalaryModal.showModal();

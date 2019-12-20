@@ -42,17 +42,17 @@ export default class LayoutPagae extends Component {
   }
   checkHash = () => {
     const hash = window.location.hash;
-    if (hash === '#/main/todo' || this.props.userRole === '2') {
+    if (hash === '#/main/workspace' || this.props.userRole === '2') {
       this.setState({
-        menu: 'todo'
+        menu: 'workspace'
       })
     } else if (hash === '#/main/client') {
       this.setState({
         menu: 'clienttable'
       })
-    } else if (hash === '#/main/workspace') {
+    } else if (hash === '#/main/todo') {
       this.setState({
-        menu: 'workspace'
+        menu: 'todo'
       })
     } else if (hash === '#/main/firms') {
       this.setState({

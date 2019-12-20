@@ -7,7 +7,7 @@ import { message } from 'antd';
 const initialState = {
   isFetching: false,
   user_name: null,
-  user_role: 1,
+  user_role: null,
   user_Id: null,
   error: false,
   loginMsg: {},

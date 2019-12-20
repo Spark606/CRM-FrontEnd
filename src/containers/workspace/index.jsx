@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Card, Select, Button, Icon, Row, Col, DatePicker } from 'antd';
+import { Breadcrumb, Card, Select, Button, Icon, Row, Col, DatePicker, Menu, Dropdown } from 'antd';
 const { MonthPicker, RangePicker } = DatePicker;
+const { Option } = Select;
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 import _ from 'lodash';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
 import './style.scss';
 import { getGrossStatus } from '../../actions/workspace';
+import { getEmployeeList } from '../../actions/api';
 const mapStateToProps = state => ({
+  user_role: state.sessions.user_role,
+  user_Id: state.sessions.user_Id,
   newResourceNum: state.workspace.newResourceNum,
   recordNum: state.workspace.recordNum,
   orderSum: state.workspace.orderSum,
   orderPaySum: state.workspace.orderPaySum,
   payBackSum: state.workspace.payBackSum,
-  ownPaySum: state.workspace.ownPaySum
+  ownPaySum: state.workspace.ownPaySum,
+  employeeList: state.sessions.employeeList
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    getGrossStatus
+    getGrossStatus,
+    getEmployeeList,
   },
   dispatch
 );
@@ -30,28 +36,98 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class SalaryTable extends Component {
   state = {
     tempData: null,
-    searchStartData: moment(),
-    searchEndData: moment()
+    searchStartData: moment().month(moment().month() - 1).startOf('month'),
+    searchEndData: moment().month(moment().month() - 1).endOf('month'),
+    searchDate: 5,
+    searchEmployeeId: this.props.user_role === "2" ? 'all' :  this.props.user_Id,
   }
   componentWillMount() {
     this.onInit();
   }
   onInit = () => {
-    this.props.getGrossStatus();
+    console.log(this.props.user_role );
+    if(this.props.user_role === "2"){
+      this.props.getEmployeeList();
+    }
+    this.props.getGrossStatus({
+      searchStartData: this.state.searchStartData.format(yearAndHourFormat),
+      searchEndData: this.state.searchEndData.format(yearAndHourFormat),
+      employeeId: this.state.searchEmployeeId
+    });
   }
 
-  handleRangeChange = value => {
-    this.setState({ searchStartData: value, searchEndData: value });
-    this.props.getEmployeesSalaryList({
-      searchStartData: value.format("YYYY-MM"),
-      searchEndData: value.format("YYYY-MM"),
-      page: 1,
-      pageSize: this.props.pageSize
+  handleCheckSearch = (value) => {
+    console.log(value);
+    let startDate , endDate ;
+    if (value === 1) {//今天
+      startDate = moment().startOf('day');
+      endDate = moment().endOf('day');
+      console.log("今天", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 2) {//昨天
+      startDate = moment().subtract(1, 'days').startOf('day');
+      endDate = moment().subtract(1, 'days').endOf('day');
+      console.log("昨天", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 3) { //本周
+      startDate = moment().startOf('week');
+      endDate = moment().endOf('week');
+      console.log("本周", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 4) { //上周
+      startDate = moment().week(moment().week() - 1).startOf('week');
+      endDate = moment().week(moment().week() - 1).endOf('week');
+      console.log("上周", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 5) { //本月
+      startDate = moment().startOf('month');
+      endDate = moment().endOf('month');
+      console.log("本月", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 6) { //上月
+      startDate = moment().month(moment().month() - 1).startOf('month');
+      endDate = moment().month(moment().month() - 1).endOf('month');
+      console.log("上月", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 7) { //本季度
+      startDate = moment().startOf('quarter');
+      endDate = moment().endOf('quarter');
+      console.log("本季度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 8) { //上季度
+      startDate = moment().quarter(moment().quarter() - 1).startOf('quarter');
+      endDate = moment().quarter(moment().quarter() - 1).endOf('quarter');
+      console.log("上季度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 9) { //本年度
+      startDate = moment().startOf('year');
+      endDate = moment().endOf('year');
+      console.log("本年度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 10) { //上年度
+      startDate = moment().year(moment().year() - 1).startOf('year');
+      endDate = moment().year(moment().year() - 1).endOf('year');
+      console.log("上年度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    } else if (value === 11) { //全部
+      startDate = moment();
+      endDate = moment();
+      console.log("全部", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+    }
+    this.setState({ 
+      searchStartData: startDate,
+      searchEndData: endDate,
     });
-  };
-
+    this.props.getGrossStatus({
+      searchStartData: startDate.format(yearAndHourFormat),
+      searchEndData: endDate.format(yearAndHourFormat),
+      employeeId: this.state.searchEmployeeId
+    });
+  }
+  handleCheckEmployee = (value) => {
+    this.setState({ searchEmployee: value });
+    this.props.getGrossStatus({
+      searchStartData: this.state.searchStartData.format(yearAndHourFormat),
+      searchEndData: this.state.searchEndData.format(yearAndHourFormat),
+      employeeId: value
+    });
+  }
   render() {
-    const {newResourceNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum} = this.props;
+    const { newResourceNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum } = this.props;
+    const  employeeList = [{
+      employeeId: 'all',
+      employeeName: '全部'
+    }, ...this.props.employeeList]
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -59,9 +135,31 @@ export default class SalaryTable extends Component {
         </Breadcrumb>
 
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <MonthPicker defaultValue={this.state.searchStartData}
-            format={"YYYY-MM"}
-            onChange={this.handleRangeChange} />
+          我的简报：
+          <Select defaultValue={this.state.searchDate} style={{ width: 120, margin: '0 10px 0 0'}} onChange={this.handleCheckSearch}>
+            <Option value={1}>今天</Option>
+            <Option value={2}>昨天</Option>
+            <Option value={3}>本周</Option>
+            <Option value={4}>上周</Option>
+            <Option value={5}>本月</Option>
+            <Option value={6}>上月</Option>
+            <Option value={7}>本季度</Option>
+            <Option value={8}>上季度</Option>
+            <Option value={9}>本年度</Option>
+            <Option value={10}>上年度</Option>
+            <Option value={11}>全部</Option>
+          </Select>
+          {this.props.user_role === '2' ?
+          <span>选择员工：
+          <Select style={{ width: 120 }} defaultValue={this.state.searchEmployeeId} onChange={this.handleCheckEmployee}>
+            {employeeList.map((item) =>
+              <Option key={item.employeeId}>
+                {item.employeeName}
+              </Option>
+            )}
+          </Select></span>
+          :
+          null}
           <hr />
           <div className="card-box">
             <Row style={{ paddingTop: 30 }}>

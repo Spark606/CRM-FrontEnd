@@ -63,7 +63,7 @@ export function login(params) {
           user_name: user_name,
           user_role: user_role
         }));
-        history.push('/main/client');
+        history.push('/main/workspace');
       }
     }
 
