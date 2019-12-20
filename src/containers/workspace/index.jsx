@@ -39,70 +39,63 @@ export default class SalaryTable extends Component {
     searchStartData: moment().month(moment().month() - 1).startOf('month'),
     searchEndData: moment().month(moment().month() - 1).endOf('month'),
     searchDate: 5,
-    searchEmployeeId: this.props.user_role === "2" ? 'all' :  this.props.user_Id,
+    searchEmployeeId: 'all',
+    user_role: JSON.parse(localStorage.getItem("user")).user_role,
+    user_Id: JSON.parse(localStorage.getItem("user")).user_Id
   }
   componentWillMount() {
     this.onInit();
   }
   onInit = () => {
-    console.log(this.props.user_role );
-    if(this.props.user_role === "2"){
+    console.log(this.state.user_role );
+    if(this.state.user_role === "2"){
       this.props.getEmployeeList();
     }
+    this.setState({
+      searchEmployeeId: this.state.user_role === "2" ? 'all' :  this.state.user_Id,
+    })
     this.props.getGrossStatus({
       searchStartData: this.state.searchStartData.format(yearAndHourFormat),
       searchEndData: this.state.searchEndData.format(yearAndHourFormat),
-      employeeId: this.state.searchEmployeeId
+      employeeId: this.state.user_role === "2" ? 'all' :  this.state.user_Id,
     });
   }
 
   handleCheckSearch = (value) => {
-    console.log(value);
     let startDate , endDate ;
     if (value === 1) {//今天
       startDate = moment().startOf('day');
       endDate = moment().endOf('day');
-      console.log("今天", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 2) {//昨天
       startDate = moment().subtract(1, 'days').startOf('day');
       endDate = moment().subtract(1, 'days').endOf('day');
-      console.log("昨天", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 3) { //本周
       startDate = moment().startOf('week');
       endDate = moment().endOf('week');
-      console.log("本周", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 4) { //上周
       startDate = moment().week(moment().week() - 1).startOf('week');
       endDate = moment().week(moment().week() - 1).endOf('week');
-      console.log("上周", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 5) { //本月
       startDate = moment().startOf('month');
       endDate = moment().endOf('month');
-      console.log("本月", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 6) { //上月
       startDate = moment().month(moment().month() - 1).startOf('month');
       endDate = moment().month(moment().month() - 1).endOf('month');
-      console.log("上月", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 7) { //本季度
       startDate = moment().startOf('quarter');
       endDate = moment().endOf('quarter');
-      console.log("本季度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 8) { //上季度
       startDate = moment().quarter(moment().quarter() - 1).startOf('quarter');
       endDate = moment().quarter(moment().quarter() - 1).endOf('quarter');
-      console.log("上季度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 9) { //本年度
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
-      console.log("本年度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 10) { //上年度
       startDate = moment().year(moment().year() - 1).startOf('year');
       endDate = moment().year(moment().year() - 1).endOf('year');
-      console.log("上年度", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
     } else if (value === 11) { //全部
-      startDate = moment();
-      endDate = moment();
-      console.log("全部", startDate.format(yearAndHourFormat), endDate.format(yearAndHourFormat));
+      startDate = moment().year(moment().year() - 20).startOf('year');
+      endDate = moment().endOf('day');
     }
     this.setState({ 
       searchStartData: startDate,
@@ -149,7 +142,7 @@ export default class SalaryTable extends Component {
             <Option value={10}>上年度</Option>
             <Option value={11}>全部</Option>
           </Select>
-          {this.props.user_role === '2' ?
+          {this.state.user_role === '2' ?
           <span>选择员工：
           <Select style={{ width: 120 }} defaultValue={this.state.searchEmployeeId} onChange={this.handleCheckEmployee}>
             {employeeList.map((item) =>

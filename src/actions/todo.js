@@ -179,3 +179,58 @@ export function checkPassFirm(params, checkedStatus, currentPage, pageSize) {
     return action;
   };
 }
+
+
+export function getPayBackList(params) {
+  params.requestStatus = 0;
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/payback/getAllPayBackRecordList',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.GET_PAYBACK_LIST_REQUEST, cs.GET_PAYBACK_LIST_SUCCESS, cs.GET_PAYBACK_LIST_FAIL],
+      },
+    });
+    return action;
+  };
+}
+
+
+export function checkPassPayBackPass(params, checkedStatus, currentPage, pageSize) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/manager/checkCompanyCheckList',
+        method: 'POST',
+        mode: "cors",
+        body: params,
+        header: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 3000,
+        types: [cs.CKECK_PASS_PAYBACK_REQUEST, cs.CKECK_PASS_PAYBACK_SUCCESS, cs.CKECK_PASS_PAYBACK_FAIL],
+      },
+    });
+    if (action.payload.data === 'PASS_PAYBACK_SUCCESS') {
+      this.getPayBackList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    if (action.payload.data === 'REJECT_PAYBACK_SUCCESS') {
+      this.getPayBackList({
+        checkedStatus: checkedStatus,
+        page: currentPage,
+        pageSize: pageSize
+      })
+    }
+    return action;
+  };
+}

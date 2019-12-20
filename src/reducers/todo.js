@@ -1,23 +1,26 @@
 import * as cs from '../constants';
-import {message} from 'antd';
+import { message } from 'antd';
 import { formatClients, formatFirms } from '../actions/base';
 
 const initialState = {
   deleteClientsList: [],
-  updateClientsList:  [],
+  updateClientsList: [],
   deleteFirmsList: [],
-  updateFirmsList:  [],
+  updateFirmsList: [],
+  payBackList: [],
   deleteClientsPageTotal: 1,
   updateClientsPageTotal: 1,
   deleteFirmsPageTotal: 1,
   updateFirmsPageTotal: 1,
+  payBackPageTotal: 1,
   deleteClientsCurrentPage: 1,
   updateClientsCurrentPage: 1,
   deleteFirmsCurrentPage: 1,
   updateFirmsCurrentPage: 1,
+  payBackCurrentPage:1,
   pageSize: 10,
   currentPage: 1,
-  oneFirmRecord: []
+  oneFirmRecord: [],
 };
 
 export default function firmReducer(state = initialState, action) {
@@ -98,7 +101,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_CLIENT_SUCCESS:
-        if(action.payload.data === 'UPDATE_RESOURCE_SUCCESS' || action.payload.data === 'DELETE_RESOURCE_SUCCESS'){
+      if (action.payload.data === 'UPDATE_RESOURCE_SUCCESS' || action.payload.data === 'DELETE_RESOURCE_SUCCESS') {
         message.success('审核通过成功！');
       } else {
         message.success('审核驳回成功！');
@@ -117,16 +120,33 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.CKECK_PASS_FIRM_SUCCESS:
-        if(action.payload.data === 'UPDATE_COMPANY_SUCCESS' || action.payload.data === 'DELETE_COMPANY_SUCCESS'){
-          message.success('审核通过成功！');
-        } else {
-          message.success('审核驳回成功！');
-        }
+      if (action.payload.data === 'UPDATE_COMPANY_SUCCESS' || action.payload.data === 'DELETE_COMPANY_SUCCESS') {
+        message.success('审核通过成功！');
+      } else {
+        message.success('审核驳回成功！');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });
     case cs.CKECK_PASS_FIRM_FAIL:
       message.error('审核失败！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+
+    case cs.GET_PAYBACK_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_PAYBACK_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        payBackList: action.payload.data.content,
+        payBackPageTotal: action.payload.data.totalPages * 2,
+        payBackCurrentPage: action.payload.data.number + 1,
+        isFetching: false,
+      });
+    case cs.GET_PAYBACK_LIST_FAIL:
       return Object.assign({}, state, {
         isFetching: false,
       });

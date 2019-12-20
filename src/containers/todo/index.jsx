@@ -5,7 +5,7 @@ import { Breadcrumb, Tabs, Popover,  Icon, Divider } from 'antd';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import CheckPage from '../../component/todoTab/checkPage';
-import { getUpdateClientsList, getDeleteClientsList, getUpdateFirmsList, getDeleteFirmsList, checkPassClient, checkPassFirm } from '../../actions/todo';
+import { getUpdateClientsList, getDeleteClientsList, getUpdateFirmsList, getDeleteFirmsList, getPayBackList,checkPassPayBackPass, checkPassClient, checkPassFirm } from '../../actions/todo';
 
 const { TabPane } = Tabs;
 const mapStateToProps = state => ({
@@ -28,9 +28,13 @@ const mapStateToProps = state => ({
   deleteFirmsCurrentPage: state.todo.deleteFirmsCurrentPage,
   deleteFirmsPageTotal: state.todo.deleteFirmsPageTotal,
   deleteFirmsList: state.todo.deleteFirmsList,
+
+  payBackCurrentPage: state.todo.payBackCurrentPage,
+  payBackPageTotal: state.todo.payBackPageTotal,
+  payBackList: state.todo.payBackList,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {getUpdateClientsList, getDeleteClientsList, getUpdateFirmsList, getDeleteFirmsList, checkPassClient, checkPassFirm },
+  {getUpdateClientsList, getDeleteClientsList, getUpdateFirmsList, getDeleteFirmsList,getPayBackList, checkPassClient, checkPassFirm, checkPassPayBackPass },
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps)
@@ -115,6 +119,29 @@ handleDeleteFirmWithWdraw = (record) => {
 
   });
 }
+
+
+handlePayBackPass = (record) => {
+  this.props.checkPassPayBackPass({
+    id: record.id,
+    checkedStatus: 1,
+  }, this.PayBack.state.checkedStatus, this.props.payBackCurrentPage, this.props.pageSize);
+}
+handlePayBackSendBack = (record) => {
+  this.props.checkPassPayBackPass({
+    id: record.id,
+    checkedStatus: 2,
+  }, this.PayBack.state.checkedStatus, this.props.payBackCurrentPage, this.props.pageSize);
+}
+handlePayBackWithWdraw = (record) => {
+  this.props.checkPassPayBackPass({
+
+  });
+}
+
+
+
+
   render() {
     const updateClientColumns = [
       {
@@ -124,7 +151,6 @@ handleDeleteFirmWithWdraw = (record) => {
         key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
@@ -132,7 +158,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'certificate',
         key: 'certificate',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('certificate'),
       },
       {
         // width: 200,
@@ -140,7 +165,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -148,7 +172,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         width: 100,
@@ -264,7 +287,6 @@ handleDeleteFirmWithWdraw = (record) => {
         key: 'clientName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
@@ -272,7 +294,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'certificate',
         key: 'certificate',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('certificate'),
       },
       {
         // width: 200,
@@ -280,7 +301,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -288,7 +308,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         width: 100,
@@ -404,7 +423,6 @@ handleDeleteFirmWithWdraw = (record) => {
         key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName'),
       },
       {
         width: 100,
@@ -412,7 +430,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         // width: 200,
@@ -420,7 +437,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -466,7 +482,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'contact',
         key: 'contact',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('contact'),
       },
       {
         width: 100,
@@ -550,7 +565,6 @@ handleDeleteFirmWithWdraw = (record) => {
         key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName'),
       },
       {
         width: 100,
@@ -558,7 +572,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'province',
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('province'),
       },
       {
         // width: 200,
@@ -566,7 +579,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 100,
@@ -612,7 +624,6 @@ handleDeleteFirmWithWdraw = (record) => {
         dataIndex: 'contact',
         key: 'contact',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('contact'),
       },
       {
         width: 100,
@@ -688,6 +699,83 @@ handleDeleteFirmWithWdraw = (record) => {
         }
       },
     ];
+    const payBackColumns  = [
+      {
+        width: 250,
+        title: '订单编号',
+        dataIndex: 'businessId',
+        key: 'businessId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 200,
+        title: '回款时间',
+        dataIndex: 'laterBackDate',
+        key: 'laterBackDate',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 200,
+        title: '回款金额（元）',
+        dataIndex: 'laterBackPay',
+        key: 'laterBackPay',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'info',
+        key: 'info',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '录入人',
+        dataIndex: 'employeeName',
+        key: 'employeeName',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 200,
+        title: '录入时间',
+        dataIndex: 'recordDate',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '操作',
+        key: 'operation',
+        fixed: 'right',
+        render: (record) => {
+          if (parseInt(this.props.userRole) === 2) {
+            return (
+              <span>
+                <a onClick={() => this.handlePayBackPass(record)}>
+                  <Popover content={(<span>审批</span>)} trigger="hover">
+                    <Icon type="check-circle" />
+                  </Popover>
+                </a>
+                <Divider type="vertical" />
+                <a onClick={() => this.handlePayBackSendBack(record)}>
+                  <Popover content={(<span>退回</span>)} trigger="hover">
+                    <Icon type="close-circle" />
+                  </Popover>
+                </a>
+              </span>)
+          } else {
+            return (
+              <span>
+                <a onClick={() => this.handlePayBackWithWdraw(record)}>
+                  <Popover content={(<span>撤回</span>)} trigger="hover">
+                    <Icon type="rollback" />
+                  </Popover>
+                </a>
+              </span>)
+          }
+        }
+      },
+    ];
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -744,15 +832,15 @@ handleDeleteFirmWithWdraw = (record) => {
               />
             </TabPane>
             <TabPane tab="回款订单审批" key="payment">
-              {/* <Payment /> */}
+              {/* <PayBack /> */}
               <CheckPage
-                columns={updateClientColumns}
-                dataSource = {this.props.updateClientsList}
-                currentPage={this.props.updateClientsCurrentPage}
-                pageTotal={this.props.updateClientsPageTotal}
+                columns={payBackColumns}
+                dataSource = {this.props.payBackList}
+                currentPage={this.props.payBackCurrentPage}
+                pageTotal={this.props.payBackPageTotal}
                 pageSize={this.props.pageSize}
-                getTodoList={this.props.getUpdateClientsList}
-                ref={(e) => this.Payment = e}
+                getTodoList={this.props.getPayBackList}
+                ref={(e) => this.PayBack = e}
               />
             </TabPane>
           </Tabs>

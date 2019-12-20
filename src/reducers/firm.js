@@ -114,7 +114,7 @@ export default function firmReducer(state = initialState, action) {
         message.success('删除企业客户成功！');
       } else {
         message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');
-      }git 
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });
