@@ -26,17 +26,17 @@ class UpLoadPage extends Component {
   onInit = () => {
   }
   handleUploadSuccess = (info) => {
-    const { badFormat = [1], noRepeat = [1], success = [2] } = info.file.response;
+    const { badFormat = [1], noRepeat = [1], success } = info.file.response;
     const that = this;
     this.setState({ uploading: false });
-    if ((badFormat.length === 0 || noRepeat.length === 0) && success.length > 0) {
+    if ((badFormat.length === 0 || noRepeat.length === 0) && success > 0) {
       this.setState({
         hasUploadMsg: true,
       });
       Modal.success({
         content: (<span>
           <h4>导入成功！</h4>
-          <div>本次成功导入资源总数: {success.length}条。</div>
+          <div>本次成功导入资源总数: {success}条。</div>
         </span>),
         onOk() {
           that.props.getNewPage({
@@ -49,7 +49,7 @@ class UpLoadPage extends Component {
       });
     }
     // 有成功有失败
-    if ((badFormat.length > 0 || noRepeat.length > 0) && success.length > 0) {
+    if ((badFormat.length > 0 || noRepeat.length > 0) && success > 0) {
       this.setState({
         hasUploadMsg: true,
       });
@@ -58,7 +58,7 @@ class UpLoadPage extends Component {
           <h4>导入成功！</h4>
           {noRepeat.length > 0 ? <div>重复资源{noRepeat.length}条，位于 ({_.toString(_.orderBy(_.map(noRepeat, ds => ds.row)))})</div> : null}
           {badFormat.length > 0 ? <div>格式错误{badFormat.length}条，位于 ({_.toString(_.orderBy(_.map(badFormat, ds => ds.row)))})</div> : null}
-          <div>本次成功导入资源总数: {success.length}条。</div>
+          <div>本次成功导入资源总数: {success}条。</div>
         </span>),
         onOk() {
           that.props.getNewPage({
@@ -71,15 +71,15 @@ class UpLoadPage extends Component {
       });
     }
     // 全部失败
-    if ((badFormat.length > 0 || noRepeat.length > 0) && success.length === 0) {
+    if ((badFormat.length > 0 || noRepeat.length > 0) && success === 0) {
       this.setState({
         hasUploadMsg: true,
       });
       Modal.error({
         content: (<span>
           <h4>导入失败！ </h4>
-          {noRepeat.length > 0 ? <div>重复资源{noRepeat.length}条，位于 ({_.toString(_.orderBy(_.map(noRepeat, ds => ds.row)))})</div> : null}
-          {badFormat.length > 0 ? <div>格式错误{badFormat.length}条，位于 ({_.toString(_.orderBy(_.map(badFormat, ds => ds.row)))})</div> : null}
+          {noRepeat.length > 0 ? <div>重复资源{noRepeat.length}条，位于 ({_.toString(noRepeat)})</div> : null}
+          {badFormat.length > 0 ? <div>格式错误{badFormat.length}条，位于 ({_.toString(badFormat)})</div> : null}
         </span>)
       });
     }
@@ -105,7 +105,7 @@ class UpLoadPage extends Component {
     const that = this;
     const uploadProps = {
       name: 'file',
-      action: `${PackageJSON.proxy}/crm/upload/uploadResourceFile`,
+      action: `${PackageJSON.proxy}/crm/upload/uploadCompanyFile`,
       headers: {
         Authorization: `Bearer ${token}`.trim(),
         // 'Content-Type': 'multipart/form-data',

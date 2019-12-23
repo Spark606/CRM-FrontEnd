@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
 import { Modal, Form, Input, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio, Select } from 'antd';
 const { Option } = Select;
 const { TextArea } = Input;
@@ -35,8 +35,8 @@ class EditFirmModal extends Component {
       const seriesData = Object.assign({}, {
         companyName: values.firmName,
         companyCategory: values.category,
-        startDate: moment(values.createDate).format(yearFormat),
-        expireDate: moment(values.expireDate).format(yearFormat),
+        startDate: moment(values.createDate).format(yearAndHourFormat),
+        expireDate: moment(values.expireDate).format(yearAndHourFormat),
         contactorName: values.contact,
         status: values.status,
         info: values.remark,
@@ -78,7 +78,7 @@ class EditFirmModal extends Component {
             seriesData.employeeId = this.props.userId;
           };
           this.props.addNewFirm(seriesData, 
-            this.props.currentPage,
+            1,
             this.props.pageSize,
             this.props.shareStatus,
             [],

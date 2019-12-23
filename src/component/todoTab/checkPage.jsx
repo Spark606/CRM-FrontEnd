@@ -56,6 +56,21 @@ class CheckPage extends Component {
     if (this.state.checkedStatus===1)
     {
       this.props.columns.pop();
+      this.props.columns.push({
+        width: 100,
+        title: '审核情况',
+        key: 'operation',
+        fixed: 'right',
+        render: (record) => {
+          if (parseInt(record.checkedStatus) === 1) {
+            return (
+              <span>已通过 </span>)
+          } else {
+            return (
+              <span>已拒绝</span>)
+          }
+        }
+      })
     }
     return (
       <div>

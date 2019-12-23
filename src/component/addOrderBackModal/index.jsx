@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Button, Progress, InputNumber, DatePicker, Select, Row, Col, Input, Divider, Tabs, Table } from 'antd';
 const { TextArea } = Input;
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getOrderBackList, getOrderBackDetail, addNewOrderBack } from '../../actions/order';
@@ -65,7 +65,7 @@ class AddOrderBackModal extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const data = Object.assign({}, {
-        createDate: moment(values.recordTimeDay).format(yearFormat),
+        createDate: moment(values.recordTimeDay).format(yearAndHourFormat),
         recordDate: moment().format(yearFormat),
         businessId: this.props.dataSource.orderId,
         employeeId: this.props.user_Id,

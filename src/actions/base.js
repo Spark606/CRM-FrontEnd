@@ -41,7 +41,7 @@ export function formatClients(dataSource) {
         createDate: item.createDate,
         expireDate: item.endDate,
         status: item.status,
-        tel: item.phone,
+        tel: item.phoneNumber,
         qq: item.qq,
         employeeName: item.employeeName,
         employeeId: item.employeeId,
@@ -50,6 +50,7 @@ export function formatClients(dataSource) {
         gender: item.gender,
         email: item.email,
         shareStatus: item.shareStatus,
+        checkedStatus: item.checkedStatus,
       }));
     });
     return seriesData;

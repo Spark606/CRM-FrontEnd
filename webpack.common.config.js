@@ -54,6 +54,13 @@ module.exports = {
       {// 规则数组
         test: /\.css|scss|less$/,
         use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.jpge|jpg|png|svg$/,
+        loader: 'file-loader',
+        query: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
       }
     ]
   },

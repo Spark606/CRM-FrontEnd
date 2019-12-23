@@ -2,7 +2,10 @@
     text-align: center;
     padding-top: 200px;
     width: 100%;
-    background: #c0c0c0;
+    background-image: url('../../assets/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     height: 100vh;
     overflow: hidden;
     position: relative;
@@ -13,13 +16,13 @@
         height: 100%;
         position: absolute;
         top: 79%;
-        left: -65%;
-        transform: rotateZ(45deg);
+        left: -50%;
+        transform: rotateZ(20deg);
         background: #002140;
     }
     .wrap{
-        width: 600px;
-        height: 500px;
+        width: 400px;
+        height: 420px;
         position: absolute;
         transform: translateX(-50%);
         left: 50%;
@@ -32,9 +35,6 @@
         width: 300px;
         text-align: left;
         margin: 0 auto;
-        .ant-form-item{
-            margin-bottom: 0;
-        }
         .login-form-forgot {
             float: right;
         }

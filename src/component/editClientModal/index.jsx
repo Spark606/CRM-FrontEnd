@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Radio } from 'antd';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -37,10 +37,10 @@ class EditClientModal extends Component {
           resourceName: values.clientName,
           certificate: values.certificate,
           info: values.remark,
-          createDate: moment(values.createDate).format(yearFormat),
-          endDate: moment(values.expireDate).format(yearFormat),
+          createDate: moment(values.createDate).format(yearAndHourFormat),
+          endDate: moment(values.expireDate).format(yearAndHourFormat),
           status: values.status,
-          phone: values.tel,
+          phoneNumber: values.tel,
           qq: values.qq,
           province: values.province,
           gender: values.gender,
@@ -76,7 +76,7 @@ class EditClientModal extends Component {
             seriesData.employeeId = this.props.userId;
           };
           this.props.addNewClient(seriesData,
-            this.props.currentPage,
+            1,
             this.props.pageSize,
             this.props.shareStatus,
             [], // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
@@ -177,12 +177,20 @@ class EditClientModal extends Component {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-
-                    <Form.Item label="手机号：">
-                      {getFieldDecorator('tel', {
-                        initialValue: dataSource ? dataSource.tel : null,
-                      })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
+                    {dataSource ?
+                      <Form.Item label="手机号：">
+                        {getFieldDecorator('tel', {
+                          initialValue: dataSource ? dataSource.tel : null,
+                        })(<Input style={{ maxWidth: 200 }} />)}
+                      {/* })(<Input disabled style={{ maxWidth: 200 }} />)} */}
+                      </Form.Item>
+                      :
+                      <Form.Item label="手机号：">
+                        {getFieldDecorator('tel', {
+                          initialValue: dataSource ? dataSource.tel : null,
+                        })(<Input style={{ maxWidth: 200 }} />)}
+                      </Form.Item>
+                    }
                   </Col>
                 </Row>
                 <Row style={{ marginTop: 20 }}>

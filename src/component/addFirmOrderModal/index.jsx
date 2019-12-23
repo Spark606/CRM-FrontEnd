@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
 import { Modal, Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, InputNumber } from 'antd';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -30,7 +30,7 @@ class AddFirmOrderModal extends Component {
         const seriesData = Object.assign({}, {
           resourceId: values.dealClientsName,
           info: values.remark,
-          createDate: moment(values.dealDate).format(yearFormat),
+          createDate: moment(values.dealDate).format(yearAndHourFormat),
           employeeId: this.props.user_Id,
           companyId: dataSource.firmId,
           orderPaySum: values.orderPaySum

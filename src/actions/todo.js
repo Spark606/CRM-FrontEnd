@@ -186,7 +186,7 @@ export function getPayBackList(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/payback/getAllPayBackRecordList',
+        endpoint: '/crm/payback/getAllPayBackRecordTempListByStatus',
         method: 'POST',
         mode: "cors",
         body: params,

@@ -126,7 +126,11 @@ export default function clientReducer(state = initialState, action) {
         clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
-      message.error('修改个人客户失败！');
+      if(action.error.code === 88){
+        message.error(action.error.msg);
+      } else {
+        message.error('修改个人客户失败！');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });

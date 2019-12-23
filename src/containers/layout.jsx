@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Avatar, Icon, Dropdown } from 'antd';
+import { Layout, Menu, Avatar, Icon, Dropdown, Badge } from 'antd';
 import { Link } from 'react-router-dom';
 import ContentMain from './contentMain';
 import { createHashHistory } from 'history';
@@ -15,7 +15,8 @@ const mapStateToProps = state => ({
   isFetching: state.sessions.isFetching,
   documentTitle: state.layout.documentTitle,
   userName: state.sessions.user_name,
-  userRole: state.sessions.user_role
+  userRole: state.sessions.user_role,
+  noticeCount: state.sessions.noticeCount
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   verifyToken
@@ -89,7 +90,7 @@ export default class LayoutPagae extends Component {
     history.push('/login');
   };
   render() {
-    const { userName } = this.props;
+    const { userName, noticeCount} = this.props;
     const menu = (
       <Menu>
         <Menu.Item>
@@ -158,6 +159,9 @@ export default class LayoutPagae extends Component {
         </Sider>
         <Layout>
           <Header>
+            <Badge count={noticeCount}>
+              {noticeCount > 0 ?  <Icon type="bell-o" /> : <Icon type="bell" />}
+            </Badge>
             <Dropdown overlay={menu}>
               <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size="large">
                 {userName}

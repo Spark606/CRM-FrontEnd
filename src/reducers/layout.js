@@ -7,7 +7,8 @@ const initialState = {
   minScreen: false,
   noticeList: [],
   tableRow: 10,
-  showGuideStatus: false
+  showGuideStatus: false,
+  noticeCount: 10
 };
 
 // const layoutReducer = (state = initialState) => state;
