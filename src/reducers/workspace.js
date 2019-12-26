@@ -6,7 +6,8 @@ const initialState = {
   isFetching: false,
   newResourceNum: null,
   newResourceList: null,
-  recordList: null,
+  recordClentsList: null,
+  recordFirmsList: null,
   recordNum: null,
   orderSum: null,
   orderClientsSum: null,
@@ -36,8 +37,9 @@ export default function salaryReducer(state = initialState, action) {
         newResourceNum: action.payload.data.newClientAmounts,
         newResourceList: formatClients(action.payload.data.newClientsAmountsList),
 
-        recordList: formatRecords(action.payload.data.resourceFollowRecordAmountsList),
-        recordNum: action.payload.data.resourceFollowRecordAmounts,
+        recordClentsList: formatRecords(action.payload.data.resourceFollowRecordAmountsList),
+        recordFirmsList: formatRecords(action.payload.data.companyFollowRecordAmountsList),
+        recordNum: action.payload.data.allFollowRecordAmounts,
 
         // 成交总额
         orderPaySum: action.payload.data.orderPaySumAmounts,

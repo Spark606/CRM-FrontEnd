@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Select, Button, Icon, Divider, Popover } from 'antd';
+import { Breadcrumb, Table, Select, Button,  Divider } from 'antd';
 const { Option } = Select;
-import Highlighter from 'react-highlight-words';
-import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddOrderBackModal from '../../component/addOrderBackModal';
@@ -147,15 +145,11 @@ export default class OrderTable extends Component {
         key: 'operation',
         render: (record) => <span>
           <a onClick={() => this.handleAddOrderBack(record)}>
-            <Popover content={(<span>添加回款记录</span>)} trigger="hover">
-              <Icon type="plus-square" />
-            </Popover>
+            <Button>添加回款记录</Button>
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handledeleteOrder(record)}>
-            <Popover content={(<span>删除</span>)} trigger="hover">
-              <Icon type="delete" />
-            </Popover>
+            <Button>删除</Button>
           </a>
         </span>,
       },
@@ -217,15 +211,11 @@ export default class OrderTable extends Component {
         key: 'operation',
         render: (record) => <span>
           <a onClick={() => this.handleAddOrderBack(record)}>
-            <Popover content={(<span>添加回款记录</span>)} trigger="hover">
-              <Icon type="plus-square" />
-            </Popover>
+            <Button>添加回款记录</Button>
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handledeleteOrder(record)}>
-            <Popover content={(<span>删除</span>)} trigger="hover">
-              <Icon type="delete" />
-            </Popover>
+            <Button>删除</Button>
           </a>
         </span>,
       },

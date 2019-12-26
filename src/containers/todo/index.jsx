@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Tabs, Popover,  Icon, Divider } from 'antd';
+import { Breadcrumb, Tabs, Divider, Button } from 'antd';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import CheckPage from '../../component/todoTab/checkPage';
@@ -255,24 +255,18 @@ handlePayBackWithWdraw = (record) => {
             return (
               <span>
                 <a onClick={() => this.handleUpdateClientPass(record)}>
-                  <Popover content={(<span>审批</span>)} trigger="hover">
-                    <Icon type="check-circle" />
-                  </Popover>
+                  <Button>审批</Button>
                 </a>
                 <Divider type="vertical" />
                 <a onClick={() => this.handleUpdateClientSendBack(record)}>
-                  <Popover content={(<span>退回</span>)} trigger="hover">
-                    <Icon type="close-circle" />
-                  </Popover>
+                  <Button>退回</Button>
                 </a>
               </span>)
           } else {
             return (
               <span>
                 <a onClick={() => this.handleUpdateClientWithWdraw(record)}>
-                  <Popover content={(<span>撤回</span>)} trigger="hover">
-                    <Icon type="rollback" />
-                  </Popover>
+                  <Button>撤回</Button>
                 </a>
               </span>)
           }
@@ -391,24 +385,18 @@ handlePayBackWithWdraw = (record) => {
             return (
               <span>
                 <a onClick={() => this.handleDeleteClientPass(record)}>
-                  <Popover content={(<span>审批</span>)} trigger="hover">
-                    <Icon type="check-circle" />
-                  </Popover>
+                  <Button>审批</Button>
                 </a>
                 <Divider type="vertical" />
                 <a onClick={() => this.handleDeleteClientSendBack(record)}>
-                  <Popover content={(<span>退回</span>)} trigger="hover">
-                    <Icon type="close-circle" />
-                  </Popover>
+                  <Button>退回</Button>
                 </a>
               </span>)
           } else {
             return (
               <span>
                 <a onClick={() => this.handleDeleteClientWithWdraw(record)}>
-                  <Popover content={(<span>撤回</span>)} trigger="hover">
-                    <Icon type="rollback" />
-                  </Popover>
+                  <Button>撤回</Button>
                 </a>
               </span>)
           }
@@ -533,24 +521,18 @@ handlePayBackWithWdraw = (record) => {
             return (
               <span>
                 <a onClick={() => this.handleUpdateFirmPass(record)}>
-                  <Popover content={(<span>审批</span>)} trigger="hover">
-                    <Icon type="check-circle" />
-                  </Popover>
+                  <Button>审批</Button>
                 </a>
                 <Divider type="vertical" />
                 <a onClick={() => this.handleUpdateFirmSendBack(record)}>
-                  <Popover content={(<span>退回</span>)} trigger="hover">
-                    <Icon type="close-circle" />
-                  </Popover>
+                  <Button>退回</Button>
                 </a>
               </span>)
           } else {
             return (
               <span>
                 <a onClick={() => this.handleUpdateFirmWithWdraw(record)}>
-                  <Popover content={(<span>撤回</span>)} trigger="hover">
-                    <Icon type="rollback" />
-                  </Popover>
+                  <Button>撤回</Button>
                 </a>
               </span>)
           }
@@ -675,24 +657,18 @@ handlePayBackWithWdraw = (record) => {
             return (
               <span>
                 <a onClick={() => this.handleDeleteFirmPass(record)}>
-                  <Popover content={(<span>审批</span>)} trigger="hover">
-                    <Icon type="check-circle" />
-                  </Popover>
+                  <Button>审批</Button>
                 </a>
                 <Divider type="vertical" />
                 <a onClick={() => this.handleDeleteFirmSendBack(record)}>
-                  <Popover content={(<span>退回</span>)} trigger="hover">
-                    <Icon type="close-circle" />
-                  </Popover>
+                  <Button>退回</Button>
                 </a>
               </span>)
           } else {
             return (
               <span>
                 <a onClick={() => this.handleDeleteFirmWithWdraw(record)}>
-                  <Popover content={(<span>撤回</span>)} trigger="hover">
-                    <Icon type="rollback" />
-                  </Popover>
+                  <Button>撤回</Button>
                 </a>
               </span>)
           }
@@ -752,24 +728,18 @@ handlePayBackWithWdraw = (record) => {
             return (
               <span>
                 <a onClick={() => this.handlePayBackPass(record)}>
-                  <Popover content={(<span>审批</span>)} trigger="hover">
-                    <Icon type="check-circle" />
-                  </Popover>
+                  <Button>审批</Button>
                 </a>
                 <Divider type="vertical" />
                 <a onClick={() => this.handlePayBackSendBack(record)}>
-                  <Popover content={(<span>退回</span>)} trigger="hover">
-                    <Icon type="close-circle" />
-                  </Popover>
+                  <Button>退回</Button>
                 </a>
               </span>)
           } else {
             return (
               <span>
                 <a onClick={() => this.handlePayBackWithWdraw(record)}>
-                  <Popover content={(<span>撤回</span>)} trigger="hover">
-                    <Icon type="rollback" />
-                  </Popover>
+                  <Button>撤回</Button>
                 </a>
               </span>)
           }

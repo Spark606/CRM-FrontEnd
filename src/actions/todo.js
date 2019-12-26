@@ -182,7 +182,6 @@ export function checkPassFirm(params, checkedStatus, currentPage, pageSize) {
 
 
 export function getPayBackList(params) {
-  params.requestStatus = 0;
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -206,7 +205,7 @@ export function checkPassPayBackPass(params, checkedStatus, currentPage, pageSiz
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/manager/checkCompanyCheckList',
+        endpoint: '/crm/payback/checkPayBackRecordCheckList',
         method: 'POST',
         mode: "cors",
         body: params,

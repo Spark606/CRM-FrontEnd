@@ -21,7 +21,8 @@ const mapStateToProps = state => ({
   newResourceNum: state.workspace.newResourceNum,
   newResourceList: state.workspace.newResourceList,
 
-  recordList: state.workspace.recordList,
+  recordFirmsList: state.workspace.recordFirmsList,
+  recordClentsList: state.workspace.recordClentsList,
   recordNum: state.workspace.recordNum,
 
   orderSum: state.workspace.orderSum,
@@ -238,14 +239,25 @@ export default class SalaryTable extends Component {
       title: '联系跟进次数',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content:
+      content:<div>
+        <b style={{ padding: '10px' }}>人才跟进情况：</b>
         <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
-          {this.props.recordList ? this.props.recordList.map(item =>
+          {this.props.recordClentsList ? this.props.recordClentsList.map(item =>
             <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
              {item.createDate} {item.resourceName? `${item.resourceName} ---` : null} {item.content? `${item.content} ---` : null}  --- {item.employeeName}
             </Timeline.Item>) :
             "NO DATA"}
-        </Timeline>,
+        </Timeline>
+        <hr/>
+        <b style={{ padding: '10px' }}>企业跟进情况：</b>
+        <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
+          {this.props.recordFirmsList ? this.props.recordFirmsList.map(item =>
+            <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
+             {item.createDate} {item.resourceName? `${item.resourceName} ---` : null} {item.content? `${item.content} ---` : null}  --- {item.employeeName}
+            </Timeline.Item>) :
+            "NO DATA"}
+        </Timeline>
+        </div>,
     });
   }
 

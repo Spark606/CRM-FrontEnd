@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Select, Button, Icon, Divider, Popover, List, Typography, DatePicker } from 'antd';
-const { Option } = Select;
-const { MonthPicker, RangePicker } = DatePicker;
+import { Breadcrumb, Table, Button, List, Typography, DatePicker } from 'antd';
+const { MonthPicker } = DatePicker;
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 import _ from 'lodash';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
 import WrapEditSalaryModal from '../../component/editSalaryModal';
 import { getEmployeesSalaryList, getSalaryRegulationDetail } from '../../actions/salary';
 const mapStateToProps = state => ({
@@ -109,13 +107,9 @@ export default class SalaryTable extends Component {
         render: (record) => <span>
           <a onClick={() => this.handleEidtSalary(record)}>
             {this.props.userRole === "2" ?
-            <Popover content={(<span>修改</span>)} trigger="hover">
-              <Icon type="edit" />
-            </Popover>
+            <Button>修改</Button>
             :
-            <Popover content={(<span>查看</span>)} trigger="hover">
-              <Icon type="eye" />
-            </Popover>
+            <Button>查看</Button>
             }
           </a>
         </span>,

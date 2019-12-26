@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider, Popover, Select } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Divider, Select } from 'antd';
 const { Option } = Select;
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
@@ -350,34 +350,23 @@ export default class FirmsTable extends Component {
         fixed: 'right',
         render: (record) => <span>
           <a onClick={() => this.handleEditFirm(record)}>
-            <Popover content={(<span>修改</span>)} trigger="hover">
-              <Icon type="edit" />
-            </Popover>
+            <Button>修改</Button>
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handleCheckOneStatus(record)}>
-            <Popover content={(this.state.shareStatus === 2 ? <span>转为公有资源</span> : <span>转为私有资源</span>)} trigger="hover">
-              <Icon type="import" />
-            </Popover>
+            {this.state.shareStatus === 2 ? <Button>转为公有资源</Button>: <Button>转为私有资源</Button>}
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handleAddRecord(record)}>
-            <Popover content={(<span>跟进</span>)} trigger="hover">
-              <Icon type="snippets" />
-            </Popover>
+            <Button>跟进</Button>
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handleAddOrder(record)}>
-            <Popover content={(<span>新建订单
-            </span>)} trigger="hover">
-              <Icon type="plus-square" />
-            </Popover>
+            <Button>新建订单</Button>
           </a>
           <Divider type="vertical" />
           <a onClick={() => this.handledeleteFirm(record)}>
-            <Popover content={(<span>删除</span>)} trigger="hover">
-              <Icon type="delete" />
-            </Popover>
+            <Button>删除</Button>
           </a>
         </span>,
       },

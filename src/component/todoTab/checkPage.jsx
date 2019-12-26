@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
-import { Table, Icon, Divider, Popover, Select } from 'antd';
+import { Table, Icon, Divider, Select } from 'antd';
 const { Option } = Select;
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
