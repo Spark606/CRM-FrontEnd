@@ -60,6 +60,7 @@ class AddClientRecordModal extends Component {
         const data = Object.assign({}, {
           createDate: `${moment(values.recordTimeDay).format(yearFormat)} ${moment(values.recordTimeHour).format(hourFormat)}`,
           resourceId: this.props.dataSource.clientId,
+          resourceName: this.props.dataSource.clientName,
           status: values.status,
           content: values.recordContent ?  values.recordContent : null
         });
@@ -158,10 +159,10 @@ class AddClientRecordModal extends Component {
             </div>
             : null}
           <hr />
-          <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' }}>
+          <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
             {oneClientRecord ? oneClientRecord.map(item =>
               <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
-                {item.content} {moment(item.createDate).format('YYYY/MM/DD HH:mm')} {item.employeeName} --- {this.getStatus(item.status)}
+                 {item.createDate}  {item.content}  {item.employeeName} --- {this.getStatus(item.status)}
               </Timeline.Item>) :
               "NO DATA"}
           </Timeline>

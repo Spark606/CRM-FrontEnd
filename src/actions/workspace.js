@@ -6,7 +6,7 @@ export function getGrossStatus(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/manager/getPanelData',
         method: 'POST',
         body: params,
         mode: "cors",

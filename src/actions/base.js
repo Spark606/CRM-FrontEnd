@@ -16,8 +16,10 @@ export function formatRecords(dataSource) {
       seriesData.push(Object.assign({}, {
         key: item.key,
         content: item.content,
-        recordName: item.resourceName,
+        resourceName: item.resourceName,
+        employeeName: item.employeeName,
         recordId: item.recorderId,
+        createDate: item.createDate,
         status: item.status,
       }));
     });

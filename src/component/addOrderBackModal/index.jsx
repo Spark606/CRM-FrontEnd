@@ -11,7 +11,8 @@ const { TabPane } = Tabs;
 const mapStateToProps = state => ({
   oneOrderBackList: state.order.oneOrderBackList,
   orderBackDetail: state.order.orderBackDetail,
-  user_Id: state.sessions.user_Id
+  user_Id: state.sessions.user_Id,
+  user_name: state.sessions.user_name
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -180,7 +181,7 @@ class AddOrderBackModal extends Component {
                   <Col span={12}>
                     <Form.Item label="录入人：">
                       {getFieldDecorator('employeeName', {
-                        initialValue: 'Liz',
+                        initialValue: this.props.user_name,
                       })(<Input disabled style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>

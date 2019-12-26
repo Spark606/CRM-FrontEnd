@@ -18,12 +18,65 @@ body,p,li,ul,table,a{
   .ant-layout-header{
       text-align: right;
       background-color: #002140;
-      padding: 0;
+      padding: 0 20px 0 0;
       .userBox{
         margin: 0 15px;
       }
+      .ant-badge {
+        color: #ffffff;
+        font-size: 26px;
+        padding: 0 8px;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        i.anticon.active{
+          animation: bellshake 2s linear 0s infinite;
+          transform-origin: top center;
+        }
+        .ant-scroll-number {
+          left: -60%;
+          right: auto;
+        }
+      }
   }
-
+  @keyframes bellshake {
+    0% {
+        transform: rotate(0deg)
+    }
+  
+    5% {
+        transform: rotate(18deg)
+    }
+  
+    15% {
+        transform: rotate(-15deg)
+    }
+  
+    25% {
+        transform: rotate(12deg)
+    }
+  
+    35% {
+        transform: rotate(-9deg)
+    }
+  
+    45% {
+        transform: rotate(6deg)
+    }
+  
+    55% {
+        transform: rotate(-3deg)
+    }
+  
+    60% {
+        transform: rotate(0deg)
+    }
+  
+    100% {
+        transform: rotate(0deg)
+    }
+  }
+  
   .show-wrap{
     .item{
       margin-bottom: 3.2rem;

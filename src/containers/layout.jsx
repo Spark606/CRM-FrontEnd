@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
   userName: state.sessions.user_name,
   userRole: state.sessions.user_role,
-  noticeCount: state.sessions.noticeCount
+  noticeCount: state.layout.noticeCount
 });
 const mapDispatchToProps = dispatch => bindActionCreators({
   verifyToken
@@ -90,7 +90,7 @@ export default class LayoutPagae extends Component {
     history.push('/login');
   };
   render() {
-    const { userName, noticeCount} = this.props;
+    const { userName, noticeCount } = this.props;
     const menu = (
       <Menu>
         <Menu.Item>
@@ -159,9 +159,9 @@ export default class LayoutPagae extends Component {
         </Sider>
         <Layout>
           <Header>
-            <Badge count={noticeCount}>
-              {noticeCount > 0 ?  <Icon type="bell-o" /> : <Icon type="bell" />}
-            </Badge>
+            {/* <Badge count={noticeCount}>
+              {noticeCount > 0 ? <Icon className="active" type="bell-o" /> : <Icon type="bell" />}
+            </Badge> */}
             <Dropdown overlay={menu}>
               <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size="large">
                 {userName}

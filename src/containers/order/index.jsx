@@ -230,6 +230,8 @@ export default class OrderTable extends Component {
         </span>,
       },
     ];
+
+    console.log(clientOrdersList, firmOrdersList);
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>

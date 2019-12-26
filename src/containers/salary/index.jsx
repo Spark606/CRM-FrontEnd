@@ -16,7 +16,8 @@ const mapStateToProps = state => ({
   currentPage: state.salary.currentPage,
   pageTotal: state.salary.pageTotal,
   pageSize: state.salary.pageSize,
-  employeeSalaryRegulation: state.salary.employeeSalaryRegulation
+  employeeSalaryRegulation: state.salary.employeeSalaryRegulation,
+  userRole: state.sessions.user_role,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -107,14 +108,19 @@ export default class SalaryTable extends Component {
         key: 'operation',
         render: (record) => <span>
           <a onClick={() => this.handleEidtSalary(record)}>
+            {this.props.userRole === "2" ?
             <Popover content={(<span>修改</span>)} trigger="hover">
               <Icon type="edit" />
             </Popover>
+            :
+            <Popover content={(<span>查看</span>)} trigger="hover">
+              <Icon type="eye" />
+            </Popover>
+            }
           </a>
         </span>,
       },
     ];
-
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>

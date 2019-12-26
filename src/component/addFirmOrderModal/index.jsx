@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
   user_Id: state.sessions.user_Id,
+  user_name: state.sessions.user_name
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   { },
@@ -84,7 +85,7 @@ class AddFirmOrderModal extends Component {
                   <Col span={12}>
                     <Form.Item label="负责人：">
                       {getFieldDecorator('employeeName', {
-                        initialValue: 'Liz',
+                        initialValue: this.props.user_name,
                       })(<Input disabled style={{ maxWidth: 200 }} />)}
                     </Form.Item>
                   </Col>
