@@ -165,8 +165,8 @@ export default class SalaryTable extends Component {
                           <span style={{ padding: '0 10px' }}>订单编号：{item.businessId}</span>
                           <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
                           <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
-                          <span style={{ padding: '0 10px' }}>当月回款总额: {item.orderPaySum}</span>
-                          <span style={{ padding: '0 10px' }}>欠款金额: {item.orderPaySum}</span>
+                          <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
+                          <span style={{ padding: '0 10px' }}>欠款金额: {item.oweSum}</span>
                         </List.Item>
                       )}
                     />

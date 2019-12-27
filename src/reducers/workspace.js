@@ -20,6 +20,7 @@ const initialState = {
   orderPayClientsList: null,
   orderPayFirmsList: null,
   payBackSum: null,
+  payBackSumList: null,
   ownPaySum: null,
   ownPayList: null,
 };
@@ -55,9 +56,10 @@ export default function salaryReducer(state = initialState, action) {
         orderFirmsList: formatFirmOrder(action.payload.data.companyBusinessList),
         // 回款总额
         payBackSum: action.payload.data.payBackSum,
+        payBackSumList: action.payload.data.payBackSumList,
         // 欠款总额
         ownPaySum: action.payload.data.payBackOweSum,
-        ownPayList: action.payload.data.payBackRecordsList,
+        ownPayList: action.payload.data.payBackOweSumList,
         isFetching: false,
       });
     case cs.GET_GROSS_STATUS_FAIL:

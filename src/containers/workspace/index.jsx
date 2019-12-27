@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Card, Select, Timeline, Icon, Row, Col, DatePicker, Table, Modal } from 'antd';
-const { MonthPicker, RangePicker } = DatePicker;
+import { Breadcrumb, Card, Select, Timeline, Icon, Row, Col, DatePicker, Table, Modal, Tabs } from 'antd';
 const { Option } = Select;
+const { TabPane } = Tabs;
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 import _ from 'lodash';
@@ -38,6 +38,7 @@ const mapStateToProps = state => ({
   orderPayFirmsList: state.workspace.orderPayFirmsList,
 
   payBackSum: state.workspace.payBackSum,
+  payBackSumList: state.workspace.payBackSumList,
 
   ownPaySum: state.workspace.ownPaySum,
   ownPayList: state.workspace.ownPayList,
@@ -239,25 +240,26 @@ export default class SalaryTable extends Component {
       title: '联系跟进次数',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content:<div>
-        <b style={{ padding: '10px' }}>人才跟进情况：</b>
-        <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
-          {this.props.recordClentsList ? this.props.recordClentsList.map(item =>
-            <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
-             {item.createDate} {item.resourceName? `${item.resourceName} ---` : null} {item.content? `${item.content} ---` : null}  --- {item.employeeName}
-            </Timeline.Item>) :
-            "NO DATA"}
-        </Timeline>
-        <hr/>
-        <b style={{ padding: '10px' }}>企业跟进情况：</b>
-        <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
-          {this.props.recordFirmsList ? this.props.recordFirmsList.map(item =>
-            <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
-             {item.createDate} {item.resourceName? `${item.resourceName} ---` : null} {item.content? `${item.content} ---` : null}  --- {item.employeeName}
-            </Timeline.Item>) :
-            "NO DATA"}
-        </Timeline>
-        </div>,
+      content: <Tabs defaultActiveKey="1">
+        <TabPane tab="人才跟进" key="1">
+          <Timeline style={{ maxHeight: '500px', overflowY: 'scroll', padding: '10px 0' }}>
+            {this.props.recordClentsList ? this.props.recordClentsList.map(item =>
+              <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
+                {item.createDate} {item.resourceName ? `${item.resourceName} ---` : null} {item.content ? `${item.content} ---` : null}  --- {item.employeeName}
+              </Timeline.Item>) :
+              "NO DATA"}
+          </Timeline>
+        </TabPane>
+        <TabPane tab="企业跟进" key="2">
+          <Timeline style={{ maxHeight: '500px', overflowY: 'scroll', padding: '10px 0' }}>
+            {this.props.recordFirmsList ? this.props.recordFirmsList.map(item =>
+              <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
+                {item.createDate} {item.resourceName ? `${item.resourceName} ---` : null} {item.content ? `${item.content} ---` : null}  --- {item.employeeName}
+              </Timeline.Item>) :
+              "NO DATA"}
+          </Timeline>
+        </TabPane>
+      </Tabs>
     });
   }
 
@@ -321,7 +323,16 @@ export default class SalaryTable extends Component {
         title: '客户名称',
         dataIndex: 'clientLists',
         key: 'clientLists',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => {
+          if (text) {
+            const temp = text.map(e => {
+              return <Button>{e.resourceName}</Button>
+            });
+            return temp;
+          } else {
+            return '--'
+          }
+        },
       },
       {
         width: 100,
@@ -354,22 +365,22 @@ export default class SalaryTable extends Component {
       title: '成交总额',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content: (<div>
-        <hr/>
-        <b style={{ padding: '10px' }}>企业订单：</b>
-        <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
-          columns={clientOrderColumns}
-          dataSource={this.props.orderPayClientsList}
-          pagination={false}
-        />
-        <hr/>
-        <b style={{ padding: '10px' }}>人才订单：</b>
-        <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
-          columns={firmOrderColumns}
-          dataSource={this.props.orderPayFirmsList}
-          pagination={false}
-        />
-      </div>)
+      content: <Tabs defaultActiveKey="1">
+        <TabPane tab="人才订单" key="1">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={clientOrderColumns}
+            dataSource={this.props.orderPayClientsList}
+            pagination={false}
+          />
+        </TabPane>
+        <TabPane tab="企业订单" key="2">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={firmOrderColumns}
+            dataSource={this.props.orderPayFirmsList}
+            pagination={false}
+          />
+        </TabPane>
+      </Tabs>
     });
   }
 
@@ -433,7 +444,16 @@ export default class SalaryTable extends Component {
         title: '客户名称',
         dataIndex: 'clientLists',
         key: 'clientLists',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => {
+          if (text) {
+            const temp = text.map(e => {
+              return <Button>{e.resourceName}</Button>
+            });
+            return temp;
+          } else {
+            return '--'
+          }
+        },
       },
       {
         width: 100,
@@ -466,20 +486,61 @@ export default class SalaryTable extends Component {
       title: '成交单数',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
+      content: <Tabs defaultActiveKey="1">
+        <TabPane tab="人才订单" key="1">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={clientOrderColumns}
+            dataSource={this.props.orderClientsList}
+            pagination={false}
+          />
+        </TabPane>
+        <TabPane tab="企业订单" key="2">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={firmOrderColumns}
+            dataSource={this.props.orderFirmsList}
+            pagination={false}
+          />
+        </TabPane>
+      </Tabs>
+    });
+  }
+  handlePaybackAmouts = () => {
+    const columns = [{
+      width: 280,
+      title: '订单编号',
+      dataIndex: 'businessId',
+      key: 'businessId',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 140,
+      title: '企业名称',
+      dataIndex: 'companyName',
+      key: 'companyName',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 180,
+      title: '回款金额（元）',
+      dataIndex: 'backPay',
+      key: 'backPay',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 120,
+      title: '负责人',
+      dataIndex: 'employeeName',
+      key: 'employeeName',
+      render: text => <span>{text ? text : '--'}</span>,
+    }
+    ];
+    Modal.success({
+      title: '回款总额',
+      icon: <Icon type="smile" theme="twoTone" />,
+      width: "80%",
       content: (<div>
-        <hr/>
-        <b style={{ padding: '10px' }}>企业订单：</b>
         <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
-          columns={clientOrderColumns}
-          dataSource={this.props.orderClientsList}
+          columns={columns}
+          dataSource={this.props.payBackSumList}
           pagination={false}
-        />
-        <hr/>
-        <b style={{ padding: '10px' }}>人才订单：</b>
-        <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
-          columns={firmOrderColumns}
-          dataSource={this.props.orderFirmsList}
-          pagination={false}
+          // scroll={{ y: 600, x: false }}
         />
       </div>)
     });
@@ -487,39 +548,28 @@ export default class SalaryTable extends Component {
 
   handleOwePaybackAmouts = () => {
     const columns = [{
-      width: 150,
-      title: '回款时间',
-      dataIndex: 'laterBackDate',
-      key: 'laterBackDate',
-      fixed: 'left',
+      width: 280,
+      title: '订单编号',
+      dataIndex: 'businessId',
+      key: 'businessId',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 140,
-      title: '回款金额（元）',
-      dataIndex: 'laterBackPay',
-      key: 'laterBackPay',
-      fixed: 'left',
+      title: '企业名称',
+      dataIndex: 'companyName',
+      key: 'companyName',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 180,
-      title: '备注',
-      dataIndex: 'info',
-      key: 'info',
-      fixed: 'left',
+      title: '欠款金额（元）',
+      dataIndex: 'owePay',
+      key: 'owePay',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 120,
-      title: '录入人',
+      title: '负责人',
       dataIndex: 'employeeName',
       key: 'employeeName',
-      fixed: 'left',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 150,
-      title: '录入时间',
-      dataIndex: 'recordDate',
-      key: 'recordDate',
-      fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }
     ];
@@ -532,6 +582,7 @@ export default class SalaryTable extends Component {
           columns={columns}
           dataSource={this.props.ownPayList}
           pagination={false}
+          // scroll={{ y: 600, x: false }}
         />
       </div>)
     });
@@ -614,7 +665,7 @@ export default class SalaryTable extends Component {
               </Col>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p>{payBackSum}</p>
+                  <p onClick={this.handlePaybackAmouts}>{payBackSum}</p>
                   <div className="bannar-box">
                     <Icon type="wallet" /><span> 回款总额</span>
                   </div>
