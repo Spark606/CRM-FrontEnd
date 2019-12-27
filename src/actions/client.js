@@ -4,7 +4,6 @@ import { message } from 'antd';
 
 // client page
 export function getClients(params) {
-  console.log("getClients", params);
   const tempParams = {
     shareStatus: params.shareStatus,
     page: params.page,

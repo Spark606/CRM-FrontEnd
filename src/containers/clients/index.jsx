@@ -136,7 +136,6 @@ export default class ClientsTable extends Component {
   handleReset = (clearFilters, key) => {
     clearFilters();
     const temp = this.state.searchArr.filter(item => item.dataIndex !== key);
-    console.log(temp, this.state.searchArr);
     this.setState({
       searchArr: temp
     });
@@ -213,7 +212,6 @@ export default class ClientsTable extends Component {
   }
   render() {
     const { clientsList, pageSize, currentPage, pageTotal } = this.props;
-    console.log(this.props.userRole, 'userRole');
     const pagination = {
       pageSize: pageSize,
       current: currentPage,

@@ -68,7 +68,6 @@ export default class SalaryTable extends Component {
     this.onInit();
   }
   onInit = () => {
-    console.log(this.state.user_role);
     if (this.state.user_role === "2") {
       this.props.getEmployeeList();
     }

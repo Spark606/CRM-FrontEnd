@@ -37,7 +37,6 @@ export default class LayoutPagae extends Component {
       this.props.verifyToken();
       this.checkHash();
     } else {
-      console.log("hhhhhhh~");
       history.push('/login');
     }
   }

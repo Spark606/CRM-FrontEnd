@@ -4,15 +4,6 @@ import * as cs from '../constants';
 import { CALL_API } from '../middlewares/callAPI';
 import { message } from 'antd';
 
-// if Refresh set Session to Store
-// export function restoreSessionFromLocalStorage() {
-//   console.log("哈哈哈哈哈，我来啦，我来啦~");
-//   const tokenString = localStorage.getItem('sessions');
-//   if (!tokenString) {
-//     history.push('/login');
-//   }
-//   return { type: 'DO_LOGIN' };
-// }
 export function getUserInfo() {
   return async (dispatch) => {
     const action = await dispatch({
@@ -67,7 +58,7 @@ export function login(params) {
       }
     }
 
-    if (action.type === cs.LOGIN_FAIL) { console.log(action); message.error(action.error.data.msg) }
+    if (action.type === cs.LOGIN_FAIL) { message.error(action.error.data.msg) }
     return action;
   };
 }

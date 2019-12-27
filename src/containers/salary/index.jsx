@@ -43,7 +43,6 @@ export default class SalaryTable extends Component {
     });
   }
   handleEidtSalary = (record) => {
-    console.log(record);
     this.setState({
       tempData: record
     });
@@ -136,7 +135,6 @@ export default class SalaryTable extends Component {
             pagination={pagination}
             expandedRowRender={
               record => {
-                console.log(record, 'xxxxxxxxxxxxxxxxxx');
                 return (
                   <div>
                     <p style={{padding:'10px'}}>人才回款表：</p>

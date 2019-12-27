@@ -53,7 +53,6 @@ class EmployeePage extends Component {
   }
 
   onSelect = (selectedKeys, info) => {
-    console.log(selectedKeys, info);
     this.closeEditBox();
     this.setState({ selectedKeys: selectedKeys });
     this.props.getEmployeeDetail({ employeeId: selectedKeys[0] }, () => { this.setState({ employeeRole: this.props.selectedEmployee.employeeRole }); })
@@ -84,7 +83,6 @@ class EmployeePage extends Component {
             this.props.getEmployeeTree();
           });
         }
-        console.log('Received values of form: ', values);
       }
     });
   };

@@ -135,7 +135,6 @@ export default class FirmsTable extends Component {
   handleReset = (clearFilters, key) => {
     clearFilters();
     const temp = this.state.searchArr.filter(item => item.dataIndex !== key);
-    console.log(temp, this.state.searchArr);
     this.setState({
       searchArr: temp
     });

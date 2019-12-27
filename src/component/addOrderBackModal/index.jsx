@@ -32,7 +32,6 @@ class AddOrderBackModal extends Component {
     recorderHour: ""
   };
   handleChangeTab = (e) => {
-    console.log(e);
     if (e === '1') {
       this.props.getOrderBackDetail({
         businessId: this.props.dataSource.orderId,
