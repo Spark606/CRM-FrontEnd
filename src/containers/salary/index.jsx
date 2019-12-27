@@ -80,22 +80,22 @@ export default class SalaryTable extends Component {
         title: '底薪 (￥)',
         dataIndex: 'baseSalary',
         key: 'baseSalary',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text === null ? '--' : text}</span>,
       }, {
         title: '业绩 (￥)',
         dataIndex: 'performance',
         key: 'performance',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text === null ? '--' : text}</span>,
       }, {
         title: '罚款 (￥)',
         dataIndex: 'penalty',
         key: 'penalty',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text === null ? '--' : text}</span>,
       }, {
         title: '实际收入 (￥)',
         dataIndex: 'salary',
         key: 'salary',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: text => <span>{text === null ? '--' : text}</span>,
       }, {
         title: '备注',
         dataIndex: 'info',

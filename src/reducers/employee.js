@@ -2,54 +2,9 @@ import * as cs from '../constants';
 import { message } from 'antd';
 
 const initialState = {
-  employeeTree: [
-    //   {
-    //   employeeId: '1',
-    //   employeeName: '胡君林',
-    //   team: [{
-    //     employeeId: '2',
-    //     employeeName: '王驰',
-    //     team: [
-    //       {
-    //         employeeId: '4 - 1',
-    //         employeeName: '李真',
-    //       },
-    //       {
-    //         employeeId: '5 - 1',
-    //         employeeName: '沈憨憨',
-    //       }]
-    //   }, {
-    //     employeeId: 3,
-    //     employeeName: '杨凡',
-    //     team: [{
-    //       employeeId: '2 - 2',
-    //       employeeName: '王驰',
-    //     },
-    //     {
-    //       employeeId: '3 - 2',
-    //       employeeName: '杨凡',
-    //     }]
-    //   }]
-    // }
-  ],
-  selectedEmployee: {
-    employeeId: '1',
-    employeeRole: '1',
-    employeeName: '李真',
-    employeePhone: '138888888888',
-    employeeEmail: 'Lizbaby606@163.com',
-    supEmployeeName: '胡君林',
-    supEmployeeId: '1',
-  },
-  managerEmployeeList: [
-    //   {
-    //   employeeId: '1',
-    //   employeeName: '胡君林'
-    // }, {
-    //   employeeId: '2',
-    //   employeeName: '王驰'
-    // }
-  ]
+  employeeTree: [],
+  selectedEmployee: {},
+  managerEmployeeList: []
 };
 
 export default function employeeReducer(state = initialState, action) {
