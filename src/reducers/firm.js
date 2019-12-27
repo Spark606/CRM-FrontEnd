@@ -84,7 +84,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_FIRM_SUCCESS:
-      if (action.payload && action.payload.data && action.payload.data.employeeRole === "2") {
+      if (action.payload && action.payload.data && action.payload.data.employeeRole === 2) {
         message.success('修改企业客户成功！');
       } else {
         message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
@@ -97,7 +97,7 @@ export default function firmReducer(state = initialState, action) {
       })
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: action.payload.data.employeeRole === "2" ? updateFirmTemp : [...state.firmsList]
+        firmsList: action.payload.data.employeeRole === 2 ? updateFirmTemp : [...state.firmsList]
       });
     case cs.UPDATE_ONE_FIRM_FAIL:
       message.error('修改企业客户失败！');
@@ -110,7 +110,7 @@ export default function firmReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_FIRM_SUCCESS:
-      if (action.payload && action.payload.data && action.payload.data.employeeRole === "2") {
+      if (action.payload && action.payload.data && action.payload.data.employeeRole === 2) {
         message.success('删除企业客户成功！');
       } else {
         message.success('提交删除企业客户审核记录成功！请耐心等待审核结果。');

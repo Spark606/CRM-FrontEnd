@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Card, Select, Timeline, Icon, Row, Col, DatePicker, Table, Modal, Tabs } from 'antd';
+import { Breadcrumb, Card, Select, Timeline, Icon, Row, Col, Button, Table, Modal, Tabs } from 'antd';
 const { Option } = Select;
 const { TabPane } = Tabs;
 import 'moment/locale/zh-cn';
@@ -225,7 +225,7 @@ export default class SalaryTable extends Component {
       title: '新增客户',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content: <Table rowKey={record => record.clientId}
+      content: <Table rowKey={record => record.clientId? record.clientId : Math.random()}
         className="ModalBox"
         columns={columns}
         dataSource={this.props.newResourceList}

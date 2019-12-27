@@ -134,24 +134,24 @@ class AddOrderBackModal extends Component {
             <TabPane tab="回款详情" key="1">
               <div className="orderDetilBox">
                 <Row>
-                  <Col span={12}>编号：{orderBackDetail.businessId ? orderBackDetail.businessId : '--'}</Col>
-                  <Col span={12}>成交总额：{orderBackDetail.orderPaySum ? orderBackDetail.orderPaySum : '--'}</Col>
+                  <Col span={12}>订单编号：{orderBackDetail.businessId === null? '--' : orderBackDetail.businessId}</Col>
+                  <Col span={12}>成交总额：{orderBackDetail.orderPaySum === null? '--' : orderBackDetail.orderPaySum}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>欠款金额：{orderBackDetail.owePay ? orderBackDetail.owePay : '--'}</Col>
-                  <Col span={12}>回款金额：{orderBackDetail.backPay ? orderBackDetail.backPay : '--'}</Col>
+                  <Col span={12}>欠款金额：{orderBackDetail.owePay === null? '--' : orderBackDetail.owePay}</Col>
+                  <Col span={12}>回款金额：{orderBackDetail.backPay === null? '--' : orderBackDetail.backPay}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>最后回款金额：{orderBackDetail.backPay ? orderBackDetail.laterBackPay : '--'}</Col>
-                  <Col span={12}>最后回款时间：{orderBackDetail.createDate ? orderBackDetail.laterBackDate : '--'}</Col>
+                  <Col span={12}>最后回款金额：{orderBackDetail.backPay === null? '--' : orderBackDetail.laterBackPay}</Col>
+                  <Col span={12}>最后回款时间：{orderBackDetail.createDate === null? '--' : orderBackDetail.laterBackDate}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>回款次数：{orderBackDetail.backTimes ? orderBackDetail.backTimes : '--'}</Col>
-                  <Col span={12}>录入时间：{orderBackDetail.recordDate ? orderBackDetail.recordDate : '--'}</Col>
+                  <Col span={12}>回款次数：{orderBackDetail.backTimes === null? '--' : orderBackDetail.backTimes}</Col>
+                  <Col span={12}>录入时间：{orderBackDetail.recordDate === null? '--' : orderBackDetail.recordDate}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>修改时间：{orderBackDetail.recordDate ? orderBackDetail.recordDate : '--'}</Col>
-                  <Col span={12}>最后成交时间：{orderBackDetail.createDate ? orderBackDetail.createDate : '--'}</Col>
+                  <Col span={12}>修改时间：{orderBackDetail.recordDate === null? '--' : orderBackDetail.recordDate}</Col>
+                  <Col span={12}>最后成交时间：{orderBackDetail.createDate === null? '--' : orderBackDetail.createDate}</Col>
                 </Row>
                 <Row>
                   <Col span={24} >回款进度：

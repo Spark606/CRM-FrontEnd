@@ -144,80 +144,39 @@ export function formatFirmOrder(dataSource) {
     return [];
   }
 };
-export function formatOrderBackDetail(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        orderPaySum: item.orderPaySum, // 成交总额
-        owePay: item.orderPaySum, // 欠款金额
-        backPay: item.orderPaySum, // 回款金额
-        laterBackPay: item.orderPaySum, // 最后回款金额
-        laterBackDate: item.orderPaySum, // 最后回款时间
-        backTimes: item.orderPaySum, // 回款次数
-        recordDate: item.orderPaySum, // 录入时间
-        updateDate: item.orderPaySum, // 修改时间
-        createDate: item.orderPaySum, // 最后成交时间
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
 
-export function formatOrderBack(dataSource) {
-  if (dataSource) {
-    const seriesData = [];
-    dataSource.map(item => {
-      seriesData.push(Object.assign({}, {
-        orderPaySum: item.orderPaySum, // 成交总额
-        owePay: item.orderPaySum, // 欠款金额
-        backPay: item.backPay, // 回款金额
-        laterBackPay: item.laterBackPay, // 最后回款金额
-        laterBackDate: item.laterBackDate, // 最后回款时间
-        backTimes: item.backTimes, // 回款次数
-        recordDate: item.recordDate, // 录入时间
-        updateDate: item.updateDate, // 修改时间
-        createDate: item.createDate, // 最后成交时间
-      }));
-    });
-    return seriesData;
-  } else {
-    return [];
-  }
-};
+
 
 export function formatEmployeesSalary(dataSource) {
   if (dataSource) {
     const seriesData = [];
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
-        employeeId: item.employeeId || null,
-        employeeName: item.employeeName || null, 
-        performance: item.performance || null, 
-        penalty: item.penalty || null,
-        baseSalary: item.baseSalary || null, 
-        salary: item.salary || null,
-        info: item.info || null, 
+        employeeId: item.employeeId,
+        employeeName: item.employeeName, 
+        performance: item.performance, 
+        penalty: item.penalty,
+        baseSalary: item.baseSalary, 
+        salary: item.salary,
+        info: item.info, 
         clientOrderData: item.resourceBusinessList ? item.resourceBusinessList.map(e => {
           return {
-            clientName: e.clientName || null,
-            businessId: e.businessId || null,
-            createDate: e.createDate || null,
-            orderPaySum: e.orderPaySum || null,
-            curretMonthPayBackSum: e.paybackSum || null,
-            owePay: e.oweSum || null,
+            clientName: e.clientName,
+            businessId: e.businessId,
+            createDate: e.createDate,
+            orderPaySum: e.orderPaySum,
+            curretMonthPayBackSum: e.paybackSum,
+            owePay: e.oweSum,
           };
         }) : [],
         firmOrderData: item.comapnyBusinessList ? item.comapnyBusinessList.map(e => {
           return {
-            firmName: e.firmName || null,
-            businessId: e.businessId || null,
-            createDate: e.createDate || null,
-            orderPaySum: e.orderPaySum || null,
-            curretMonthPayBackSum: e.paybackSum || null,
-            owePay: e.oweSum || null,
+            firmName: e.firmName,
+            businessId: e.businessId,
+            createDate: e.createDate,
+            orderPaySum: e.orderPaySum,
+            curretMonthPayBackSum: e.paybackSum,
+            owePay: e.oweSum,
           };
         }) : null,
       }));

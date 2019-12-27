@@ -110,7 +110,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.UPDATE_ONE_CLIENT_SUCCESS:
-      if (action.payload && action.payload.data && action.payload.data.employeeRole === "2") {
+      if (action.payload && action.payload.data && action.payload.data.employeeRole === 2) {
         message.success('修改个人客户成功！');
       } else {
         message.success('提交修改个人客户审核记录成功！请耐心等待审核结果。');
@@ -123,7 +123,7 @@ export default function clientReducer(state = initialState, action) {
       })
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: action.payload.data.employeeRole === "2" ? updateClientTemp : [...state.clientsList]
+        clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       if(action.error.code === 88){
@@ -140,7 +140,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: true
       });
     case cs.DELETE_ONE_CLIENT_SUCCESS:
-      if (action.payload && action.payload.data && action.payload.data.employeeRole === "2") {
+      if (action.payload && action.payload.data && action.payload.data.employeeRole === 2) {
         message.success('删除个人客户成功！');
       } else {
         message.success('提交删除个人客户审核记录成功！请耐心等待审核结果。');

@@ -136,6 +136,7 @@ export default class SalaryTable extends Component {
             pagination={pagination}
             expandedRowRender={
               record => {
+                console.log(record, 'xxxxxxxxxxxxxxxxxx');
                 return (
                   <div>
                     <p style={{padding:'10px'}}>人才回款表：</p>
@@ -166,7 +167,7 @@ export default class SalaryTable extends Component {
                           <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
                           <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
                           <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
-                          <span style={{ padding: '0 10px' }}>欠款金额: {item.oweSum}</span>
+                          <span style={{ padding: '0 10px' }}>欠款金额: {item.owePay}</span>
                         </List.Item>
                       )}
                     />
