@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const paths = {
   src: path.resolve(__dirname, "src"),
-  dist: path.resolve(__dirname, "dist"),
+  build: path.resolve(__dirname, "build"),
 };
  
 const evn = process.argv.pop();//获取当前的环境，生产或开发
@@ -12,7 +12,6 @@ const EVN = {
   pro: "production",
   dev: "development"
 };
- 
 module.exports = {
   entry: [
     path.join(paths.src, "index.html"),
@@ -20,16 +19,17 @@ module.exports = {
     path.join(paths.src, "index.js"),
   ],
   output: {
-    path: paths.dist,
-    chunkFilename: evn === EVN.dev ? "[name].[hash].js" : "[name].js",
-    filename: evn === EVN.dev ? "[name].[hash].js" : "[name].js",
-    // publicPath: "/"
+    path: paths.build,
+    chunkFilename:"[name].[hash].js",
+    filename:"[name].[hash].js",
+    // publicPath: "http://192.168.205.221:8000"// 服务器地址
   },
   module: {
     rules: [
       {
         //处理jsx,js
         test: /\.(jsx?)$/,
+        exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
@@ -57,9 +57,10 @@ module.exports = {
       },
       {
         test: /\.jpge|jpg|png|svg$/,
+        // loader: ['file-loader', 'image-webpack-loader'],
         loader: 'file-loader',
         query: {
-          name: 'static/media/[name].[hash:8].[ext]'
+          name: './static/[name].[hash:8].[ext]'
         }
       }
     ]
@@ -71,8 +72,8 @@ module.exports = {
       title: "react"
     }),
     new MiniCssExtractPlugin({
-      filename: evn === EVN.dev ? "[name].[hash].css" : "[name].css",
-      chunkFilename: evn === EVN.dev ? "[id].[hash].css" : "[id].css"
+      filename: "[name].[hash].css",
+      chunkFilename: "[id].[hash].css"
     }),
   ],
   resolve: {

@@ -1,6 +1,6 @@
 //webpack.dev.config.js
 const common = require("./webpack.common.config");
-const {resolve, join} = require("path");
+const {join} = require("path");
 const merge = require("webpack-merge");
 const webpack = require("webpack");
  

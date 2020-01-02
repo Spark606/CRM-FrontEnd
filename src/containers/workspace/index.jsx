@@ -18,8 +18,9 @@ const mapStateToProps = state => ({
   user_role: state.sessions.user_role,
   user_Id: state.sessions.user_Id,
   employeeList: state.sessions.employeeList,
-  newResourceNum: state.workspace.newResourceNum,
+  newClientNum: state.workspace.newClientNum,
   newResourceList: state.workspace.newResourceList,
+  newCompanyList: state.workspace.newCompanyList,
 
   recordFirmsList: state.workspace.recordFirmsList,
   recordClentsList: state.workspace.recordClentsList,
@@ -136,7 +137,7 @@ export default class SalaryTable extends Component {
     });
   }
   handleGetNewClients = () => {
-    const columns = [
+    const clientColumns = [
       {
         width: 120,
         title: '客户名称',
@@ -220,17 +221,156 @@ export default class SalaryTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       }
     ];
+    
+    const firmColumns = [
+      {
+        width: 120,
+        title: '公司名称',
+        dataIndex: 'firmName',
+        key: 'firmName',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
+      },
+      {
+        width: 100,
+        title: '类别',
+        dataIndex: 'category',
+        render: text => {
+          if (text === 1) {
+            return (<span>建筑业</span>)
+          } else if (text === 2) {
+            return (<span>农林牧渔</span>)
+          } else if (text === 3) {
+            return (<span>住宿餐饮</span>)
+          } else if (text === 4) {
+            return (<span>IT</span>)
+          } else if (text === 5) {
+            return (<span>金融业</span>)
+          } else if (text === 6) {
+            return (<span>房地产</span>)
+          } else if (text === 7) {
+            return (<span>政府机关</span>)
+          } else if (text === 8) {
+            return (<span>文体传媒</span>)
+          } else if (text === 9) {
+            return (<span>运输物流</span>)
+          } else if (text === 10) {
+            return (<span>商业服务</span>)
+          } else if (text === 11) {
+            return (<span>卫生医疗</span>)
+          } else if (text === 12) {
+            return (<span>教育培训</span>)
+          } else if (text === 13) {
+            return (<span>其他</span>)
+          }
+        }
+      },
+      {
+        width: 100,
+        title: '省份',
+        dataIndex: 'province',
+        key: 'province',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
+        // ...this.getColumnSearchProps('remark', '备注', 'info'),
+      },
+      {
+        width: 100,
+        title: '状态',
+        dataIndex: 'status',
+        render: text => {
+          if (text === 1) {
+            return (<span>潜在</span>)
+          } else if (text === 2) {
+            return (<span>意向</span>)
+          } else if (text === 3) {
+            return (<span>成交</span>)
+          } else if (text === 4) {
+            return (<span>失败</span>)
+          } else if (text === 5) {
+            return (<span>已流失</span>)
+          }
+        }
+      },
+      {
+        width: 150,
+        title: '到期时间',
+        dataIndex: 'expireDate',
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '联系人',
+        dataIndex: 'contact',
+        key: 'contact',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '职务',
+        dataIndex: 'position',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '性别',
+        dataIndex: 'gender',
+        render: text => <span>{text === 1 ? '女' : '男'}</span>
+      },
+      {
+        width: 200,
+        title: '邮箱',
+        dataIndex: 'email',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '电话',
+        dataIndex: 'tel',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '获得客户时间',
+        dataIndex: 'createDate',
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '经办人',
+        dataIndex: 'employeeName',
+        render: text => <span>{text ? text : '--'}</span>,
+      }
+    ];
     Modal.success({
       title: '新增客户',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content: <Table rowKey={record => record.clientId? record.clientId : Math.random()}
-        className="ModalBox"
-        columns={columns}
-        dataSource={this.props.newResourceList}
-        scroll={{ x: 1500 }}
-        pagination={false}
-      />,
+      content: <Tabs defaultActiveKey="1">
+        <TabPane tab="新增人才" key="1">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={clientColumns}
+            scroll={{ x: 1500 }}
+            dataSource={this.props.newResourceList.length}
+            pagination={false}
+          />
+        </TabPane>
+        <TabPane tab="新增企业" key="2">
+          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+            columns={firmColumns}
+            scroll={{ x: 1500 }}
+            dataSource={this.props.newCompanyList}
+            pagination={false}
+          />
+        </TabPane>
+      </Tabs>
     });
   }
 
@@ -588,7 +728,7 @@ export default class SalaryTable extends Component {
   }
 
   render() {
-    const { newResourceNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum } = this.props;
+    const { newClientNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum } = this.props;
     const employeeList = [{
       employeeId: 'all',
       employeeName: '全部'
@@ -630,7 +770,7 @@ export default class SalaryTable extends Component {
             <Row style={{ paddingTop: 30 }}>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p onClick={this.handleGetNewClients}>{newResourceNum}</p>
+                  <p onClick={this.handleGetNewClients}>{newClientNum}</p>
                   <div className="bannar-box">
                     <Icon type="usergroup-add" /><span> 新增客户数</span>
                   </div>

@@ -31,8 +31,6 @@ export default store => next => action => {
       NProgress.start();
     }
     
-    // const url = 'http://127.0.0.1:7001';
-    // const url = 'http://192.168.205.221:8000';
     const url = PackageJSON.proxy;
     endpoint = url + endpoint;
     const apiUrl = endpoint;

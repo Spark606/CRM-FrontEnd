@@ -1,5 +1,5 @@
 # npm init -y
-# npm i -D webpack webpack-cli webpack-dev-server
+# npm i -D webpack webpack-cli webpack-dev-server clean-webpack-plugin
 webpack输出真实的文件，而webpack-dev-server输出的文件只存在于内存中,不输出真实的文件！
 # npm i -D autoprefixer style-loader css-loader sass node-sass sass-loader postcss-loader html-loader html-webpack-plugin uglifyjs-webpack-plugin mini-css-extract-plugin webpack-merge babel-plugin-import
 # npm i -D babel-loader @babel/core @babel/preset-env @babel/preset-react @babel/plugin-transform-runtime

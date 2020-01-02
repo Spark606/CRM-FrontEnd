@@ -2,8 +2,6 @@ import * as cs from '../constants';
 import {CALL_API} from '../middlewares/callAPI';
 import { message } from 'antd';
 
-const url = 'http://192.168.205.221:8000';
-
 // client page
 export function getFirms(params){
   return async (dispatch) => {

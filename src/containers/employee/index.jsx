@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Tree, Form, Icon, Input, Button, Row, Col, Select, Radio, Card, Popconfirm } from 'antd';
 import { bindActionCreators } from 'redux';
-import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee, updateEmployee, deleteEmployee } from '../../actions/employee';
+import { getEmployeeTree, getEmployeeDetail, getManagerEmployeeList, addNewEmployee, updateEmployee, deleteEmployee, restPassWord } from '../../actions/employee';
 import { connect } from 'react-redux';
 import './style.scss';
 const { TreeNode } = Tree;
@@ -19,6 +19,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getManagerEmployeeList,
   addNewEmployee,
   updateEmployee,
+  restPassWord,
   deleteEmployee
 }, dispatch);
 @connect(mapStateToProps, mapDispatchToProps)
@@ -65,8 +66,10 @@ class EmployeePage extends Component {
         employeeId: values.employeeId,
         employeeName: values.employeeName,
         phoneNumber: values.employeePhone,
-        employeeRole: values.employeeRole,
-        employeeManagerId: values.supEmployeeId,
+        // employeeRole: values.employeeRole,
+        employeeRole: 1,
+        // employeeManagerId: values.supEmployeeId,
+        employeeManagerId: 0,
         email: values.employeeEmail,
       });
 
@@ -115,7 +118,9 @@ class EmployeePage extends Component {
       selectedEmployee: this.props.selectedEmployee
     })
   }
-
+  handleRestPassWord = e => {
+    this.props.restPassWord({employeeId: this.props.selectedEmployee.employeeId});
+  }
   deleteEmployee = e => {
     this.props.deleteEmployee({ employeeId: this.props.selectedEmployee.employeeId }, () => {
       this.openEditBox();
@@ -217,8 +222,8 @@ class EmployeePage extends Component {
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
-                      <Col span={12}>
+                    {/* <Row style={{ marginTop: 20 }}> */}
+                      {/* <Col span={12}>
                         <Form.Item label="类别">
                           {getFieldDecorator('employeeRole', {
                             initialValue: selectedEmployee ? selectedEmployee.employeeRole : '1',
@@ -230,9 +235,9 @@ class EmployeePage extends Component {
                             </Radio.Group>
                           )}
                         </Form.Item>
-                      </Col>
+                      </Col> */}
                       {/* // 如果是普通员工，需要指导所属经理 */}
-                      <Col span={12} style={{ display: employeeRole === '1' ? 'block' : 'none' }}>
+                      {/* <Col span={12} style={{ display: employeeRole === '1' ? 'block' : 'none' }}>
                         <Form.Item label="所属经理：">
                           {getFieldDecorator('supEmployeeId', {
                             // 管理员修改显示原本的employeeId,新建默认填自己的userId
@@ -248,7 +253,7 @@ class EmployeePage extends Component {
                             </Select>)}
                         </Form.Item>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}> 提交 </Button>
                   </Form>
                   :
@@ -261,20 +266,24 @@ class EmployeePage extends Component {
                     <p>电 话：{this.props.selectedEmployee.employeePhone}</p>
                     <p>邮 箱：{this.props.selectedEmployee.employeeEmail}</p>
 
-                    <Row type="flex" justify="space-around">
-                      <Col span={4}>
-                        <Button type="primary" onClick={this.openEditBoxToUpdate} style={{ float: 'right', marginTop: '20px' }}>
+                    <Row type="flex" justify="center"  style={{ marginTop: '20px' }}>
+                      <Col span={8}>
+                        <Button type="primary" onClick={this.handleRestPassWord}>
+                          重置密码
+                        </Button>
+                      </Col>
+                      <Col span={8}>
+                        <Button type="primary" onClick={this.openEditBoxToUpdate}>
                           修改
                         </Button>
                       </Col>
-
-                      <Col span={4}>
+                      <Col span={8}>
                         <Popconfirm
                           title={<span>确定删除员工<b>{this.props.selectedEmployee.employeeName}</b> ？</span>}
                           onConfirm={this.deleteEmployee}
                           icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                         >
-                          <Button type="primary" style={{ float: 'right', marginTop: '20px' }}>
+                          <Button type="primary">
                             删除
                           </Button>
                         </Popconfirm>

@@ -1,11 +1,12 @@
-import jwtDecode from 'jwt-decode';
 import * as cs from '../constants';
-import { message } from 'antd';
 import { formatClients, formatRecords, formatClientOrder, formatFirmOrder } from '../actions/base';
 const initialState = {
   isFetching: false,
+  newClientNum: null,
   newResourceNum: null,
   newResourceList: null,
+  newCompanyNum: null,
+  newCompanyList: null,
   recordClentsList: null,
   recordFirmsList: null,
   recordNum: null,
@@ -35,8 +36,11 @@ export default function salaryReducer(state = initialState, action) {
       });
     case cs.GET_GROSS_STATUS_SUCCESS:
       return Object.assign({}, state, {
-        newResourceNum: action.payload.data.newClientAmounts,
+        newResourceNum: action.payload.data.newResourceClientAmounts,
+        newCompanyNum: action.payload.data.newCompanyClientAmounts,
+        newClientNum: action.payload.data.newClientsAmounts,
         newResourceList: formatClients(action.payload.data.newClientsAmountsList),
+        newCompanyList: formatClients(action.payload.data.newCompanyClientsAmountsList),
 
         recordClentsList: formatRecords(action.payload.data.resourceFollowRecordAmountsList),
         recordFirmsList: formatRecords(action.payload.data.companyFollowRecordAmountsList),

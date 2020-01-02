@@ -119,3 +119,25 @@ export function deleteEmployee(params, callBack) {
     return action;
   };
 }
+
+
+export function restPassWord(params) {
+  return async (dispatch) => {
+    const action = await dispatch({
+      [CALL_API]: {
+        endpoint: '/crm/resetPasswordAdmin',
+        method: 'POST',
+        body: params,
+        mode: "cors",
+        header: {
+          'Content-Type': 'application/json',
+        },
+        types: [cs.RESET_PASSWORD_REQUEST, cs.RESET_PASSWORD_SUCCESS, cs.RESET_PASSWORD_FAIL],
+      },
+    });
+    if (action.type === cs.RESET_PASSWORD_SUCCESS) {
+      message.success("重置密码成功！")
+    }
+    return action;
+  };
+}

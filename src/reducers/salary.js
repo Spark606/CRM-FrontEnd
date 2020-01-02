@@ -1,5 +1,3 @@
-import jwtDecode from 'jwt-decode';
-
 import { formatEmployeesSalary, formatemployeeSalaryRegulation } from '../actions/base';
 import * as cs from '../constants';
 import { message } from 'antd';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col, Input, Divider } from 'antd';
+import { Modal, Form, Button, Timeline, TimePicker, DatePicker, Select, Row, Col, Input } from 'antd';
 const { TextArea } = Input;
 import moment from 'moment';
 import {hourFormat, yearFormat} from '../../constants';

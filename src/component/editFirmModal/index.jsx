@@ -35,7 +35,7 @@ class EditFirmModal extends Component {
       const seriesData = Object.assign({}, {
         companyName: values.firmName,
         companyCategory: values.category,
-        startDate: moment(values.createDate).format(yearAndHourFormat),
+        createDate: moment(values.createDate).format(yearAndHourFormat),
         expireDate: moment(values.expireDate).format(yearAndHourFormat),
         contactorName: values.contact,
         status: values.status,

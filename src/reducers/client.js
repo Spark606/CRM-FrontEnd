@@ -1,6 +1,5 @@
 import * as cs from '../constants';
 import { message } from 'antd';
-import _ from 'lodash';
 import { formatClients, formatRecords } from '../actions/base';
 
 

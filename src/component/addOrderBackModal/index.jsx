@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Progress, InputNumber, DatePicker, Select, Row, Col, Input, Divider, Tabs, Table } from 'antd';
+import { Modal, Form, Button, Progress, InputNumber, DatePicker, Row, Col, Input, Tabs, Table } from 'antd';
 const { TextArea } = Input;
 import moment from 'moment';
-import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
+import { yearFormat, yearAndHourFormat } from '../../constants';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getOrderBackList, getOrderBackDetail, addNewOrderBack } from '../../actions/order';

@@ -182,7 +182,7 @@ export function getCode(params, callBack) {
     }
     if (action.type === cs.GET_CODE_FAIL) {
       if (action.error.data) message.error(action.error.data.msg);
-      else message.error("验证码发送失败！")
+      else message.error(action.error.data.msg ? action.error.data.msg : "验证码发送失败！")
     }
     return action;
   };

@@ -181,6 +181,7 @@ class EditClientModal extends Component {
                       <Form.Item label="手机号：">
                         {getFieldDecorator('tel', {
                           initialValue: dataSource ? dataSource.tel : null,
+                          rules: [{ required: true, message: '请输入手机号。' }],
                         })(<Input style={{ maxWidth: 200 }} />)}
                       {/* })(<Input disabled style={{ maxWidth: 200 }} />)} */}
                       </Form.Item>
@@ -188,6 +189,7 @@ class EditClientModal extends Component {
                       <Form.Item label="手机号：">
                         {getFieldDecorator('tel', {
                           initialValue: dataSource ? dataSource.tel : null,
+                          rules: [{ required: true, message: '请输入手机号。' }],
                         })(<Input style={{ maxWidth: 200 }} />)}
                       </Form.Item>
                     }
