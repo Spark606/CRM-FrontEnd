@@ -228,6 +228,13 @@ export default class FirmsTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
+        width: 100,
+        title: 'QQ',
+        dataIndex: 'qq',
+        key: 'qq',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
         // width: 200,
         title: '备注',
         dataIndex: 'remark',
@@ -366,7 +373,7 @@ export default class FirmsTable extends Component {
             columns={columns}
             rowSelection={rowSelection}
             dataSource={firmsList}
-            scroll={{ x: 1800 }}
+            scroll={{ x: 1900 }}
             pagination={pagination}
           />
         </div>

@@ -210,6 +210,13 @@ export default class ClientsTable extends Component {
       },
       {
         width: 100,
+        title: 'QQ',
+        dataIndex: 'qq',
+        key: 'qq',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 100,
         title: '性别',
         dataIndex: 'gender',
         render: text => <span>{text === 1 ? '女' : '男'}</span>
@@ -326,7 +333,7 @@ export default class ClientsTable extends Component {
             rowSelection={rowSelection}
             columns={columns}
             dataSource={clientsList}
-            scroll={{ x: 1800 }}
+            scroll={{ x: 1900 }}
             pagination={pagination}
           />
         </div>
