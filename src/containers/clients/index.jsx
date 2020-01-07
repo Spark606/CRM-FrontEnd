@@ -63,7 +63,7 @@ export default class ClientsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if(this.state.user_role === "2"){
+    if (this.state.user_role === "2") {
       this.props.getEmployeeList();
     }
   }
@@ -225,7 +225,11 @@ export default class ClientsTable extends Component {
         dataIndex: 'clientName',
         key: 'clientName',
         fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: (text, record) => (<span>{record ?
+          <a onClick={() => this.handleEditClient(record)}>
+            {text}
+          </a>
+        : '--'}</span>),
         // ...this.getColumnSearchProps('clientName', '客户名称', 'resourceName'),
       },
       {
@@ -310,22 +314,15 @@ export default class ClientsTable extends Component {
         key: 'operation',
         fixed: 'right',
         render: (record) => <span>
-          <a onClick={() => this.handleEditClient(record)}>
-            <Button>修改</Button>
-          </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleCheckOneStatus(record)}>
-            {this.state.shareStatus === 2 ? <Button>转为公有资源</Button>: <Button>转为私有资源</Button>}
+            {this.state.shareStatus === 2 ? <Button>转为公有资源</Button> : <Button>转为私有资源</Button>}
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleAddRecord(record)}>
             <Button>跟进</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleAddOrder(record)}>
             <Button>新建订单</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handledeleteClient(record)}>
             <Button>删除</Button>
           </a>

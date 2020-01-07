@@ -160,7 +160,7 @@ export default class SalaryTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        width: 100,
+        width: 150,
         title: '省份',
         dataIndex: 'province',
         key: 'province',
@@ -215,7 +215,7 @@ export default class SalaryTable extends Component {
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
-        width: 100,
+        width: 150,
         title: '经办人',
         dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
@@ -230,7 +230,6 @@ export default class SalaryTable extends Component {
         key: 'firmName',
         fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
       },
       {
         width: 100,
@@ -267,7 +266,7 @@ export default class SalaryTable extends Component {
         }
       },
       {
-        width: 100,
+        width: 150,
         title: '省份',
         dataIndex: 'province',
         key: 'province',
@@ -279,7 +278,6 @@ export default class SalaryTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,
@@ -343,7 +341,7 @@ export default class SalaryTable extends Component {
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
-        width: 100,
+        width: 150,
         title: '经办人',
         dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
@@ -357,15 +355,15 @@ export default class SalaryTable extends Component {
         <TabPane tab="新增人才" key="1">
           <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={clientColumns}
-            scroll={{ x: 1500 }}
-            dataSource={this.props.newResourceList.length}
+            scroll={{ x: 1800 }}
+            dataSource={this.props.newResourceList}
             pagination={false}
           />
         </TabPane>
         <TabPane tab="新增企业" key="2">
           <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={firmColumns}
-            scroll={{ x: 1500 }}
+            scroll={{ x: 1800 }}
             dataSource={this.props.newCompanyList}
             pagination={false}
           />

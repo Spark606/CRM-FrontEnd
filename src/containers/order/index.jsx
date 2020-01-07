@@ -147,7 +147,6 @@ export default class OrderTable extends Component {
           <a onClick={() => this.handleAddOrderBack(record)}>
             <Button>添加回款记录</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handledeleteOrder(record)}>
             <Button>删除</Button>
           </a>
@@ -213,7 +212,6 @@ export default class OrderTable extends Component {
           <a onClick={() => this.handleAddOrderBack(record)}>
             <Button>添加回款记录</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handledeleteOrder(record)}>
             <Button>删除</Button>
           </a>

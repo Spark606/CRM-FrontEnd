@@ -257,7 +257,6 @@ handlePayBackWithWdraw = (record) => {
                 <a onClick={() => this.handleUpdateClientPass(record)}>
                   <Button>审批</Button>
                 </a>
-                <Divider type="vertical" />
                 <a onClick={() => this.handleUpdateClientSendBack(record)}>
                   <Button>退回</Button>
                 </a>
@@ -387,7 +386,6 @@ handlePayBackWithWdraw = (record) => {
                 <a onClick={() => this.handleDeleteClientPass(record)}>
                   <Button>审批</Button>
                 </a>
-                <Divider type="vertical" />
                 <a onClick={() => this.handleDeleteClientSendBack(record)}>
                   <Button>退回</Button>
                 </a>
@@ -523,7 +521,6 @@ handlePayBackWithWdraw = (record) => {
                 <a onClick={() => this.handleUpdateFirmPass(record)}>
                   <Button>审批</Button>
                 </a>
-                <Divider type="vertical" />
                 <a onClick={() => this.handleUpdateFirmSendBack(record)}>
                   <Button>退回</Button>
                 </a>
@@ -659,7 +656,6 @@ handlePayBackWithWdraw = (record) => {
                 <a onClick={() => this.handleDeleteFirmPass(record)}>
                   <Button>审批</Button>
                 </a>
-                <Divider type="vertical" />
                 <a onClick={() => this.handleDeleteFirmSendBack(record)}>
                   <Button>退回</Button>
                 </a>
@@ -730,7 +726,6 @@ handlePayBackWithWdraw = (record) => {
                 <a onClick={() => this.handlePayBackPass(record)}>
                   <Button>审批</Button>
                 </a>
-                <Divider type="vertical" />
                 <a onClick={() => this.handlePayBackSendBack(record)}>
                   <Button>退回</Button>
                 </a>

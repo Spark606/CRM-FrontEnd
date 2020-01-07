@@ -1,5 +1,5 @@
 import * as cs from '../constants';
-import { formatClients, formatRecords, formatClientOrder, formatFirmOrder } from '../actions/base';
+import { formatClients, formatRecords, formatClientOrder, formatFirmOrder, formatFirms } from '../actions/base';
 const initialState = {
   isFetching: false,
   newClientNum: null,
@@ -39,8 +39,8 @@ export default function salaryReducer(state = initialState, action) {
         newResourceNum: action.payload.data.newResourceClientAmounts,
         newCompanyNum: action.payload.data.newCompanyClientAmounts,
         newClientNum: action.payload.data.newClientsAmounts,
-        newResourceList: formatClients(action.payload.data.newClientsAmountsList),
-        newCompanyList: formatClients(action.payload.data.newCompanyClientsAmountsList),
+        newResourceList: formatClients(action.payload.data.newResourceClientsAmountsList),
+        newCompanyList: formatFirms(action.payload.data.newCompanyClientsAmountsList),
 
         recordClentsList: formatRecords(action.payload.data.resourceFollowRecordAmountsList),
         recordFirmsList: formatRecords(action.payload.data.companyFollowRecordAmountsList),

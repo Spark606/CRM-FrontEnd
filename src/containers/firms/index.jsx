@@ -223,7 +223,11 @@ export default class FirmsTable extends Component {
         dataIndex: 'firmName',
         key: 'firmName',
         fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: (text, record) => (<span>{record ? 
+          <a onClick={() => this.handleEditFirm(record)}>
+            {text}
+          </a>
+        : '--'}</span>),
         // ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
       },
       {
@@ -348,22 +352,15 @@ export default class FirmsTable extends Component {
         key: 'operation',
         fixed: 'right',
         render: (record) => <span>
-          <a onClick={() => this.handleEditFirm(record)}>
-            <Button>修改</Button>
-          </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleCheckOneStatus(record)}>
             {this.state.shareStatus === 2 ? <Button>转为公有资源</Button>: <Button>转为私有资源</Button>}
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleAddRecord(record)}>
             <Button>跟进</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handleAddOrder(record)}>
             <Button>新建订单</Button>
           </a>
-          <Divider type="vertical" />
           <a onClick={() => this.handledeleteFirm(record)}>
             <Button>删除</Button>
           </a>

@@ -60,7 +60,7 @@ module.exports = {
         // loader: ['file-loader', 'image-webpack-loader'],
         loader: 'file-loader',
         query: {
-          name: './static/[name].[hash:8].[ext]'
+          name: './[name].[hash:8].[ext]'
         }
       }
     ]

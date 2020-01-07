@@ -2,12 +2,9 @@
     text-align: center;
     padding-top: 200px;
     width: 100%;
-    background-image: url('../../assets/bg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     height: 100vh;
     overflow: hidden;
+    background: #c0c0c0;
     position: relative;
     &:before{
         display: inline-block;
