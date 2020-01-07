@@ -7,7 +7,7 @@ const initialState = {
   firmOrdersList: [],
   oneOrderBackList: [],
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 50,
   pageTotal: 1,
   orderBackDetail: {}
 };

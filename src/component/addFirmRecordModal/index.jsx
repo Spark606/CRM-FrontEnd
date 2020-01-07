@@ -38,6 +38,8 @@ class AddFirmRecordModal extends Component {
       editBox: false,
     });
     this.props.getFirms({
+      searchText: this.props.searchText,
+      searchType: this.props.searchType,
       shareStatus: this.props.shareStatus,
       page: this.props.currentPage,
       pageSize: this.props.pageSize,

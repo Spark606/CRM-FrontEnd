@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Divider, Select } from 'antd';
+import { Breadcrumb, Table, Input, Button, Icon, Select, Row, Col } from 'antd';
 const { Option } = Select;
+const { Search } = Input;
+const InputGroup = Input.Group;
+const ButtonGroup = Button.Group;
 import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
@@ -45,7 +48,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class FirmsTable extends Component {
   state = {
     searchText: '',
-    searchArr: [],
+    searchType: '1',
+    selectedRowKeys: [],
     visible: false,
     tempData: null,
     shareStatus: 2,
@@ -57,90 +61,16 @@ export default class FirmsTable extends Component {
   onInit = () => {
     this.props.getAllClients();
     this.props.getFirms({
-      searchText: this.state.searchArr,
+      searchType: this.state.searchType,
+      searchText: this.state.searchText,
       shareStatus: this.state.shareStatus,
       page: 1,
       pageSize: this.props.pageSize,
     });
-    if(this.state.user_role === "2"){
+    if (this.state.user_role === "2") {
       this.props.getEmployeeList();
     }
   }
-  // 表头查询
-  getColumnSearchProps = (dataIndex, title, key) => {
-    return ({
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={node => {
-              this.searchInput = node;
-            }}
-            placeholder={`搜索${title}`}
-            value={selectedKeys[0]}
-            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-            onPressEnter={() => this.handleSearch(selectedKeys, key, confirm)}
-            style={{ width: 188, marginBottom: 8, display: 'block' }}
-          />
-          <Button
-            type="primary"
-            onClick={() => this.handleSearch(selectedKeys, key, confirm)}
-            icon="search"
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-          >
-            查询
-        </Button>
-          <Button onClick={() => this.handleReset(clearFilters, key)} size="small" style={{ width: 90 }}>
-            重置
-        </Button>
-        </div>
-      ),
-      filterIcon: filtered => (
-        <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
-      ),
-      // onFilter: (value, record) => record[dataIndex]
-      //   .toString()
-      //   .toLowerCase()
-      //   .includes(value.toLowerCase()),
-      onFilterDropdownVisibleChange: visible => {
-        if (visible) {
-          setTimeout(() => this.searchInput.select());
-        }
-      },
-      render: text => {
-        if (text) {
-          return (<Highlighter
-            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-            searchWords={[this.state.searchText]}
-            autoEscape
-            textToHighlight={text.toString()}
-          />)
-        } else {
-          return null
-        }
-      },
-    })
-  };
-
-  handleSearch = (selectedKeys, key, confirm) => {
-    const temp = {
-      searchText: selectedKeys[0],
-      dataIndex: key,
-    };
-    this.setState({
-      searchArr: this.state.searchArr.length > 0 ? [...this.state.searchArr, temp] : [temp]
-    }, () => confirm());
-  };
-
-  handleReset = (clearFilters, key) => {
-    clearFilters();
-    const temp = this.state.searchArr.filter(item => item.dataIndex !== key);
-    this.setState({
-      searchArr: temp
-    });
-  };
-
-  // 表头查询end
 
   // 新建客户
   openAddModal = (e) => {
@@ -160,7 +90,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchArr);
+    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
   }
   // 删除客户end
 
@@ -185,7 +115,8 @@ export default class FirmsTable extends Component {
   }
   pageChange = (page, pageSize = this.props.pageSize) => {
     this.props.getFirms({
-      searchText: this.state.searchArr,
+      searchType: this.state.searchType,
+      searchText: this.state.searchText,
       shareStatus: this.state.shareStatus,
       page: page,
       pageSize: pageSize,
@@ -193,10 +124,12 @@ export default class FirmsTable extends Component {
   }
   handleCheckStatus = (e) => {
     this.setState({
-      shareStatus: e
+      shareStatus: e,
+      selectedRowKeys: []
     });
     this.props.getFirms({
-      searchText: this.state.searchArr,
+      searchText: this.state.searchText,
+      searchType: this.state.searchType,
       shareStatus: e,
       page: 1,
       pageSize: this.props.pageSize
@@ -204,12 +137,36 @@ export default class FirmsTable extends Component {
   }
   handleCheckOneStatus = (e) => {
     this.props.updateFirmShareStatus({
-      companyId: e.firmId,
-      shareStatus: e.shareStatus === 2 ? 1 : 2
-    }, this.state.shareStatus, this.props.pageSize, this.state.searchArr);
+      companyId: this.state.selectedRowKeys,
+      shareStatus: this.state.shareStatus === 2 ? 1 : 2
+    }, this.state.shareStatus, this.props.pageSize, this.state.searchText, this.state.searchType);
+  }
+
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
+  handleCheckSearchType = (e) => {
+    this.setState({ searchType: e });
+  }
+
+  handleMoreSearch = (value) => {
+    this.setState({ searchText: value });
+    this.props.getFirms({
+      searchText: value,
+      searchType: this.state.searchType,
+      shareStatus: this.state.shareStatus,
+      page: 1,
+      pageSize: this.props.pageSize
+    });
   }
   render() {
     const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -223,12 +180,11 @@ export default class FirmsTable extends Component {
         dataIndex: 'firmName',
         key: 'firmName',
         fixed: 'left',
-        render: (text, record) => (<span>{record ? 
+        render: (text, record) => (<span>{record ?
           <a onClick={() => this.handleEditFirm(record)}>
             {text}
           </a>
-        : '--'}</span>),
-        // ...this.getColumnSearchProps('firmName', '公司名称', 'companyName'),
+          : '--'}</span>),
       },
       {
         width: 100,
@@ -277,7 +233,6 @@ export default class FirmsTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark', '备注', 'info'),
       },
       {
         width: 100,
@@ -351,20 +306,10 @@ export default class FirmsTable extends Component {
         title: '操作',
         key: 'operation',
         fixed: 'right',
-        render: (record) => <span>
-          <a onClick={() => this.handleCheckOneStatus(record)}>
-            {this.state.shareStatus === 2 ? <Button>转为公有资源</Button>: <Button>转为私有资源</Button>}
-          </a>
-          <a onClick={() => this.handleAddRecord(record)}>
-            <Button>跟进</Button>
-          </a>
-          <a onClick={() => this.handleAddOrder(record)}>
-            <Button>新建订单</Button>
-          </a>
-          <a onClick={() => this.handledeleteFirm(record)}>
-            <Button>删除</Button>
-          </a>
-        </span>,
+        render: (record) => <ButtonGroup>
+          <Button onClick={() => this.handleAddRecord(record)}>跟进</Button>
+          <Button onClick={() => this.handleAddOrder(record)}>新建订单</Button>
+        </ButtonGroup>,
       },
     ];
 
@@ -376,6 +321,7 @@ export default class FirmsTable extends Component {
         <div className="addBtn">
           <UpLoadModal
             searchText={this.state.searchText}
+            searchType={this.state.searchType}
             shareStatus={this.state.shareStatus}
             pageSize={this.props.pageSize}
             getNewPage={this.props.getFirms}
@@ -383,12 +329,42 @@ export default class FirmsTable extends Component {
           <Button type="primary" onClick={this.openAddModal} style={{ marginLeft: 20 }}> 新建 </Button>
         </div>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Select defaultValue={this.state.shareStatus} style={{ width: 120 }} onChange={this.handleCheckStatus}>
-            <Option value={1}>公有资源</Option>
-            <Option value={2}>私有资源</Option>
-          </Select>
+          <Row>
+            <Col span={4}>
+              <Select defaultValue={this.state.shareStatus} style={{ width: 120 }} onChange={this.handleCheckStatus}>
+                <Option value={1}>公有资源</Option>
+                <Option value={2}>私有资源</Option>
+              </Select>
+            </Col>
+            <Col span={12}>
+              <InputGroup compact>
+                <span style={{ verticalAlign: 'middle' }}> 更多搜索：</span>
+                <Select defaultValue={this.state.searchType} style={{ width: 100 }} onChange={this.handleCheckSearchType}>
+                  <Option value="1">不限</Option>
+                  <Option value="2">手机号</Option>
+                  <Option value="3">客户名称</Option>
+                  <Option value="4">QQ</Option>
+                  <Option value="5">邮箱</Option>
+                  <Option value="6"> 备注</Option>
+                  <Option value="7"> 证书及专业</Option>
+                  <Option value="8"> 注册省份</Option>
+                </Select>
+                <Search style={{ maxWidth: 200 }} defaultValue={this.state.searchText} onSearch={e => this.handleMoreSearch(e)} enterButton />
+              </InputGroup>
+            </Col>
+            <Col span={8}>
+              <span style={{ verticalAlign: 'middle' }}> 操作：</span>
+              <ButtonGroup>
+                {this.state.shareStatus === 2 ?
+                  <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为公有资源</Button> :
+                  <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
+                <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteClient()}>删除</Button>
+              </ButtonGroup>
+            </Col>
+          </Row>
           <Table rowKey={record => record.firmId ? record.firmId : Math.random()}
             columns={columns}
+            rowSelection={rowSelection}
             dataSource={firmsList}
             scroll={{ x: 1800 }}
             pagination={pagination}
@@ -403,7 +379,8 @@ export default class FirmsTable extends Component {
           userName={this.props.userName}
           employeeList={this.props.employeeList}
           shareStatus={this.state.shareStatus}
-          searchArr={this.state.searchArr}
+          searchText={this.state.searchText}
+          searchType={this.state.searchType}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal
@@ -411,7 +388,8 @@ export default class FirmsTable extends Component {
           wrappedComponentRef={(form) => this.addFirmRecordModal = form}
           dataSource={this.state.tempData}
           shareStatus={this.state.shareStatus}
-          searchArr={this.state.searchArr}
+          searchText={this.state.searchText}
+          searchType={this.state.searchType}
         // ref="addFirmRecordModal"
         />
         {/* 新建订单模态框 */}

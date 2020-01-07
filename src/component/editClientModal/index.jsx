@@ -60,11 +60,13 @@ class EditClientModal extends Component {
             this.props.currentPage,
             this.props.pageSize,
             this.props.shareStatus,
-            this.props.searchArr,
-            (currentPage, pageSize, shareStatus, searchArr) => {
+            this.props.searchText,
+            this.props.searchType,
+            (currentPage, pageSize, shareStatus, searchText, searchType) => {
               this.handleCancel();
               this.props.getClients({
-                searchArr: searchArr,
+                searchText: searchText,
+                searchType: searchType,
                 shareStatus: shareStatus,
                 page: currentPage,
                 pageSize: pageSize,
@@ -79,11 +81,13 @@ class EditClientModal extends Component {
             1,
             this.props.pageSize,
             this.props.shareStatus,
-            [], // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
-            (currentPage, pageSize, shareStatus, searchArr) => {
+            '',
+            '1', // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
+            (currentPage, pageSize, shareStatus, searchText, searchType) => {
               this.handleCancel();
               this.props.getClients({
-                searchArr: searchArr,
+                searchText: searchText,
+                searchType: searchType,
                 shareStatus: shareStatus,
                 page: currentPage,
                 pageSize: pageSize,

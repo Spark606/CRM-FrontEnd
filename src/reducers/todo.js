@@ -18,7 +18,7 @@ const initialState = {
   deleteFirmsCurrentPage: 1,
   updateFirmsCurrentPage: 1,
   payBackCurrentPage:1,
-  pageSize: 10,
+  pageSize: 50,
   currentPage: 1,
   oneFirmRecord: [],
 };

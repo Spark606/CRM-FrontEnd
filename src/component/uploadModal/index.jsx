@@ -40,7 +40,8 @@ class UpLoadPage extends Component {
         </span>),
         onOk() {
           that.props.getNewPage({
-            searchText: that.props.searchArr,
+            searchText: that.props.searchText,
+            searchType: that.props.searchType,
             shareStatus: that.props.shareStatus,
             page: 1,
             pageSize: that.props.pageSize
@@ -62,7 +63,8 @@ class UpLoadPage extends Component {
         </span>),
         onOk() {
           that.props.getNewPage({
-            searchText: that.props.searchArr,
+            searchText: that.props.searchText,
+            searchType: that.props.searchType,
             shareStatus: that.props.shareStatus,
             page: 1,
             pageSize: that.props.pageSize

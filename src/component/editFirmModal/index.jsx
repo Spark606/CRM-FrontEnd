@@ -62,11 +62,13 @@ class EditFirmModal extends Component {
             this.props.currentPage,
             this.props.pageSize,
             this.props.shareStatus,
-            this.props.searchArr,
-            (currentPage, pageSize, shareStatus, searchArr) => {
+            this.props.searchText,
+            this.props.searchType,
+            (currentPage, pageSize, shareStatus, searchText, searchType) => {
             this.handleCancel();
             this.props.getFirms({
-              searchArr: searchArr,
+              searchText: searchText,
+              searchType: searchType,
               shareStatus: shareStatus,
               page: currentPage,
               pageSize: pageSize,
@@ -81,11 +83,13 @@ class EditFirmModal extends Component {
             1,
             this.props.pageSize,
             this.props.shareStatus,
-            [],
-            (currentPage, pageSize, shareStatus, searchArr) => {
+            '',
+            '1',
+            (currentPage, pageSize, shareStatus, searchText, searchType) => {
             this.handleCancel();
             this.props.getFirms({
-              searchArr: searchArr,
+              searchText: searchText,
+              searchType: searchType,
               shareStatus: shareStatus,
               page: currentPage,
               pageSize: pageSize,

@@ -9,7 +9,7 @@ const initialState = {
   currentPage: 1,
   oneFirmRecord: [],
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 50,
   pageTotal: 1
 };
 

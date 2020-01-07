@@ -4,11 +4,6 @@ import { message } from 'antd';
 
 // client page
 export function getClients(params) {
-  const tempParams = {
-    shareStatus: params.shareStatus,
-    page: params.page,
-    pageSize: params.pageSize,
-  }
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -16,7 +11,6 @@ export function getClients(params) {
         method: 'POST',
         mode: "cors",
         body: params,
-        body: tempParams,
         header: {
           'Content-Type': 'application/json',
         },
@@ -63,7 +57,7 @@ export function addNewClientRecord(params) {
     return action;
   };
 }
-export function addNewClient(params, currentPage, pageSize, shareStatus, searchArr, callBack) {
+export function addNewClient(params, currentPage, pageSize, shareStatus, searchText, searchType, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -79,12 +73,12 @@ export function addNewClient(params, currentPage, pageSize, shareStatus, searchA
       },
     });
     if (action.type === cs.ADD_NEW_CLIENT_SUCCESS) {
-      callBack(currentPage, pageSize, shareStatus, searchArr);
+      callBack(currentPage, pageSize, shareStatus, searchText, searchType);
     }
     return action;
   };
 }
-export function updateOneClient(params, currentPage, pageSize, shareStatus, searchArr, callBack) {
+export function updateOneClient(params, currentPage, pageSize, shareStatus, searchText, searchType, callBack) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -101,12 +95,12 @@ export function updateOneClient(params, currentPage, pageSize, shareStatus, sear
     });
 
     if (action.type === cs.UPDATE_ONE_CLIENT_SUCCESS) {
-      callBack(currentPage, pageSize, shareStatus, searchArr);
+      callBack(currentPage, pageSize, shareStatus, searchText, searchType);
     }
     return action;
   };
 }
-export function deleteClient(params, currentPage, pageSize, shareStatus, searchArr) {
+export function deleteClient(params, currentPage, pageSize, shareStatus, searchText, searchType) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -123,7 +117,8 @@ export function deleteClient(params, currentPage, pageSize, shareStatus, searchA
     });
     if (action.type === cs.DELETE_ONE_CLIENT_SUCCESS) {
       this.getClients({
-        searchArr: searchArr,
+        searchText: searchText,
+        searchType: searchType,
         shareStatus: shareStatus,
         page: currentPage,
         pageSize: pageSize,
@@ -169,7 +164,7 @@ export function addNewClientOrder(params) {
   };
 }
 
-export function updateClientShareStatus(params, shareStatus, pageSize, searchArr) {
+export function updateClientShareStatus(params, shareStatus, pageSize,  searchText, searchType) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -187,7 +182,8 @@ export function updateClientShareStatus(params, shareStatus, pageSize, searchArr
 
     if (action.type === cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS) {
       this.getClients({
-        searchArr: searchArr,
+        searchText: searchText,
+        searchType: searchType,
         shareStatus: shareStatus,
         page: 1,
         pageSize: pageSize,
