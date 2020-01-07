@@ -10,7 +10,9 @@ const initialState = {
   oneClientStatus: 1,
   currentPage: 1,
   pageSize: 50,
-  pageTotal: 1
+  pageTotal: 1,
+  clientOrdersList: [],
+  oneOrderBackList: [],
 };
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
@@ -45,24 +47,24 @@ export default function clientReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
-      
 
 
-      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_REQUEST:
-        return Object.assign({}, state, {
-          isFetching: true
-        });
-      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS:
-        message.success('修改资源状态成功！');
-        return Object.assign({}, state, {
-          isFetching: false,
-        });
-      case cs.UPDATE_ONE_CLIENT_SHARESTATUS_FAIL:
-        message.error('修改资源状态失败！');
-        return Object.assign({}, state, {
-          isFetching: false,
-        });
-  
+
+    case cs.UPDATE_ONE_CLIENT_SHARESTATUS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.UPDATE_ONE_CLIENT_SHARESTATUS_SUCCESS:
+      message.success('修改资源状态成功！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+    case cs.UPDATE_ONE_CLIENT_SHARESTATUS_FAIL:
+      message.error('修改资源状态失败！');
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
 
 
 
@@ -93,7 +95,7 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.ADD_NEW_CLIENT_FAIL:
-      if(action.error.code === 88){
+      if (action.error.code === 88) {
         message.error(action.error.msg);
       } else {
         message.error('新建个人客户失败！');
@@ -125,7 +127,7 @@ export default function clientReducer(state = initialState, action) {
         clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
-      if(action.error.code === 88){
+      if (action.error.code === 88) {
         message.error(action.error.msg);
       } else {
         message.error('修改个人客户失败！');
@@ -166,7 +168,7 @@ export default function clientReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
-      
+
     case cs.ADD_NEW_CLIENT_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -182,18 +184,33 @@ export default function clientReducer(state = initialState, action) {
         isFetching: false,
       });
 
-    // case cs.GET_CLIENTS_REQUEST:
-    //     return Object.assign({}, state, {
-    //         isFetching: true
-    //     });
-    // case cs.GET_CLIENTS_SUCCESS:
-    //     return Object.assign({}, state, {
-    //         isFetching: false,
-    //     });
-    // case cs.GET_CLIENTS_FAIL:
-    //     return Object.assign({}, state, {
-    //         isFetching: false,
-    //     });
+    case cs.GET_CLIENT_ORDERBACK_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_CLIENT_ORDERBACK_SUCCESS:
+      return Object.assign({}, state, {
+        oneOrderBackList: action.payload.data,
+        isFetching: false,
+      });
+    case cs.GET_CLIENT_ORDERBACK_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
+
+    case cs.GET_CLIENT_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case cs.GET_CLIENT_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        clientOrdersList: action.payload.data,
+        isFetching: false,
+      });
+    case cs.GET_CLIENT_ORDER_FAIL:
+      return Object.assign({}, state, {
+        isFetching: false,
+      });
     default:
       return state;
   }

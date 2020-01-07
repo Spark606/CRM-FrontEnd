@@ -78,7 +78,7 @@ class CheckPage extends Component {
           <Option value={0}>待审核</Option>
           <Option value={1}>已审核</Option>
         </Select>
-        <Table rowKey={record => record.id}
+        <Table size="small" rowKey={record => record.id}
           columns={this.props.columns}
           dataSource={this.props.dataSource}
           scroll={{ x: 1800 }}

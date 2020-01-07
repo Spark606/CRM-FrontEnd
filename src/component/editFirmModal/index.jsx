@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   pageSize: state.firm.pageSize,
   currentPage: state.firm.currentPage,
+  firmOrdersList: state.firm.firmOrdersList,
+  oneOrderBackList: state.firm.oneOrderBackList,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -409,7 +411,7 @@ class EditFirmModal extends Component {
                 </div>
               </TabPane>
               <TabPane tab="历史成交" key="2">
-                <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+                <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
                   columns={firmOrderColumns}
                   dataSource={firmOrdersList}
                   scroll={{ y: 300 }}
@@ -417,7 +419,7 @@ class EditFirmModal extends Component {
                 />
               </TabPane>
               <TabPane tab="回款记录" key="3">
-                <Table rowKey={record => record.id ? record.id : Math.random()}
+                <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
                   columns={orderBackcolumns}
                   dataSource={oneOrderBackList}
                   scroll={{ y: 300 }}

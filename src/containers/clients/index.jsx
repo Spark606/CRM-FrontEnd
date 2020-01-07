@@ -15,7 +15,7 @@ import WrapAddNewClientModal from '../../component/addNewClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
 import UpLoadModal from '../../component/uploadModal';
-import { getClients, getClientRecordsList, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus } from '../../actions/client';
+import { getClients, getClientRecordsList, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus, getClientOrder, getClientOrderBack } from '../../actions/client';
 import { getAllFirms } from '../../actions/firm';
 import { getEmployeeList } from '../../actions/api';
 import './style.scss';
@@ -40,7 +40,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getAllFirms,
     addNewClientOrder,
     getEmployeeList,
-    updateClientShareStatus
+    updateClientShareStatus,
+    getClientOrder,
+    getClientOrderBack 
   },
   dispatch
 );
@@ -87,6 +89,16 @@ export default class ClientsTable extends Component {
   handleEditClient = (record) => {
     this.setState({
       tempData: record
+    });
+    this.props.getClientOrder({
+      resourceId: record.clientId,
+      page: 1,
+      pageSize: 1000
+    });
+    this.props.getClientOrderBack({
+      resourceId: record.clientId,
+      page: 1,
+      pageSize: 1000
     });
     this.formEditClientModal.showModal();
   }
@@ -331,7 +343,7 @@ export default class ClientsTable extends Component {
               </ButtonGroup>
             </Col>
           </Row>
-          <Table rowKey={record => record.clientId}
+          <Table size="small" rowKey={record => record.clientId}
             rowSelection={rowSelection}
             columns={columns}
             dataSource={clientsList}

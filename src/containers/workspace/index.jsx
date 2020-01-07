@@ -353,7 +353,7 @@ export default class SalaryTable extends Component {
       width: "80%",
       content: <Tabs defaultActiveKey="1">
         <TabPane tab="新增人才" key="1">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={clientColumns}
             scroll={{ x: 1800 }}
             dataSource={this.props.newResourceList}
@@ -361,7 +361,7 @@ export default class SalaryTable extends Component {
           />
         </TabPane>
         <TabPane tab="新增企业" key="2">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={firmColumns}
             scroll={{ x: 1800 }}
             dataSource={this.props.newCompanyList}
@@ -504,14 +504,14 @@ export default class SalaryTable extends Component {
       width: "80%",
       content: <Tabs defaultActiveKey="1">
         <TabPane tab="人才订单" key="1">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={clientOrderColumns}
             dataSource={this.props.orderPayClientsList}
             pagination={false}
           />
         </TabPane>
         <TabPane tab="企业订单" key="2">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={firmOrderColumns}
             dataSource={this.props.orderPayFirmsList}
             pagination={false}
@@ -625,14 +625,14 @@ export default class SalaryTable extends Component {
       width: "80%",
       content: <Tabs defaultActiveKey="1">
         <TabPane tab="人才订单" key="1">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={clientOrderColumns}
             dataSource={this.props.orderClientsList}
             pagination={false}
           />
         </TabPane>
         <TabPane tab="企业订单" key="2">
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={firmOrderColumns}
             dataSource={this.props.orderFirmsList}
             pagination={false}
@@ -673,7 +673,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content: (<div>
-        <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
           dataSource={this.props.payBackSumList}
           pagination={false}
@@ -715,7 +715,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content: (<div>
-        <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
           dataSource={this.props.ownPayList}
           pagination={false}

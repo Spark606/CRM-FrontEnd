@@ -63,17 +63,22 @@ class AddOrderBackModal extends Component {
   }
   handleEditBox = (e) => {
     e.preventDefault();
+    const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const data = Object.assign({}, {
-        createDate: moment(values.recordTimeDay).format(yearAndHourFormat),
-        recordDate: moment().format(yearFormat),
-        businessId: this.props.dataSource.orderId,
-        employeeId: this.props.user_Id,
-        laterBackPay: values.laterBackPay,
-        info: values.remark,
-        businessType: this.props.orderType
-      });
-      this.props.addNewOrderBack(data, this.props.form.resetFields);
+      if (!err) {
+        const data = Object.assign({}, {
+          createDate: moment(values.recordTimeDay).format(yearAndHourFormat),
+          recordDate: moment().format(yearFormat),
+          businessId: this.props.dataSource.orderId,
+          employeeId: this.props.user_Id,
+          laterBackPay: values.laterBackPay,
+          info: values.remark,
+          businessType: this.props.orderType,
+          resourceId: dataSource.clientId,
+          companyId: dataSource.firmId
+        });
+        this.props.addNewOrderBack(data, this.props.form.resetFields);
+      }
     });
   }
   render() {
@@ -133,24 +138,24 @@ class AddOrderBackModal extends Component {
             <TabPane tab="回款详情" key="1">
               <div className="orderDetilBox">
                 <Row>
-                  <Col span={12}>订单编号：{orderBackDetail.businessId === null? '--' : orderBackDetail.businessId}</Col>
-                  <Col span={12}>成交总额：{orderBackDetail.orderPaySum === null? '--' : orderBackDetail.orderPaySum}</Col>
+                  <Col span={12}>订单编号：{orderBackDetail.businessId === null ? '--' : orderBackDetail.businessId}</Col>
+                  <Col span={12}>成交总额：{orderBackDetail.orderPaySum === null ? '--' : orderBackDetail.orderPaySum}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>欠款金额：{orderBackDetail.owePay === null? '--' : orderBackDetail.owePay}</Col>
-                  <Col span={12}>回款金额：{orderBackDetail.backPay === null? '--' : orderBackDetail.backPay}</Col>
+                  <Col span={12}>欠款金额：{orderBackDetail.owePay === null ? '--' : orderBackDetail.owePay}</Col>
+                  <Col span={12}>回款金额：{orderBackDetail.backPay === null ? '--' : orderBackDetail.backPay}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>最后回款金额：{orderBackDetail.backPay === null? '--' : orderBackDetail.laterBackPay}</Col>
-                  <Col span={12}>最后回款时间：{orderBackDetail.createDate === null? '--' : orderBackDetail.laterBackDate}</Col>
+                  <Col span={12}>最后回款金额：{orderBackDetail.backPay === null ? '--' : orderBackDetail.laterBackPay}</Col>
+                  <Col span={12}>最后回款时间：{orderBackDetail.createDate === null ? '--' : orderBackDetail.laterBackDate}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>回款次数：{orderBackDetail.backTimes === null? '--' : orderBackDetail.backTimes}</Col>
-                  <Col span={12}>录入时间：{orderBackDetail.recordDate === null? '--' : orderBackDetail.recordDate}</Col>
+                  <Col span={12}>回款次数：{orderBackDetail.backTimes === null ? '--' : orderBackDetail.backTimes}</Col>
+                  <Col span={12}>录入时间：{orderBackDetail.recordDate === null ? '--' : orderBackDetail.recordDate}</Col>
                 </Row>
                 <Row>
-                  <Col span={12}>修改时间：{orderBackDetail.recordDate === null? '--' : orderBackDetail.recordDate}</Col>
-                  <Col span={12}>最后成交时间：{orderBackDetail.createDate === null? '--' : orderBackDetail.createDate}</Col>
+                  <Col span={12}>修改时间：{orderBackDetail.recordDate === null ? '--' : orderBackDetail.recordDate}</Col>
+                  <Col span={12}>最后成交时间：{orderBackDetail.createDate === null ? '--' : orderBackDetail.createDate}</Col>
                 </Row>
                 <Row>
                   <Col span={24} >回款进度：
@@ -160,14 +165,14 @@ class AddOrderBackModal extends Component {
                         '100%': '#87d068',
                       }}
                       percent={orderBackDetail.progressRatio * 100}
-                      style={{margiTop: 20}}
+                      style={{ margiTop: 20 }}
                     />
                   </Col>
                 </Row>
               </div>
             </TabPane>
             <TabPane tab="回款记录" key="2">
-              <Table rowKey={record => record.id ? record.id : Math.random()}
+              <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
                 columns={columns}
                 dataSource={oneOrderBackList}
                 scroll={{ y: 300 }}

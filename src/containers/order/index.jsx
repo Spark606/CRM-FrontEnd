@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Select, Button,  Divider } from 'antd';
+import { Breadcrumb, Table, Select, Button } from 'antd';
+const ButtonGroup = Button.Group;
 const { Option } = Select;
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
@@ -98,7 +99,6 @@ export default class OrderTable extends Component {
         dataIndex: 'clientName',
         key: 'clientName',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('clientName'),
       },
       {
         width: 200,
@@ -106,7 +106,6 @@ export default class OrderTable extends Component {
         dataIndex: 'firmName',
         key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('firmName'),
       },
       {
         width: 100,
@@ -114,7 +113,6 @@ export default class OrderTable extends Component {
         dataIndex: 'orderPaySum',
         key: 'orderPaySum',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('orderPaySum'),
       },
       {
         // width: 200,
@@ -122,7 +120,6 @@ export default class OrderTable extends Component {
         dataIndex: 'remark',
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
-        // ...this.getColumnSearchProps('remark'),
       },
       {
         width: 150,
@@ -140,17 +137,13 @@ export default class OrderTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        width: 150,
+        width: 200,
         title: '操作',
         key: 'operation',
-        render: (record) => <span>
-          <a onClick={() => this.handleAddOrderBack(record)}>
-            <Button>添加回款记录</Button>
-          </a>
-          <a onClick={() => this.handledeleteOrder(record)}>
-            <Button>删除</Button>
-          </a>
-        </span>,
+        render: (record) => <ButtonGroup>
+            <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
+            <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
+          </ButtonGroup>,
       },
     ];
 
@@ -205,17 +198,13 @@ export default class OrderTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        width: 150,
+        width: 200,
         title: '操作',
         key: 'operation',
-        render: (record) => <span>
-          <a onClick={() => this.handleAddOrderBack(record)}>
-            <Button>添加回款记录</Button>
-          </a>
-          <a onClick={() => this.handledeleteOrder(record)}>
-            <Button>删除</Button>
-          </a>
-        </span>,
+        render: (record) =><ButtonGroup>
+            <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
+            <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
+          </ButtonGroup>,
       },
     ];
 
@@ -230,7 +219,7 @@ export default class OrderTable extends Component {
             <Option value={1}>个人客户订单</Option>
             <Option value={2}>企业客户订单</Option>
           </Select>
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
             dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
             pagination={pagination}

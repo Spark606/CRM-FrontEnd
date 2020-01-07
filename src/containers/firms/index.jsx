@@ -15,7 +15,7 @@ import WrapAddNewFirmModal from '../../component/addNewFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
 import UpLoadModal from '../../component/uploadModal';
-import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus } from '../../actions/firm';
+import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus, getFirmOrder, getFirmOrderBack } from '../../actions/firm';
 import { getAllClients } from '../../actions/client';
 import { getEmployeeList } from '../../actions/api';
 import './style.scss';
@@ -40,7 +40,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getAllClients,
     addNewFirmOrder,
     getEmployeeList,
-    updateFirmShareStatus
+    updateFirmShareStatus, 
+    getFirmOrder, 
+    getFirmOrderBack
   },
   dispatch
 );
@@ -85,6 +87,16 @@ export default class FirmsTable extends Component {
   handleEditFirm = (record) => {
     this.setState({
       tempData: record
+    });
+    this.props.getFirmOrder({
+      companyId: record.firmId,
+      page: 1,
+      pageSize: 1000
+    });
+    this.props.getFirmOrderBack({
+      companyId: record.firmId,
+      page: 1,
+      pageSize: 1000
     });
     this.formEditFirmModal.showModal();
   }
@@ -370,7 +382,7 @@ export default class FirmsTable extends Component {
               </ButtonGroup>
             </Col>
           </Row>
-          <Table rowKey={record => record.firmId ? record.firmId : Math.random()}
+          <Table size="small" rowKey={record => record.firmId ? record.firmId : Math.random()}
             columns={columns}
             rowSelection={rowSelection}
             dataSource={firmsList}
@@ -390,7 +402,7 @@ export default class FirmsTable extends Component {
           searchText={this.state.searchText}
           searchType={this.state.searchType}
         />
-        <WrapAddNewFirmModal 
+        <WrapAddNewFirmModal
           wrappedComponentRef={(form) => this.formAddNewFirmModal = form}
           userRole={this.props.userRole}
           userId={this.props.userId}

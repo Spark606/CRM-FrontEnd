@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   user_name: state.sessions.user_name
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
-  { },
+  {},
   dispatch
 );
 @connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })
@@ -28,20 +28,22 @@ class AddClientOrderModal extends Component {
     e.preventDefault();
     const { dataSource } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const seriesData = Object.assign({}, {
-        resourceId: dataSource.clientId,
-        info: values.remark,
-        createDate: moment(values.dealDate).format(yearAndHourFormat),
-        employeeId: this.props.user_Id,
-        companyId: values.dealFirmName,
-        orderPaySum: values.orderPaySum
-      });
-      this.props.addNewClientOrder(seriesData);
-    });
-    this.props.form.resetFields();
-    // 提交成功，关闭模态框
-    this.setState({
-      visible: false,
+      if (!err) {
+        const seriesData = Object.assign({}, {
+          resourceId: dataSource.clientId,
+          info: values.remark,
+          createDate: moment(values.dealDate).format(yearAndHourFormat),
+          employeeId: this.props.user_Id,
+          companyId: values.dealFirmName,
+          orderPaySum: values.orderPaySum
+        });
+        this.props.addNewClientOrder(seriesData);
+        this.props.form.resetFields();
+        // 提交成功，关闭模态框
+        this.setState({
+          visible: false,
+        });
+      }
     });
   };
 
@@ -112,17 +114,19 @@ class AddClientOrderModal extends Component {
                     <Form.Item label="成交总额：">
                       {getFieldDecorator('orderPaySum', {
                         initialValue: dataSource ? dataSource.orderPaySum : null,
+                        rules: [{ required: true, message: '请输入成交总额。' }],
                       })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="成交企业：">
                       {getFieldDecorator('dealFirmName', {
+                        rules: [{ required: true, message: '请选择成交公司。' }],
                       })(
-                        <Select style={{ width: 200 }}  placeholder="请选择成交公司">
+                        <Select style={{ width: 200 }} placeholder="请选择成交公司">
                           {allFirmsList ? allFirmsList.map((item) =>
-                              <Option key={item.companyId}>{item.companyName}</Option>
-                            )
+                            <Option key={item.companyId}>{item.companyName}</Option>
+                          )
                             : null
                           }
                         </Select>

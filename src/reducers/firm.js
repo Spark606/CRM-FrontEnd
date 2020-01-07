@@ -10,7 +10,9 @@ const initialState = {
   oneFirmRecord: [],
   currentPage: 1,
   pageSize: 50,
-  pageTotal: 1
+  pageTotal: 1,
+  firmOrdersList: [],
+  oneOrderBackList: [],
 };
 
 export default function firmReducer(state = initialState, action) {
@@ -170,6 +172,34 @@ export default function firmReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+
+      case cs.GET_FIRM_ORDERBACK_REQUEST:
+        return Object.assign({}, state, {
+          isFetching: true
+        });
+      case cs.GET_FIRM_ORDERBACK_SUCCESS:
+        return Object.assign({}, state, {
+          oneOrderBackList: action.payload.data,
+          isFetching: false,
+        });
+      case cs.GET_FIRM_ORDERBACK_FAIL:
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+  
+      case cs.GET_FIRM_ORDER_REQUEST:
+        return Object.assign({}, state, {
+          isFetching: true
+        });
+      case cs.GET_FIRM_ORDER_SUCCESS:
+        return Object.assign({}, state, {
+          firmOrdersList: action.payload.data,
+          isFetching: false,
+        });
+      case cs.GET_FIRM_ORDER_FAIL:
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
     // case cs.GET_FIRMS_REQUEST:
     //     return Object.assign({}, state, {
     //         isFetching: true

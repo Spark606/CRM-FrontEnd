@@ -129,7 +129,7 @@ export default class SalaryTable extends Component {
           <MonthPicker defaultValue={this.state.searchMonth} 
             format={"YYYY-MM"}
             onChange={this.handleRangeChange}/>
-          <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={columns}
             dataSource={employeesSalaryList}
             pagination={pagination}

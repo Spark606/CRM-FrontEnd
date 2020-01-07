@@ -12,11 +12,13 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
   pageSize: state.client.pageSize,
   currentPage: state.client.currentPage,
+  clientOrdersList: state.client.clientOrdersList,
+  oneOrderBackList: state.client.oneOrderBackList,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     updateOneClient,
-    getClients
+    getClients,
   },
   dispatch
 );
@@ -29,6 +31,7 @@ class EditClientModal extends Component {
     genders: 1,
     activeTab: '1'
   };
+
   handleSubmit = e => {
     e.preventDefault();
     const { dataSource } = this.props;
@@ -377,7 +380,7 @@ class EditClientModal extends Component {
                 </div>
               </TabPane>
               <TabPane tab="历史成交" key="2">
-                <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+                <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
                   columns={clientOrderColumns}
                   dataSource={clientOrdersList}
                   scroll={{ y: 300 }}
@@ -385,7 +388,7 @@ class EditClientModal extends Component {
                 />
               </TabPane>
               <TabPane tab="回款记录" key="3">
-                <Table rowKey={record => record.id ? record.id : Math.random()}
+                <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
                   columns={orderBackcolumns}
                   dataSource={oneOrderBackList}
                   scroll={{ y: 300 }}
