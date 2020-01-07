@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { hourFormat, yearFormat, yearAndHourFormat } from '../../constants';
-import { Modal, Form, Input, Row, Col, Checkbox, Button, Tabs, DatePicker, Radio, Select } from 'antd';
+import { Modal, Form, Input, Row, Col, Checkbox, Button, Tabs, DatePicker, Radio, Select, Table } from 'antd';
 const { Option } = Select;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
@@ -103,7 +103,102 @@ class EditFirmModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataSource, userRole, employeeList } = this.props;
+    const { dataSource, userRole, employeeList, firmOrdersList, oneOrderBackList} = this.props;
+    
+    const firmOrderColumns = [{
+        width: 150,
+        title: '订单编号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>
+      },
+      {
+        width: 120,
+        title: '客户名称',
+        dataIndex: 'clientLists',
+        key: 'clientLists',
+        render: text => {
+          if (text) {
+            const temp = text.map(e => {
+              return <Button>{e.resourceName}</Button>
+            });
+            return temp;
+          } else {
+            return '--'
+          }
+        },
+      },
+      {
+        width: 100,
+        title: '成交总额',
+        dataIndex: 'orderPaySum',
+        key: 'orderPaySum',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '成交时间',
+        dataIndex: 'createDate',
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '经办人',
+        dataIndex: 'employeeName',
+        render: text => <span>{text ? text : '--'}</span>,
+      }
+    ];
+    const orderBackcolumns =[{
+      width: 150,
+      title: '订单编号',
+      dataIndex: 'orderId',
+      key: 'orderId',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 150,
+      title: '回款时间',
+      dataIndex: 'laterBackDate',
+      key: 'laterBackDate',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 140,
+      title: '回款金额（元）',
+      dataIndex: 'laterBackPay',
+      key: 'laterBackPay',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 180,
+      title: '备注',
+      dataIndex: 'info',
+      key: 'info',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 120,
+      title: '录入人',
+      dataIndex: 'employeeName',
+      key: 'employeeName',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 150,
+      title: '录入时间',
+      dataIndex: 'recordDate',
+      key: 'recordDate',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>,
+    }
+    ];
     return (
       <div>
         <Modal
@@ -314,10 +409,20 @@ class EditFirmModal extends Component {
                 </div>
               </TabPane>
               <TabPane tab="历史成交" key="2">
-                历史成交
+                <Table rowKey={record => record.orderId ? record.orderId : Math.random()}
+                  columns={firmOrderColumns}
+                  dataSource={firmOrdersList}
+                  scroll={{ y: 300 }}
+                  pagination={false}
+                />
               </TabPane>
               <TabPane tab="回款记录" key="3">
-                回款记录
+                <Table rowKey={record => record.id ? record.id : Math.random()}
+                  columns={orderBackcolumns}
+                  dataSource={oneOrderBackList}
+                  scroll={{ y: 300 }}
+                  pagination={false}
+                />
               </TabPane>
             </Tabs>
           </div>
