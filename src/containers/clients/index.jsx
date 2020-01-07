@@ -11,6 +11,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapEditClientModal from '../../component/editClientModal';
+import WrapAddNewClientModal from '../../component/addNewClientModal';
 import AddClientRecordModal from '../../component/addClientRecordModal';
 import AddClientOrderModal from '../../component/addClientOrderModal';
 import UpLoadModal from '../../component/uploadModal';
@@ -75,10 +76,11 @@ export default class ClientsTable extends Component {
 
   // 新建客户
   openAddModal = (e) => {
+    console.log('open');
     this.setState({
       tempData: null
     });
-    this.formEditClientModal.showModal();
+    this.formAddNewClientModal.showModal();
   };
   // 新建客户end
   // 修改客户
@@ -337,7 +339,7 @@ export default class ClientsTable extends Component {
             pagination={pagination}
           />
         </div>
-        {/* 新建客户模态框 */}
+        {/* 客户信息模态框 */}
         <WrapEditClientModal
           wrappedComponentRef={(form) => this.formEditClientModal = form}
           dataSource={this.state.tempData}
@@ -348,6 +350,13 @@ export default class ClientsTable extends Component {
           shareStatus={this.state.shareStatus}
           searchText={this.state.searchText}
           searchType={this.state.searchType}
+        />
+        <WrapAddNewClientModal 
+          wrappedComponentRef={(form) => this.formAddNewClientModal = form}
+          userRole={this.props.userRole}
+          userId={this.props.userId}
+          userName={this.props.userName}
+          employeeList={this.props.employeeList}
         />
         {/* 新建跟进记录模态框 */}
         <AddClientRecordModal

@@ -11,6 +11,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
+import WrapAddNewFirmModal from '../../component/addNewFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
 import UpLoadModal from '../../component/uploadModal';
@@ -77,7 +78,7 @@ export default class FirmsTable extends Component {
     this.setState({
       tempData: null
     });
-    this.formEditFirmModal.showModal();
+    this.formAddNewFirmModal.showModal();
   };
   // 新建客户end
   // 修改客户
@@ -377,7 +378,7 @@ export default class FirmsTable extends Component {
             pagination={pagination}
           />
         </div>
-        {/* 新建客户模态框 */}
+        {/* 客户信息模态框 */}
         <WrapEditFirmModal
           wrappedComponentRef={(form) => this.formEditFirmModal = form}
           dataSource={this.state.tempData}
@@ -388,6 +389,13 @@ export default class FirmsTable extends Component {
           shareStatus={this.state.shareStatus}
           searchText={this.state.searchText}
           searchType={this.state.searchType}
+        />
+        <WrapAddNewFirmModal 
+          wrappedComponentRef={(form) => this.formAddNewFirmModal = form}
+          userRole={this.props.userRole}
+          userId={this.props.userId}
+          userName={this.props.userName}
+          employeeList={this.props.employeeList}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal
