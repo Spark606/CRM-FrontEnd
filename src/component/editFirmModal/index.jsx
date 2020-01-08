@@ -161,8 +161,8 @@ class EditFirmModal extends Component {
     const orderBackcolumns =[{
       width: 150,
       title: '订单编号',
-      dataIndex: 'orderId',
-      key: 'orderId',
+      dataIndex: 'businessId',
+      key: 'businessId',
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {

@@ -155,22 +155,22 @@ export default class OrderTable extends Component {
         key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 120,
-        title: '客户名称',
-        dataIndex: 'clientLists',
-        key: 'clientLists',
-        render: text => {
-          if (text) {
-            const temp = text.map(e => {
-              return <Button>{e.resourceName}</Button>
-            });
-            return temp;
-          } else {
-            return '--'
-          }
-        },
-      },
+      // {
+      //   width: 120,
+      //   title: '客户名称',
+      //   dataIndex: 'clientLists',
+      //   key: 'clientLists',
+      //   render: text => {
+      //     if (text) {
+      //       const temp = text.map(e => {
+      //         return <Button>{e.resourceName}</Button>
+      //       });
+      //       return temp;
+      //     } else {
+      //       return '--'
+      //     }
+      //   },
+      // },
       {
         width: 100,
         title: '成交总额',

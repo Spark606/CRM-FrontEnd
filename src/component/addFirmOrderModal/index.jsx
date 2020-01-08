@@ -29,7 +29,7 @@ class AddFirmOrderModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
         const seriesData = Object.assign({}, {
-          resourceId: values.dealClientsName,
+          resourceId: values.dealClientsName ? [] : [],
           info: values.remark,
           createDate: moment(values.dealDate).format(yearAndHourFormat),
           employeeId: this.props.user_Id,
@@ -117,7 +117,7 @@ class AddFirmOrderModal extends Component {
                       })(<InputNumber min={1} style={{ maxWidth: 200 }} />)}  元
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
+                  {/* <Col span={12}>
                     <Form.Item label="成交个人客户：">
                       {getFieldDecorator('dealClientsName', {
                       })(
@@ -135,7 +135,7 @@ class AddFirmOrderModal extends Component {
                         </Select>
                       )}
                     </Form.Item>
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row style={{ marginTop: 20 }}>
                   <Form.Item label="备注：">

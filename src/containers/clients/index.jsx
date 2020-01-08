@@ -51,7 +51,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class ClientsTable extends Component {
   state = {
     searchText: '',
-    searchType: '1',
+    searchType: 'all',
     selectedRowKeys: [],
     visible: false,
     tempData: null,
@@ -321,14 +321,14 @@ export default class ClientsTable extends Component {
               <InputGroup compact>
                 <span style={{ verticalAlign: 'middle' }}> 更多搜索：</span>
                 <Select defaultValue={this.state.searchType} style={{ width: 100 }} onChange={this.handleCheckSearchType}>
-                  <Option value="1">不限</Option>
-                  <Option value="2">手机号</Option>
-                  <Option value="3">客户名称</Option>
-                  <Option value="4">QQ</Option>
-                  <Option value="5">邮箱</Option>
-                  <Option value="6"> 备注</Option>
-                  <Option value="7"> 证书及专业</Option>
-                  <Option value="8"> 注册省份</Option>
+                  <Option value="all">不限</Option>
+                  <Option value="phoneNumber">手机号</Option>
+                  <Option value="resourceName">客户名称</Option>
+                  <Option value="qq">QQ</Option>
+                  <Option value="email">邮箱</Option>
+                  <Option value="info"> 备注</Option>
+                  <Option value="certificate"> 证书及专业</Option>
+                  <Option value="province"> 注册省份</Option>
                 </Select>
                 <Search style={{ maxWidth: 200 }} defaultValue={this.state.searchText} onSearch={e => this.handleMoreSearch(e)} enterButton />
               </InputGroup>

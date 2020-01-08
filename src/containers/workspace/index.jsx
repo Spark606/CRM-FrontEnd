@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
   user_role: state.sessions.user_role,
   user_Id: state.sessions.user_Id,
   employeeList: state.sessions.employeeList,
-  newClientNum: state.workspace.newClientNum,
+  newCompanyNum: state.workspace.newCompanyNum,
+  newResourceNum: state.workspace.newResourceNum,
   newResourceList: state.workspace.newResourceList,
   newCompanyList: state.workspace.newCompanyList,
 
@@ -136,7 +137,7 @@ export default class SalaryTable extends Component {
       employeeId: value
     });
   }
-  handleGetNewClients = () => {
+  handleGetNewResource = () => {
     const clientColumns = [
       {
         width: 120,
@@ -221,7 +222,22 @@ export default class SalaryTable extends Component {
         render: text => <span>{text ? text : '--'}</span>,
       }
     ];
-    
+
+    Modal.success({
+      title: '新增个人客户',
+      icon: <Icon type="smile" theme="twoTone" />,
+      width: "80%",
+      content:
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          columns={clientColumns}
+          scroll={{ x: 1800 }}
+          dataSource={this.props.newResourceList}
+          pagination={false}
+        />
+    });
+  }
+
+  handleGetNewCompany = () => {
     const firmColumns = [
       {
         width: 120,
@@ -348,30 +364,18 @@ export default class SalaryTable extends Component {
       }
     ];
     Modal.success({
-      title: '新增客户',
+      title: '新增企业客户',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content: <Tabs defaultActiveKey="1">
-        <TabPane tab="新增人才" key="1">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={clientColumns}
-            scroll={{ x: 1800 }}
-            dataSource={this.props.newResourceList}
-            pagination={false}
-          />
-        </TabPane>
-        <TabPane tab="新增企业" key="2">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={firmColumns}
-            scroll={{ x: 1800 }}
-            dataSource={this.props.newCompanyList}
-            pagination={false}
-          />
-        </TabPane>
-      </Tabs>
+      content:
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          columns={firmColumns}
+          scroll={{ x: 1800 }}
+          dataSource={this.props.newCompanyList}
+          pagination={false}
+        />
     });
   }
-
   handleFollowRecords = () => {
     Modal.success({
       title: '联系跟进次数',
@@ -447,57 +451,6 @@ export default class SalaryTable extends Component {
       }
     ];
 
-    const firmOrderColumns = [
-      {
-        width: 200,
-        title: '企业名称',
-        dataIndex: 'firmName',
-        key: 'firmName',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 120,
-        title: '客户名称',
-        dataIndex: 'clientLists',
-        key: 'clientLists',
-        render: text => {
-          if (text) {
-            const temp = text.map(e => {
-              return <Button>{e.resourceName}</Button>
-            });
-            return temp;
-          } else {
-            return '--'
-          }
-        },
-      },
-      {
-        width: 100,
-        title: '成交总额',
-        dataIndex: 'orderPaySum',
-        key: 'orderPaySum',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 150,
-        title: '成交时间',
-        dataIndex: 'createDate',
-        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-      },
-      {
-        width: 100,
-        title: '经办人',
-        dataIndex: 'employeeName',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-    ];
     Modal.success({
       title: '成交总额',
       icon: <Icon type="smile" theme="twoTone" />,
@@ -521,7 +474,7 @@ export default class SalaryTable extends Component {
     });
   }
 
-  handleBusinessAmounts = () => {
+  handleResourceBusinessAmounts = () => {
     const clientOrderColumns = [
       {
         width: 120,
@@ -620,25 +573,80 @@ export default class SalaryTable extends Component {
       },
     ];
     Modal.success({
-      title: '成交单数',
+      title: '个人成交单数',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
-      content: <Tabs defaultActiveKey="1">
-        <TabPane tab="人才订单" key="1">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={clientOrderColumns}
-            dataSource={this.props.orderClientsList}
-            pagination={false}
-          />
-        </TabPane>
-        <TabPane tab="企业订单" key="2">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={firmOrderColumns}
-            dataSource={this.props.orderFirmsList}
-            pagination={false}
-          />
-        </TabPane>
-      </Tabs>
+      content:
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          columns={clientOrderColumns}
+          dataSource={this.props.orderClientsList}
+          pagination={false}
+        />
+    });
+  }
+
+  handleCompanyBusinessAmounts = () => {
+    const firmOrderColumns = [
+      {
+        width: 200,
+        title: '企业名称',
+        dataIndex: 'firmName',
+        key: 'firmName',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 120,
+        title: '客户名称',
+        dataIndex: 'clientLists',
+        key: 'clientLists',
+        render: text => {
+          if (text) {
+            const temp = text.map(e => {
+              return <Button>{e.resourceName}</Button>
+            });
+            return temp;
+          } else {
+            return '--'
+          }
+        },
+      },
+      {
+        width: 100,
+        title: '成交总额',
+        dataIndex: 'orderPaySum',
+        key: 'orderPaySum',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
+        width: 150,
+        title: '成交时间',
+        dataIndex: 'createDate',
+        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        width: 100,
+        title: '经办人',
+        dataIndex: 'employeeName',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+    ];
+    Modal.success({
+      title: '企业成交单数',
+      icon: <Icon type="smile" theme="twoTone" />,
+      width: "80%",
+      content:
+        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          columns={firmOrderColumns}
+          dataSource={this.props.orderFirmsList}
+          pagination={false}
+        />
     });
   }
   handlePaybackAmouts = () => {
@@ -677,7 +685,7 @@ export default class SalaryTable extends Component {
           columns={columns}
           dataSource={this.props.payBackSumList}
           pagination={false}
-          // scroll={{ y: 600, x: false }}
+        // scroll={{ y: 600, x: false }}
         />
       </div>)
     });
@@ -719,14 +727,14 @@ export default class SalaryTable extends Component {
           columns={columns}
           dataSource={this.props.ownPayList}
           pagination={false}
-          // scroll={{ y: 600, x: false }}
+        // scroll={{ y: 600, x: false }}
         />
       </div>)
     });
   }
 
   render() {
-    const { newClientNum, recordNum, orderSum, orderPaySum, payBackSum, ownPaySum } = this.props;
+    const { newResourceNum, newCompanyNum, orderPayClientsSum, orderPayFirmsSum, orderFirmsSum, orderClientsSum, orderPaySum, payBackSum, ownPaySum } = this.props;
     const employeeList = [{
       employeeId: 'all',
       employeeName: '全部'
@@ -768,35 +776,43 @@ export default class SalaryTable extends Component {
             <Row style={{ paddingTop: 30 }}>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p onClick={this.handleGetNewClients}>{newClientNum}</p>
+                  <span>个人：<p onClick={this.handleGetNewResource} style={{ display: 'inline-block' }}>{newResourceNum}</p></span>
+                  <span style={{ marginLeft: 20 }}>企业：<p onClick={this.handleGetNewCompany} style={{ display: 'inline-block' }}>{newCompanyNum}</p></span>
                   <div className="bannar-box">
                     <Icon type="usergroup-add" /><span> 新增客户数</span>
                   </div>
                 </Card>
               </Col>
               <Col span={8}>
-                <Card style={{ width: 300 }}>
+                {/* <Card style={{ width: 300 }}>
                   <p onClick={this.handleFollowRecords}>{recordNum}</p>
                   <div className="bannar-box">
                     <Icon type="solution" /><span> 联系跟进次数</span>
                   </div>
+                </Card> */}
+                <Card style={{ width: 300 }}>
+                  <span>个人：<p onClick={this.handleResourceBusinessAmounts} style={{ display: 'inline-block' }}>{orderClientsSum}</p></span>
+                  <span style={{ marginLeft: 20 }}>企业：<p onClick={this.handleCompanyBusinessAmounts} style={{ display: 'inline-block' }}>{orderFirmsSum}</p></span>
+                  <div className="bannar-box">
+                    <Icon type="file-protect" /><span> 成交单数</span>
+                  </div>
                 </Card>
               </Col>
-              <Col span={8}>
+              {/* <Col span={8}>
                 <Card style={{ width: 300 }}>
                   <p onClick={this.handleBusinessOrderPaySum}>{orderPaySum}</p>
                   <div className="bannar-box">
                     <Icon type="pay-circle" /><span> 成交总额</span>
                   </div>
                 </Card>
-              </Col>
+              </Col> */}
             </Row>
             <Row style={{ paddingTop: 30 }}>
               <Col span={8}>
                 <Card style={{ width: 300 }}>
-                  <p onClick={this.handleBusinessAmounts}>{orderSum}</p>
+                  <p onClick={this.handleBusinessOrderPaySum}>{orderPaySum}</p>
                   <div className="bannar-box">
-                    <Icon type="file-protect" /><span> 成交单数</span>
+                    <Icon type="pay-circle" /><span> 成交总额</span>
                   </div>
                 </Card>
               </Col>

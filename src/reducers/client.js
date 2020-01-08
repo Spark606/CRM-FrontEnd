@@ -1,6 +1,6 @@
 import * as cs from '../constants';
 import { message } from 'antd';
-import { formatClients, formatRecords } from '../actions/base';
+import { formatClients, formatRecords, formatClientOrder } from '../actions/base';
 
 
 const initialState = {
@@ -204,7 +204,7 @@ export default function clientReducer(state = initialState, action) {
       });
     case cs.GET_CLIENT_ORDER_SUCCESS:
       return Object.assign({}, state, {
-        clientOrdersList: action.payload.data,
+        clientOrdersList: formatClientOrder(action.payload.data),
         isFetching: false,
       });
     case cs.GET_CLIENT_ORDER_FAIL:

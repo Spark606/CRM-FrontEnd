@@ -188,7 +188,7 @@ export default class FirmsTable extends Component {
     };
     const columns = [
       {
-        width: 120,
+        width: 150,
         title: '公司名称',
         dataIndex: 'firmName',
         key: 'firmName',
@@ -386,7 +386,7 @@ export default class FirmsTable extends Component {
             columns={columns}
             rowSelection={rowSelection}
             dataSource={firmsList}
-            scroll={{ x: 1900 }}
+            scroll={{ x: 2100 }}
             pagination={pagination}
           />
         </div>

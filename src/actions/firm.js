@@ -204,7 +204,7 @@ export function getFirmOrder(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/business/getCompanyBusinessListByCompanyId',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -223,7 +223,7 @@ export function getFirmOrderBack(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/payback/getPayBackRecordListByCompanyId',
         method: 'POST',
         mode: "cors",
         body: params,

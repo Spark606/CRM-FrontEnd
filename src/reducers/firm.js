@@ -1,7 +1,7 @@
 import * as cs from '../constants';
 import { message } from 'antd';
 
-import { formatFirms, formatRecords } from '../actions/base';
+import { formatFirms, formatRecords, formatFirmOrder } from '../actions/base';
 
 const initialState = {
   firmsList: [],
@@ -193,7 +193,7 @@ export default function firmReducer(state = initialState, action) {
         });
       case cs.GET_FIRM_ORDER_SUCCESS:
         return Object.assign({}, state, {
-          firmOrdersList: action.payload.data,
+          firmOrdersList: formatFirmOrder(action.payload.data),
           isFetching: false,
         });
       case cs.GET_FIRM_ORDER_FAIL:

@@ -136,7 +136,7 @@ export default class LayoutPagae extends Component {
             <Menu.Item key="ordertable">
               <Link to={'/main/order'}>
                 <Icon type="area-chart" />
-                <span>订单汇总</span>
+                <span>订单回款</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="salary">

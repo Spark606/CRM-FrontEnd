@@ -197,7 +197,7 @@ export function getClientOrder(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/business/getResourceBusinessListByResourceId',
         method: 'POST',
         mode: "cors",
         body: params,
@@ -216,7 +216,7 @@ export function getClientOrderBack(params) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: '/crm/employee/test',
+        endpoint: '/crm/payback/getPayBackRecordListByResourceId',
         method: 'POST',
         mode: "cors",
         body: params,
