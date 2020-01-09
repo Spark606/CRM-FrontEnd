@@ -72,7 +72,7 @@ export default class IndexItemList extends Component {
         </div>
         <Row gutter={16} className="ny-index-row">
           <Col sm={24} lg={8}>
-            <Table
+            <Table style={{marginTop: '10px'}}
               rowKey="id"
               columns={columns}
               className="ny-item-tbl-1"
@@ -89,7 +89,7 @@ export default class IndexItemList extends Component {
             />
           </Col>
           <Col sm={24} lg={8}>
-            <Table
+            <Table style={{marginTop: '10px'}}
               columns={columns}
               rowKey="id"
               className="ny-item-tbl-2"
@@ -106,7 +106,7 @@ export default class IndexItemList extends Component {
             />
           </Col>
           <Col sm={24} lg={8}>
-            <Table
+            <Table style={{marginTop: '10px'}}
               columns={columns}
               rowKey="id"
               dataSource={items3}

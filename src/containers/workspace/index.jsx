@@ -228,7 +228,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content:
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={clientColumns}
           scroll={{ x: 1800 }}
           dataSource={this.props.newResourceList}
@@ -368,7 +368,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content:
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={firmColumns}
           scroll={{ x: 1800 }}
           dataSource={this.props.newCompanyList}
@@ -457,14 +457,14 @@ export default class SalaryTable extends Component {
       width: "80%",
       content: <Tabs defaultActiveKey="1">
         <TabPane tab="人才订单" key="1">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={clientOrderColumns}
             dataSource={this.props.orderPayClientsList}
             pagination={false}
           />
         </TabPane>
         <TabPane tab="企业订单" key="2">
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={firmOrderColumns}
             dataSource={this.props.orderPayFirmsList}
             pagination={false}
@@ -476,6 +476,14 @@ export default class SalaryTable extends Component {
 
   handleResourceBusinessAmounts = () => {
     const clientOrderColumns = [
+      {
+        width: 250,
+        title: '订单编号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
       {
         width: 120,
         title: '客户名称',
@@ -521,63 +529,12 @@ export default class SalaryTable extends Component {
       }
     ];
 
-    const firmOrderColumns = [
-      {
-        width: 200,
-        title: '企业名称',
-        dataIndex: 'firmName',
-        key: 'firmName',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 120,
-        title: '客户名称',
-        dataIndex: 'clientLists',
-        key: 'clientLists',
-        render: text => {
-          if (text) {
-            const temp = text.map(e => {
-              return <Button>{e.resourceName}</Button>
-            });
-            return temp;
-          } else {
-            return '--'
-          }
-        },
-      },
-      {
-        width: 100,
-        title: '成交总额',
-        dataIndex: 'orderPaySum',
-        key: 'orderPaySum',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 150,
-        title: '成交时间',
-        dataIndex: 'createDate',
-        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-      },
-      {
-        width: 100,
-        title: '经办人',
-        dataIndex: 'employeeName',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-    ];
     Modal.success({
       title: '个人成交单数',
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content:
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={clientOrderColumns}
           dataSource={this.props.orderClientsList}
           pagination={false}
@@ -588,28 +545,36 @@ export default class SalaryTable extends Component {
   handleCompanyBusinessAmounts = () => {
     const firmOrderColumns = [
       {
+        width: 250,
+        title: '订单编号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
         width: 200,
         title: '企业名称',
         dataIndex: 'firmName',
         key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 120,
-        title: '客户名称',
-        dataIndex: 'clientLists',
-        key: 'clientLists',
-        render: text => {
-          if (text) {
-            const temp = text.map(e => {
-              return <Button>{e.resourceName}</Button>
-            });
-            return temp;
-          } else {
-            return '--'
-          }
-        },
-      },
+      // {
+      //   width: 120,
+      //   title: '客户名称',
+      //   dataIndex: 'clientLists',
+      //   key: 'clientLists',
+      //   render: text => {
+      //     if (text) {
+      //       const temp = text.map(e => {
+      //         return <Button>{e.resourceName}</Button>
+      //       });
+      //       return temp;
+      //     } else {
+      //       return '--'
+      //     }
+      //   },
+      // },
       {
         width: 100,
         title: '成交总额',
@@ -642,7 +607,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content:
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={firmOrderColumns}
           dataSource={this.props.orderFirmsList}
           pagination={false}
@@ -681,7 +646,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content: (<div>
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
           dataSource={this.props.payBackSumList}
           pagination={false}
@@ -723,7 +688,7 @@ export default class SalaryTable extends Component {
       icon: <Icon type="smile" theme="twoTone" />,
       width: "80%",
       content: (<div>
-        <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+        <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
           dataSource={this.props.ownPayList}
           pagination={false}

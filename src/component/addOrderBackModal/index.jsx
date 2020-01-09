@@ -172,7 +172,7 @@ class AddOrderBackModal extends Component {
               </div>
             </TabPane>
             <TabPane tab="回款记录" key="2">
-              <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
+              <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.id ? record.id : Math.random()}
                 columns={columns}
                 dataSource={oneOrderBackList}
                 scroll={{ y: 300 }}

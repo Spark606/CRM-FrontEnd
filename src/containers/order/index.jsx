@@ -94,6 +94,14 @@ export default class OrderTable extends Component {
     };
     const clientOrderColumns = [
       {
+        width: 250,
+        title: '订单编号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
         width: 120,
         title: '客户名称',
         dataIndex: 'clientName',
@@ -140,6 +148,7 @@ export default class OrderTable extends Component {
         width: 200,
         title: '操作',
         key: 'operation',
+        fixed: 'right',
         render: (record) => <ButtonGroup>
             <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
             <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
@@ -148,6 +157,14 @@ export default class OrderTable extends Component {
     ];
 
     const firmOrderColumns = [
+      {
+        width: 250,
+        title: '订单编号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+        fixed: 'left',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
       {
         width: 200,
         title: '企业名称',
@@ -201,6 +218,7 @@ export default class OrderTable extends Component {
         width: 200,
         title: '操作',
         key: 'operation',
+        fixed: 'right',
         render: (record) =><ButtonGroup>
             <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
             <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
@@ -219,7 +237,7 @@ export default class OrderTable extends Component {
             <Option value={1}>个人客户订单</Option>
             <Option value={2}>企业客户订单</Option>
           </Select>
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
             columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
             dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
             pagination={pagination}

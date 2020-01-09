@@ -169,50 +169,10 @@ class AddNewFirmModal extends Component {
                 </Row>
                 <Row>
                   <Col span={12}>
-                    <Form.Item label="客户状态：">
-                      {getFieldDecorator('status', {
-                        initialValue: 1
-                      })(
-                        <Select style={{ width: 120 }}>
-                          <Option value={1}>潜在客户</Option>
-                          <Option value={2}>意向客户</Option>
-                          <Option value={3}>成交客户</Option>
-                          <Option value={4}>失败客户</Option>
-                          <Option value={5}>已流失客户</Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
                     <Form.Item label="所在城市：">
                       {getFieldDecorator('province', {
                         initialValue: null,
                       })(<Input style={{ maxWidth: 200 }} />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12}>
-                    <Form.Item label="公司类别：">
-                      {getFieldDecorator('category', {
-                        initialValue: 1
-                      })(
-                        <Select style={{ width: 120 }}>
-                          <Option value={1}>建筑业</Option>
-                          <Option value={2}>农林牧渔</Option>
-                          <Option value={3}>住宿餐饮</Option>
-                          <Option value={4}>IT</Option>
-                          <Option value={5}>金融业</Option>
-                          <Option value={6}>房地产</Option>
-                          <Option value={7}>政府机关</Option>
-                          <Option value={8}>文体传媒</Option>
-                          <Option value={9}>运输物流</Option>
-                          <Option value={10}>商业服务</Option>
-                          <Option value={11}>卫生医疗</Option>
-                          <Option value={12}>教育培训</Option>
-                          <Option value={13}>其他</Option>
-                        </Select>
-                      )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -228,13 +188,11 @@ class AddNewFirmModal extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={24} className="marker">
-                    <Form.Item label="备注：">
-                      {getFieldDecorator('remark', {
-                        initialValue: null,
-                      })(<TextArea rows={4} />)}
-                    </Form.Item>
-                  </Col>
+                  <Form.Item label="备注：">
+                    {getFieldDecorator('remark', {
+                      initialValue: null,
+                    })(<TextArea rows={4} />)}
+                  </Form.Item>
                 </Row>
                 <hr />
                 <Row>

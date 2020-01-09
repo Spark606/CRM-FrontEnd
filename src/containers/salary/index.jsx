@@ -9,6 +9,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import WrapEditSalaryModal from '../../component/editSalaryModal';
 import { getEmployeesSalaryList, getSalaryRegulationDetail } from '../../actions/salary';
+import './style.scss'
 const mapStateToProps = state => ({
   employeesSalaryList: state.salary.employeesSalaryList,
   currentPage: state.salary.currentPage,
@@ -30,7 +31,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class SalaryTable extends Component {
   state = {
     tempData: null,
-    searchMonth: moment()
+    searchMonth: moment(),
+    expands: this.props.employeesSalaryList.map(item => item.orderId)
   }
   componentWillMount() {
     this.onInit();
@@ -75,8 +77,18 @@ export default class SalaryTable extends Component {
         title: '员工姓名',
         dataIndex: 'employeeName',
         key: 'name',
-        fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: (text, record) => (this.props.userRole === '2' ?
+          <a onClick={() => this.handleEidtSalary(record)}>
+            {text}
+          </a>
+          : <span>{text ? text : '--'}</span>
+        )
+      }, {
+        width: 100,
+        title: '实际收入 (￥)',
+        dataIndex: 'salary',
+        key: 'salary',
+        render: text => <span>{text === null ? '--' : text}</span>,
       }, {
         width: 100,
         title: '底薪 (￥)',
@@ -84,17 +96,29 @@ export default class SalaryTable extends Component {
         key: 'baseSalary',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
-        width: 150,
-        title: '人才回款总额 (￥)',
+        width: 100,
+        title: '人才回款 (￥)',
         dataIndex: 'clientSumPay',
         key: 'clientSumPay',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
-        width: 150,
-        title: '企业回款总额 (￥)',
+        width: 100,
+        title: '人才提成 (%)',
+        dataIndex: 'clientSumPayRatio',
+        key: 'clientSumPayRatio',
+        render: text => <span>{text === null ? '--' : `${text} %`}</span>,
+      }, {
+        width: 100,
+        title: '企业回款 (￥)',
         dataIndex: 'firmSumPay',
         key: 'firmSumPay',
         render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 100,
+        title: '企业提成 (%)',
+        dataIndex: 'firmSumPayRatio',
+        key: 'firmSumPayRatio',
+        render: text => <span>{text === null ? '--' : `${text} %`}</span>,
       }, {
         width: 150,
         title: '岗位工资 (￥)',
@@ -106,13 +130,13 @@ export default class SalaryTable extends Component {
         title: '请假 (￥)',
         dataIndex: 'employeeLeave',
         key: 'employeeLeave',
-        render: text => <span>{text === null ? '--' : text}</span>,
+        render: text => <span>{text === null ? '--' : text === 0 ? 0 : `- ${text}`}</span>,
       }, {
         width: 100,
         title: '迟到 (￥)',
-        dataIndex: 'performance',
-        key: 'performance',
-        render: text => <span>{text === null ? '--' : text}</span>,
+        dataIndex: 'employeeLate',
+        key: 'employeeLate',
+        render: text => <span>{text === null ? '--' : text === 0 ? 0 : `- ${text}`}</span>,
       }, {
         width: 100,
         title: '奖金 (￥)',
@@ -124,13 +148,13 @@ export default class SalaryTable extends Component {
         title: '罚款 (￥)',
         dataIndex: 'penalty',
         key: 'penalty',
-        render: text => <span>{text === null ? '--' : text}</span>,
+        render: text => <span>{text === null ? '--' : text === 0 ? 0 : `- ${text}`}</span>,
       }, {
         width: 150,
         title: '社保个人费用 (￥)',
         dataIndex: 'insurance',
         key: 'insurance',
-        render: text => <span>{text === null ? '--' : text}</span>,
+        render: text => <span>{text === null ? '--' : text === 0 ? 0 : `- ${text}`}</span>,
       }, {
         width: 100,
         title: '其他 (￥)',
@@ -142,29 +166,10 @@ export default class SalaryTable extends Component {
         dataIndex: 'info',
         key: 'info',
         render: text => <span>{text ? text : '--'}</span>,
-      }, {
-        width: 100,
-        title: '实际收入 (￥)',
-        dataIndex: 'salary',
-        key: 'salary',
-        render: text => <span>{text === null ? '--' : text}</span>,
       }
     ];
-    if(this.props.userRole === '2'){
-      columns.push({
-        width: 100,
-        title: '操作',
-        key: 'operation',
-        fixed: 'right',
-        render: (record) => <span>
-          <a onClick={() => this.handleEidtSalary(record)}>
-            <Button>修改</Button>
-          </a>
-        </span>,
-      })
-    }
     return (
-      <div className="container">
+      <div className="container salary-wrap">
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>绩效汇总表</Breadcrumb.Item>
         </Breadcrumb>
@@ -175,60 +180,69 @@ export default class SalaryTable extends Component {
             format={yearFormat}
             onChange={this.handleRangeChange}
           /> */}
-          <MonthPicker defaultValue={this.state.searchMonth} 
+          <MonthPicker defaultValue={this.state.searchMonth}
             format={"YYYY-MM"}
-            onChange={this.handleRangeChange}/>
-          <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={columns}
-            dataSource={employeesSalaryList}
-            pagination={pagination}
-            scroll={{ x: 1800 }}
-            expandedRowRender={
-              record => {
-                return (
-                  <div>
-                    <p style={{padding:'10px'}}>人才回款表：</p>
-                    <List
-                      bordered
-                      dataSource={record.clientOrderData}
-                      renderItem={(item, index) => (
-                        <List.Item>
-                          <Typography.Text >{index + 1}</Typography.Text>
-                          <span style={{ padding: '0 10px' }}>成交客户：{item.clientName}</span>
-                          <span style={{ padding: '0 10px' }}>订单编号：{item.businessId}</span>
-                          <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
-                          <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
-                          <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
-                          <span style={{ padding: '0 10px' }}>欠款金额: {item.owePay}</span>
-                        </List.Item>
-                      )}
-                    />
-                    <p style={{padding:'10px'}}>企业回款表：</p>
-                    <List
-                      bordered
-                      dataSource={record.firmOrderData}
-                      renderItem={(item, index) => (
-                        <List.Item>
-                          <Typography.Text >{index + 1}</Typography.Text>
-                          <span style={{ padding: '0 10px' }}>成交客户：{item.firmName}</span>
-                          <span style={{ padding: '0 10px' }}>订单编号：{item.businessId}</span>
-                          <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
-                          <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
-                          <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
-                          <span style={{ padding: '0 10px' }}>欠款金额: {item.owePay}</span>
-                        </List.Item>
-                      )}
-                    />
-                  </div>
-                )
+            onChange={this.handleRangeChange} />
+          {employeesSalaryList && employeesSalaryList.length
+            ?
+            <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.employeeId ? record.employeeId : Math.random()}
+              columns={columns}
+              dataSource={employeesSalaryList}
+              pagination={pagination}
+              defaultExpandAllRows={ this.props.userRole === '2' ? false : true}
+              // expandedRowKeys={employeesSalaryList.map(item => {
+              //   console.log(item.employeeId)
+              //   return item.employeeId
+              // })}
+              // expandIconAsCell={false}
+              // expandIconColumnIndex={-1}
+              expandedRowRender={
+                record => {
+                  return (
+                    <div>
+                      <p style={{ padding: '10px' }}>人才回款表：</p>
+                      <List
+                        bordered
+                        dataSource={record.clientOrderData}
+                        renderItem={(item, index) => (
+                          <List.Item>
+                            <Typography.Text >{index + 1}</Typography.Text>
+                            <span style={{ padding: '0 10px' }}>成交客户：{item.clientName}</span>
+                            <span style={{ padding: '0 10px' }}>订单编号：{item.businessId}</span>
+                            <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
+                            <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
+                            <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
+                            <span style={{ padding: '0 10px' }}>欠款金额: {item.owePay}</span>
+                          </List.Item>
+                        )}
+                      />
+                      <p style={{ padding: '10px' }}>企业回款表：</p>
+                      <List
+                        bordered
+                        dataSource={record.firmOrderData}
+                        renderItem={(item, index) => (
+                          <List.Item>
+                            <Typography.Text >{index + 1}</Typography.Text>
+                            <span style={{ padding: '0 10px' }}>成交客户：{item.firmName}</span>
+                            <span style={{ padding: '0 10px' }}>订单编号：{item.businessId}</span>
+                            <span style={{ padding: '0 10px' }}>成交时间: {item.createDate}</span>
+                            <span style={{ padding: '0 10px' }}>成交总额: {item.orderPaySum}</span>
+                            <span style={{ padding: '0 10px' }}>当月回款总额: {item.curretMonthPayBackSum}</span>
+                            <span style={{ padding: '0 10px' }}>欠款金额: {item.owePay}</span>
+                          </List.Item>
+                        )}
+                      />
+                    </div>
+                  )
+                }
               }
-            }
-          />
+            />
+            : null}
           <WrapEditSalaryModal
             wrappedComponentRef={(form) => this.editSalaryModal = form}
             employeeSalaryRegulation={employeeSalaryRegulation}
             dataSource={this.state.tempData}
-            searchMonth= {this.state.searchMonth}
+            searchMonth={this.state.searchMonth}
           />
         </div>
       </div>

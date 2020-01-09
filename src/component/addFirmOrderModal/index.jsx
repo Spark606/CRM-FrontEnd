@@ -90,8 +90,8 @@ class AddFirmOrderModal extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <hr style={{ marginTop: 20 }} />
-                <Row style={{ marginTop: 20 }}>
+                <hr />
+                <Row>
                   <Col span={12}>
                     <Form.Item label="成交企业：">
                       {getFieldDecorator('firmName', {
@@ -108,7 +108,7 @@ class AddFirmOrderModal extends Component {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row style={{ marginTop: 20 }}>
+                <Row>
                   <Col span={12}>
                     <Form.Item label="成交总额：">
                       {getFieldDecorator('orderPaySum', {
@@ -137,7 +137,7 @@ class AddFirmOrderModal extends Component {
                     </Form.Item>
                   </Col> */}
                 </Row>
-                <Row style={{ marginTop: 20 }}>
+                <Row>
                   <Form.Item label="备注：">
                     {getFieldDecorator('remark', {
                       initialValue: "",

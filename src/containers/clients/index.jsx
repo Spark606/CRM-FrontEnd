@@ -355,7 +355,7 @@ export default class ClientsTable extends Component {
               </ButtonGroup>
             </Col>
           </Row>
-          <Table size="small" rowKey={record => record.clientId}
+          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.clientId}
             rowSelection={rowSelection}
             columns={columns}
             dataSource={clientsList}

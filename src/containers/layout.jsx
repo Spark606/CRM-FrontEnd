@@ -6,8 +6,7 @@ import { createHashHistory } from 'history';
 import './style.scss';
 import { verifyToken } from '../actions/api';
 const history = createHashHistory();
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -170,7 +169,6 @@ export default class LayoutPagae extends Component {
           <Content style={{ margin: '0 16px' }}>
             <ContentMain />
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
       </Layout>
     );

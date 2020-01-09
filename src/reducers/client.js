@@ -103,6 +103,8 @@ export default function clientReducer(state = initialState, action) {
     case cs.ADD_NEW_CLIENT_FAIL:
       if (action.error.code === 88) {
         message.error(action.error.msg);
+      } else if (action.error.code === 0 && action.error.data) {
+        message.error(action.error.data);
       } else {
         message.error('新建个人客户失败！');
       }
@@ -128,6 +130,8 @@ export default function clientReducer(state = initialState, action) {
     case cs.UPDATE_ONE_CLIENT_FAIL:
       if (action.error.code === 88) {
         message.error(action.error.msg);
+      } else if (action.error.code === 0 && action.error.data) {
+        message.error(action.error.data);
       } else {
         message.error('修改个人客户失败！');
       }

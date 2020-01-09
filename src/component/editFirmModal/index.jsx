@@ -105,60 +105,60 @@ class EditFirmModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataSource, userRole, employeeList, firmOrdersList, oneOrderBackList} = this.props;
-    
+    const { dataSource, userRole, employeeList, firmOrdersList, oneOrderBackList } = this.props;
+
     const firmOrderColumns = [{
-        width: 150,
-        title: '订单编号',
-        dataIndex: 'orderId',
-        key: 'orderId',
-        fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>
+      width: 150,
+      title: '订单编号',
+      dataIndex: 'orderId',
+      key: 'orderId',
+      fixed: 'left',
+      render: text => <span>{text ? text : '--'}</span>
+    },
+    {
+      width: 120,
+      title: '客户名称',
+      dataIndex: 'clientLists',
+      key: 'clientLists',
+      render: text => {
+        if (text) {
+          const temp = text.map(e => {
+            return <Button>{e.resourceName}</Button>
+          });
+          return temp;
+        } else {
+          return '--'
+        }
       },
-      {
-        width: 120,
-        title: '客户名称',
-        dataIndex: 'clientLists',
-        key: 'clientLists',
-        render: text => {
-          if (text) {
-            const temp = text.map(e => {
-              return <Button>{e.resourceName}</Button>
-            });
-            return temp;
-          } else {
-            return '--'
-          }
-        },
-      },
-      {
-        width: 100,
-        title: '成交总额',
-        dataIndex: 'orderPaySum',
-        key: 'orderPaySum',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 150,
-        title: '成交时间',
-        dataIndex: 'createDate',
-        render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-      },
-      {
-        width: 100,
-        title: '经办人',
-        dataIndex: 'employeeName',
-        render: text => <span>{text ? text : '--'}</span>,
-      }
+    },
+    {
+      width: 100,
+      title: '成交总额',
+      dataIndex: 'orderPaySum',
+      key: 'orderPaySum',
+      render: text => <span>{text ? text : '--'}</span>,
+    },
+    {
+      // width: 200,
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
+      render: text => <span>{text ? text : '--'}</span>,
+    },
+    {
+      width: 150,
+      title: '成交时间',
+      dataIndex: 'createDate',
+      render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+    },
+    {
+      width: 100,
+      title: '经办人',
+      dataIndex: 'employeeName',
+      render: text => <span>{text ? text : '--'}</span>,
+    }
     ];
-    const orderBackcolumns =[{
+    const orderBackcolumns = [{
       width: 150,
       title: '订单编号',
       dataIndex: 'businessId',
@@ -307,39 +307,12 @@ class EditFirmModal extends Component {
                         </Form.Item>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col span={12}>
-                        <Form.Item label="公司类别：">
-                          {getFieldDecorator('category', {
-                            initialValue: dataSource ? dataSource.category : 1
-                          })(
-                            <Select style={{ width: 120 }}>
-                              <Option value={1}>建筑业</Option>
-                              <Option value={2}>农林牧渔</Option>
-                              <Option value={3}>住宿餐饮</Option>
-                              <Option value={4}>IT</Option>
-                              <Option value={5}>金融业</Option>
-                              <Option value={6}>房地产</Option>
-                              <Option value={7}>政府机关</Option>
-                              <Option value={8}>文体传媒</Option>
-                              <Option value={9}>运输物流</Option>
-                              <Option value={10}>商业服务</Option>
-                              <Option value={11}>卫生医疗</Option>
-                              <Option value={12}>教育培训</Option>
-                              <Option value={13}>其他</Option>
-                            </Select>
-                          )}
-                        </Form.Item>
-                      </Col>
-                    </Row> */}
                     <Row>
-                      <Col span={24} className="marker">
-                        <Form.Item label="备注：">
-                          {getFieldDecorator('remark', {
-                            initialValue: dataSource ? dataSource.remark : null,
-                          })(<TextArea rows={4} />)}
-                        </Form.Item>
-                      </Col>
+                      <Form.Item label="备注：">
+                        {getFieldDecorator('remark', {
+                          initialValue: dataSource ? dataSource.remark : null,
+                        })(<TextArea rows={4} />)}
+                      </Form.Item>
                     </Row>
                     <hr />
                     <Row>
@@ -404,14 +377,14 @@ class EditFirmModal extends Component {
                     <Row style={{ textAlign: 'right' }}>
                       <Col>
                         <Button key="back" onClick={this.handleCancel}> 关闭</Button>
-                        <Button key="submit" htmlType="submit" type="primary" form="formBox" onClick={this.handleSubmit}>提交</Button>
+                        <Button key="submit" htmlType="submit" type="primary" form="formBox" onClick={this.handleSubmit} style={{ marginLeft: '10px' }}>提交</Button>
                       </Col>
                     </Row>
                   </Form>
                 </div>
               </TabPane>
               <TabPane tab="历史成交" key="2">
-                <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+                <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
                   columns={firmOrderColumns}
                   dataSource={firmOrdersList}
                   scroll={{ y: 300 }}
@@ -419,7 +392,7 @@ class EditFirmModal extends Component {
                 />
               </TabPane>
               <TabPane tab="回款记录" key="3">
-                <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
+                <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.id ? record.id : Math.random()}
                   columns={orderBackcolumns}
                   dataSource={oneOrderBackList}
                   scroll={{ y: 300 }}

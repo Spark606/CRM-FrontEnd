@@ -393,7 +393,7 @@ export default class FirmsTable extends Component {
               </ButtonGroup>
             </Col>
           </Row>
-          <Table size="small" rowKey={record => record.firmId ? record.firmId : Math.random()}
+          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.firmId ? record.firmId : Math.random()}
             columns={columns}
             rowSelection={rowSelection}
             dataSource={firmsList}

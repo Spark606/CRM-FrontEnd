@@ -153,12 +153,23 @@ export function formatEmployeesSalary(dataSource) {
     dataSource.map(item => {
       seriesData.push(Object.assign({}, {
         employeeId: item.employeeId,
-        employeeName: item.employeeName, 
-        performance: item.performance, 
+        employeeName: item.employeeName,
+        baseSalary: item.baseSalary,
+        clientSumPay: item.resourcePaySum,
+        clientSumPayRatio: item.resourceRatio,
+        firmSumPay: item.companyPaySum,
+        firmSumPayRatio: item.companyRatio,
+        positionSalary: item.positionWage,
+        positionAge: item.positionAge,
+        employeeLeave: item.employeeLeave,
+        employeeLate: item.employeeLate,
         penalty: item.penalty,
-        baseSalary: item.baseSalary, 
+        bonus: item.bonus,
+        insurance: item.insurance,
+        other: item.other,
+        info: item.info,
+        performance: item.performance, 
         salary: item.salary,
-        info: item.info, 
         clientOrderData: item.resourceBusinessList ? item.resourceBusinessList.map(e => {
           return {
             clientName: e.clientName,
@@ -169,7 +180,7 @@ export function formatEmployeesSalary(dataSource) {
             owePay: e.oweSum,
           };
         }) : [],
-        firmOrderData: item.comapnyBusinessList ? item.comapnyBusinessList.map(e => {
+        firmOrderData: item.companyBusinessList ? item.companyBusinessList.map(e => {
           return {
             firmName: e.firmName,
             businessId: e.businessId,

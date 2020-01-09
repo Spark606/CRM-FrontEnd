@@ -240,8 +240,8 @@ class EditClientModal extends Component {
                         }
                       </Col>
                     </Row>
-                    <hr style={{ marginTop: 20 }} />
-                    <Row style={{ marginTop: 20 }}>
+                    <hr />
+                    <Row>
                       <Col span={12}>
                         <Form.Item label="客户名：">
                           {getFieldDecorator('clientName', {
@@ -269,7 +269,7 @@ class EditClientModal extends Component {
                         }
                       </Col>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
+                    <Row>
                       <Col span={12}>
                         <Form.Item label="证书及专业：">
                           {getFieldDecorator('certificate', {
@@ -287,7 +287,7 @@ class EditClientModal extends Component {
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
+                    <Row>
                       <Col span={12}>
                         <Form.Item label="注册省份：">
                           {getFieldDecorator('province', {
@@ -303,7 +303,7 @@ class EditClientModal extends Component {
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
+                    <Row>
                       <Col span={12}>
                         <Form.Item label="性别：">
                           {getFieldDecorator('gender', {
@@ -327,29 +327,14 @@ class EditClientModal extends Component {
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
+                    <Row>
                       <Form.Item label="备注：">
                         {getFieldDecorator('remark', {
                           initialValue: dataSource ? dataSource.remark : null,
                         })(<TextArea rows={4} />)}
                       </Form.Item>
                     </Row>
-                    <Row style={{ marginTop: 20 }}>
-                      <Col span={12}>
-                        <Form.Item label="客户状态：">
-                          {getFieldDecorator('status', {
-                            initialValue: dataSource ? dataSource.status : 1
-                          })(
-                            <Select style={{ width: 120 }}>
-                              <Option value={1}>潜在客户</Option>
-                              <Option value={2}>意向客户</Option>
-                              <Option value={3}>成交客户</Option>
-                              <Option value={4}>失败客户</Option>
-                              <Option value={5}>已流失客户</Option>
-                            </Select>
-                          )}
-                        </Form.Item>
-                      </Col>
+                    <Row>
                       <Col span={12}>
                         <Form.Item label="资源状态：">
                           {getFieldDecorator('shareStatus', {
@@ -372,7 +357,7 @@ class EditClientModal extends Component {
                     <Row style={{ textAlign: 'right' }}>
                       <Col>
                         <Button key="back" onClick={this.handleCancel}> 关闭</Button>
-                        <Button key="submit" htmlType="submit" type="primary" htmlFor="formBox" onClick={(e) => this.handleSubmit(e)} > 提交</Button>
+                        <Button key="submit" htmlType="submit" type="primary" htmlFor="formBox" onClick={(e) => this.handleSubmit(e)} style={{marginLeft: '10px'}}> 提交</Button>
                       </Col>
                     </Row>
                   </Form>
@@ -380,7 +365,7 @@ class EditClientModal extends Component {
                 </div>
               </TabPane>
               <TabPane tab="历史成交" key="2">
-                <Table size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+                <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
                   columns={clientOrderColumns}
                   dataSource={clientOrdersList}
                   scroll={{ y: 300 }}
@@ -388,7 +373,7 @@ class EditClientModal extends Component {
                 />
               </TabPane>
               <TabPane tab="回款记录" key="3">
-                <Table size="small" rowKey={record => record.id ? record.id : Math.random()}
+                <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.id ? record.id : Math.random()}
                   columns={orderBackcolumns}
                   dataSource={oneOrderBackList}
                   scroll={{ y: 300 }}
