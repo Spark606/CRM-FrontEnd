@@ -255,7 +255,7 @@ export default class OrderTable extends Component {
             <Option value={1}>个人客户订单</Option>
             <Option value={2}>企业客户订单</Option>
           </Select>
-          <Tabs defaultActiveKey={this.state.isCompleted} onChange={this.handleGetOrderByFulfillStatus} className="status-wrap">
+          <Tabs defaultActiveKey={this.state.isCompleted} onChange={this.handleGetOrderByFulfillStatus} className="status-wrap" type="card">
             <TabPane tab="未完成" key="0">
               <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
                 columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
