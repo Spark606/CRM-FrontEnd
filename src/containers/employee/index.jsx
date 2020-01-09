@@ -146,7 +146,7 @@ class EmployeePage extends Component {
               <Tree
                 showLine
                 showIcon
-                defaultExpandAll
+                defaultExpandAll = {true}
                 selectedKeys={this.state.selectedKeys}
                 switcherIcon={<Icon type="down" />}
                 onSelect={this.onSelect}

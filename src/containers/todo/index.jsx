@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Breadcrumb, Tabs, Divider, Button } from 'antd';
+const ButtonGroup = Button.Group;
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import CheckPage from '../../component/todoTab/checkPage';
@@ -140,8 +141,6 @@ handlePayBackWithWdraw = (record) => {
 }
 
 
-
-
   render() {
     const updateClientColumns = [
       {
@@ -160,13 +159,6 @@ handlePayBackWithWdraw = (record) => {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
         width: 100,
         title: '省份',
         dataIndex: 'province',
@@ -177,7 +169,6 @@ handlePayBackWithWdraw = (record) => {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       // {
@@ -226,8 +217,6 @@ handlePayBackWithWdraw = (record) => {
         title: '获得客户时间',
         dataIndex: 'createDate',
         filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
@@ -236,8 +225,13 @@ handlePayBackWithWdraw = (record) => {
         dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 100,
@@ -252,15 +246,10 @@ handlePayBackWithWdraw = (record) => {
         fixed: 'right',
         render: (record) => {
           if (parseInt(this.props.userRole) === 2) {
-            return (
-              <span>
-                <a onClick={() => this.handleUpdateClientPass(record)}>
-                  <Button>审批</Button>
-                </a>
-                <a onClick={() => this.handleUpdateClientSendBack(record)}>
-                  <Button>退回</Button>
-                </a>
-              </span>)
+            return (<ButtonGroup>
+                <Button onClick={() => this.handleUpdateClientPass(record)}>审批</Button>
+                <Button onClick={() => this.handleUpdateClientSendBack(record)}>退回</Button>
+                </ButtonGroup>)
           } else {
             return (
               <span>
@@ -289,13 +278,6 @@ handlePayBackWithWdraw = (record) => {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
         width: 100,
         title: '省份',
         dataIndex: 'province',
@@ -306,7 +288,6 @@ handlePayBackWithWdraw = (record) => {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       // {
@@ -355,8 +336,6 @@ handlePayBackWithWdraw = (record) => {
         title: '获得客户时间',
         dataIndex: 'createDate',
         filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
       },
       {
@@ -365,8 +344,13 @@ handlePayBackWithWdraw = (record) => {
         dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 100,
@@ -381,15 +365,10 @@ handlePayBackWithWdraw = (record) => {
         fixed: 'right',
         render: (record) => {
           if (parseInt(this.props.userRole) === 2) {
-            return (
-              <span>
-                <a onClick={() => this.handleDeleteClientPass(record)}>
-                  <Button>审批</Button>
-                </a>
-                <a onClick={() => this.handleDeleteClientSendBack(record)}>
-                  <Button>退回</Button>
-                </a>
-              </span>)
+            return (<ButtonGroup>
+                <Button onClick={() => this.handleDeleteClientPass(record)}>审批</Button>
+                <Button onClick={() => this.handleDeleteClientSendBack(record)}>退回</Button>
+                </ButtonGroup>)
           } else {
             return (
               <span>
@@ -417,13 +396,6 @@ handlePayBackWithWdraw = (record) => {
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
       // {
       //   width: 100,
       //   title: '状态',
@@ -459,8 +431,6 @@ handlePayBackWithWdraw = (record) => {
         dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
       },
       {
         width: 100,
@@ -479,7 +449,6 @@ handlePayBackWithWdraw = (record) => {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       {
@@ -499,9 +468,14 @@ handlePayBackWithWdraw = (record) => {
         title: '获得客户时间',
         dataIndex: 'createDate',
         filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 100,
@@ -516,15 +490,10 @@ handlePayBackWithWdraw = (record) => {
         fixed: 'right',
         render: (record) => {
           if (parseInt(this.props.userRole) === 2) {
-            return (
-              <span>
-                <a onClick={() => this.handleUpdateFirmPass(record)}>
-                  <Button>审批</Button>
-                </a>
-                <a onClick={() => this.handleUpdateFirmSendBack(record)}>
-                  <Button>退回</Button>
-                </a>
-              </span>)
+            return (<ButtonGroup>
+                <Button onClick={() => this.handleUpdateFirmPass(record)}>审批</Button>
+                <Button onClick={() => this.handleUpdateFirmSendBack(record)}>退回</Button>
+                </ButtonGroup>)
           } else {
             return (
               <span>
@@ -552,13 +521,6 @@ handlePayBackWithWdraw = (record) => {
         key: 'province',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
       // {
       //   width: 100,
       //   title: '状态',
@@ -594,8 +556,6 @@ handlePayBackWithWdraw = (record) => {
         dataIndex: 'expireDate',
         filterMultiple: false,
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
-        sorter: (a, b) => a.expireDate - b.expireDate,
-        sortDirections: ['descend', 'ascend'],
       },
       {
         width: 100,
@@ -614,7 +574,6 @@ handlePayBackWithWdraw = (record) => {
         width: 100,
         title: '性别',
         dataIndex: 'gender',
-        filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
       {
@@ -633,10 +592,14 @@ handlePayBackWithWdraw = (record) => {
         width: 150,
         title: '获得客户时间',
         dataIndex: 'createDate',
-        filterMultiple: false,
-        sorter: (a, b) => a.createDate - b.createDate,
-        sortDirections: ['descend', 'ascend'],
         render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+      },
+      {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: text => <span>{text ? text : '--'}</span>,
       },
       {
         width: 100,
@@ -651,15 +614,10 @@ handlePayBackWithWdraw = (record) => {
         fixed: 'right',
         render: (record) => {
           if (parseInt(this.props.userRole) === 2) {
-            return (
-              <span>
-                <a onClick={() => this.handleDeleteFirmPass(record)}>
-                  <Button>审批</Button>
-                </a>
-                <a onClick={() => this.handleDeleteFirmSendBack(record)}>
-                  <Button>退回</Button>
-                </a>
-              </span>)
+            return (<ButtonGroup>
+                <Button onClick={() => this.handleDeleteFirmPass(record)}>审批</Button>
+                <Button onClick={() => this.handleDeleteFirmSendBack(record)}>退回</Button>
+                </ButtonGroup>)
           } else {
             return (
               <span>
@@ -695,13 +653,6 @@ handlePayBackWithWdraw = (record) => {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
-        // width: 200,
-        title: '备注',
-        dataIndex: 'info',
-        key: 'info',
-        render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
         width: 100,
         title: '录入人',
         dataIndex: 'employeeName',
@@ -715,21 +666,23 @@ handlePayBackWithWdraw = (record) => {
         render: text => <span>{text ? text : '--'}</span>,
       },
       {
+        // width: 200,
+        title: '备注',
+        dataIndex: 'info',
+        key: 'info',
+        render: text => <span>{text ? text : '--'}</span>,
+      },
+      {
         width: 150,
         title: '操作',
         key: 'operation',
         fixed: 'right',
         render: (record) => {
           if (parseInt(this.props.userRole) === 2) {
-            return (
-              <span>
-                <a onClick={() => this.handlePayBackPass(record)}>
-                  <Button>审批</Button>
-                </a>
-                <a onClick={() => this.handlePayBackSendBack(record)}>
-                  <Button>退回</Button>
-                </a>
-              </span>)
+            return (<ButtonGroup>
+                <Button onClick={() => this.handlePayBackPass(record)}>审批</Button>
+                <Button onClick={() => this.handlePayBackSendBack(record)}>退回</Button>
+                </ButtonGroup>)
           } else {
             return (
               <span>

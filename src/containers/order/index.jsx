@@ -99,7 +99,7 @@ export default class OrderTable extends Component {
         dataIndex: 'orderId',
         key: 'orderId',
         fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: (text, record) => <span>{text ? <a onClick={() => this.handleAddOrderBack(record)}>{text}</a> : '--'}</span>,
       },
       {
         width: 120,

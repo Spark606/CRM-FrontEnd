@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Button, Progress, InputNumber, DatePicker, Row, Col, Input, Tabs, Table } from 'antd';
 const { TextArea } = Input;
 import moment from 'moment';
-import { yearFormat, yearAndHourFormat } from '../../constants';
+import { yearAndHourFormat } from '../../constants';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getOrderBackList, getOrderBackDetail, addNewOrderBack } from '../../actions/order';
@@ -68,7 +68,7 @@ class AddOrderBackModal extends Component {
       if (!err) {
         const data = Object.assign({}, {
           createDate: moment(values.recordTimeDay).format(yearAndHourFormat),
-          recordDate: moment().format(yearFormat),
+          recordDate: moment().format(yearAndHourFormat),
           businessId: this.props.dataSource.orderId,
           employeeId: this.props.user_Id,
           laterBackPay: values.laterBackPay,
@@ -194,7 +194,7 @@ class AddOrderBackModal extends Component {
                       {getFieldDecorator('recordTimeDay', {
                         initialValue: moment(),
                         rules: [{ required: true, message: '请输入回款时间。' }],
-                      })(<DatePicker format={yearFormat} />)}
+                      })(<DatePicker format={yearAndHourFormat} />)}
                     </Form.Item>
                   </Col>
                 </Row>
