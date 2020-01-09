@@ -83,7 +83,7 @@ export function getOrderBackDetail(params) {
 }
 
 //删除订单
-export function deleteOrder(params, orderType, currentPage, pageSize) {
+export function deleteOrder(params, orderType, currentPage, pageSize, isCompleted) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -101,6 +101,7 @@ export function deleteOrder(params, orderType, currentPage, pageSize) {
     if (action.type === cs.DELETE_ONE_ORDER_SUCCESS) {
       this.getOrderList({
         orderType: orderType,
+        isCompleted: isCompleted,
         page: currentPage,
         pageSize: pageSize,
       })

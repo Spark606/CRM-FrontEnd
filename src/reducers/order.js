@@ -64,6 +64,13 @@ export default function orderReducer(state = initialState, action) {
         isFetching: false,
       });
     case cs.DELETE_ONE_ORDER_FAIL:
+      if (action.error.code === 88) {
+        message.error(action.error.msg);
+      } else if (action.error.code === 0 && action.error.data) {
+        message.error(action.error.data);
+      } else {
+        message.error('删除订单失败！');
+      }
       return Object.assign({}, state, {
         isFetching: false,
       });

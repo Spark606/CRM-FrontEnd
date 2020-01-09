@@ -74,7 +74,7 @@ export default class OrderTable extends Component {
     this.props.deleteOrder({
       businessId: record.orderId,
       orderType: this.state.orderType,
-    }, this.state.orderType, this.props.currentPage, this.props.pageSize);
+    }, this.state.orderType, this.props.currentPage, this.props.pageSize, this.state.isCompleted);
   }
 
   handleAddOrderBack = (record) => {
