@@ -7,6 +7,7 @@ import './style.scss';
 import { verifyToken } from '../actions/api';
 const history = createHashHistory();
 const { Header, Content, Sider } = Layout;
+const { SubMenu } = Menu;
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

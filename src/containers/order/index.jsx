@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Select, Button } from 'antd';
+import { Breadcrumb, Table, Select, Button, Tabs } from 'antd';
+const { TabPane } = Tabs;
 const ButtonGroup = Button.Group;
 const { Option } = Select;
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
 import WrapAddOrderBackModal from '../../component/addOrderBackModal';
-import { getOrderList, getOrderBackDetail, deleteOrder} from '../../actions/order';
+import { getOrderList, getOrderBackDetail, deleteOrder } from '../../actions/order';
+import './style.scss'
 const mapStateToProps = state => ({
   clientOrdersList: state.order.clientOrdersList,
   firmOrdersList: state.order.firmOrdersList,
@@ -28,7 +30,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 @connect(mapStateToProps, mapDispatchToProps)
 export default class OrderTable extends Component {
   state = {
-    orderType: 1,
+    orderType: 1, // 1个人订单
+    isCompleted: '0', // 0未完成
     tempData: null,
   }
   componentWillMount() {
@@ -37,6 +40,7 @@ export default class OrderTable extends Component {
   onInit = () => {
     this.props.getOrderList({
       orderType: this.state.orderType,
+      isCompleted: this.state.isCompleted,
       page: 1,
       pageSize: this.props.pageSize
     });
@@ -47,6 +51,19 @@ export default class OrderTable extends Component {
     });
     this.props.getOrderList({
       orderType: e,
+      isCompleted: this.state.isCompleted,
+      page: 1,
+      pageSize: this.props.pageSize
+    });
+  }
+  handleGetOrderByFulfillStatus = (key) => {
+    console.log(key)
+    this.setState({
+      isCompleted: key
+    });
+    this.props.getOrderList({
+      orderType: this.state.orderType,
+      isCompleted: key,
       page: 1,
       pageSize: this.props.pageSize
     });
@@ -54,10 +71,10 @@ export default class OrderTable extends Component {
 
   //删除订单
   handledeleteOrder = (record) => {
-    this.props.deleteOrder({ 
+    this.props.deleteOrder({
       businessId: record.orderId,
       orderType: this.state.orderType,
-     }, this.state.orderType, this.props.currentPage, this.props.pageSize);
+    }, this.state.orderType, this.props.currentPage, this.props.pageSize);
   }
 
   handleAddOrderBack = (record) => {
@@ -70,10 +87,11 @@ export default class OrderTable extends Component {
     });
     this.addOrderBackModal.showModal();
   }
-  
+
   pageChange = (page, pageSize) => {
     this.props.getOrderList({
       orderType: this.state.orderType,
+      isCompleted: this.state.isCompleted,
       page: page,
       pageSize: pageSize
     });
@@ -150,9 +168,9 @@ export default class OrderTable extends Component {
         key: 'operation',
         fixed: 'right',
         render: (record) => <ButtonGroup>
-            <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
-            <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
-          </ButtonGroup>,
+          <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
+          <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
+        </ButtonGroup>,
       },
     ];
 
@@ -163,7 +181,7 @@ export default class OrderTable extends Component {
         dataIndex: 'orderId',
         key: 'orderId',
         fixed: 'left',
-        render: text => <span>{text ? text : '--'}</span>,
+        render: (text, record) => <span>{text ? <a onClick={() => this.handleAddOrderBack(record)}>{text}</a> : '--'}</span>,
       },
       {
         width: 200,
@@ -219,10 +237,10 @@ export default class OrderTable extends Component {
         title: '操作',
         key: 'operation',
         fixed: 'right',
-        render: (record) =><ButtonGroup>
-            <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
-            <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
-          </ButtonGroup>,
+        render: (record) => <ButtonGroup>
+          <Button onClick={() => this.handleAddOrderBack(record)}>添加回款</Button>
+          <Button onClick={() => this.handledeleteOrder(record)}>删除</Button>
+        </ButtonGroup>,
       },
     ];
 
@@ -233,15 +251,26 @@ export default class OrderTable extends Component {
         </Breadcrumb>
 
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Select defaultValue={1} style={{ width: 130 }} onChange={this.handleCheckType}>
+          <Select defaultValue={1} style={{ width: 130, position: 'absolute', zIndex: '99' }} onChange={this.handleCheckType}>
             <Option value={1}>个人客户订单</Option>
             <Option value={2}>企业客户订单</Option>
           </Select>
-          <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-            columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
-            dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
-            pagination={pagination}
-          />
+          <Tabs defaultActiveKey={this.state.isCompleted} onChange={this.handleGetOrderByFulfillStatus} className="status-wrap">
+            <TabPane tab="未完成" key="0">
+              <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+                columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
+                dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
+                pagination={pagination}
+              />
+            </TabPane>
+            <TabPane tab="已完成" key="1">
+              <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
+                columns={this.state.orderType === 1 ? clientOrderColumns : firmOrderColumns}
+                dataSource={this.state.orderType === 1 ? clientOrdersList : firmOrdersList}
+                pagination={pagination}
+              />
+            </TabPane>
+          </Tabs>
           <WrapAddOrderBackModal
             wrappedComponentRef={(form) => this.addOrderBackModal = form}
             orderType={this.state.orderType}
