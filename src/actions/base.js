@@ -212,3 +212,10 @@ export function formatemployeeSalaryRegulation(dataSource) {
     return [];
   };
 }
+
+export function changeSelectedKeys(params) {
+  return {
+    type: 'CHANGE_SELECTED_KEY',
+    payload: params
+  };
+}

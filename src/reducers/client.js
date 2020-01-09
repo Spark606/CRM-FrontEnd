@@ -13,10 +13,15 @@ const initialState = {
   pageTotal: 1,
   clientOrdersList: [],
   oneOrderBackList: [],
+  selectedRowKeys: [],
 };
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
+    case 'CHANGE_SELECTED_KEY':
+      return Object.assign({}, state, {
+        selectedRowKeys: action.payload,
+      });
     case cs.GET_CLIENTS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -26,6 +31,7 @@ export default function clientReducer(state = initialState, action) {
         clientsList: formatClients(action.payload.data.content),
         pageTotal: action.payload.data.totalPages * 2,
         currentPage: action.payload.data.number + 1,
+        selectedRowKeys: [],
         isFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
@@ -116,15 +122,8 @@ export default function clientReducer(state = initialState, action) {
       } else {
         message.success('提交修改个人客户审核记录成功！请耐心等待审核结果。');
       }
-      const updateClientTemp = state.clientsList.map(e => {
-        if (e.clientId === action.payload.data.resource.resourceId) {
-          return formatClients([action.payload.data.resource])[0];
-        }
-        return e;
-      })
       return Object.assign({}, state, {
         isFetching: false,
-        clientsList: action.payload.data.employeeRole === 2 ? updateClientTemp : [...state.clientsList]
       });
     case cs.UPDATE_ONE_CLIENT_FAIL:
       if (action.error.code === 88) {

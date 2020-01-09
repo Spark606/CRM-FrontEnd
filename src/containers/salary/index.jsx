@@ -71,49 +71,98 @@ export default class SalaryTable extends Component {
     };
     const columns = [
       {
+        width: 100,
         title: '员工姓名',
         dataIndex: 'employeeName',
         key: 'name',
+        fixed: 'left',
         render: text => <span>{text ? text : '--'}</span>,
       }, {
+        width: 100,
         title: '底薪 (￥)',
         dataIndex: 'baseSalary',
         key: 'baseSalary',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
-        title: '业绩 (￥)',
+        width: 150,
+        title: '人才回款总额 (￥)',
+        dataIndex: 'clientSumPay',
+        key: 'clientSumPay',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 150,
+        title: '企业回款总额 (￥)',
+        dataIndex: 'firmSumPay',
+        key: 'firmSumPay',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 150,
+        title: '岗位工资 (￥)',
+        dataIndex: 'positionSalary',
+        key: 'positionSalary',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 100,
+        title: '请假 (￥)',
+        dataIndex: 'employeeLeave',
+        key: 'employeeLeave',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 100,
+        title: '迟到 (￥)',
         dataIndex: 'performance',
         key: 'performance',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
+        width: 100,
+        title: '奖金 (￥)',
+        dataIndex: 'bonus',
+        key: 'bonus',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        width: 100,
         title: '罚款 (￥)',
         dataIndex: 'penalty',
         key: 'penalty',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
-        title: '实际收入 (￥)',
-        dataIndex: 'salary',
-        key: 'salary',
+        width: 150,
+        title: '社保个人费用 (￥)',
+        dataIndex: 'insurance',
+        key: 'insurance',
         render: text => <span>{text === null ? '--' : text}</span>,
       }, {
-        title: '备注',
+        width: 100,
+        title: '其他 (￥)',
+        dataIndex: 'other',
+        key: 'other',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }, {
+        title: '备注（其他）',
         dataIndex: 'info',
         key: 'info',
         render: text => <span>{text ? text : '--'}</span>,
       }, {
+        width: 100,
+        title: '实际收入 (￥)',
+        dataIndex: 'salary',
+        key: 'salary',
+        render: text => <span>{text === null ? '--' : text}</span>,
+      }
+    ];
+    if(this.props.userRole === '2'){
+      columns.push({
+        width: 100,
         title: '操作',
         key: 'operation',
+        fixed: 'right',
         render: (record) => <span>
           <a onClick={() => this.handleEidtSalary(record)}>
-            {this.props.userRole === "2" ?
             <Button>修改</Button>
-            :
-            <Button>查看</Button>
-            }
           </a>
         </span>,
-      },
-    ];
+      })
+    }
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>
@@ -133,6 +182,7 @@ export default class SalaryTable extends Component {
             columns={columns}
             dataSource={employeesSalaryList}
             pagination={pagination}
+            scroll={{ x: 1800 }}
             expandedRowRender={
               record => {
                 return (
@@ -170,7 +220,6 @@ export default class SalaryTable extends Component {
                       )}
                     />
                   </div>
-
                 )
               }
             }

@@ -273,7 +273,7 @@ class EditFirmModal extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col span={12}>
+                      {/* <Col span={12}>
                         <Form.Item label="客户状态：">
                           {getFieldDecorator('status', {
                             initialValue: dataSource ? dataSource.status : 1
@@ -287,7 +287,7 @@ class EditFirmModal extends Component {
                             </Select>
                           )}
                         </Form.Item>
-                      </Col>
+                      </Col> */}
                       <Col span={12}>
                         <Form.Item label="所在城市：">
                           {getFieldDecorator('province', {
@@ -295,8 +295,19 @@ class EditFirmModal extends Component {
                           })(<Input style={{ maxWidth: 200 }} />)}
                         </Form.Item>
                       </Col>
+                      <Col span={12}>
+                        <Form.Item label="资源状态：">
+                          {getFieldDecorator('shareStatus', {
+                            initialValue: dataSource ? dataSource.shareStatus : 2,
+                          })(
+                            <Select style={{ width: 120 }}>
+                              <Option value={1}>公有资源</Option>
+                              <Option value={2}>私有资源</Option>
+                            </Select>)}
+                        </Form.Item>
+                      </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col span={12}>
                         <Form.Item label="公司类别：">
                           {getFieldDecorator('category', {
@@ -320,18 +331,7 @@ class EditFirmModal extends Component {
                           )}
                         </Form.Item>
                       </Col>
-                      <Col span={12}>
-                        <Form.Item label="资源状态：">
-                          {getFieldDecorator('shareStatus', {
-                            initialValue: dataSource ? dataSource.shareStatus : 2,
-                          })(
-                            <Select style={{ width: 120 }}>
-                              <Option value={1}>公有资源</Option>
-                              <Option value={2}>私有资源</Option>
-                            </Select>)}
-                        </Form.Item>
-                      </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <Col span={24} className="marker">
                         <Form.Item label="备注：">
@@ -404,7 +404,7 @@ class EditFirmModal extends Component {
                     <Row style={{ textAlign: 'right' }}>
                       <Col>
                         <Button key="back" onClick={this.handleCancel}> 关闭</Button>
-                        <Button key="submit" htmlType="submit" type="primary" form="formBox" onClick={this.handleOk}>提交</Button>
+                        <Button key="submit" htmlType="submit" type="primary" form="formBox" onClick={this.handleSubmit}>提交</Button>
                       </Col>
                     </Row>
                   </Form>

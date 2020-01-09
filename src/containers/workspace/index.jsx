@@ -173,24 +173,24 @@ export default class SalaryTable extends Component {
         dataIndex: 'gender',
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 200,
         title: '邮箱',
@@ -295,24 +295,24 @@ export default class SalaryTable extends Component {
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 150,
         title: '到期时间',

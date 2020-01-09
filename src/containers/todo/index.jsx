@@ -180,35 +180,35 @@ handlePayBackWithWdraw = (record) => {
         filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   filters: [{
+      //     value: 1, text: '潜在'
+      //   }, {
+      //     value: 2, text: '意向'
+      //   }, {
+      //     value: 3, text: '成交'
+      //   }, {
+      //     value: 4, text: '失败'
+      //   }, {
+      //     value: 5, text: '已流失'
+      //   }],
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 200,
         title: '邮箱',
@@ -309,35 +309,35 @@ handlePayBackWithWdraw = (record) => {
         filters: [{ text: 1, value: '女' }, { text: 2, value: '男' }],
         render: text => <span>{text === 1 ? '女' : '男'}</span>
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   filters: [{
+      //     value: 1, text: '潜在'
+      //   }, {
+      //     value: 2, text: '意向'
+      //   }, {
+      //     value: 3, text: '成交'
+      //   }, {
+      //     value: 4, text: '失败'
+      //   }, {
+      //     value: 5, text: '已流失'
+      //   }],
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 200,
         title: '邮箱',
@@ -424,35 +424,35 @@ handlePayBackWithWdraw = (record) => {
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   filters: [{
+      //     value: 1, text: '潜在'
+      //   }, {
+      //     value: 2, text: '意向'
+      //   }, {
+      //     value: 3, text: '成交'
+      //   }, {
+      //     value: 4, text: '失败'
+      //   }, {
+      //     value: 5, text: '已流失'
+      //   }],
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 150,
         title: '到期时间',
@@ -559,35 +559,35 @@ handlePayBackWithWdraw = (record) => {
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        filters: [{
-          value: 1, text: '潜在'
-        }, {
-          value: 2, text: '意向'
-        }, {
-          value: 3, text: '成交'
-        }, {
-          value: 4, text: '失败'
-        }, {
-          value: 5, text: '已流失'
-        }],
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   filters: [{
+      //     value: 1, text: '潜在'
+      //   }, {
+      //     value: 2, text: '意向'
+      //   }, {
+      //     value: 3, text: '成交'
+      //   }, {
+      //     value: 4, text: '失败'
+      //   }, {
+      //     value: 5, text: '已流失'
+      //   }],
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 150,
         title: '到期时间',

@@ -13,10 +13,15 @@ const initialState = {
   pageTotal: 1,
   firmOrdersList: [],
   oneOrderBackList: [],
+  selectedRowKeys: [],
 };
 
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
+    case 'CHANGE_SELECTED_KEY':
+      return Object.assign({}, state, {
+        selectedRowKeys: action.payload,
+      });
     case cs.GET_FIRMS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -91,15 +96,8 @@ export default function firmReducer(state = initialState, action) {
       } else {
         message.success('提交修改企业客户审核记录成功！请耐心等待审核结果。');
       }
-      const updateFirmTemp = state.firmsList.map(e => {
-        if (e.firmId === action.payload.data.company.companyId) {
-          return formatFirms([action.payload.data.company])[0];
-        }
-        return e;
-      })
       return Object.assign({}, state, {
         isFetching: false,
-        firmsList: action.payload.data.employeeRole === 2 ? updateFirmTemp : [...state.firmsList]
       });
     case cs.UPDATE_ONE_FIRM_FAIL:
       message.error('修改企业客户失败！');

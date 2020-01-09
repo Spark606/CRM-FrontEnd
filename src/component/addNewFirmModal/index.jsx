@@ -59,7 +59,7 @@ class AddNewFirmModal extends Component {
           this.props.pageSize,
           this.props.shareStatus,
           '',
-          '1',
+          'all',
           (currentPage, pageSize, shareStatus, searchText, searchType) => {
             this.handleCancel();
             this.props.getFirms({

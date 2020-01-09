@@ -17,7 +17,8 @@ import AddFirmOrderModal from '../../component/addFirmOrderModal';
 import UpLoadModal from '../../component/uploadModal';
 import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus, getFirmOrder, getFirmOrderBack } from '../../actions/firm';
 import { getAllClients } from '../../actions/client';
-import { getEmployeeList } from '../../actions/api';
+import { getEmployeeList} from '../../actions/api';
+import { changeSelectedKeys} from '../../actions/base';
 import './style.scss';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -30,7 +31,8 @@ const mapStateToProps = state => ({
   userId: state.sessions.user_Id,
   userRole: state.sessions.user_role,
   userName: state.sessions.user_name,
-  employeeList: state.sessions.employeeList
+  employeeList: state.sessions.employeeList,
+  selectedRowKeys: state.firm.selectedRowKeys,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -42,7 +44,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getEmployeeList,
     updateFirmShareStatus, 
     getFirmOrder, 
-    getFirmOrderBack
+    getFirmOrderBack,
+    changeSelectedKeys
   },
   dispatch
 );
@@ -51,8 +54,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default class FirmsTable extends Component {
   state = {
     searchText: '',
-    searchType: '1',
-    selectedRowKeys: [],
+    searchType: 'all',
     visible: false,
     tempData: null,
     shareStatus: 2,
@@ -103,7 +105,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({ companyId: record.firmId }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
+    this.props.deleteFirm({ companyId: this.state.selectedRowKeys }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
   }
   // 删除客户end
 
@@ -138,8 +140,8 @@ export default class FirmsTable extends Component {
   handleCheckStatus = (e) => {
     this.setState({
       shareStatus: e,
-      selectedRowKeys: []
     });
+    this.props.changeSelectedKeys([]);
     this.props.getFirms({
       searchText: this.state.searchText,
       searchType: this.state.searchType,
@@ -150,18 +152,28 @@ export default class FirmsTable extends Component {
   }
   handleCheckOneStatus = (e) => {
     this.props.updateFirmShareStatus({
-      companyId: this.state.selectedRowKeys,
+      companyId: this.props.selectedRowKeys,
       shareStatus: this.state.shareStatus === 2 ? 1 : 2
     }, this.state.shareStatus, this.props.pageSize, this.state.searchText, this.state.searchType);
   }
 
   onSelectChange = selectedRowKeys => {
-    this.setState({ selectedRowKeys });
+    this.props.changeSelectedKeys(selectedRowKeys);
   };
   handleCheckSearchType = (e) => {
     this.setState({ searchType: e });
+    if (e === 'all') {
+      this.setState({ searchText: '' });
+      this.refs.searchBar.input.state.value='';
+      this.props.getFirms({
+        searchText: '',
+        searchType: 'all',
+        shareStatus: this.state.shareStatus,
+        page: 1,
+        pageSize: this.props.pageSize
+      });
+    }
   }
-
   handleMoreSearch = (value) => {
     this.setState({ searchText: value });
     this.props.getFirms({
@@ -174,12 +186,11 @@ export default class FirmsTable extends Component {
   }
   render() {
     const { firmsList, pageSize, currentPage, pageTotal, allClientsList } = this.props;
-    const { selectedRowKeys } = this.state;
     const rowSelection = {
-      selectedRowKeys,
+      selectedRowKeys: this.props.selectedRowKeys,
       onChange: this.onSelectChange,
     };
-    const hasSelected = selectedRowKeys.length > 0;
+    const hasSelected = this.props.selectedRowKeys? this.props.selectedRowKeys.length > 0 : true;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -199,40 +210,40 @@ export default class FirmsTable extends Component {
           </a>
           : '--'}</span>),
       },
-      {
-        width: 100,
-        title: '类别',
-        dataIndex: 'category',
-        render: text => {
-          if (text === 1) {
-            return (<span>建筑业</span>)
-          } else if (text === 2) {
-            return (<span>农林牧渔</span>)
-          } else if (text === 3) {
-            return (<span>住宿餐饮</span>)
-          } else if (text === 4) {
-            return (<span>IT</span>)
-          } else if (text === 5) {
-            return (<span>金融业</span>)
-          } else if (text === 6) {
-            return (<span>房地产</span>)
-          } else if (text === 7) {
-            return (<span>政府机关</span>)
-          } else if (text === 8) {
-            return (<span>文体传媒</span>)
-          } else if (text === 9) {
-            return (<span>运输物流</span>)
-          } else if (text === 10) {
-            return (<span>商业服务</span>)
-          } else if (text === 11) {
-            return (<span>卫生医疗</span>)
-          } else if (text === 12) {
-            return (<span>教育培训</span>)
-          } else if (text === 13) {
-            return (<span>其他</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '类别',
+      //   dataIndex: 'category',
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>建筑业</span>)
+      //     } else if (text === 2) {
+      //       return (<span>农林牧渔</span>)
+      //     } else if (text === 3) {
+      //       return (<span>住宿餐饮</span>)
+      //     } else if (text === 4) {
+      //       return (<span>IT</span>)
+      //     } else if (text === 5) {
+      //       return (<span>金融业</span>)
+      //     } else if (text === 6) {
+      //       return (<span>房地产</span>)
+      //     } else if (text === 7) {
+      //       return (<span>政府机关</span>)
+      //     } else if (text === 8) {
+      //       return (<span>文体传媒</span>)
+      //     } else if (text === 9) {
+      //       return (<span>运输物流</span>)
+      //     } else if (text === 10) {
+      //       return (<span>商业服务</span>)
+      //     } else if (text === 11) {
+      //       return (<span>卫生医疗</span>)
+      //     } else if (text === 12) {
+      //       return (<span>教育培训</span>)
+      //     } else if (text === 13) {
+      //       return (<span>其他</span>)
+      //     }
+      //   }
+      // },
       {
         width: 100,
         title: '省份',
@@ -254,24 +265,24 @@ export default class FirmsTable extends Component {
         key: 'remark',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 100,
-        title: '状态',
-        dataIndex: 'status',
-        render: text => {
-          if (text === 1) {
-            return (<span>潜在</span>)
-          } else if (text === 2) {
-            return (<span>意向</span>)
-          } else if (text === 3) {
-            return (<span>成交</span>)
-          } else if (text === 4) {
-            return (<span>失败</span>)
-          } else if (text === 5) {
-            return (<span>已流失</span>)
-          }
-        }
-      },
+      // {
+      //   width: 100,
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   render: text => {
+      //     if (text === 1) {
+      //       return (<span>潜在</span>)
+      //     } else if (text === 2) {
+      //       return (<span>意向</span>)
+      //     } else if (text === 3) {
+      //       return (<span>成交</span>)
+      //     } else if (text === 4) {
+      //       return (<span>失败</span>)
+      //     } else if (text === 5) {
+      //       return (<span>已流失</span>)
+      //     }
+      //   }
+      // },
       {
         width: 150,
         title: '到期时间',
@@ -360,16 +371,16 @@ export default class FirmsTable extends Component {
               <InputGroup compact>
                 <span style={{ verticalAlign: 'middle' }}> 更多搜索：</span>
                 <Select defaultValue={this.state.searchType} style={{ width: 100 }} onChange={this.handleCheckSearchType}>
-                  <Option value="1">不限</Option>
-                  <Option value="2">手机号</Option>
-                  <Option value="3">客户名称</Option>
-                  <Option value="4">QQ</Option>
-                  <Option value="5">邮箱</Option>
-                  <Option value="6"> 备注</Option>
-                  <Option value="7"> 证书及专业</Option>
-                  <Option value="8"> 注册省份</Option>
+                  <Option value="all">不限</Option>
+                  <Option value="phoneNumber">手机号</Option>
+                  <Option value="companyName">客户名称</Option>
+                  <Option value="qq">QQ</Option>
+                  <Option value="email">邮箱</Option>
+                  <Option value="info"> 备注</Option>
+                  <Option value="certificate"> 证书及专业</Option>
+                  <Option value="province"> 注册省份</Option>
                 </Select>
-                <Search style={{ maxWidth: 200 }} defaultValue={this.state.searchText} onSearch={e => this.handleMoreSearch(e)} enterButton />
+                <Search style={{ maxWidth: 200 }} defaultValue={this.state.searchText}  ref= "searchBar"  onSearch={e => this.handleMoreSearch(e)} enterButton />
               </InputGroup>
             </Col>
             <Col span={8}>
@@ -378,7 +389,7 @@ export default class FirmsTable extends Component {
                 {this.state.shareStatus === 2 ?
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为公有资源</Button> :
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
-                <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteClient()}>删除</Button>
+                <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteFirm()}>删除</Button>
               </ButtonGroup>
             </Col>
           </Row>
@@ -408,6 +419,7 @@ export default class FirmsTable extends Component {
           userId={this.props.userId}
           userName={this.props.userName}
           employeeList={this.props.employeeList}
+          shareStatus={this.state.shareStatus}
         />
         {/* 新建跟进记录模态框 */}
         <AddFirmRecordModal

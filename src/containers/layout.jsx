@@ -142,7 +142,7 @@ export default class LayoutPagae extends Component {
             <Menu.Item key="salary">
               <Link to={'/main/salary'}>
                 <Icon type="money-collect" />
-                <span>绩效情况</span>
+                <span>工资统计</span>
               </Link>
             </Menu.Item>
             {this.props.userRole === '2' ?

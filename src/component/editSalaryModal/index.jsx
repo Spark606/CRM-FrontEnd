@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 class EiditSalaryModal extends Component {
   state = {
     visible: false,
-    showEidt: false
+    showEidt: true
   };
   showModal = () => {
     this.setState({
@@ -36,13 +36,13 @@ class EiditSalaryModal extends Component {
   handleCancel = e => {
     this.setState({
       visible: false,
-      showEidt: false
+      // showEidt: false
     });
   };
   handleOk = () => {
     this.setState({
       visible: false,
-      showEidt: false
+      // showEidt: false
     });
   }
   handleEditBox = (e) => {
@@ -262,7 +262,7 @@ class EiditSalaryModal extends Component {
               <Row>
                 <Col span={24}>备注(说明“其他”)：{employeeSalaryRegulation.info ? employeeSalaryRegulation.info : '--'}</Col>
               </Row>
-              {this.props.user_role === '2' ? <Button type="primary" onClick={this.handleOpenEditBox}>修改</Button> : null}
+              {/* {this.props.user_role === '2' ? <Button type="primary" onClick={this.handleOpenEditBox}>修改</Button> : null} */}
             </div>
           }
         </div>

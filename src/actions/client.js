@@ -164,7 +164,7 @@ export function addNewClientOrder(params) {
   };
 }
 
-export function updateClientShareStatus(params, shareStatus, pageSize,  searchText, searchType) {
+export function updateClientShareStatus(params, shareStatus, pageSize, searchText, searchType) {
   return async (dispatch) => {
     const action = await dispatch({
       [CALL_API]: {
@@ -230,3 +230,4 @@ export function getClientOrderBack(params) {
     return action;
   };
 }
+

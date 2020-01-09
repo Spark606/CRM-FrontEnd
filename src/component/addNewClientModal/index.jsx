@@ -57,7 +57,7 @@ class AddNewClientModal extends Component {
           this.props.pageSize,
           this.props.shareStatus,
           '',
-          '1', // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
+          'all', // 新建了一个客户，应该清除所有查询，但是如何消除filtered?
           (currentPage, pageSize, shareStatus, searchText, searchType) => {
             this.handleCancel();
             this.props.getClients({
