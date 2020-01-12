@@ -29,7 +29,7 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_FIRMS_SUCCESS:
       return Object.assign({}, state, {
         firmsList: action.payload ? formatFirms(action.payload.data.content) : [],
-        pageTotal: parseInt(action.payload.data.totalPages) * 2,
+        pageTotal: parseInt(action.payload.data.totalElements),
         currentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });

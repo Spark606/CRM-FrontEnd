@@ -32,8 +32,8 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_DELETE_CLIENTS_LIST_SUCCESS:
       return Object.assign({}, state, {
         deleteClientsList: formatClients(action.payload.data.content),
-        deleteClientsPageTotal: action.payload.data.totalPages * 2,
-        deleteClientsCurrentPage: action.payload.data.number + 1,
+        deleteClientsPageTotal: parseInt(action.payload.data.totalElements),
+        deleteClientsCurrentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });
     case cs.GET_DELETE_CLIENTS_LIST_FAIL:
@@ -50,8 +50,8 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_UPDATE_CLIENTS_LIST_SUCCESS:
       return Object.assign({}, state, {
         updateClientsList: formatClients(action.payload.data.content),
-        updateClientsPageTotal: action.payload.data.totalPages * 2,
-        updateClientsCurrentPage: action.payload.data.number + 1,
+        updateClientsPageTotal: parseInt(action.payload.data.totalElements),
+        updateClientsCurrentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });
     case cs.GET_UPDATE_CLIENTS_LIST_FAIL:
@@ -68,8 +68,8 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_DELETE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
         deleteFirmsList: formatFirms(action.payload.data.content),
-        deleteFirmsPageTotal: action.payload.data.totalPages * 2,
-        deleteFirmsCurrentPage: action.payload.data.number + 1,
+        deleteFirmsPageTotal: parseInt(action.payload.data.totalElements),
+        deleteFirmsCurrentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });
     case cs.GET_DELETE_FIRMS_LIST_FAIL:
@@ -86,8 +86,8 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_UPDATE_FIRMS_LIST_SUCCESS:
       return Object.assign({}, state, {
         updateFirmsList: formatFirms(action.payload.data.content),
-        updateFirmsPageTotal: action.payload.data.totalPages * 2,
-        updateFirmsCurrentPage: action.payload.data.number + 1,
+        updateFirmsPageTotal: parseInt(action.payload.data.totalElements),
+        updateFirmsCurrentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });
     case cs.GET_UPDATE_FIRMS_LIST_FAIL:
@@ -142,8 +142,8 @@ export default function firmReducer(state = initialState, action) {
     case cs.GET_PAYBACK_LIST_SUCCESS:
       return Object.assign({}, state, {
         payBackList: action.payload.data.content,
-        payBackPageTotal: action.payload.data.totalPages * 2,
-        payBackCurrentPage: action.payload.data.number + 1,
+        payBackPageTotal: parseInt(action.payload.data.totalElements),
+        payBackCurrentPage: parseInt(action.payload.data.number) + 1,
         isFetching: false,
       });
     case cs.GET_PAYBACK_LIST_FAIL:

@@ -14,6 +14,8 @@ const initialState = {
   clientOrdersList: [],
   oneOrderBackList: [],
   selectedRowKeys: [],
+  isFetching: false,
+  tableIsFetching: false
 };
 // const layoutReducer = (state = initialState) => state;
 export default function clientReducer(state = initialState, action) {
@@ -24,19 +26,19 @@ export default function clientReducer(state = initialState, action) {
       });
     case cs.GET_CLIENTS_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true
+        tableIsFetching: true
       });
     case cs.GET_CLIENTS_SUCCESS:
       return Object.assign({}, state, {
         clientsList: formatClients(action.payload.data.content),
-        pageTotal: parseInt(action.payload.data.totalPages),
+        pageTotal: parseInt(action.payload.data.totalElements),
         currentPage: parseInt(action.payload.data.number) + 1,
         selectedRowKeys: [],
-        isFetching: false,
+        tableIsFetching: false,
       });
     case cs.GET_CLIENTS_FAIL:
       return Object.assign({}, state, {
-        isFetching: false,
+        tableIsFetching: false,
       });
 
 

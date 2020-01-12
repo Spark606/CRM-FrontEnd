@@ -32,7 +32,7 @@ const mapStateToProps = state => ({
   userName: state.sessions.user_name,
   employeeList: state.sessions.employeeList,
   selectedRowKeys: state.client.selectedRowKeys,
-  isFetching: state.client.isFetching,
+  tableIsFetching: state.client.tableIsFetching,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -67,7 +67,6 @@ export default class ClientsTable extends Component {
     this.onInit();
   }
   onInit = () => {
-    this.props.getAllFirms();
     this.props.getClients({
       searchType: this.state.searchType,
       searchText: this.state.searchText,
@@ -75,6 +74,7 @@ export default class ClientsTable extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     });
+    this.props.getAllFirms();
     if (this.state.user_role === "2") {
       this.props.getEmployeeList();
     }
@@ -385,9 +385,9 @@ export default class ClientsTable extends Component {
             rowSelection={rowSelection}
             columns={columns}
             dataSource={clientsList}
-            scroll={{ x: 1900 }}
+            scroll={{ x: 1900, y: 600 }}
             pagination={pagination}
-            loading={this.props.isFetching}
+            loading={this.props.tableIsFetching}
           />
         </div>
         {/* 客户信息模态框 */}

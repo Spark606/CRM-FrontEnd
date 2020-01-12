@@ -24,15 +24,15 @@ export default function orderReducer(state = initialState, action) {
         return Object.assign({}, state, {
           isFetching: false,
           clientOrdersList: formatClientOrder(action.payload.data.businessList.content),
-          pageTotal: action.payload.data.businessList.totalPages * 2,
-          currentPage: action.payload.data.businessList.number + 1,
+          pageTotal: parseInt(action.payload.data.businessList.totalElements),
+          currentPage: parseInt(action.payload.data.businessList.number) + 1,
         });
       } else if (action.payload.data.orderType === 'GET_COMPANY_BUSINESS_SUCCESS') {
         return Object.assign({}, state, {
           isFetching: false,
           firmOrdersList: formatFirmOrder(action.payload.data.businessList),
-          pageTotal: action.payload.data.totalPages * 2,
-          currentPage: action.payload.data.page + 1,
+          pageTotal: parseInt(action.payload.data.totalElements),
+          currentPage: parseInt(action.payload.data.number) + 1,
         });
       }
     case cs.GET_ORDER_LIST_FAIL:
