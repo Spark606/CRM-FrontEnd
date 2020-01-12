@@ -139,17 +139,17 @@ class EditFirmModal extends Component {
       render: text => <span>{text ? text : '--'}</span>,
     },
     {
+      width: 150,
+      title: '成交时间',
+      dataIndex: 'createDate',
+      render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+    },
+    {
       // width: 200,
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
       render: text => <span>{text ? text : '--'}</span>,
-    },
-    {
-      width: 150,
-      title: '成交时间',
-      dataIndex: 'createDate',
-      render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
     },
     {
       width: 100,

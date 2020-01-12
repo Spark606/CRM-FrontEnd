@@ -26,17 +26,17 @@ class UpLoadPage extends Component {
   onInit = () => {
   }
   handleUploadSuccess = (info) => {
-    const { badFormat = [1], noRepeat = [1], success } = info.file.response;
+    const { exceptionRow , repeatRow , successRow } = info.file.response.data;
     const that = this;
     this.setState({ uploading: false });
-    if ((badFormat.length === 0 || noRepeat.length === 0) && success > 0) {
+    if ((exceptionRow.length === 0 || repeatRow.length === 0) && successRow > 0) {
       this.setState({
         hasUploadMsg: true,
       });
       Modal.success({
         content: (<span>
           <h4>导入成功！</h4>
-          <div>本次成功导入资源总数: {success}条。</div>
+          <div>本次成功导入资源总数: {successRow}条。</div>
         </span>),
         onOk() {
           that.props.getNewPage({
@@ -50,16 +50,16 @@ class UpLoadPage extends Component {
       });
     }
     // 有成功有失败
-    if ((badFormat.length > 0 || noRepeat.length > 0) && success > 0) {
+    if ((exceptionRow.length > 0 || repeatRow.length > 0) && successRow > 0) {
       this.setState({
         hasUploadMsg: true,
       });
       Modal.warning({
         content: (<span>
           <h4>导入成功！</h4>
-          {noRepeat.length > 0 ? <div>重复资源{noRepeat.length}条，位于 ({_.toString(_.orderBy(_.map(noRepeat, ds => ds.row)))})</div> : null}
-          {badFormat.length > 0 ? <div>格式错误{badFormat.length}条，位于 ({_.toString(_.orderBy(_.map(badFormat, ds => ds.row)))})</div> : null}
-          <div>本次成功导入资源总数: {success}条。</div>
+          {repeatRow.length > 0 ? <div>重复资源{repeatRow.length}条，位于 ({_.toString(_.orderBy(_.map(repeatRow, ds => ds.row)))})</div> : null}
+          {exceptionRow.length > 0 ? <div>格式错误{exceptionRow.length}条，位于 ({_.toString(_.orderBy(_.map(exceptionRow, ds => ds.row)))})</div> : null}
+          <div>本次成功导入资源总数: {successRow}条。</div>
         </span>),
         onOk() {
           that.props.getNewPage({
@@ -73,19 +73,18 @@ class UpLoadPage extends Component {
       });
     }
     // 全部失败
-    if ((badFormat.length > 0 || noRepeat.length > 0) && success === 0) {
+    if ((exceptionRow.length > 0 || repeatRow.length > 0) && successRow === 0) {
       this.setState({
         hasUploadMsg: true,
       });
       Modal.error({
         content: (<span>
           <h4>导入失败！ </h4>
-          {noRepeat.length > 0 ? <div>重复资源{noRepeat.length}条，位于 ({_.toString(noRepeat)})</div> : null}
-          {badFormat.length > 0 ? <div>格式错误{badFormat.length}条，位于 ({_.toString(badFormat)})</div> : null}
+          {repeatRow.length > 0 ? <div>重复资源{repeatRow.length}条，位于 ({_.toString(repeatRow)})</div> : null}
+          {exceptionRow.length > 0 ? <div>格式错误{exceptionRow.length}条，位于 ({_.toString(exceptionRow)})</div> : null}
         </span>)
       });
     }
-    // this.onInitVendors();
   }
 
   handleUploading = () => {
@@ -107,13 +106,14 @@ class UpLoadPage extends Component {
     const that = this;
     const uploadProps = {
       name: 'file',
-      action: `${PackageJSON.proxy}/crm/upload/uploadCompanyFile`,
+      action: `${PackageJSON.proxy}/crm/upload/${this.props.getAPI}`,
       headers: {
         Authorization: `Bearer ${token}`.trim(),
         // 'Content-Type': 'multipart/form-data',
       },
       showUploadList: false,
       onChange(info) {
+        console.log(info)
         if (info.file.status === 'uploading') {
           that.handleUploading();
         }

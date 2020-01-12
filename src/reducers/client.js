@@ -29,8 +29,8 @@ export default function clientReducer(state = initialState, action) {
     case cs.GET_CLIENTS_SUCCESS:
       return Object.assign({}, state, {
         clientsList: formatClients(action.payload.data.content),
-        pageTotal: action.payload.data.totalPages * 2,
-        currentPage: action.payload.data.number + 1,
+        pageTotal: parseInt(action.payload.data.totalPages),
+        currentPage: parseInt(action.payload.data.number) + 1,
         selectedRowKeys: [],
         isFetching: false,
       });
@@ -214,6 +214,20 @@ export default function clientReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
       });
+
+      case cs.GET_RESOURCE_EXCEL_REQUEST:
+        return Object.assign({}, state, {
+          isFetching: true
+        });
+      case cs.GET_RESOURCE_EXCEL_SUCCESS:
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
+      case cs.GET_RESOURCE_EXCEL_FAIL:
+        message.error('导出失败！');
+        return Object.assign({}, state, {
+          isFetching: false,
+        });
     default:
       return state;
   }

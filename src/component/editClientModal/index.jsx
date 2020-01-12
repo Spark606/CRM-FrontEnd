@@ -125,12 +125,6 @@ class EditClientModal extends Component {
       render: text => <span>{text ? text : '--'}</span>,
     },
     {
-      title: '备注',
-      dataIndex: 'remark',
-      key: 'remark',
-      render: text => <span>{text ? text : '--'}</span>,
-    },
-    {
       width: 150,
       title: '成交时间',
       dataIndex: 'createDate',
@@ -138,6 +132,12 @@ class EditClientModal extends Component {
       sorter: (a, b) => a.createDate - b.createDate,
       sortDirections: ['descend', 'ascend'],
       render: text => <span>{text ? moment(text).format(yearFormat) : '--'}</span>,
+    },
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
+      render: text => <span>{text ? text : '--'}</span>,
     },
     {
       width: 100,
