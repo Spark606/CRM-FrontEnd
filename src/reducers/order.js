@@ -20,7 +20,6 @@ export default function orderReducer(state = initialState, action) {
       });
 
     case cs.GET_ORDER_LIST_SUCCESS:
-      console.log(action);
       if (action.payload.data.orderType === 'GET_RESOURCE_BUSINESS_SUCCESS') {
         return Object.assign({}, state, {
           isFetching: false,

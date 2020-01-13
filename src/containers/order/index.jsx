@@ -70,7 +70,6 @@ export default class OrderTable extends Component {
 
   //删除订单
   handledeleteOrder = (record) => {
-    console.log(this.props.currentPage, this.props.pageSize, this.state.isCompleted);
     this.props.deleteOrder({
       businessId: record.orderId,
       orderType: this.state.orderType,
