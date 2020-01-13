@@ -19,7 +19,8 @@ const initialState = {
 
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
-    case 'CHANGE_SELECTED_KEY':
+    case 'CHANGE_FIRM_SELECTED_KEY':
+      console.log(action);
       return Object.assign({}, state, {
         selectedRowKeys: action.payload,
       });
@@ -33,6 +34,7 @@ export default function firmReducer(state = initialState, action) {
         pageTotal: parseInt(action.payload.data.totalElements),
         currentPage: parseInt(action.payload.data.number) + 1,
         tableIsFetching: false,
+        selectedRowKeys: [],
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {

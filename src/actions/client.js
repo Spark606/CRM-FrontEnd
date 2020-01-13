@@ -268,3 +268,10 @@ export function downloadResourceExcel() {
     return action;
   };
 }
+
+export function changeSelectedKeys(params) {
+  return {
+    type: 'CHANGE_CLIENT_SELECTED_KEY',
+    payload: params
+  };
+}

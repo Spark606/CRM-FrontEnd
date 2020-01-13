@@ -18,7 +18,7 @@ import UpLoadModal from '../../component/uploadModal';
 import { getClients, getClientRecordsList, addNewClient, deleteClient, addNewClientOrder, updateClientShareStatus, getClientOrder, getClientOrderBack, downloadResourceExcel } from '../../actions/client';
 import { getAllFirms } from '../../actions/firm';
 import { getEmployeeList } from '../../actions/api';
-import { changeSelectedKeys } from '../../actions/base';
+import { changeSelectedKeys } from '../../actions/client';
 import './style.scss';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -61,7 +61,6 @@ export default class ClientsTable extends Component {
     tempData: null,
     shareStatus: 2,
     user_role: JSON.parse(localStorage.getItem("user")).user_role,
-    pageSize: this.props.pageSize
   };
   componentWillMount() {
     this.onInit();
@@ -82,7 +81,6 @@ export default class ClientsTable extends Component {
 
   // 新建客户
   openAddModal = (e) => {
-    console.log('open');
     this.setState({
       tempData: null
     });
@@ -164,6 +162,7 @@ export default class ClientsTable extends Component {
 
   onSelectChange = selectedRowKeys => {
     this.props.changeSelectedKeys(selectedRowKeys);
+    console.log(selectedRowKeys);
   };
   handleCheckSearchType = (e) => {
     this.setState({ searchType: e });

@@ -6,7 +6,6 @@ const { Option } = Select;
 const { Search } = Input;
 const InputGroup = Input.Group;
 const ButtonGroup = Button.Group;
-import Highlighter from 'react-highlight-words';
 import _ from 'lodash';
 import moment from 'moment';
 import { hourFormat, yearFormat } from '../../constants';
@@ -18,7 +17,7 @@ import UpLoadModal from '../../component/uploadModal';
 import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus, getFirmOrder, getFirmOrderBack } from '../../actions/firm';
 import { getAllClients } from '../../actions/client';
 import { getEmployeeList} from '../../actions/api';
-import { changeSelectedKeys} from '../../actions/base';
+import { changeSelectedKeys} from '../../actions/firm';
 import './style.scss';
 const mapStateToProps = state => ({
   documentTitle: state.layout.documentTitle,
@@ -33,6 +32,7 @@ const mapStateToProps = state => ({
   userName: state.sessions.user_name,
   employeeList: state.sessions.employeeList,
   selectedRowKeys: state.firm.selectedRowKeys,
+  tableIsFetching: state.firm.tableIsFetching,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
@@ -105,7 +105,7 @@ export default class FirmsTable extends Component {
   // 修改客户end
   // 删除客户
   handledeleteFirm = (record) => {
-    this.props.deleteFirm({ companyId: this.state.selectedRowKeys }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
+    this.props.deleteFirm({ companyId: this.props.selectedRowKeys }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
   }
   // 删除客户end
 
@@ -159,6 +159,7 @@ export default class FirmsTable extends Component {
 
   onSelectChange = selectedRowKeys => {
     this.props.changeSelectedKeys(selectedRowKeys);
+    console.log(selectedRowKeys)
   };
   handleCheckSearchType = (e) => {
     this.setState({ searchType: e });

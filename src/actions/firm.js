@@ -237,3 +237,10 @@ export function getFirmOrderBack(params) {
     return action;
   };
 }
+
+export function changeSelectedKeys(params) {
+  return {
+    type: 'CHANGE_FIRM_SELECTED_KEY',
+    payload: params
+  };
+}
