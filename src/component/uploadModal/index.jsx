@@ -29,7 +29,7 @@ class UpLoadPage extends Component {
     const { exceptionRow , repeatRow , successRow } = info.file.response.data;
     const that = this;
     this.setState({ uploading: false });
-    if ((exceptionRow.length === 0 || repeatRow.length === 0) && successRow > 0) {
+    if (exceptionRow.length === 0 && repeatRow.length === 0 && successRow > 0) {
       this.setState({
         hasUploadMsg: true,
       });
@@ -57,8 +57,8 @@ class UpLoadPage extends Component {
       Modal.warning({
         content: (<span>
           <h4>导入成功！</h4>
-          {repeatRow.length > 0 ? <div>重复资源{repeatRow.length}条，位于 ({_.toString(_.orderBy(_.map(repeatRow, ds => ds.row)))})</div> : null}
-          {exceptionRow.length > 0 ? <div>格式错误{exceptionRow.length}条，位于 ({_.toString(_.orderBy(_.map(exceptionRow, ds => ds.row)))})</div> : null}
+          {repeatRow.length > 0 ? <div>重复资源{repeatRow.length}条，位于 ({_.toString(repeatRow)})</div> : null}
+          {exceptionRow.length > 0 ? <div>格式错误{exceptionRow.length}条，位于 ({_.toString(exceptionRow)})</div> : null}
           <div>本次成功导入资源总数: {successRow}条。</div>
         </span>),
         onOk() {
