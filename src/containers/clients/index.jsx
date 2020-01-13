@@ -199,6 +199,7 @@ export default class ClientsTable extends Component {
       headers: {
         // 'Content-Type': "application/json;charset=UTF-8", // 悟空
         // 'Content-Type': 'application/octet-stream',
+        'Content-Type': 'application/vnd.ms-excel;charset=UTF-8',
         Authorization: `Bearer ${token}`.trim(),//string.trim()去除首尾空格
       },
 
@@ -206,9 +207,10 @@ export default class ClientsTable extends Component {
       .then(res => {
         // const blob = new Blob([res], { type: 'application/octet-stream' });
         // const blob = new Blob([res]);
+        console.log(res)
         const blob = new Blob([res], { type: "application/vnd.ms-excel;charset=utf-8" }); // 悟空
         // const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
-        const fileName = "个人客户.xls";
+        const fileName = "个人客户.xlsx";
         if ('download' in document.createElement('a')) { // 非IE下载
           const elink = document.createElement('a');
           elink.download = fileName;
@@ -216,7 +218,7 @@ export default class ClientsTable extends Component {
           elink.href = window.URL.createObjectURL(blob);
           document.body.appendChild(elink);
           elink.click();
-          window.URL.revokeObjectURL(elink.href); // 释放URL 对象
+          // window.URL.revokeObjectURL(elink.href); // 释放URL 对象
           document.body.removeChild(elink);
         } else { // IE10+下载;
           navigator.msSaveBlob(blob, fileName);
@@ -241,7 +243,7 @@ export default class ClientsTable extends Component {
         fixed: 'left',
         render: (text, record) => (<span>{record ?
           <a onClick={() => this.handleEditClient(record)}>
-            {text}
+            {text ? text : '--'}
           </a>
           : '--'}</span>),
       },
@@ -326,10 +328,6 @@ export default class ClientsTable extends Component {
       total: this.props.pageTotal,
       onChange: (a, b) => { this.pageChange(a, b); }
     };
-    // console.log('pageSize', this.props.pageSize);
-    // console.log('pageTotal', this.props.pageTotal);
-    // console.log('currentPage', this.props.currentPage);
-    console.log('pagination', pagination);
     return (
       <div className="container">
         <Breadcrumb style={{ margin: '16px 0' }}>

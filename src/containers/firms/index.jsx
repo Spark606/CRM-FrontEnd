@@ -316,14 +316,14 @@ export default class FirmsTable extends Component {
           <Breadcrumb.Item>企业客户表</Breadcrumb.Item>
         </Breadcrumb>
         <div className="addBtn">
-          <UpLoadModal
+          {/* <UpLoadModal
             searchText={this.state.searchText}
             searchType={this.state.searchType}
             shareStatus={this.state.shareStatus}
             pageSize={this.props.pageSize}
             getNewPage={this.props.getFirms}
             getAPI={'uploadCompanyFile'}
-          />
+          /> */}
           <Button type="primary" onClick={this.openAddModal} style={{ marginLeft: 20 }}> 新建 </Button>
         </div>
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

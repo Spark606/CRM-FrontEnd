@@ -14,6 +14,7 @@ const initialState = {
   firmOrdersList: [],
   oneOrderBackList: [],
   selectedRowKeys: [],
+  tableIsFetching: false
 };
 
 export default function firmReducer(state = initialState, action) {
@@ -24,18 +25,18 @@ export default function firmReducer(state = initialState, action) {
       });
     case cs.GET_FIRMS_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true
+        tableIsFetching: true
       });
     case cs.GET_FIRMS_SUCCESS:
       return Object.assign({}, state, {
         firmsList: action.payload ? formatFirms(action.payload.data.content) : [],
         pageTotal: parseInt(action.payload.data.totalElements),
         currentPage: parseInt(action.payload.data.number) + 1,
-        isFetching: false,
+        tableIsFetching: false,
       });
     case cs.GET_FIRMS_FAIL:
       return Object.assign({}, state, {
-        isFetching: false,
+        tableIsFetching: false,
       });
 
 

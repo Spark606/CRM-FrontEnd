@@ -7,8 +7,8 @@ import rootReducer from './reducers';
 
 export default function configureStore(initialState) {
   const logger = createLogger();
-  // const mid = applyMiddleware(thunk, apiMiddleware);
-  const mid = applyMiddleware(thunk, logger, apiMiddleware);
+  const mid = applyMiddleware(thunk, apiMiddleware);
+  // const mid = applyMiddleware(thunk, logger, apiMiddleware);
   const store = mid(createStore)(rootReducer, initialState);
 
   if(module.hot) {
