@@ -21,7 +21,6 @@ const initialState = {
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_CLIENT_SELECTED_KEY':
-      console.log(action);
       return Object.assign({}, state, {
         selectedRowKeys: action.payload,
       });

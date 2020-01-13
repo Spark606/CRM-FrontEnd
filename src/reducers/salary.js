@@ -24,7 +24,7 @@ export default function salaryReducer(state = initialState, action) {
         isFetching: false,
         employeesSalaryList: formatEmployeesSalary(action.payload.data.employeeSalaryList),
         pageTotal: parseInt(action.payload.data.totalElements),
-        currentPage: parseInt(action.payload.data.number) + 1,
+        currentPage: parseInt(action.payload.data.curPage),
       });
     case cs.GET_EMPLOYEES_SALARYLIST_FAIL:
       return Object.assign({}, state, {

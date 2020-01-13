@@ -162,7 +162,6 @@ export default class ClientsTable extends Component {
 
   onSelectChange = selectedRowKeys => {
     this.props.changeSelectedKeys(selectedRowKeys);
-    console.log(selectedRowKeys);
   };
   handleCheckSearchType = (e) => {
     this.setState({ searchType: e });
@@ -206,7 +205,6 @@ export default class ClientsTable extends Component {
       .then(res => {
         // const blob = new Blob([res], { type: 'application/octet-stream' });
         // const blob = new Blob([res]);
-        console.log(res)
         const blob = new Blob([res], { type: "application/vnd.ms-excel;charset=utf-8" }); // 悟空
         // const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
         const fileName = "个人客户.xlsx";

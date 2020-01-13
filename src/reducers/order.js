@@ -20,6 +20,7 @@ export default function orderReducer(state = initialState, action) {
       });
 
     case cs.GET_ORDER_LIST_SUCCESS:
+      console.log(action);
       if (action.payload.data.orderType === 'GET_RESOURCE_BUSINESS_SUCCESS') {
         return Object.assign({}, state, {
           isFetching: false,
@@ -32,7 +33,7 @@ export default function orderReducer(state = initialState, action) {
           isFetching: false,
           firmOrdersList: formatFirmOrder(action.payload.data.businessList),
           pageTotal: parseInt(action.payload.data.totalElements),
-          currentPage: parseInt(action.payload.data.number) + 1,
+          currentPage: parseInt(action.payload.data.page) + 1,
         });
       }
     case cs.GET_ORDER_LIST_FAIL:

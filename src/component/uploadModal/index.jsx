@@ -113,7 +113,6 @@ class UpLoadPage extends Component {
       },
       showUploadList: false,
       onChange(info) {
-        console.log(info)
         if (info.file.status === 'uploading') {
           that.handleUploading();
         }

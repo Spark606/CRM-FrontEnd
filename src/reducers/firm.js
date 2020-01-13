@@ -8,7 +8,6 @@ const initialState = {
   allFirmsList: [],
   currentPage: 1,
   oneFirmRecord: [],
-  currentPage: 1,
   pageSize: 50,
   pageTotal: 1,
   firmOrdersList: [],
@@ -20,7 +19,6 @@ const initialState = {
 export default function firmReducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_FIRM_SELECTED_KEY':
-      console.log(action);
       return Object.assign({}, state, {
         selectedRowKeys: action.payload,
       });

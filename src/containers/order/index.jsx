@@ -57,7 +57,6 @@ export default class OrderTable extends Component {
     });
   }
   handleGetOrderByFulfillStatus = (key) => {
-    console.log(key)
     this.setState({
       isCompleted: key
     });
@@ -71,6 +70,7 @@ export default class OrderTable extends Component {
 
   //删除订单
   handledeleteOrder = (record) => {
+    console.log(this.props.currentPage, this.props.pageSize, this.state.isCompleted);
     this.props.deleteOrder({
       businessId: record.orderId,
       orderType: this.state.orderType,
@@ -190,22 +190,6 @@ export default class OrderTable extends Component {
         key: 'firmName',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      // {
-      //   width: 120,
-      //   title: '客户名称',
-      //   dataIndex: 'clientLists',
-      //   key: 'clientLists',
-      //   render: text => {
-      //     if (text) {
-      //       const temp = text.map(e => {
-      //         return <Button>{e.resourceName}</Button>
-      //       });
-      //       return temp;
-      //     } else {
-      //       return '--'
-      //     }
-      //   },
-      // },
       {
         width: 100,
         title: '成交总额',

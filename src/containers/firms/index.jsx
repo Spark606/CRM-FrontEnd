@@ -159,7 +159,6 @@ export default class FirmsTable extends Component {
 
   onSelectChange = selectedRowKeys => {
     this.props.changeSelectedKeys(selectedRowKeys);
-    console.log(selectedRowKeys)
   };
   handleCheckSearchType = (e) => {
     this.setState({ searchType: e });

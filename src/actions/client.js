@@ -247,7 +247,6 @@ export function downloadResourceExcel() {
         types: [cs.GET_RESOURCE_EXCEL_REQUEST, cs.GET_RESOURCE_EXCEL_SUCCESS, cs.GET_RESOURCE_EXCEL_FAIL],
       },
     });
-    console.log(action)
     if (action.type === cs.GET_RESOURCE_EXCEL_SUCCESS) {
       const content = action.paylod.data;
       const blob = new Blob([content])

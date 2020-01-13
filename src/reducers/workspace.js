@@ -2,28 +2,42 @@ import * as cs from '../constants';
 import { formatClients, formatRecords, formatClientOrder, formatFirmOrder, formatFirms } from '../actions/base';
 const initialState = {
   isFetching: false,
+
   newClientNum: null,
   newResourceNum: null,
   newResourceList: null,
   newCompanyNum: null,
   newCompanyList: null,
+
   recordClentsList: null,
   recordFirmsList: null,
   recordNum: null,
+
   orderSum: null,
   orderClientsSum: null,
   orderFirmsSum: null,
   orderClientsList: null,
   orderFirmsList: null,
+
   orderPaySum: null,
   orderPayClientsSum: null,
   orderPayFirmsSum: null,
   orderPayClientsList: null,
   orderPayFirmsList: null,
+
   payBackSum: null,
   payBackSumList: null,
+  payBackClientsSum: null,
+  payBackFirmsSum: null,
+  payBackClientsList: null,
+  payBackFirmsList: null,
+
   ownPaySum: null,
   ownPayList: null,
+  clientOwnPaySum: null,
+  firmOwnPaySum: null,
+  clientOwnPayList: null,
+  firmOwnPayList: null,
 };
 
 export default function salaryReducer(state = initialState, action) {
@@ -61,9 +75,17 @@ export default function salaryReducer(state = initialState, action) {
         // 回款总额
         payBackSum: action.payload.data.payBackSum,
         payBackSumList: action.payload.data.payBackSumList,
+        payBackClientsSum: action.payload.data.resourceBusinessAmounts,
+        payBackFirmsSum: action.payload.data.companyBusinessAmounts,
+        payBackClientsList: formatClientOrder(action.payload.data.resourceBusinessList),
+        payBackFirmsList: formatFirmOrder(action.payload.data.companyBusinessList),
         // 欠款总额
         ownPaySum: action.payload.data.payBackOweSum,
         ownPayList: action.payload.data.payBackOweSumList,
+        clientOwnPaySum: action.payload.data.payBackSum,
+        firmOwnPaySum: action.payload.data.payBackSum,
+        clientOwnPayList: action.payload.data.payBackOweSumList,
+        firmOwnPayList: action.payload.data.payBackOweSumList,
         isFetching: false,
       });
     case cs.GET_GROSS_STATUS_FAIL:
