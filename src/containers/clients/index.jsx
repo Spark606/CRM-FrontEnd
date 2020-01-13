@@ -111,6 +111,17 @@ export default class ClientsTable extends Component {
   }
   // 删除客户end
 
+
+
+
+
+
+
+
+
+
+
+
   // 跟进记录
   handleAddRecord = (record) => {
     this.setState({
@@ -122,15 +133,45 @@ export default class ClientsTable extends Component {
       page: 1,
       pageSize: 1000
     });
-    // 打开跟进记录，并编辑
   }
   handleAddOrder = (record) => {
     this.setState({
       tempData: record
     });
     this.addClientOrderModal.showModal();
-    // 打开跟进记录，并编辑
   }
+
+
+
+
+  // handleAddRecord = () => {
+  //   const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
+  //   this.setState({
+  //     tempData: record.pop()
+  //   });
+  //   this.addClientRecordModal.showModal();
+  //   this.props.getClientRecordsList({
+  //     resourceId: this.props.selectedRowKeys[0],
+  //     page: 1,
+  //     pageSize: 1000
+  //   });
+  // }
+  // handleAddOrder = () => {
+  //   const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
+  //   this.setState({
+  //     tempData: record.pop()
+  //   });
+  //   this.addClientOrderModal.showModal();
+  // }
+
+
+
+
+
+
+
+
+
   pageChange = (page, pageSize = this.props.pageSize) => {
     this.props.getClients({
       searchText: this.state.searchText,
@@ -231,6 +272,7 @@ export default class ClientsTable extends Component {
       onChange: this.onSelectChange,
     };
     const hasSelected = this.props.selectedRowKeys ? this.props.selectedRowKeys.length > 0 : true;
+    const onlySelectedOne = this.props.selectedRowKeys ? this.props.selectedRowKeys.length != 1 : true;
     const columns = [
       {
         width: 120,
@@ -374,6 +416,10 @@ export default class ClientsTable extends Component {
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
                 <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteClient()}>删除</Button>
               </ButtonGroup>
+              {/* <ButtonGroup style={{ marginLeft: '10px' }}>
+                <Button disabled={onlySelectedOne} onClick={() => this.handleAddRecord()}>跟进</Button>
+                <Button disabled={onlySelectedOne} onClick={() => this.handleAddOrder()}>新建订单</Button>
+              </ButtonGroup> */}
             </Col>
           </Row>
           < Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.clientId ? record.clientId : Math.random()}

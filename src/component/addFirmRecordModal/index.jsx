@@ -62,7 +62,7 @@ class AddFirmRecordModal extends Component {
           createDate: `${ moment(values.recordTimeDay).format(yearFormat)} ${ moment(values.recordTimeHour).format(hourFormat)}`,
           companyId: this.props.dataSource.firmId,
           companyName: this.props.dataSource.firmName,
-          status: values.status,
+          status: 1,
           content: values.recordContent
         });
         this.props.addNewFirmRecord(data);
@@ -70,32 +70,6 @@ class AddFirmRecordModal extends Component {
       this.setState({
         editBox: false,
       });
-    }
-  }
-  getStatus(text) {
-    if (text === 1) {
-      return "潜在";
-    } else if (text === 2) {
-      return "意向";
-    } else if (text === 3) {
-      return "成交";
-    } else if (text === 4) {
-      return "失败";
-    } else if (text === 5) {
-      return "已流失";
-    }
-  }
-  getStatusColor(text) {
-    if (text === 1) {
-      return "orange";
-    } else if (text === 2) {
-      return "blue";
-    } else if (text === 3) {
-      return "green";
-    } else if (text === 4) {
-      return "red";
-    } else if (text === 5) {
-      return "gray";
     }
   }
   render() {
@@ -134,21 +108,6 @@ class AddFirmRecordModal extends Component {
                       })(<TimePicker />)}
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
-                    <Form.Item label="客户状态：">
-                      {getFieldDecorator('status', {
-                        initialValue: dataSource.status // 获取当前客户的状态
-                      })(
-                        <Select style={{ width: 120 }}>
-                          <Select.Option value={1}>潜在客户</Select.Option>
-                          <Select.Option value={2}>意向客户</Select.Option>
-                          <Select.Option value={3}>成交客户</Select.Option>
-                          <Select.Option value={4}>失败客户</Select.Option>
-                          <Select.Option value={5}>已流失客户</Select.Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                  </Col>
                 </Row>
                 <Row>
                   <Form.Item label="跟进结果：">
@@ -163,9 +122,10 @@ class AddFirmRecordModal extends Component {
           <hr />
           <Timeline style={{ maxHeight: '500px', overflowY: 'scroll' , padding: '10px 0' }}>
             {oneFirmRecord ? oneFirmRecord.map(item =>
-              <Timeline.Item color={this.getStatusColor(item.status)} key={`hd-${item.key ? item.key : Math.random()}`}>
-               {item.createDate} {item.content} {item.employeeName} --- {this.getStatus(item.status)}
-              </Timeline.Item>) :
+               <Timeline.Item key={`hd-${item.key ? item.key : Math.random()}`}>
+               {item.createDate} {item.content} {item.employeeName}
+              </Timeline.Item>
+              ) :
               "NO DATA"}
           </Timeline>
         </div>

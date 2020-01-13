@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Breadcrumb, Table, Input, Button, Icon, Select, Row, Col } from 'antd';
+import { Breadcrumb, Table, Input, Button, Select, Row, Col } from 'antd';
 const { Option } = Select;
 const { Search } = Input;
 const InputGroup = Input.Group;
 const ButtonGroup = Button.Group;
 import _ from 'lodash';
 import moment from 'moment';
-import { hourFormat, yearFormat } from '../../constants';
+import {  yearFormat } from '../../constants';
 import WrapEditFirmModal from '../../component/editFirmModal';
 import WrapAddNewFirmModal from '../../component/addNewFirmModal';
 import AddFirmRecordModal from '../../component/addFirmRecordModal';
 import AddFirmOrderModal from '../../component/addFirmOrderModal';
-import UpLoadModal from '../../component/uploadModal';
+// import UpLoadModal from '../../component/uploadModal';
 import { getFirms, getFirmRecordsList, deleteFirm, addNewFirmOrder, updateFirmShareStatus, getFirmOrder, getFirmOrderBack } from '../../actions/firm';
 import { getAllClients } from '../../actions/client';
 import { getEmployeeList} from '../../actions/api';
@@ -109,7 +109,9 @@ export default class FirmsTable extends Component {
   }
   // 删除客户end
 
-  // 跟进记录
+
+
+  //跟进记录
   handleAddRecord = (record) => {
     this.setState({
       tempData: record
@@ -126,8 +128,33 @@ export default class FirmsTable extends Component {
       tempData: record
     });
     this.addFirmOrderModal.showModal();
-    // 打开跟进记录，并编辑
   }
+
+
+
+  // handleAddRecord = () => {
+  //   const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
+  //   this.setState({
+  //     tempData: record.pop()
+  //   });
+  //   this.addFirmRecordModal.showModal();
+  //   this.props.getFirmRecordsList({
+  //     companyId: this.props.selectedRowKeys[0],
+  //     page: 1,
+  //     pageSize: 1000
+  //   });
+  // }
+  // handleAddOrder = () => {
+  //   const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
+  //   this.setState({
+  //     tempData: record.pop()
+  //   });
+  //   this.addFirmOrderModal.showModal();
+  // }
+
+
+
+
   pageChange = (page, pageSize = this.props.pageSize) => {
     this.props.getFirms({
       searchType: this.state.searchType,
@@ -191,6 +218,7 @@ export default class FirmsTable extends Component {
       onChange: this.onSelectChange,
     };
     const hasSelected = this.props.selectedRowKeys? this.props.selectedRowKeys.length > 0 : true;
+    const onlySelectedOne = this.props.selectedRowKeys ? this.props.selectedRowKeys.length != 1 : true;
     const pagination = {
       pageSize: pageSize,
       current: currentPage,
@@ -224,24 +252,6 @@ export default class FirmsTable extends Component {
         key: 'qq',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      // {
-      //   width: 100,
-      //   title: '状态',
-      //   dataIndex: 'status',
-      //   render: text => {
-      //     if (text === 1) {
-      //       return (<span>潜在</span>)
-      //     } else if (text === 2) {
-      //       return (<span>意向</span>)
-      //     } else if (text === 3) {
-      //       return (<span>成交</span>)
-      //     } else if (text === 4) {
-      //       return (<span>失败</span>)
-      //     } else if (text === 5) {
-      //       return (<span>已流失</span>)
-      //     }
-      //   }
-      // },
       {
         width: 150,
         title: '到期时间',
@@ -358,6 +368,10 @@ export default class FirmsTable extends Component {
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
                 <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteFirm()}>删除</Button>
               </ButtonGroup>
+              {/* <ButtonGroup style={{ marginLeft: '10px' }}>
+                <Button disabled={onlySelectedOne} onClick={() => this.handleAddRecord()}>跟进</Button>
+                <Button disabled={onlySelectedOne} onClick={() => this.handleAddOrder()}>新建订单</Button>
+              </ButtonGroup> */}
             </Col>
           </Row>
           <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.firmId ? record.firmId : Math.random()}
