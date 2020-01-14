@@ -75,6 +75,7 @@ class AddOrderBackModal extends Component {
           info: values.remark,
           businessType: this.props.orderType,
           resourceId: dataSource.clientId,
+          resourceName: dataSource.clientName,
           companyId: dataSource.firmId
         });
         this.props.addNewOrderBack(data, this.props.form.resetFields);
@@ -87,8 +88,8 @@ class AddOrderBackModal extends Component {
     const columns = [{
       width: 150,
       title: '回款时间',
-      dataIndex: 'laterBackDate',
-      key: 'laterBackDate',
+      dataIndex: 'createDate',
+      key: 'createDate',
       fixed: 'left',
       render: text => <span>{text ? text : '--'}</span>,
     }, {

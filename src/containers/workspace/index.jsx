@@ -613,6 +613,12 @@ export default class SalaryTable extends Component {
       dataIndex: 'businessId',
       key: 'businessId',
       render: text => <span>{text ? text : '--'}</span>,
+    },{
+      width: 120,
+      title: '客户名称',
+      dataIndex: 'resourceName',
+      key: 'resourceName',
+      render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 140,
       title: '企业名称',
@@ -696,6 +702,12 @@ export default class SalaryTable extends Component {
       title: '订单编号',
       dataIndex: 'businessId',
       key: 'businessId',
+      render: text => <span>{text ? text : '--'}</span>,
+    }, {
+      width: 120,
+      title: '客户名称',
+      dataIndex: 'resourceName',
+      key: 'resourceName',
       render: text => <span>{text ? text : '--'}</span>,
     }, {
       width: 140,

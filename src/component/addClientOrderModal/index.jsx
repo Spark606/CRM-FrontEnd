@@ -34,7 +34,7 @@ class AddClientOrderModal extends Component {
           info: values.remark,
           createDate: moment(values.dealDate).format(yearAndHourFormat),
           employeeId: this.props.user_Id,
-          companyId: values.dealFirmName,
+          companyId: values.dealFirmName ? values.dealFirmName : null,
           orderPaySum: values.orderPaySum
         });
         this.props.addNewClientOrder(seriesData);
@@ -121,7 +121,7 @@ class AddClientOrderModal extends Component {
                   <Col span={12}>
                     <Form.Item label="成交企业：">
                       {getFieldDecorator('dealFirmName', {
-                        rules: [{ required: true, message: '请选择成交公司。' }],
+                        // rules: [{ required: true, message: '请选择成交公司。' }],
                       })(
                         <Select style={{ width: 200 }} placeholder="请选择成交公司">
                           {allFirmsList ? allFirmsList.map((item) =>
