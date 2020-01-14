@@ -75,17 +75,20 @@ export default function salaryReducer(state = initialState, action) {
         // 回款总额
         payBackSum: action.payload.data.payBackSum,
         payBackSumList: action.payload.data.payBackSumList,
-        payBackClientsSum: action.payload.data.resourceBusinessAmounts,
-        payBackFirmsSum: action.payload.data.companyBusinessAmounts,
-        payBackClientsList: formatClientOrder(action.payload.data.resourceBusinessList),
-        payBackFirmsList: formatFirmOrder(action.payload.data.companyBusinessList),
+
+        payBackClientsSum: action.payload.data.resourcePayBackSum,
+        payBackFirmsSum: action.payload.data.companyPayBackSum,
+        payBackClientsList: action.payload.data.resourcePayBackSumList,
+        payBackFirmsList: action.payload.data.companyPayBackSumList,
         // 欠款总额
         ownPaySum: action.payload.data.payBackOweSum,
         ownPayList: action.payload.data.payBackOweSumList,
-        clientOwnPaySum: action.payload.data.payBackSum,
-        firmOwnPaySum: action.payload.data.payBackSum,
-        clientOwnPayList: action.payload.data.payBackOweSumList,
-        firmOwnPayList: action.payload.data.payBackOweSumList,
+
+        clientOwnPaySum: action.payload.data.resourcePayBackOweSum,
+        firmOwnPaySum: action.payload.data.companyPayBackOweSum,
+        clientOwnPayList: action.payload.data.resourcePayBackOweSumList,
+        firmOwnPayList: action.payload.data.companyPayBackOweSumList,
+
         isFetching: false,
       });
     case cs.GET_GROSS_STATUS_FAIL:

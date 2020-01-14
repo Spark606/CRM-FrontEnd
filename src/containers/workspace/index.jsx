@@ -605,47 +605,6 @@ export default class SalaryTable extends Component {
       />
     });
   }
-  handlePaybackFirmAmouts = () => {
-    const columns = [{
-      width: 280,
-      title: '订单编号',
-      dataIndex: 'businessId',
-      key: 'businessId',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 140,
-      title: '企业名称',
-      dataIndex: 'companyName',
-      key: 'companyName',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 180,
-      title: '回款金额（元）',
-      dataIndex: 'backPay',
-      key: 'backPay',
-      render: text => <span>{text ? text : '--'}</span>,
-    }, {
-      width: 120,
-      title: '负责人',
-      dataIndex: 'employeeName',
-      key: 'employeeName',
-      render: text => <span>{text ? text : '--'}</span>,
-    }
-    ];
-    Modal.success({
-      title: '回款总额',
-      icon: <Icon type="smile" theme="twoTone" />,
-      width: "80%",
-      content: (<div>
-        <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
-          columns={columns}
-          dataSource={this.props.payBackSumList}
-          pagination={false}
-        // scroll={{ y: 600, x: false }}
-        />
-      </div>)
-    });
-  }
   // 人才回款
   handlePaybackClientAmouts = () => {
     const columns = [{
@@ -681,7 +640,7 @@ export default class SalaryTable extends Component {
       content: (<div>
         <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
-          dataSource={this.props.ownPayList}
+          dataSource={this.props.payBackClientsList}
           pagination={false}
         // scroll={{ y: 600, x: false }}
         />
@@ -723,7 +682,7 @@ export default class SalaryTable extends Component {
       content: (<div>
         <Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.orderId ? record.orderId : Math.random()}
           columns={columns}
-          dataSource={this.props.payBackClientsList}
+          dataSource={this.props.payBackFirmsList}
           pagination={false}
         // scroll={{ y: 600, x: false }}
         />
