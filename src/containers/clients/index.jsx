@@ -112,57 +112,25 @@ export default class ClientsTable extends Component {
   // 删除客户end
 
 
-
-
-
-
-
-
-
-
-
-
-  // 跟进记录
-  handleAddRecord = (record) => {
+  handleAddRecord = () => {
+    const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
     this.setState({
-      tempData: record
+      tempData: record.pop()
     });
     this.addClientRecordModal.showModal();
     this.props.getClientRecordsList({
-      resourceId: record.clientId,
+      resourceId: this.props.selectedRowKeys[0],
       page: 1,
       pageSize: 1000
     });
   }
-  handleAddOrder = (record) => {
+  handleAddOrder = () => {
+    const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
     this.setState({
-      tempData: record
+      tempData: record.pop()
     });
     this.addClientOrderModal.showModal();
   }
-
-
-
-
-  // handleAddRecord = () => {
-  //   const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
-  //   this.setState({
-  //     tempData: record.pop()
-  //   });
-  //   this.addClientRecordModal.showModal();
-  //   this.props.getClientRecordsList({
-  //     resourceId: this.props.selectedRowKeys[0],
-  //     page: 1,
-  //     pageSize: 1000
-  //   });
-  // }
-  // handleAddOrder = () => {
-  //   const record = this.props.clientsList.filter(e => e.clientId === this.props.selectedRowKeys[0]);
-  //   this.setState({
-  //     tempData: record.pop()
-  //   });
-  //   this.addClientOrderModal.showModal();
-  // }
 
 
 
@@ -349,16 +317,6 @@ export default class ClientsTable extends Component {
         dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
       },
-      {
-        width: 200,
-        title: '操作',
-        key: 'operation',
-        fixed: 'right',
-        render: (record) => <ButtonGroup>
-          <Button onClick={() => this.handleAddRecord(record)}>跟进</Button>
-          <Button onClick={() => this.handleAddOrder(record)}>新建订单</Button>
-        </ButtonGroup>,
-      },
     ];
 
     const pagination = {
@@ -416,17 +374,17 @@ export default class ClientsTable extends Component {
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
                 <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteClient()}>删除</Button>
               </ButtonGroup>
-              {/* <ButtonGroup style={{ marginLeft: '10px' }}>
+              <ButtonGroup style={{ marginLeft: '10px' }}>
                 <Button disabled={onlySelectedOne} onClick={() => this.handleAddRecord()}>跟进</Button>
                 <Button disabled={onlySelectedOne} onClick={() => this.handleAddOrder()}>新建订单</Button>
-              </ButtonGroup> */}
+              </ButtonGroup>
             </Col>
           </Row>
           < Table style={{ marginTop: '10px' }} size="small" rowKey={record => record.clientId ? record.clientId : Math.random()}
             rowSelection={rowSelection}
             columns={columns}
             dataSource={clientsList}
-            scroll={{ x: 1900, y: 600 }}
+            scroll={{ x: 1600, y: 600 }}
             pagination={pagination}
             loading={this.props.tableIsFetching}
           />

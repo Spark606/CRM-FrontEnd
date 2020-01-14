@@ -108,49 +108,25 @@ export default class FirmsTable extends Component {
     this.props.deleteFirm({ companyId: this.props.selectedRowKeys }, this.props.currentPage, this.props.pageSize, this.state.shareStatus, this.state.searchText, this.state.searchType);
   }
   // 删除客户end
-
-
-
-  //跟进记录
-  handleAddRecord = (record) => {
+  handleAddRecord = () => {
+    const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
     this.setState({
-      tempData: record
+      tempData: record.pop()
     });
     this.addFirmRecordModal.showModal();
     this.props.getFirmRecordsList({
-      companyId: record.firmId,
+      companyId: this.props.selectedRowKeys[0],
       page: 1,
       pageSize: 1000
     });
   }
-  handleAddOrder = (record) => {
+  handleAddOrder = () => {
+    const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
     this.setState({
-      tempData: record
+      tempData: record.pop()
     });
     this.addFirmOrderModal.showModal();
   }
-
-
-
-  // handleAddRecord = () => {
-  //   const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
-  //   this.setState({
-  //     tempData: record.pop()
-  //   });
-  //   this.addFirmRecordModal.showModal();
-  //   this.props.getFirmRecordsList({
-  //     companyId: this.props.selectedRowKeys[0],
-  //     page: 1,
-  //     pageSize: 1000
-  //   });
-  // }
-  // handleAddOrder = () => {
-  //   const record = this.props.firmsList.filter(e => e.firmId === this.props.selectedRowKeys[0]);
-  //   this.setState({
-  //     tempData: record.pop()
-  //   });
-  //   this.addFirmOrderModal.showModal();
-  // }
 
 
 
@@ -307,17 +283,7 @@ export default class FirmsTable extends Component {
         title: '经办人',
         dataIndex: 'employeeName',
         render: text => <span>{text ? text : '--'}</span>,
-      },
-      {
-        width: 200,
-        title: '操作',
-        key: 'operation',
-        fixed: 'right',
-        render: (record) => <ButtonGroup>
-          <Button onClick={() => this.handleAddRecord(record)}>跟进</Button>
-          <Button onClick={() => this.handleAddOrder(record)}>新建订单</Button>
-        </ButtonGroup>,
-      },
+      }
     ];
 
     return (
@@ -368,18 +334,19 @@ export default class FirmsTable extends Component {
                   <Button type="primary" disabled={!hasSelected} onClick={() => this.handleCheckOneStatus()}>转为私有资源</Button>}
                 <Button type="primary" disabled={!hasSelected} onClick={() => this.handledeleteFirm()}>删除</Button>
               </ButtonGroup>
-              {/* <ButtonGroup style={{ marginLeft: '10px' }}>
+              <ButtonGroup style={{ marginLeft: '10px' }}>
                 <Button disabled={onlySelectedOne} onClick={() => this.handleAddRecord()}>跟进</Button>
                 <Button disabled={onlySelectedOne} onClick={() => this.handleAddOrder()}>新建订单</Button>
-              </ButtonGroup> */}
+              </ButtonGroup>
             </Col>
           </Row>
           <Table style={{marginTop: '10px'}} size="small" rowKey={record => record.firmId ? record.firmId : Math.random()}
             columns={columns}
             rowSelection={rowSelection}
             dataSource={firmsList}
-            scroll={{ x: 2100 }}
+            scroll={{ x: 1600, y: 600 }}
             pagination={pagination}
+            loading={this.props.tableIsFetching}
           />
         </div>
         {/* 客户信息模态框 */}
